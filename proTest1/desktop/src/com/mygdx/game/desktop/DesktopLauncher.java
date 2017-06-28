@@ -7,6 +7,7 @@ import com.mygdx.game.DemoTexturePacker;
 import com.mygdx.game.GdxUtil;
 import com.mygdx.game.SpriteRendering;
 import com.mygdx.game.com.mygdx.game.sticks.WalkingStick;
+import com.mygdx.game.com.mygdx.game.tiles.GameClassDemo;
 import com.mygdx.game.desktop.com.mygdx.game.desktop.utility.CopyFiles;
 
 public class DesktopLauncher {
@@ -28,7 +29,7 @@ public class DesktopLauncher {
 					destForAtlas,
 					"WalkingStick");
 			LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-			new LwjglApplication(new WalkingStick(), config);
+			new LwjglApplication(new GameClassDemo(), config);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
