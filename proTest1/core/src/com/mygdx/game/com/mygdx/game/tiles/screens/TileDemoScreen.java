@@ -33,6 +33,8 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.com.mygdx.game.tiles.GameClassDemo;
 import com.mygdx.game.com.mygdx.game.tiles.screens.sprites.Subject;
+import com.mygdx.game.com.mygdx.game.tools.B2WorldCreator;
+import com.mygdx.game.com.mygdx.game.tools.MyWorldContactListner;
 
 /**
  * Created by hsahu on 6/28/2017.
@@ -53,8 +55,6 @@ public class TileDemoScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
 
-    private Subject player;
-
     public TileDemoScreen(GameClassDemo game){
         w = Gdx.graphics.getWidth();
         h = Gdx.graphics.getHeight();
@@ -71,51 +71,8 @@ public class TileDemoScreen implements Screen {
         //Box 2D
         world = new World(new Vector2(0,-10), true);
         b2dr = new Box2DDebugRenderer();
-
-        //creating bodies
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fixtureDef = new FixtureDef();
-        Body body;
-
-        //All the rectangles
-        for(MapObject object: map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rect = ((RectangleMapObject)object).getRectangle();
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set((rect.getX()+rect.getWidth()/2)/GameClassDemo.PPM,
-                    (rect.getY()  +rect.getHeight()/2)/GameClassDemo.PPM);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox((rect.getWidth()/2)/GameClassDemo.PPM,(rect.getHeight()/2)/GameClassDemo.PPM);
-            fixtureDef.shape = shape;
-            body.createFixture(fixtureDef);
-        }
-
-
-
-
-        //all the circles
-        CircleShape cshape = new CircleShape();
-        BodyDef cbdef = new BodyDef();
-        FixtureDef cFixtureDef = new FixtureDef();
-        body = null;
-        for(MapObject object: map.getLayers().get(1).getObjects().getByType(EllipseMapObject.class)){
-            //create player
-            player = new Subject(world,object);
-            /*Ellipse c = ((EllipseMapObject)object).getEllipse();
-            cbdef.type = BodyDef.BodyType.DynamicBody;
-
-            cbdef.position.set((c.x + c.width/2)/GameClassDemo.PPM,(c.y + c.height/2)/GameClassDemo.PPM);
-
-            body = world.createBody(cbdef);
-
-            cshape.setRadius((c.width/2)/GameClassDemo.PPM);
-
-            cFixtureDef.shape = cshape;
-            //cFixtureDef.density=10;
-            body.createFixture(cFixtureDef);*/
-        }
+        world.setContactListener(new MyWorldContactListner());
+        new B2WorldCreator(world,map);
 
     }
 
@@ -127,21 +84,21 @@ public class TileDemoScreen implements Screen {
 
     private void handleIp(float dt){
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            player.body.applyLinearImpulse(new Vector2(0,0.4f),player.body.getWorldCenter(),true);
+            B2WorldCreator.player.body.applyLinearImpulse(new Vector2(0,0.4f),B2WorldCreator.player.body.getWorldCenter(),true);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)&& player.body.getLinearVelocity().x >= -2){
-            player.body.applyLinearImpulse(new Vector2(-0.1f,0),player.body.getWorldCenter(),true);
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)&& B2WorldCreator.player.body.getLinearVelocity().x >= -2){
+            B2WorldCreator.player.body.applyLinearImpulse(new Vector2(-0.1f,0),B2WorldCreator.player.body.getWorldCenter(),true);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x <= 2){
-            player.body.applyLinearImpulse(new Vector2(0.1f,0),player.body.getWorldCenter(),true);
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && B2WorldCreator.player.body.getLinearVelocity().x <= 2){
+            B2WorldCreator.player.body.applyLinearImpulse(new Vector2(0.1f,0),B2WorldCreator.player.body.getWorldCenter(),true);
         }
     }
     public void update(float dt){
         handleIp(dt);
 
         world.step(1/60f,6,2);
-        camera.position.x=player.body.getPosition().x;
-        camera.position.y=player.body.getPosition().y;
+        camera.position.x=B2WorldCreator.player.body.getPosition().x;
+        camera.position.y=B2WorldCreator.player.body.getPosition().y;
         camera.update();
 
         render.setView(camera);
@@ -184,6 +141,9 @@ public class TileDemoScreen implements Screen {
 
     @Override
     public void dispose() {
-
+        map.dispose();
+        render.dispose();
+        world.dispose();
+        b2dr.dispose();
     }
 }

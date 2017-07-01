@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.com.mygdx.game.tiles.GameClassDemo;
@@ -44,7 +45,9 @@ public class Subject extends Sprite {
         cshape.setRadius((c.width/2)/GameClassDemo.PPM);
 
         cFixtureDef.shape = cshape;
-        cFixtureDef.restitution=1;
-        body.createFixture(cFixtureDef);
+        cFixtureDef.restitution=0.2f;
+
+        Fixture f =body.createFixture(cFixtureDef);
+        f.setUserData(this);
     }
 }
