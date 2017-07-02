@@ -1,0 +1,55 @@
+
+JumpingMarblesPack.png
+size: 512,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Healer
+  rotate: false
+  xy: 188, 30
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+brick
+  rotate: false
+  xy: 126, 32
+  size: 60, 30
+  orig: 60, 30
+  offset: 0, 0
+  index: -1
+player
+  rotate: false
+  xy: 222, 30
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+pusher
+  rotate: false
+  xy: 256, 30
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+sucker
+  rotate: false
+  xy: 290, 30
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+suckerCreator
+  rotate: false
+  xy: 2, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+suckerCreator1
+  rotate: false
+  xy: 64, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1

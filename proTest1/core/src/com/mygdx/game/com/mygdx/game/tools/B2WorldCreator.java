@@ -15,20 +15,26 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.com.mygdx.game.tiles.GameClassDemo;
 import com.mygdx.game.com.mygdx.game.tiles.screens.sprites.Subject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by hsahu on 7/1/2017.
  */
 
 public class B2WorldCreator {
-    public static Subject player;
+    public static List<Subject> players;
+    public static List<Subject> enemies;
+
     public B2WorldCreator(World world, TiledMap map){
-//creating bodies
+        //creating bodies
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fixtureDef = new FixtureDef();
         Body body;
 
-
+        players = new ArrayList<Subject>();
+        enemies = new ArrayList<Subject>();
 
         //All the rectangles
         for(MapObject object: map.getLayers().get(1).getObjects().getByType(RectangleMapObject.class)){
@@ -44,31 +50,18 @@ public class B2WorldCreator {
             Fixture f = body.createFixture(fixtureDef);
             f.setUserData(this);
         }
-
-
-
-
         //all the circles
         CircleShape cshape = new CircleShape();
         BodyDef cbdef = new BodyDef();
         FixtureDef cFixtureDef = new FixtureDef();
         body = null;
-        for(MapObject object: map.getLayers().get(1).getObjects().getByType(EllipseMapObject.class)){
-            //create player
-            player = new Subject(world,object);
-            /*Ellipse c = ((EllipseMapObject)object).getEllipse();
-            cbdef.type = BodyDef.BodyType.DynamicBody;
-
-            cbdef.position.set((c.x + c.width/2)/GameClassDemo.PPM,(c.y + c.height/2)/GameClassDemo.PPM);
-
-            body = world.createBody(cbdef);
-
-            cshape.setRadius((c.width/2)/GameClassDemo.PPM);
-
-            cFixtureDef.shape = cshape;
-            //cFixtureDef.density=10;
-            body.createFixture(cFixtureDef);*/
+        for(MapObject object: map.getLayers().get(2).getObjects().getByType(EllipseMapObject.class)){
+            //create players
+            players.add(new Subject(world,object));
         }
-
+        for(MapObject object: map.getLayers().get("enemies").getObjects().getByType(EllipseMapObject.class)){
+            //create enemies
+            enemies.add(new Subject(world,object));
+        }
     }
 }

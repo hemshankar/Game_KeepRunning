@@ -45,7 +45,7 @@ public class TileDemoScreen implements Screen {
     public GameClassDemo game;
     private OrthographicCamera camera;
     private Viewport viewport;
-    int w,h;
+    // w,h;
 
     private TmxMapLoader mapLoader;
     private TiledMap map;
@@ -56,8 +56,8 @@ public class TileDemoScreen implements Screen {
     private Box2DDebugRenderer b2dr;
 
     public TileDemoScreen(GameClassDemo game){
-        w = Gdx.graphics.getWidth();
-        h = Gdx.graphics.getHeight();
+       /* w = Gdx.graphics.getWidth();
+        h = Gdx.graphics.getHeight();*/
         this.game = game;
         camera = new OrthographicCamera();
         viewport = new FitViewport(800/GameClassDemo.PPM,600/GameClassDemo.PPM,camera);// StretchViewport(200,200,camera);
@@ -84,21 +84,21 @@ public class TileDemoScreen implements Screen {
 
     private void handleIp(float dt){
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            B2WorldCreator.player.body.applyLinearImpulse(new Vector2(0,0.4f),B2WorldCreator.player.body.getWorldCenter(),true);
+            B2WorldCreator.players.get(0).body.applyLinearImpulse(new Vector2(0,0.4f),B2WorldCreator.players.get(0).body.getWorldCenter(),true);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)&& B2WorldCreator.player.body.getLinearVelocity().x >= -2){
-            B2WorldCreator.player.body.applyLinearImpulse(new Vector2(-0.1f,0),B2WorldCreator.player.body.getWorldCenter(),true);
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)&& B2WorldCreator.players.get(0).body.getLinearVelocity().x >= -2){
+            B2WorldCreator.players.get(0).body.applyLinearImpulse(new Vector2(-0.1f,0),B2WorldCreator.players.get(0).body.getWorldCenter(),true);
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && B2WorldCreator.player.body.getLinearVelocity().x <= 2){
-            B2WorldCreator.player.body.applyLinearImpulse(new Vector2(0.1f,0),B2WorldCreator.player.body.getWorldCenter(),true);
+        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && B2WorldCreator.players.get(0).body.getLinearVelocity().x <= 2){
+            B2WorldCreator.players.get(0).body.applyLinearImpulse(new Vector2(0.1f,0),B2WorldCreator.players.get(0).body.getWorldCenter(),true);
         }
     }
     public void update(float dt){
         handleIp(dt);
 
         world.step(1/60f,6,2);
-        camera.position.x=B2WorldCreator.player.body.getPosition().x;
-        camera.position.y=B2WorldCreator.player.body.getPosition().y;
+        camera.position.x=B2WorldCreator.players.get(0).body.getPosition().x;
+        camera.position.y=B2WorldCreator.players.get(0).body.getPosition().y;
         camera.update();
 
         render.setView(camera);

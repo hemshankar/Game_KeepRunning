@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="500" height="100" tilewidth="32" tileheight="32" nextobjectid="19">
+<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="500" height="100" tilewidth="32" tileheight="32" nextobjectid="25">
  <tileset firstgid="1" source="BasicTileSet.tsx"/>
  <layer name="Background" width="500" height="100">
   <data encoding="base64">
@@ -17,9 +17,22 @@
   <object id="14" x="248.667" y="3140"/>
   <object id="15" x="89.3333" y="3156.67"/>
   <object id="16" x="36.6667" y="3177.33"/>
-  <object id="17" x="448.667" y="3039.33" width="58.6667" height="32.6667">
+  <object id="18" x="288.667" y="3072" width="62" height="64"/>
+ </objectgroup>
+ <objectgroup name="friends">
+  <object id="20" x="160.667" y="2942.67" width="30.6667" height="32">
    <ellipse/>
   </object>
-  <object id="18" x="288.667" y="3072" width="62" height="64"/>
+  <object id="21" x="288" y="2945.33" width="30.6667" height="30">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup name="enemies">
+  <object id="22" x="417.333" y="2945.33" width="30" height="30">
+   <ellipse/>
+  </object>
+  <object id="23" x="481.333" y="2944" width="29.3333" height="30">
+   <ellipse/>
+  </object>
  </objectgroup>
 </map>
