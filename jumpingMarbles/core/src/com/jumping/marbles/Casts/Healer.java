@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.jumping.marbles.Constants.GameConstants;
+import com.jumping.marbles.Utility.Utility;
 
 /**
  * Created by hsahu on 7/2/2017.
@@ -20,6 +21,7 @@ public class Healer extends JumpingMarblesCast{
     public World world;
     public Body body;
     MapObject mapObject;
+    public Player player;
 
     public Healer(World world,MapObject object ){
         this.world = world;
@@ -66,5 +68,23 @@ public class Healer extends JumpingMarblesCast{
     @Override
     public Body getBody() {
         return body;
+    }
+
+    @Override
+    public void update(float dt) {
+        super.update(dt);
+        player = Utility.getPlayer();
+        if(player !=null) {
+            float playerX = player.body.getPosition().x;
+            float playerY = player.body.getPosition().y;
+
+            if (Math.abs(body.getPosition().x - playerX) < 50 / GameConstants.PPM
+                    && Math.abs(body.getPosition().y - playerY) < 50 / GameConstants.PPM) {
+                for(Sucker sucker: player.suckers){
+                    sucker.destroy();
+                }
+                player.suckers.clear();
+            }
+        }
     }
 }

@@ -18,6 +18,8 @@ import com.jumping.marbles.Casts.JumpingMarblesCast;
 import com.jumping.marbles.Casts.Player;
 import com.jumping.marbles.Constants.GameConstants;
 import com.jumping.marbles.JumpingMarbleWorldCreator;
+import com.jumping.marbles.Utility.Utility;
+import com.jumping.marbles.Utility.WorldContactListner;
 
 import org.omg.CORBA.MARSHAL;
 
@@ -70,6 +72,8 @@ public class GameScreen implements Screen {
 
         world = new World(new Vector2(0,-10),true);
         b2dr = new Box2DDebugRenderer();
+        world.setContactListener(new WorldContactListner());
+        Utility.setWorld(world);
 
         //set the contact listener
 

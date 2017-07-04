@@ -9,8 +9,18 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Joint;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
+import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
+import com.badlogic.gdx.physics.box2d.joints.FrictionJointDef;
+import com.badlogic.gdx.physics.box2d.joints.MotorJointDef;
+import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
+import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 import com.jumping.marbles.Constants.GameConstants;
+import com.jumping.marbles.Utility.Utility;
 
 /**
  * Created by hsahu on 7/2/2017.
@@ -20,10 +30,11 @@ public class Sucker extends JumpingMarblesCast{
     public World world;
     public Body body;
     MapObject mapObject;
-
+    Player player=null;
     public static float IMPLUSE_APPLY_INTERVAL=.1f;
     public static float tmpTime = 0f;
-
+    public boolean canSuck=false;
+    public boolean suckking = false;
     public Sucker(World world,MapObject object ){
         this.world = world;
         this.mapObject = object;
@@ -61,6 +72,46 @@ public class Sucker extends JumpingMarblesCast{
         f.setUserData(this);
     }
 
+    public void moveTowardsPlayer(){
+
+        if(player!=null){
+            body.setLinearVelocity((player.body.getPosition().x - body.getPosition().x) * 20f,
+                    (player.body.getPosition().y - body.getPosition().y) * 2f);
+        }
+    }
+
+    public void suck(float dt){
+        player = Utility.getPlayer();
+        if(player !=null && !canSuck) {
+            float playerX = player.body.getPosition().x;
+            float playerY = player.body.getPosition().y;
+
+            if (Math.abs(body.getPosition().x - playerX) < 200 / GameConstants.PPM
+                    && Math.abs(body.getPosition().y - playerY) < 200 / GameConstants.PPM) {
+                moveTowardsPlayer();
+            }
+        }
+        else if(canSuck && !suckking) {
+            System.out.println("Started Sucking");
+            DistanceJointDef wd = new DistanceJointDef();
+            wd.bodyA = body;
+            wd.bodyB = player.body;
+            //wd.collideConnected = true;
+            wd.length = 30/GameConstants.PPM;
+            //wd.referenceAngle = 180;// wd.bodyB.getAngle() - wd.bodyA.getAngle();
+            Joint j = world.createJoint(wd);
+            player.suckers.add(this);
+            suckking = true;
+        }
+        //if(!suckking){
+            tmpTime += dt;
+            if(tmpTime>IMPLUSE_APPLY_INTERVAL) {
+                this.body.applyLinearImpulse(new Vector2(0, .9f), this.body.getWorldCenter(), true);
+                tmpTime-= IMPLUSE_APPLY_INTERVAL;
+            }
+        //}
+    }
+
     @Override
     public String getCastName() {
         return GameConstants.SUCKER_ATLAS_NAME;
@@ -75,10 +126,6 @@ public class Sucker extends JumpingMarblesCast{
     public void update(float dt) {
         super.update(dt);
 
-        tmpTime += dt;
-        if(tmpTime>IMPLUSE_APPLY_INTERVAL) {
-            this.body.applyLinearImpulse(new Vector2(0, .9f), this.body.getWorldCenter(), true);
-            tmpTime-= IMPLUSE_APPLY_INTERVAL;
-        }
+        suck(dt);
     }
 }

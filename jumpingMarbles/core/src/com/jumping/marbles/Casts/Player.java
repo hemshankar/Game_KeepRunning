@@ -8,9 +8,13 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.jumping.marbles.Constants.GameConstants;
 import com.jumping.marbles.Utility.Utility;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hsahu on 7/2/2017.
@@ -21,7 +25,8 @@ public class Player extends JumpingMarblesCast{
     public World world;
     public Body body;
     MapObject mapObject;
-
+    public boolean removeSuckers = false;
+    public List<Sucker> suckers = new ArrayList<Sucker>();
     public Player(World world,MapObject object ){
         this.world = world;
         this.mapObject = object;
@@ -59,6 +64,11 @@ public class Player extends JumpingMarblesCast{
 
         //set the user data to be used in collision
         f.setUserData(this);
+    }
+
+    @Override
+    public void update(float dt) {
+        super.update(dt);
     }
 
     @Override

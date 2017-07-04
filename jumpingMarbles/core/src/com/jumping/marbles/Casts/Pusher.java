@@ -93,8 +93,8 @@ public class Pusher extends JumpingMarblesCast{
             float playerX = player.body.getPosition().x;
             float playerY = player.body.getPosition().y;
 
-            if (Math.abs(body.getPosition().x - playerX) < 100 / GameConstants.PPM
-                    && Math.abs(body.getPosition().y - playerY) < 100 / GameConstants.PPM
+            if (Math.abs(body.getPosition().x - playerX) < 200 / GameConstants.PPM
+                    && Math.abs(body.getPosition().y - playerY) < 200 / GameConstants.PPM
                     && pushTempTime > PUSH_RECOIL_TIME) {
                 pushPlayer();
                 pushTempTime = 0;
