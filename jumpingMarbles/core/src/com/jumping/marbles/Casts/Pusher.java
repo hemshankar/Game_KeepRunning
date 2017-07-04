@@ -3,6 +3,7 @@ package com.jumping.marbles.Casts;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -10,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.jumping.marbles.Constants.GameConstants;
+import com.jumping.marbles.Utility.Utility;
 
 /**
  * Created by hsahu on 7/2/2017.
@@ -20,6 +22,11 @@ public class Pusher extends JumpingMarblesCast{
     public World world;
     public Body body;
     MapObject mapObject;
+    Player player = null;
+    public static final float IMPLUSE_APPLY_INTERVAL=.1f;
+    public static final float PUSH_RECOIL_TIME = 5;
+    public static float impluseTempTime = 0f;
+    public static float pushTempTime = 0f;
 
     public Pusher(World world,MapObject object ){
         this.world = world;
@@ -58,6 +65,14 @@ public class Pusher extends JumpingMarblesCast{
         f.setUserData(this);
     }
 
+    public void pushPlayer(){
+
+        if(player!=null){
+            body.setLinearVelocity((player.body.getPosition().x - body.getPosition().x) * 20f,
+                                    (player.body.getPosition().y - body.getPosition().y) * 20f);
+        }
+    }
+
     @Override
     public String getCastName() {
         return GameConstants.PUSHER_ATLAS_NAME;
@@ -66,5 +81,28 @@ public class Pusher extends JumpingMarblesCast{
     @Override
     public Body getBody() {
         return body;
+    }
+
+    @Override
+    public void update(float dt) {
+        super.update(dt);
+        impluseTempTime += dt;
+        pushTempTime += dt;
+        player = Utility.getPlayer();
+        if(player!=null) {
+            float playerX = player.body.getPosition().x;
+            float playerY = player.body.getPosition().y;
+
+            if (Math.abs(body.getPosition().x - playerX) < 100 / GameConstants.PPM
+                    && Math.abs(body.getPosition().y - playerY) < 100 / GameConstants.PPM
+                    && pushTempTime > PUSH_RECOIL_TIME) {
+                pushPlayer();
+                pushTempTime = 0;
+            }
+            else if(impluseTempTime >IMPLUSE_APPLY_INTERVAL) {
+                this.body.applyLinearImpulse(new Vector2(0, .9f), this.body.getWorldCenter(), true);
+                impluseTempTime = 0;
+            }
+        }
     }
 }

@@ -121,7 +121,7 @@ public class GameScreen implements Screen {
         //update all the characters
         //player.update();
         for(JumpingMarblesCast cast : casts){
-            cast.update();
+            cast.update(dt);
         }
 
         //update the camera as the player moves (player decides the camera position
@@ -148,6 +148,12 @@ public class GameScreen implements Screen {
 
     //utility method to handle Ip
     private void handleIp(){
+        if(Gdx.input.isTouched() && Gdx.input.getX() > Gdx.graphics.getWidth()/2){
+            player.body.applyLinearImpulse(new Vector2(0.4f,0),player.body.getWorldCenter(),true);
+        }
+        if(Gdx.input.isTouched() && Gdx.input.getX() < Gdx.graphics.getWidth()/2){
+            player.body.applyLinearImpulse(new Vector2(0,0.4f),player.body.getWorldCenter(),true);
+        }
         if(Gdx.input.isKeyPressed(Input.Keys.UP)){
             player.body.applyLinearImpulse(new Vector2(0,0.4f),player.body.getWorldCenter(),true);
         }

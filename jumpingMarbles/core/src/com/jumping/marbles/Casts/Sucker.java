@@ -3,6 +3,7 @@ package com.jumping.marbles.Casts;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -19,6 +20,9 @@ public class Sucker extends JumpingMarblesCast{
     public World world;
     public Body body;
     MapObject mapObject;
+
+    public static float IMPLUSE_APPLY_INTERVAL=.1f;
+    public static float tmpTime = 0f;
 
     public Sucker(World world,MapObject object ){
         this.world = world;
@@ -65,5 +69,16 @@ public class Sucker extends JumpingMarblesCast{
     @Override
     public Body getBody() {
         return body;
+    }
+
+    @Override
+    public void update(float dt) {
+        super.update(dt);
+
+        tmpTime += dt;
+        if(tmpTime>IMPLUSE_APPLY_INTERVAL) {
+            this.body.applyLinearImpulse(new Vector2(0, .9f), this.body.getWorldCenter(), true);
+            tmpTime-= IMPLUSE_APPLY_INTERVAL;
+        }
     }
 }

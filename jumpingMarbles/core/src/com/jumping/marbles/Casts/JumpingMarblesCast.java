@@ -24,7 +24,7 @@ abstract public class JumpingMarblesCast extends Sprite{
         setRegion(region);
     }
 
-    public void update(){
+    public void update(float dt){
         setPosition(getBody().getPosition().x - getWidth()/2,getBody().getPosition().y-getHeight()/2);
     }
 
