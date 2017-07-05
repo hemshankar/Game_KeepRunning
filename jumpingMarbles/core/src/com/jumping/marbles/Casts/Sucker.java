@@ -30,6 +30,9 @@ public class Sucker extends JumpingMarblesCast{
     public boolean suckking = false;
     static int suckerIdCount = 0;
     public int suckerId = 0;
+    public boolean justThrown = false;
+    public float JUST_THROWN_CONST = 2f;
+    public float justThrownTmp = 0;
     public Sucker(World world,MapObject object ){
         this.world = world;
         this.mapObject = object;
@@ -79,7 +82,7 @@ public class Sucker extends JumpingMarblesCast{
 
     public void suck(float dt){
         player = Utility.getPlayer();
-        if(player !=null && !canSuck) {
+        if(player !=null && !canSuck && !justThrown) {
             float playerX = player.body.getPosition().x;
             float playerY = player.body.getPosition().y;
 
@@ -98,15 +101,23 @@ public class Sucker extends JumpingMarblesCast{
             //wd.referenceAngle = 180;// wd.bodyB.getAngle() - wd.bodyA.getAngle();
             Joint j = world.createJoint(wd);
             player.suckers.add(this);
+            player.joints.add(j);
             suckking = true;
         }
-        //if(!suckking){
+        if(!suckking && !justThrown){
             tmpTime += dt;
             if(tmpTime>IMPLUSE_APPLY_INTERVAL) {
                 this.body.applyLinearImpulse(new Vector2(0, .9f), this.body.getWorldCenter(), true);
                 tmpTime-= IMPLUSE_APPLY_INTERVAL;
             }
-        //}
+        }
+        if(justThrown){
+            justThrownTmp += dt;
+            if(justThrownTmp > JUST_THROWN_CONST){
+                justThrownTmp = 0;
+                justThrown = false;
+            }
+        }
     }
 
     @Override

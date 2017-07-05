@@ -27,6 +27,7 @@ public class Player extends JumpingMarblesCast{
     MapObject mapObject;
     public boolean removeSuckers = false;
     public List<Sucker> suckers = new ArrayList<Sucker>();
+    public List<Joint> joints = new ArrayList<Joint>();
     public Player(World world,MapObject object ){
         this.world = world;
         this.mapObject = object;
@@ -64,6 +65,29 @@ public class Player extends JumpingMarblesCast{
 
         //set the user data to be used in collision
         f.setUserData(this);
+    }
+
+    public void throwSuckers(){
+        for(Sucker s: suckers){
+            float xDirection = this.body.getPosition().x - s.body.getPosition().x;
+            xDirection = Math.abs(xDirection)/xDirection;
+
+            float yDirection = this.body.getPosition().y - s.body.getPosition().y;
+            yDirection = Math.abs(yDirection)/yDirection;
+            s.body.setLinearVelocity((-xDirection) * 20f,  (-yDirection) * 20f);
+            s.canSuck = false;
+            s.suckking=false;
+            s.justThrown=true;
+        }
+        suckers.clear();
+    }
+
+    public void setFree(){
+        Utility.worldCreator.addJointsToRemove(this.joints);
+        this.joints.clear();
+        Utility.worldCreator.removeJoints();
+        throwSuckers();
+
     }
 
     @Override

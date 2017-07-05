@@ -92,6 +92,7 @@ public class Healer extends JumpingMarblesCast{
                 Utility.worldCreator.removeSucker(sucker);
             }
             player.suckers.clear();
+            player.joints.clear();
         }
     }
 }

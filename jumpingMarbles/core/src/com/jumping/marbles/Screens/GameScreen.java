@@ -66,7 +66,7 @@ public class GameScreen implements Screen {
         //Initialize all the variables
         this.batch = batch;
         camera = new OrthographicCamera();
-        viewport = new FitViewport(1200/ GameConstants.PPM,800/GameConstants.PPM,camera);
+        viewport = new FitViewport(1200/ GameConstants.PPM,600/GameConstants.PPM,camera);
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("tiles/JumpingMarblesMap2.tmx");
@@ -106,7 +106,7 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
-        //b2dr.render(world,camera.combined);
+        b2dr.render(world,camera.combined);
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
@@ -179,6 +179,9 @@ public class GameScreen implements Screen {
         }
         if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x <= 2){
             player.body.applyLinearImpulse(new Vector2(0.4f,0),player.body.getWorldCenter(),true);
+        }
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+            player.setFree();
         }
     }
 

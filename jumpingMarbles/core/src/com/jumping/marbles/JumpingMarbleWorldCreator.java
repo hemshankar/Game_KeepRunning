@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.jumping.marbles.Casts.Brick;
 import com.jumping.marbles.Casts.Healer;
@@ -44,7 +45,7 @@ public class JumpingMarbleWorldCreator {
     public World world;
     public List<JumpingMarblesCast> casts = new ArrayList<JumpingMarblesCast>();
     public List<JumpingMarblesCast> toBeDestroyed = new ArrayList<JumpingMarblesCast>();
-
+    public List<Joint> joints = new ArrayList<Joint>();
 
     public JumpingMarbleWorldCreator(World world, Map map){
 
@@ -97,8 +98,8 @@ public class JumpingMarbleWorldCreator {
         System.out.println("Creating at " + x + "," + y);
         ellipse.x = x * GameConstants.PPM;
         ellipse.y = y * GameConstants.PPM;
-        ellipse.width = 1*GameConstants.PPM;
-        ellipse.height = 1*GameConstants.PPM;
+        ellipse.width = 0.1f*GameConstants.PPM;
+        ellipse.height = 0.1f*GameConstants.PPM;
         mapObject.getEllipse().set(ellipse);
         Sucker sucker = new Sucker(world,mapObject);
         suckers.add(sucker);
@@ -133,4 +134,15 @@ public class JumpingMarbleWorldCreator {
         toBeDestroyed.clear();
     }
 
+    public void addJointsToRemove(List<Joint> joints){
+        this.joints.addAll(joints);
+    }
+
+    public void removeJoints(){
+        for(Joint j : joints){
+            System.out.println("Destroying joint");
+            world.destroyJoint(j);
+        }
+        joints.clear();
+    }
 }
