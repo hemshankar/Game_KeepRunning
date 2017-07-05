@@ -10,15 +10,8 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.Joint;
-import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.physics.box2d.joints.DistanceJoint;
 import com.badlogic.gdx.physics.box2d.joints.DistanceJointDef;
-import com.badlogic.gdx.physics.box2d.joints.FrictionJointDef;
-import com.badlogic.gdx.physics.box2d.joints.MotorJointDef;
-import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
-import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
-import com.badlogic.gdx.physics.box2d.joints.WheelJointDef;
 import com.jumping.marbles.Constants.GameConstants;
 import com.jumping.marbles.Utility.Utility;
 
@@ -35,10 +28,14 @@ public class Sucker extends JumpingMarblesCast{
     public static float tmpTime = 0f;
     public boolean canSuck=false;
     public boolean suckking = false;
+    static int suckerIdCount = 0;
+    public int suckerId = 0;
     public Sucker(World world,MapObject object ){
         this.world = world;
         this.mapObject = object;
         definePusher();
+        suckerId = suckerIdCount++;
+        System.out.println(suckerId);
     }
 
     public void definePusher(){
@@ -75,7 +72,7 @@ public class Sucker extends JumpingMarblesCast{
     public void moveTowardsPlayer(){
 
         if(player!=null){
-            body.setLinearVelocity((player.body.getPosition().x - body.getPosition().x) * 20f,
+            body.setLinearVelocity((player.body.getPosition().x - body.getPosition().x) * 2f,
                     (player.body.getPosition().y - body.getPosition().y) * 2f);
         }
     }

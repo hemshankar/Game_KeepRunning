@@ -68,8 +68,8 @@ public class Pusher extends JumpingMarblesCast{
     public void pushPlayer(){
 
         if(player!=null){
-            body.setLinearVelocity((player.body.getPosition().x - body.getPosition().x) * 20f,
-                                    (player.body.getPosition().y - body.getPosition().y) * 20f);
+            body.setLinearVelocity((player.body.getPosition().x - body.getPosition().x) * 10f,
+                                    (player.body.getPosition().y - body.getPosition().y) * 10f);
         }
     }
 

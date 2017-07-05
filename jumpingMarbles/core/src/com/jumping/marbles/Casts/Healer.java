@@ -22,14 +22,14 @@ public class Healer extends JumpingMarblesCast{
     public Body body;
     MapObject mapObject;
     public Player player;
-
+    public boolean canHeal = false;
     public Healer(World world,MapObject object ){
         this.world = world;
         this.mapObject = object;
-        definePusher();
+        defineHealer();
     }
 
-    public void definePusher(){
+    public void defineHealer(){
 
         //initiate the objects to create a body
         CircleShape shape = new CircleShape();
@@ -80,11 +80,18 @@ public class Healer extends JumpingMarblesCast{
 
             if (Math.abs(body.getPosition().x - playerX) < 50 / GameConstants.PPM
                     && Math.abs(body.getPosition().y - playerY) < 50 / GameConstants.PPM) {
-                for(Sucker sucker: player.suckers){
-                    sucker.destroy();
-                }
-                player.suckers.clear();
+                canHeal = true;
             }
+        }
+    }
+    public void healPlayer(){
+        if(canHeal){
+            canHeal = false;
+            for(Sucker sucker: player.suckers){
+                System.out.println("Destroying " + sucker.suckerId);
+                Utility.worldCreator.removeSucker(sucker);
+            }
+            player.suckers.clear();
         }
     }
 }

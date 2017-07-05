@@ -14,8 +14,10 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.jumping.marbles.Casts.Healer;
 import com.jumping.marbles.Casts.JumpingMarblesCast;
 import com.jumping.marbles.Casts.Player;
+import com.jumping.marbles.Casts.SuckerCreator;
 import com.jumping.marbles.Constants.GameConstants;
 import com.jumping.marbles.JumpingMarbleWorldCreator;
 import com.jumping.marbles.Utility.Utility;
@@ -64,10 +66,10 @@ public class GameScreen implements Screen {
         //Initialize all the variables
         this.batch = batch;
         camera = new OrthographicCamera();
-        viewport = new FitViewport(800/ GameConstants.PPM,400/GameConstants.PPM,camera);
+        viewport = new FitViewport(1200/ GameConstants.PPM,800/GameConstants.PPM,camera);
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("tiles/JumpingMarblesMap1.tmx");
+        map = mapLoader.load("tiles/JumpingMarblesMap2.tmx");
         renderer = new OrthogonalTiledMapRenderer(map,1/GameConstants.PPM);
 
         world = new World(new Vector2(0,-10),true);
@@ -81,8 +83,9 @@ public class GameScreen implements Screen {
         camera.position.set(viewport.getWorldWidth()/2,viewport.getWorldHeight()/2,0);
 
         worldCreator = new JumpingMarbleWorldCreator(world, map);
+        Utility.worldCreator = worldCreator;
         player = worldCreator.player;
-        casts = worldCreator.getAllCasts();
+        casts = worldCreator.casts;
         for(JumpingMarblesCast cast : casts){
             cast.initialize();
         }
@@ -128,19 +131,29 @@ public class GameScreen implements Screen {
             cast.update(dt);
         }
 
+        for(SuckerCreator creator : worldCreator.suckersCreator){
+            creator.createSucker();
+        }
+
+        for(Healer healer: worldCreator.healers){
+            healer.healPlayer();
+        }
+
+        worldCreator.destroyBodies();
+
         //update the camera as the player moves (player decides the camera position
         float x = player.body.getPosition().x;
         if(x<400/GameConstants.PPM)
             x = 400/GameConstants.PPM;
-        else if(x>3000/GameConstants.PPM)
-            x = 3000/GameConstants.PPM;
+        else if(x>9600/GameConstants.PPM)
+            x = 9600/GameConstants.PPM;
         camera.position.x=x;
 
         float y = player.body.getPosition().y;
         if(y<200/GameConstants.PPM)
             y = 200/GameConstants.PPM;
-        else if(y>450/GameConstants.PPM)
-            y = 450/GameConstants.PPM;
+        else if(y>950/GameConstants.PPM)
+            y = 950/GameConstants.PPM;
 
         camera.position.y=y;
         //System.out.println( player.body.getPosition().x + " -- " + player.body.getPosition().y);

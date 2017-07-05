@@ -16,7 +16,6 @@ import com.sun.corba.se.spi.legacy.interceptor.UnknownType;
 abstract public class JumpingMarblesCast extends Sprite{
 
     AtlasRegion region;
-    public boolean setToDestroy = false;
     public boolean destroyed = false;
     public JumpingMarblesCast(){
         //super(Utility.getAtlas().findRegion(GameConstants.PLAYER_ATLAS_NAME));
@@ -28,10 +27,7 @@ abstract public class JumpingMarblesCast extends Sprite{
     }
 
     public void update(float dt){
-        if(setToDestroy && !destroyed){
-            Utility.world.destroyBody(getBody());
-            destroyed = true;
-        }else if(!destroyed){
+        if(!destroyed){
             setPosition(getBody().getPosition().x - getWidth() / 2, getBody().getPosition().y - getHeight() / 2);
         }else if(destroyed){
 
@@ -46,12 +42,4 @@ abstract public class JumpingMarblesCast extends Sprite{
     }
     abstract public String getCastName();
     abstract public Body getBody();
-
-    public void destroy(){
-        setToDestroy = true;
-        setPosition(0,0);
-       /* getBody().getPosition().x =0;
-        getBody().getPosition().y=0;*/
-
-    }
 }

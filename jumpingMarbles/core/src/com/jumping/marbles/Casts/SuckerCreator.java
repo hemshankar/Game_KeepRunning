@@ -1,7 +1,9 @@
 package com.jumping.marbles.Casts;
 
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
+import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -10,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.jumping.marbles.Constants.GameConstants;
+import com.jumping.marbles.Utility.Utility;
 
 /**
  * Created by hsahu on 7/2/2017.
@@ -19,8 +22,28 @@ public class SuckerCreator extends JumpingMarblesCast{
     public World world;
     public Body body;
     MapObject mapObject;
+    private float tempCreateRecoilTime = 0;
+    public boolean canCreate = false;
+    @Override
+    public void update(float dt) {
+        super.update(dt);
+        tempCreateRecoilTime += dt;
 
-    public SuckerCreator(World world,MapObject object ){
+        if(tempCreateRecoilTime > GameConstants.SUCKER_CREATOR_RECOIL_TIME){
+            tempCreateRecoilTime=0;
+            canCreate = true;
+        }
+    }
+
+    public void createSucker(){
+        if(canCreate==true){
+            canCreate=false;
+            System.out.println("create new body");
+            Utility.worldCreator.createSucker(body.getPosition().x,body.getPosition().y);
+        }
+    }
+
+    public SuckerCreator(World world, MapObject object ){
         this.world = world;
         this.mapObject = object;
         definePusher();

@@ -6,6 +6,7 @@ import com.jumping.marbles.Casts.JumpingMarblesCast;
 import com.jumping.marbles.Casts.Player;
 import com.jumping.marbles.Casts.Pusher;
 import com.jumping.marbles.Constants.GameConstants;
+import com.jumping.marbles.JumpingMarbleWorldCreator;
 import com.sun.org.apache.bcel.internal.generic.PUSH;
 
 /**
@@ -22,13 +23,17 @@ public class Utility {
     public static void setPlayer(Player pler){
             player = pler;
     }
-
+    public static JumpingMarbleWorldCreator worldCreator = null;
     public static Player getPlayer(){
         return player;
     }
 
     public static void setWorld(World w){
         world = w;
+    }
+
+    public static JumpingMarbleWorldCreator getWorldCreator(){
+        return worldCreator;
     }
 
 }

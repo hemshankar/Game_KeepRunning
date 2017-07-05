@@ -18,4 +18,7 @@ public class GameConstants {
     public static final String SUCKERCREATOR_ATLAS_NAME = "suckerCreator1";
     public static final String BRICK_ATLAS_NAME = "brick";
 
+    //Sucker Creator related
+    public static final float SUCKER_CREATOR_RECOIL_TIME=30f;
+
 }
