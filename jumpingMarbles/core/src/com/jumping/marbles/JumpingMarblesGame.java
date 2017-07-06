@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.jumping.marbles.Screens.GameScreen;
 
 public class JumpingMarblesGame extends Game {
-	public SpriteBatch batch;
+	public static SpriteBatch batch;
 
 	//-----------Game Screens
 	private GameScreen gameScreen;

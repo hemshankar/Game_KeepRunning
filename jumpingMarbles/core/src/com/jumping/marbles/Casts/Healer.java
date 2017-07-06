@@ -47,7 +47,7 @@ public class Healer extends JumpingMarblesCast{
         body = world.createBody(bdef);
 
         //create shape
-        shape.setRadius((c.width/2)/GameConstants.PPM);
+        shape.setRadius(GameConstants.HEALER_SIZE/GameConstants.PPM);
 
         //create fixtureDef using shape
         cFixtureDef.shape = shape;

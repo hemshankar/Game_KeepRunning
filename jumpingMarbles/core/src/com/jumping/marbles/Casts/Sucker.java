@@ -59,7 +59,7 @@ public class Sucker extends JumpingMarblesCast{
         body = world.createBody(cbdef);
 
         //create shape
-        cshape.setRadius((c.width/2)/GameConstants.PPM);
+        cshape.setRadius(GameConstants.SUCKER_SIZE/GameConstants.PPM);
 
         //create fixtureDef using shape
         cFixtureDef.shape = cshape;

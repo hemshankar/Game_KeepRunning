@@ -29,7 +29,7 @@ public class DesktopLauncher {
 					destForAtlas,
 					"WalkingStick");
 			LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-			new LwjglApplication(new GameClassDemo(), config);
+			new LwjglApplication(new WalkingStick(), config);
 		}catch(Exception e){
 			e.printStackTrace();
 		}

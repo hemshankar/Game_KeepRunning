@@ -19,11 +19,10 @@ import com.jumping.marbles.Casts.JumpingMarblesCast;
 import com.jumping.marbles.Casts.Player;
 import com.jumping.marbles.Casts.SuckerCreator;
 import com.jumping.marbles.Constants.GameConstants;
+import com.jumping.marbles.Controllers.Controller;
 import com.jumping.marbles.JumpingMarbleWorldCreator;
 import com.jumping.marbles.Utility.Utility;
 import com.jumping.marbles.Utility.WorldContactListner;
-
-import org.omg.CORBA.MARSHAL;
 
 import java.util.List;
 
@@ -62,11 +61,25 @@ public class GameScreen implements Screen {
 
     //all other casts
     List<JumpingMarblesCast> casts;
+
+    //Controller
+    Controller controller;
+
+    //mas velocity of the player
+    float maxVelocity=0;
+    float cameraCalibration=0;
+    float heightCamCalibration=0;
+
+
     public GameScreen(SpriteBatch batch){
         //Initialize all the variables
+        float scrWidth = Gdx.graphics.getWidth();
+        float scrHight = Gdx.graphics.getHeight();
         this.batch = batch;
         camera = new OrthographicCamera();
-        viewport = new FitViewport(1200/ GameConstants.PPM,600/GameConstants.PPM,camera);
+        //viewport = new FitViewport(GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
+        viewport = new FitViewport(scrWidth,scrHight,camera);
+        System.out.println("=====" + scrWidth + "--" + scrHight );
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("tiles/JumpingMarblesMap2.tmx");
@@ -90,6 +103,7 @@ public class GameScreen implements Screen {
             cast.initialize();
         }
 
+        controller = new Controller(batch);
     }
 
     @Override
@@ -102,12 +116,13 @@ public class GameScreen implements Screen {
         update(delta);
 
         //clear screen
-        Gdx.gl.glClearColor(1,0,0,1);
+        Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         renderer.render();
         b2dr.render(world,camera.combined);
         batch.setProjectionMatrix(camera.combined);
+
 
         batch.begin();
         //player.draw(batch);
@@ -115,6 +130,7 @@ public class GameScreen implements Screen {
             cast.draw(batch);
         }
         batch.end();
+        controller.draw();
     }
 
     //utility method to be used in render
@@ -143,17 +159,18 @@ public class GameScreen implements Screen {
 
         //update the camera as the player moves (player decides the camera position
         float x = player.body.getPosition().x;
-        if(x<400/GameConstants.PPM)
-            x = 400/GameConstants.PPM;
-        else if(x>9600/GameConstants.PPM)
-            x = 9600/GameConstants.PPM;
+        if(x<(viewport.getWorldWidth()/2))
+            x = viewport.getWorldWidth()/2;
+        else if(x>(Utility.worldCreator.boundaryRight/GameConstants.PPM - viewport.getWorldWidth()/2))
+            x = Utility.worldCreator.boundaryRight/GameConstants.PPM - viewport.getWorldWidth()/2;
+
         camera.position.x=x;
 
         float y = player.body.getPosition().y;
-        if(y<200/GameConstants.PPM)
-            y = 200/GameConstants.PPM;
-        else if(y>950/GameConstants.PPM)
-            y = 950/GameConstants.PPM;
+        if(y<viewport.getWorldHeight()/2)
+            y = viewport.getWorldHeight()/2;
+        else if(y>( Utility.worldCreator.boundaryTop/GameConstants.PPM - viewport.getWorldHeight()/2))
+            y = ( Utility.worldCreator.boundaryTop/GameConstants.PPM )- viewport.getWorldHeight()/2;
 
         camera.position.y=y;
         //System.out.println( player.body.getPosition().x + " -- " + player.body.getPosition().y);
@@ -161,33 +178,84 @@ public class GameScreen implements Screen {
 
         //orthographic map renderer's position is decided by the camera
         renderer.setView(camera);
+
+        //get the body speed and resize the viewport
+        Vector2 velocity = player.body.getLinearVelocity();
+        maxVelocity = velocity.x>velocity.y?velocity.x:velocity.y;
+        if(Math.abs(maxVelocity-cameraCalibration)>1) {
+            if (maxVelocity - cameraCalibration > 0) {
+                cameraCalibration += .08;
+            } else if (maxVelocity - cameraCalibration < 0) {
+                cameraCalibration -= .08;
+            }
+        }
+        if(player.body.getPosition().y > Utility.worldCreator.boundaryTop/GameConstants.PPM/2){
+            if((player.body.getPosition().y - Utility.worldCreator.boundaryTop/GameConstants.PPM/2) > cameraCalibration){
+                cameraCalibration+=(.08 * 2);
+            }
+        }
+
+        float yCal = 4*cameraCalibration/3;
+        if(yCal > 6){
+            yCal = 6;
+        }
+
+        float xCal = 9 * yCal/4;
+       /* if(xCal>15){
+            xCal = 15;
+        }*/
+        viewport.setWorldSize(GameConstants.VIEW_PORT_WIDTH / GameConstants.PPM + xCal,
+                GameConstants.VIEW_PORT_HIGHT / GameConstants.PPM + yCal);
+
+        viewport.apply();
     }
 
     //utility method to handle Ip
     private void handleIp(){
-        if(Gdx.input.isTouched() && Gdx.input.getX() > Gdx.graphics.getWidth()/2){
-            player.body.applyLinearImpulse(new Vector2(0.4f,0),player.body.getWorldCenter(),true);
+
+        if(controller.controles[GameConstants.UP] || Gdx.input.isKeyPressed(Input.Keys.UP)){
+            if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
+                player.body.applyLinearImpulse(new Vector2(0,5f),player.body.getWorldCenter(),true);
+            }else {
+                player.body.applyLinearImpulse(new Vector2(0, 0.4f), player.body.getWorldCenter(), true);
+            }
         }
-        if(Gdx.input.isTouched() && Gdx.input.getX() < Gdx.graphics.getWidth()/2){
-            player.body.applyLinearImpulse(new Vector2(0,0.4f),player.body.getWorldCenter(),true);
+        if(controller.controles[GameConstants.DOWN] || Gdx.input.isKeyPressed(Input.Keys.DOWN)){
+            if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
+                player.body.applyLinearImpulse(new Vector2(0,-5f),player.body.getWorldCenter(),true);
+            }else {
+                player.body.applyLinearImpulse(new Vector2(0, -0.4f), player.body.getWorldCenter(), true);
+            }
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.UP)){
-            player.body.applyLinearImpulse(new Vector2(0,0.4f),player.body.getWorldCenter(),true);
+
+        if((controller.controles[GameConstants.LEFT] || Gdx.input.isKeyPressed(Input.Keys.LEFT))
+                //&& player.body.getLinearVelocity().x >= -2
+                ){
+            if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
+                player.body.applyLinearImpulse(new Vector2(-5f,0),player.body.getWorldCenter(),true);
+            }else {
+                player.body.applyLinearImpulse(new Vector2(-0.4f, 0), player.body.getWorldCenter(), true);
+            }
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT)&& player.body.getLinearVelocity().x >= -2){
-            player.body.applyLinearImpulse(new Vector2(-0.4f,0),player.body.getWorldCenter(),true);
+        if((controller.controles[GameConstants.RIGHT] || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
+                //&& player.body.getLinearVelocity().x <= 2
+                ){
+            if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
+                player.body.applyLinearImpulse(new Vector2(5f,0),player.body.getWorldCenter(),true);
+            }else{
+                player.body.applyLinearImpulse(new Vector2(0.4f,0),player.body.getWorldCenter(),true);
+            }
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) && player.body.getLinearVelocity().x <= 2){
-            player.body.applyLinearImpulse(new Vector2(0.4f,0),player.body.getWorldCenter(),true);
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE)){
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
             player.setFree();
         }
+
     }
 
     @Override
     public void resize(int width, int height) {
         viewport.update(width,height);
+        controller.resize(width,height);
     }
 
     @Override

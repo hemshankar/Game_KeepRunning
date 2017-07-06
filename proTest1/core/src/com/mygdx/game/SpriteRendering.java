@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.com.mygdx.game.Controllers.Controller;
 
 /**
  * Created by hsahu on 6/20/2017.
@@ -17,10 +18,11 @@ public class SpriteRendering implements ApplicationListener {
     float dt =0;
     float time = 0;
     float timeElapsed = 0;
-
+    public boolean [] direction = {false,false,false,false};
     OrthographicCamera camera;
     SpriteBatch batch;
     Sprite sprite;
+    Controller controller;
     int w;
     int h;
     float pos=0;
@@ -34,11 +36,12 @@ public class SpriteRendering implements ApplicationListener {
         sprite = new Sprite( new Texture("arrow.png"));
         sprite.setSize(80,20);
         sprite.setPosition(-w/2,0);
+        controller = new Controller(batch);
     }
 
     @Override
     public void resize(int width, int height) {
-
+        controller.resize(width,height);
     }
 
     @Override
@@ -49,6 +52,7 @@ public class SpriteRendering implements ApplicationListener {
 
         batch.setProjectionMatrix(camera.combined);
 
+        controller.draw();
         batch.begin();
         sprite.draw(batch);
         batch.end();

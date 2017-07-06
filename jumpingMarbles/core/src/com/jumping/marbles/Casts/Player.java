@@ -53,12 +53,12 @@ public class Player extends JumpingMarblesCast{
         body = world.createBody(cbdef);
 
         //create shape
-        cshape.setRadius((c.width/2)/GameConstants.PPM);
+        cshape.setRadius(GameConstants.PLAYER_SIZE/GameConstants.PPM);
 
         //create fixtureDef using shape
         fixtureDef.shape = cshape;
-        fixtureDef.restitution=1f;
-        fixtureDef.friction=0f;
+        fixtureDef.restitution=.5f;
+        fixtureDef.friction=.2f;
 
         //create the fixture using fixture def
         Fixture f =body.createFixture(fixtureDef);

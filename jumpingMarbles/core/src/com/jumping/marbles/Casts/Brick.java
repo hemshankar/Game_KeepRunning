@@ -27,7 +27,7 @@ public class Brick extends JumpingMarblesCast{
         this.world = world;
         this.mapObject = object;
         definePusher();
-        setBounds(0,0,60/GameConstants.PPM,30/GameConstants.PPM);
+        setBounds(0,0,GameConstants.BRICK_SIZE*2/GameConstants.PPM,GameConstants.BRICK_SIZE/GameConstants.PPM);
     }
 
     public void definePusher(){
@@ -48,11 +48,11 @@ public class Brick extends JumpingMarblesCast{
         body = world.createBody(bdef);
 
         //create shape
-        shape.setAsBox((rect.getWidth()/2)/GameConstants.PPM,(rect.getHeight()/2)/GameConstants.PPM);
+        shape.setAsBox(GameConstants.BRICK_SIZE/GameConstants.PPM,GameConstants.BRICK_SIZE/2/GameConstants.PPM);
 
         //create fixtureDef using shape
         fixtureDef.shape = shape;
-        fixtureDef.restitution=0.0f;
+        fixtureDef.restitution=0.5f;
 
         //create the fixture using fixture def
         Fixture f =body.createFixture(fixtureDef);

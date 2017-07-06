@@ -1,9 +1,7 @@
 package com.jumping.marbles.Casts;
 
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.CircleMapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -67,7 +65,7 @@ public class SuckerCreator extends JumpingMarblesCast{
         body = world.createBody(cbdef);
 
         //create shape
-        cshape.setRadius((c.width/2)/GameConstants.PPM);
+        cshape.setRadius(GameConstants.SUCKER_CREATOR_SIZE/GameConstants.PPM);
 
         //create fixtureDef using shape
         cFixtureDef.shape = cshape;
@@ -82,7 +80,7 @@ public class SuckerCreator extends JumpingMarblesCast{
 
     @Override
     public String getCastName() {
-        return GameConstants.SUCKERCREATOR_ATLAS_NAME;
+        return GameConstants.SUCKER_CREATOR_ATLAS_NAME;
     }
 
     @Override

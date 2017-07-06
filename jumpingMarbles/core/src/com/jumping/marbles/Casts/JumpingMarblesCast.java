@@ -22,7 +22,7 @@ abstract public class JumpingMarblesCast extends Sprite{
         TextureAtlas atlas = Utility.getAtlas();
         region = atlas.findRegion(getCastName());
         //should these be used
-        setBounds(0,0,32/GameConstants.PPM,32/GameConstants.PPM);
+        setBounds(0,0,GameConstants.SIZE_SCALE*2/GameConstants.PPM,GameConstants.SIZE_SCALE*2/GameConstants.PPM);
         setRegion(region);
     }
 
@@ -37,7 +37,7 @@ abstract public class JumpingMarblesCast extends Sprite{
     public void initialize(){
         if(!getCastName().equals(GameConstants.PLAYER_ATLAS_NAME)) {
             getBody().getFixtureList().get(0).setRestitution(0.5f);
-            getBody().getFixtureList().get(0).setFriction(0.0f);
+            getBody().getFixtureList().get(0).setFriction(0.5f);
         }
     }
     abstract public String getCastName();

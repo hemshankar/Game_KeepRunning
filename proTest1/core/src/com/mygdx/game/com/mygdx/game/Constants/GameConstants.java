@@ -1,4 +1,4 @@
-package com.jumping.marbles.Constants;
+package com.mygdx.game.com.mygdx.game.Constants;
 
 /**
  * Created by hsahu on 7/2/2017.
@@ -18,36 +18,17 @@ public class GameConstants {
     public static final String SUCKER_CREATOR_ATLAS_NAME = "suckerCreator1";
     public static final String BRICK_ATLAS_NAME = "brick";
 
-    //cast Dimensions
-    public static final float SIZE_SCALE =25;
-    public static final float PLAYER_SIZE = 25;
-    public static final float HEALER_SIZE = 25;
-    public static final float PUSHER_SIZE = 25;
-    public static final float SUCKER_SIZE = 25;
-    public static final float SUCKER_CREATOR_SIZE = 25;
-    public static final float BRICK_SIZE =40;
-
     //Sucker Creator related
     public static final float SUCKER_CREATOR_RECOIL_TIME=30f;
 
     //----------------------
-    public static final float VIEW_PORT_WIDTH = 1000;
-    public static final float VIEW_PORT_HIGHT = 600;
+    public static final float VIEW_PORT_WIDTH = 800;
+    public static final float VIEW_PORT_HIGHT = 480;
 
     //------------------Controller
     public static final int UP = 0;
     public static final int RIGHT = 1;
     public static final int DOWN = 2;
     public static final int LEFT = 3;
-    public static final int THROW_SUCKER = 4;
-
-    public static final String LEFT_IMAGE = "controls/left.png";
-    public static final String RIGHT_IMAGE = "controls/right.png";
-    public static final String UP_IMAGE = "controls/up.png";
-    public static final String DOWN_IMAGE = "controls/down.png";
-
-    public static final String THROW_SUCKER_IMAGE = "controls/throw.png";//"controls/throwSucker.png";
-
-
 
 }

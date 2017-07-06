@@ -46,6 +46,10 @@ public class JumpingMarbleWorldCreator {
     public List<JumpingMarblesCast> casts = new ArrayList<JumpingMarblesCast>();
     public List<JumpingMarblesCast> toBeDestroyed = new ArrayList<JumpingMarblesCast>();
     public List<Joint> joints = new ArrayList<Joint>();
+    public float boundaryLeft;
+    public float boundaryRight;
+    public float boundaryTop;
+    public float boundaryBottom;
 
     public JumpingMarbleWorldCreator(World world, Map map){
 
@@ -90,6 +94,16 @@ public class JumpingMarbleWorldCreator {
         //create obstacles
         MapBodyBuilder.buildShapes(map, GameConstants.PPM,world,"staticObjects");
         addAllCasts();
+
+        //Get boundaries
+        MapObject left = map.getLayers().get("leftBoundary").getObjects().getByType(RectangleMapObject.class).get(0);
+        boundaryLeft = ((RectangleMapObject)left).getRectangle().getX();
+        MapObject right = map.getLayers().get("rightBoundary").getObjects().getByType(RectangleMapObject.class).get(0);
+        boundaryRight = ((RectangleMapObject)right).getRectangle().getX();
+        MapObject top = map.getLayers().get("topBoundary").getObjects().getByType(RectangleMapObject.class).get(0);
+        boundaryTop = ((RectangleMapObject)top).getRectangle().getY();
+        MapObject bottom = map.getLayers().get("bottomBoundary").getObjects().getByType(RectangleMapObject.class).get(0);
+        boundaryBottom = ((RectangleMapObject)bottom).getRectangle().getY();
     }
 
     public void createSucker(float x, float y){

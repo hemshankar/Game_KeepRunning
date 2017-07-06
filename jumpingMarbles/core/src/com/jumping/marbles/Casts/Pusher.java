@@ -52,7 +52,7 @@ public class Pusher extends JumpingMarblesCast{
         body = world.createBody(cbdef);
 
         //create shape
-        cshape.setRadius((c.width/2)/GameConstants.PPM);
+        cshape.setRadius(GameConstants.PUSHER_SIZE/GameConstants.PPM);
 
         //create fixtureDef using shape
         cFixtureDef.shape = cshape;
