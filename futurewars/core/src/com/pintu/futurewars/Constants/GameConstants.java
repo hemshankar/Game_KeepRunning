@@ -40,14 +40,17 @@ public class GameConstants {
     public static final int RIGHT = 1;
     public static final int DOWN = 2;
     public static final int LEFT = 3;
-    public static final int THROW_SUCKER = 4;
+    public static final int FIRE_BASIC_BULLET = 4;
+    public static final int CIRCLE_CONTROLLER = 5;
 
     public static final String LEFT_IMAGE = "controls/left.png";
     public static final String RIGHT_IMAGE = "controls/right.png";
     public static final String UP_IMAGE = "controls/up.png";
     public static final String DOWN_IMAGE = "controls/down.png";
+    public static final String CIRCLE_IMAGE = "controls/circle.png";
     public static final float CONTROL_BUTTON_SIZE = 130;
     public static final float FIRE_BUTTON_SIZE = 200;
+    public static final float CIRCLE_BUTTON_SIZE = 300;
 
     public static final String POWER_IMAGE = "controls/throw.png";//"controls/throwSucker.png";
 

@@ -17,7 +17,8 @@ import com.pintu.futurewars.Controllers.Directions.ControlButton;
 public class Controller {
     Viewport cViewPort;
     Stage stage;
-    public boolean [] controles = {false,false,false,false,false};
+    public boolean [] controles = {false,false,false,false,false,false};
+    public float x,y;
                                 //upPressed, downPressed, leftPressed, rightPressed,throwPressed;
     OrthographicCamera ctrlCam;
     SpriteBatch batch;
@@ -34,12 +35,25 @@ public class Controller {
 
         directions.setFillParent(true);
         directions.left().bottom();
+
         ControlButton up = new ControlButton(this, GameConstants.UP, GameConstants.UP_IMAGE);
         ControlButton down = new ControlButton(this, GameConstants.DOWN, GameConstants.DOWN_IMAGE);
         ControlButton left = new ControlButton(this, GameConstants.LEFT, GameConstants.LEFT_IMAGE);
         ControlButton right = new ControlButton(this, GameConstants.RIGHT, GameConstants.RIGHT_IMAGE);
+        ControlButton circleButton
+                = new ControlButton(this, GameConstants.CIRCLE_CONTROLLER, GameConstants.CIRCLE_IMAGE);
 
 
+        directions.add();
+        directions.add(circleButton.image).size(GameConstants.CIRCLE_BUTTON_SIZE,GameConstants.CIRCLE_BUTTON_SIZE);
+        directions.add();
+
+        directions.row().pad(5,50,20,5);
+        directions.add();
+        directions.add();
+        directions.add();
+
+        /*
         float w = GameConstants.CONTROL_BUTTON_SIZE;
         float h = GameConstants.CONTROL_BUTTON_SIZE;
 
@@ -57,7 +71,8 @@ public class Controller {
 
         directions.add();
         directions.add(down.image).size(w,h);
-        directions.add();
+        directions.add();*/
+
 
 
         //create power controls
@@ -65,7 +80,7 @@ public class Controller {
         powers.setFillParent(true);
         powers.right().bottom();
 
-        ControlButton FireButton = new ControlButton(this, GameConstants.THROW_SUCKER, GameConstants.POWER_IMAGE);
+        ControlButton FireButton = new ControlButton(this, GameConstants.FIRE_BASIC_BULLET, GameConstants.POWER_IMAGE);
         //powers.add();
 
         powers.add(FireButton.image).size(GameConstants.FIRE_BUTTON_SIZE,GameConstants.FIRE_BUTTON_SIZE);
@@ -76,8 +91,6 @@ public class Controller {
         powers.add();
         powers.add();
         powers.add();
-
-
 
         //add all tables
         stage.addActor(powers);

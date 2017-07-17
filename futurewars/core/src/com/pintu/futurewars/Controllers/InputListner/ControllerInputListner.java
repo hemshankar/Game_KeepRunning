@@ -19,13 +19,23 @@ public class ControllerInputListner extends InputListener {
     }
 
     @Override
+    public void touchDragged(InputEvent event, float x, float y, int pointer) {
+        controller.x = x;
+        controller.y = y;
+    }
+
+    @Override
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
         controller.controles[buttonId] = false;
+        controller.x = 0;
+        controller.y = 0;
     }
 
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
         controller.controles[buttonId] = true;
+        controller.x = x;
+        controller.y = y;
         return true;
     }
 }

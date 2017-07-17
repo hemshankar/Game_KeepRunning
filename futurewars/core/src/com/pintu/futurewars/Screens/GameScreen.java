@@ -77,6 +77,13 @@ public class GameScreen implements Screen {
     public List<GameBullet> bullets = new ArrayList<GameBullet>();
     public List<GameBullet> bulletsToBeRemoved = new ArrayList<GameBullet>();
 
+    float xImp;
+    float yImp;
+    float xMag;
+    float yMag;
+    float xVelo;
+    float yVelo;
+
     public GameScreen(SpriteBatch batch){
         //Initialize all the variables
         float scrWidth = Gdx.graphics.getWidth();
@@ -278,12 +285,52 @@ public class GameScreen implements Screen {
                 player.body.applyLinearImpulse(new Vector2(0.4f,0),player.body.getWorldCenter(),true);
             }
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.FIRE_BASIC_BULLET]){
 
             if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
                 recoilTimeElapsed = 0;
                 bullets.add(new BasicBullet(player.getX() + player.getWidth() + 10 / GameConstants.PPM, player.getY() + player.getHeight() / 2, GameConstants.RIGHT));
             }
+        }
+
+        if(controller.controles[GameConstants.CIRCLE_CONTROLLER]) {
+            System.out.println("Velocity== " + player.body.getLinearVelocity().x + "," + player.body.getLinearVelocity().y);
+            System.out.println("Control position==" + controller.x + "," + controller.y);
+            //System.out.println("=== " + (controller.x - 140) + ","  + (controller.y - 140));
+
+            //get the user input
+            xImp = (controller.x - 130) / GameConstants.PPM;
+            yImp = (controller.y - 130) / GameConstants.PPM;
+
+            //get magnitude
+            xMag = Math.abs(xImp) + 0.000001f; //avoid divide by 0
+
+            //get player velocity
+            xVelo = player.body.getLinearVelocity().x;
+
+            //decide if force/impluse to be applied
+            if(Math.abs(xVelo)>5){
+                if(xImp/xVelo < 0){ //if the force is applied in the opp direction of the body movement
+                    //nomalize the force
+                    if(xMag>150){ xImp = (xImp/xMag) * 150;}
+                    xImp = xImp/10;
+                }else{
+                    xImp = 0;
+                }
+            }
+
+            if (yImp < 0){yImp = 0;}else{ if(yImp>150){yImp = 150;}yImp = yImp/5;}
+
+            if (player.body.getLinearVelocity().y > 5) {
+                yImp = 0;
+            }
+
+            player.body.applyLinearImpulse(new Vector2(xImp, yImp), player.body.getWorldCenter(), true);
+            //player.body.applyForceToCenter(xImp,yImp,true);
+            System.out.println("xImp=" + xImp + "," + "yImp=" + yImp);
+        }
+        else if (player.body.getLinearVelocity().y < -1) {
+            player.body.applyForceToCenter(new Vector2(0, 50f), true);
         }
 
     }
