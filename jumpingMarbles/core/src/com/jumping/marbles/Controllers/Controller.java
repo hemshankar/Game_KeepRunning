@@ -40,8 +40,8 @@ public class Controller {
         ControlButton right = new ControlButton(this,GameConstants.RIGHT,GameConstants.RIGHT_IMAGE);
 
 
-        float w = 100;
-        float h = 100;
+        float w = 70;
+        float h = 70;
 
         directions.add();
         directions.add(up.image).size(w,h);
@@ -68,7 +68,7 @@ public class Controller {
         ControlButton throwSucker = new ControlButton(this,GameConstants.THROW_SUCKER,GameConstants.THROW_SUCKER_IMAGE);
         //powers.add();
 
-        powers.add(throwSucker.image).size(100,100);
+        powers.add(throwSucker.image).size(150,150);
         powers.add();
 
         powers.row().pad(5,5,5,5);

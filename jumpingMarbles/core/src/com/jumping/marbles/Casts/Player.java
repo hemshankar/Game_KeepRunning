@@ -39,18 +39,19 @@ public class Player extends JumpingMarblesCast{
 
         //initiate the objects to create a body
         CircleShape cshape = new CircleShape();
-        BodyDef cbdef = new BodyDef();
+        BodyDef bdef = new BodyDef();
         FixtureDef fixtureDef = new FixtureDef();
 
         //get the map object
         Ellipse c = ((EllipseMapObject)mapObject).getEllipse();
 
         //set the body definition
-        cbdef.type = BodyDef.BodyType.DynamicBody;
-        cbdef.position.set((c.x + c.width/2)/ GameConstants.PPM,(c.y + c.height/2)/GameConstants.PPM);
+        bdef.type = BodyDef.BodyType.DynamicBody;
+        bdef.bullet = true;
+        bdef.position.set((c.x + c.width/2)/ GameConstants.PPM,(c.y + c.height/2)/GameConstants.PPM);
 
         //create the body using body definition
-        body = world.createBody(cbdef);
+        body = world.createBody(bdef);
 
         //create shape
         cshape.setRadius(GameConstants.PLAYER_SIZE/GameConstants.PPM);

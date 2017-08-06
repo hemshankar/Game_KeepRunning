@@ -19,20 +19,21 @@ public class GameConstants {
     public static final String BRICK_ATLAS_NAME = "brick";
 
     //cast Dimensions
-    public static final float SIZE_SCALE =25;
-    public static final float PLAYER_SIZE = 25;
-    public static final float HEALER_SIZE = 25;
-    public static final float PUSHER_SIZE = 25;
-    public static final float SUCKER_SIZE = 25;
-    public static final float SUCKER_CREATOR_SIZE = 25;
-    public static final float BRICK_SIZE =40;
+    public static final float DESIRED_SIZE = 35;
+    public static final float SIZE_SCALE =DESIRED_SIZE;
+    public static final float PLAYER_SIZE = DESIRED_SIZE;
+    public static final float HEALER_SIZE = DESIRED_SIZE;
+    public static final float PUSHER_SIZE = DESIRED_SIZE;
+    public static final float SUCKER_SIZE = DESIRED_SIZE;
+    public static final float SUCKER_CREATOR_SIZE = DESIRED_SIZE;
+    public static final float BRICK_SIZE =45;
 
     //Sucker Creator related
     public static final float SUCKER_CREATOR_RECOIL_TIME=30f;
 
     //----------------------
-    public static final float VIEW_PORT_WIDTH = 1000;
-    public static final float VIEW_PORT_HIGHT = 600;
+    public static final float VIEW_PORT_WIDTH = 1600;
+    public static final float VIEW_PORT_HIGHT = 1200;
 
     //------------------Controller
     public static final int UP = 0;
@@ -47,7 +48,4 @@ public class GameConstants {
     public static final String DOWN_IMAGE = "controls/down.png";
 
     public static final String THROW_SUCKER_IMAGE = "controls/throw.png";//"controls/throwSucker.png";
-
-
-
 }

@@ -68,14 +68,14 @@ public class JumpingMarbleWorldCreator {
         }
 
         //Create suckers
-        for(MapObject object: map.getLayers().get("suckers").getObjects().getByType(EllipseMapObject.class)){
+       /* for(MapObject object: map.getLayers().get("suckers").getObjects().getByType(EllipseMapObject.class)){
             suckers.add(new Sucker(world,object));
         }
-
+*/
         //Create suckerCreator
-        for(MapObject object: map.getLayers().get("suckerCreator").getObjects().getByType(EllipseMapObject.class)){
+       /* for(MapObject object: map.getLayers().get("suckerCreator").getObjects().getByType(EllipseMapObject.class)){
             suckersCreator.add(new SuckerCreator(world,object));
-        }
+        }*/
 
         //Create healer
         for(MapObject object: map.getLayers().get("healers").getObjects().getByType(EllipseMapObject.class)){
@@ -83,9 +83,9 @@ public class JumpingMarbleWorldCreator {
         }
 
         //Create bricks
-        for(MapObject object: map.getLayers().get("bricks").getObjects().getByType(RectangleMapObject.class)){
+       /* for(MapObject object: map.getLayers().get("bricks").getObjects().getByType(RectangleMapObject.class)){
             bricks.add(new Brick(world,object));
-        }
+        }*/
 
         //create player
         MapObject object = map.getLayers().get("player").getObjects().getByType(EllipseMapObject.class).get(0);

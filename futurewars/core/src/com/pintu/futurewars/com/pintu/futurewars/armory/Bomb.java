@@ -1,8 +1,6 @@
 package com.pintu.futurewars.com.pintu.futurewars.armory;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -19,26 +17,26 @@ import java.util.List;
  * Created by hsahu on 7/15/2017.
  */
 
-public class BasicBullet extends GameBullet {
+public class Bomb extends GameBullet {
 
     public Body body;
-    public BasicBullet(float x, float y, int dir) {
+    public Bomb(float x, float y, int dir) {
         super(x, y, dir);
         defineBullet(x,y);
         setSpriteRegion();
         fire();
     }
 
-    public static void newBasicBullet(Player player, List<GameBullet> bullets){
-        bullets.add(new BasicBullet(player.getX() + player.getWidth() + 10 / GameConstants.PPM,
+    public static void newBomb(Player player, List<GameBullet> bullets){
+        bullets.add(new Bomb(player.getX() + player.getWidth() + 10 / GameConstants.PPM,
                 player.getY() + player.getHeight() / 1, GameConstants.RIGHT));
     }
 
     @Override
     public void setSpriteRegion() {
         TextureAtlas atlas = Utility.getAtlas();
-        region = atlas.findRegion(GameConstants.BASIC_BULLET_REGION_NAME);
-        setBounds(0,0, GameConstants.BASIC_BULLET_SIZE*2/ GameConstants.PPM, GameConstants.BASIC_BULLET_SIZE*2/ GameConstants.PPM);
+        region = atlas.findRegion(GameConstants.BOMB_REGION_NAME);
+        setBounds(0,0, GameConstants.BOMB_SIZE*2/ GameConstants.PPM, GameConstants.BOMB_SIZE*2/ GameConstants.PPM);
         setRegion(region);
     }
 
@@ -69,13 +67,13 @@ public class BasicBullet extends GameBullet {
         body = Utility.world.createBody(bdef);
 
         //create shape
-        cshape.setRadius(GameConstants.BASIC_BULLET_SIZE/GameConstants.PPM);
+        cshape.setRadius(GameConstants.BOMB_SIZE/GameConstants.PPM);
 
         //create fixtureDef using shape
         fixtureDef.shape = cshape;
         fixtureDef.restitution=0f;
         //fixtureDef.friction=.2f;
-        fixtureDef.density = 1f;
+        fixtureDef.density = .5f;
         //fixtureDef.isSensor = true;
         //create the fixture using fixture def
         Fixture f =body.createFixture(fixtureDef);
@@ -84,19 +82,19 @@ public class BasicBullet extends GameBullet {
         f.setUserData(this);
 
         //set the time to live
-        timeTolive = GameConstants.BASIC_BULLET_TIME_TO_LIVE;
+        timeTolive = GameConstants.BOMB_TIME_TO_LIVE;
     }
 
     @Override
     public void fire(){
         if(direction==GameConstants.LEFT)
-            body.applyLinearImpulse(new Vector2(-GameConstants.BASIC_BULLET_SPEED, 0), body.getWorldCenter(), true);
+            body.applyLinearImpulse(new Vector2(-GameConstants.BOMB_SPEED, 0), body.getWorldCenter(), true);
         else
-            body.applyLinearImpulse(new Vector2(GameConstants.BASIC_BULLET_SPEED, 0), body.getWorldCenter(), true);
+            body.applyLinearImpulse(new Vector2(GameConstants.BOMB_SPEED, 0), body.getWorldCenter(), true);
     }
 
     @Override
     public int getDamage() {
-        return GameConstants.BASIC_BULLET_DAMAGE;
+        return GameConstants.BOMB_DAMAGE;
     }
 }

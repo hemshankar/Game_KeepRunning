@@ -1,8 +1,10 @@
 package com.pintu.futurewars.Casts;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -12,6 +14,10 @@ import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Utility.Utility;
+import com.pintu.futurewars.com.pintu.futurewars.armory.BasicBullet;
+import com.pintu.futurewars.com.pintu.futurewars.armory.Bomb;
+import com.pintu.futurewars.com.pintu.futurewars.armory.BurstBullet;
+import com.pintu.futurewars.com.pintu.futurewars.armory.GameBullet;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,16 +32,23 @@ public class Player extends FutureWarsCast {
     public Body body;
     MapObject mapObject;
     public boolean removeSuckers = false;
+    public float recoilTimeElapsed = 0;
     public List<Sucker> suckers = new ArrayList<Sucker>();
     public List<Joint> joints = new ArrayList<Joint>();
+    public String selectedBullet = null;
+    TextureAtlas atlas = Utility.getAtlas();
+    float WALKING_ANIMATION_DELAY = .2f;
+    float walkingAnimationTime = 0;
+    int walkingState = 1;
+    String walkingStats[] = {GameConstants.PLAYER_ATLAS_NAME,GameConstants.PUSHER_ATLAS_NAME};
     public Player(World world,MapObject object ){
         this.world = world;
         this.mapObject = object;
-        definePusher();
+        definePlayer();
         Utility.setPlayer(this);
     }
 
-    public void definePusher(){
+    public void definePlayer(){
 
         //initiate the objects to create a body
         CircleShape cshape = new CircleShape();
@@ -66,6 +79,8 @@ public class Player extends FutureWarsCast {
 
         //set the user data to be used in collision
         f.setUserData(this);
+
+        selectedBullet = GameConstants.BOMB;
     }
 
     public void throwSuckers(){
@@ -94,6 +109,17 @@ public class Player extends FutureWarsCast {
     @Override
     public void update(float dt) {
         super.update(dt);
+        if(body.getLinearVelocity().x <= 5)
+            body.applyLinearImpulse(new Vector2(.5f,0),body.getWorldCenter(),true);
+
+        //set walking animation
+        walkingAnimationTime = walkingAnimationTime + dt;
+        if(walkingAnimationTime>WALKING_ANIMATION_DELAY){
+            walkingAnimationTime  =0;
+            walkingState = (++walkingState)%2;
+            region = atlas.findRegion(walkingStats[walkingState]);
+            setRegion(region);
+        }
     }
 
     @Override
@@ -104,5 +130,25 @@ public class Player extends FutureWarsCast {
     @Override
     public Body getBody() {
         return body;
+    }
+
+    public void fire(List<GameBullet> bullets,float dt){
+        recoilTimeElapsed +=dt;
+        if(GameConstants.BASIC_BULLET.equals(selectedBullet)){
+            if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
+                recoilTimeElapsed = 0;
+                BasicBullet.newBasicBullet(this, bullets);
+            }
+        }else if(GameConstants.BURST_BULLET.equals(selectedBullet)){
+            if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
+                recoilTimeElapsed = 0;
+                BurstBullet.newBurstBullet(this, bullets);
+            }
+        } else if(GameConstants.BOMB.equals(selectedBullet)){
+            if(recoilTimeElapsed > GameConstants.BOMB_RECOIL_TIME) {
+                recoilTimeElapsed = 0;
+                Bomb.newBomb(this, bullets);
+            }
+        }
     }
 }

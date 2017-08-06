@@ -54,17 +54,27 @@ public class GameConstants {
 
     public static final String POWER_IMAGE = "controls/throw.png";//"controls/throwSucker.png";
 
-    //----------------------Bullet Size
+    //----------------------Bullets
     public static final float BASIC_BULLET_SIZE = 8;
     public static final String BASIC_BULLET_REGION_NAME = "basic_bullet";
-    public static final float BASIC_BULLET_SPEED = .5f;
+    public static final float BASIC_BULLET_SPEED = 1f;
     public static final int BASIC_BULLET_DAMAGE = 50;
     public static final float BASIC_BULLET_RECOIL_TIME = .2f;
     public static final float BASIC_BULLET_TIME_TO_LIVE = 1f;
 
+    public final static String BASIC_BULLET = "BASIC_BULLET";
+    public final static String BURST_BULLET = "BURST_BULLET";
+    public final static String BOMB = "BOMB";
+
+    public static final float BOMB_SIZE = 20;
+    public static final float BOMB_SPEED = 3f;
+    public static final int BOMB_DAMAGE = 1000;
+    public static final float BOMB_RECOIL_TIME = .4f;
+    public static final float BOMB_TIME_TO_LIVE = 4f;
+    public static final String BOMB_REGION_NAME = "basic_bullet";
+
     //====================Map Related
     public static final String JUMPING_MARBAL_MAP = "tiles/JumpingMarblesMap2.tmx";
     public static final String FUTURE_WARS_MAP = "tiles/supersky.tmx";
-
 
 }

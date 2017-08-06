@@ -10,6 +10,7 @@ import com.pintu.futurewars.Casts.Pusher;
 import com.pintu.futurewars.Casts.Sucker;
 import com.pintu.futurewars.Casts.Player;
 import com.pintu.futurewars.com.pintu.futurewars.armory.BasicBullet;
+import com.pintu.futurewars.com.pintu.futurewars.armory.Bomb;
 
 /**
  * Created by hsahu on 7/4/2017.
@@ -39,7 +40,19 @@ public class WorldContactListner implements ContactListener {
             bullet.toBeDestroyed = true;
 
             Fixture f  = bullet == a.getUserData() ? b:a;
-            if(f.getUserData() instanceof FutureWarsCast){
+            Object obj =  f.getUserData();
+            if(obj instanceof FutureWarsCast && !(obj instanceof Player)){
+                FutureWarsCast cast = (FutureWarsCast)f.getUserData();
+                cast.takeDamage(bullet);
+            }
+        }
+        if(a.getUserData() instanceof Bomb || b.getUserData() instanceof Bomb){
+            Bomb bullet = (Bomb)( a.getUserData() instanceof Bomb ? a.getUserData() : b.getUserData());
+            bullet.toBeDestroyed = true;
+
+            Fixture f  = bullet == a.getUserData() ? b:a;
+            Object obj =  f.getUserData();
+            if(obj instanceof FutureWarsCast && !(obj instanceof Player)){
                 FutureWarsCast cast = (FutureWarsCast)f.getUserData();
                 cast.takeDamage(bullet);
             }

@@ -184,14 +184,14 @@ public class GameScreen implements Screen {
         maxVelocity = velocity.x>velocity.y?velocity.x:velocity.y;
         if(Math.abs(maxVelocity-cameraCalibration)>1) {
             if (maxVelocity - cameraCalibration > 0) {
-                cameraCalibration += .08;
+                cameraCalibration += .1;
             } else if (maxVelocity - cameraCalibration < 0) {
-                cameraCalibration -= .08;
+                cameraCalibration -= .1;
             }
         }
         if(player.body.getPosition().y > Utility.worldCreator.boundaryTop/GameConstants.PPM/2){
             if((player.body.getPosition().y - Utility.worldCreator.boundaryTop/GameConstants.PPM/2) > cameraCalibration){
-                cameraCalibration+=(.08 * 2);
+                cameraCalibration+=(.1);
             }
         }
 
@@ -204,8 +204,10 @@ public class GameScreen implements Screen {
        /* if(xCal>15){
             xCal = 15;
         }*/
-        viewport.setWorldSize(GameConstants.VIEW_PORT_WIDTH / GameConstants.PPM + xCal,
-                GameConstants.VIEW_PORT_HIGHT / GameConstants.PPM + yCal);
+
+
+        viewport.setWorldSize(GameConstants.VIEW_PORT_WIDTH / GameConstants.PPM /*xCal*/,
+                GameConstants.VIEW_PORT_HIGHT / GameConstants.PPM /*yCal*/);
 
         viewport.apply();
     }

@@ -214,6 +214,11 @@ public class GameScreen implements Screen {
         //orthographic map renderer's position is decided by the camera
         renderer.setView(camera);
 
+        //change the bullet type after reaching a some distance
+        //to be removed later
+        //if(x > (Utility.worldCreator.boundaryRight/ GameConstants.PPM)/2)
+            //player.selectedBullet = GameConstants.BOMB;
+
         //get the body speed and resize the viewport
         Vector2 velocity = player.body.getLinearVelocity();
         maxVelocity = velocity.x>velocity.y?velocity.x:velocity.y;
@@ -249,14 +254,11 @@ public class GameScreen implements Screen {
 
     //utility method to handle Ip
     private void handleIp(float dt){
-
-        recoilTimeElapsed +=dt;
-
         if(controller.controles[GameConstants.UP] || Gdx.input.isKeyPressed(Input.Keys.UP)){
             /*if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
                 player.body.applyLinearImpulse(new Vector2(0,5f),player.body.getWorldCenter(),true);
             }else */{
-                player.body.applyLinearImpulse(new Vector2(0, 0.4f), player.body.getWorldCenter(), true);
+                player.body.applyLinearImpulse(new Vector2(0, 1f), player.body.getWorldCenter(), true);
             }
         }
         if(controller.controles[GameConstants.DOWN] || Gdx.input.isKeyPressed(Input.Keys.DOWN)){
@@ -286,11 +288,7 @@ public class GameScreen implements Screen {
             }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.FIRE_BASIC_BULLET]){
-
-            if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
-                recoilTimeElapsed = 0;
-                bullets.add(new BasicBullet(player.getX() + player.getWidth() + 10 / GameConstants.PPM, player.getY() + player.getHeight() / 2, GameConstants.RIGHT));
-            }
+            player.fire(bullets,dt);
         }
 
         if(controller.controles[GameConstants.CIRCLE_CONTROLLER]) {
@@ -329,9 +327,10 @@ public class GameScreen implements Screen {
             //player.body.applyForceToCenter(xImp,yImp,true);
             System.out.println("xImp=" + xImp + "," + "yImp=" + yImp);
         }
-        else if (player.body.getLinearVelocity().y < -1) {
+        //To keep the object afloat
+       /* else if (player.body.getLinearVelocity().y < -1) {
             player.body.applyForceToCenter(new Vector2(0, 50f), true);
-        }
+        }*/
 
     }
 

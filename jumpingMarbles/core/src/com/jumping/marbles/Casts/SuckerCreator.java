@@ -36,8 +36,7 @@ public class SuckerCreator extends JumpingMarblesCast{
     public void createSucker(){
         if(canCreate==true){
             canCreate=false;
-            System.out.println("create new body");
-            Utility.worldCreator.createSucker(body.getPosition().x,body.getPosition().y);
+            //Utility.worldCreator.createSucker(body.getPosition().x,body.getPosition().y);
         }
     }
 
