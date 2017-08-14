@@ -1,0 +1,90 @@
+
+EnemyBlast.png
+size: 1024,64
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+000
+  rotate: false
+  xy: 2, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+001
+  rotate: false
+  xy: 64, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+002
+  rotate: false
+  xy: 126, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+003
+  rotate: false
+  xy: 188, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+004
+  rotate: false
+  xy: 250, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+005
+  rotate: false
+  xy: 312, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+006
+  rotate: false
+  xy: 374, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+007
+  rotate: false
+  xy: 436, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+008
+  rotate: false
+  xy: 498, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+009
+  rotate: false
+  xy: 560, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+010
+  rotate: false
+  xy: 622, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1
+011
+  rotate: false
+  xy: 684, 2
+  size: 60, 60
+  orig: 60, 60
+  offset: 0, 0
+  index: -1

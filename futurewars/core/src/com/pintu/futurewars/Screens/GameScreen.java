@@ -1,8 +1,9 @@
 package com.pintu.futurewars.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -14,16 +15,17 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.pintu.futurewars.Casts.Healer;
-import com.pintu.futurewars.Casts.SuckerCreator;
+import com.pintu.futurewars.Blasts.Blast;
+import com.pintu.futurewars.Blasts.BlastHandler.BlastHandler;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Controllers.Controller;
+import com.pintu.futurewars.Controllers.InputHandler;
+import com.pintu.futurewars.Utility.UpdateHandler;
 import com.pintu.futurewars.Utility.Utility;
 import com.pintu.futurewars.Casts.FutureWarsCast;
 import com.pintu.futurewars.Casts.Player;
 import com.pintu.futurewars.JumpingMarbleWorldCreator;
 import com.pintu.futurewars.Utility.WorldContactListner;
-import com.pintu.futurewars.com.pintu.futurewars.armory.BasicBullet;
 import com.pintu.futurewars.com.pintu.futurewars.armory.GameBullet;
 
 import java.util.ArrayList;
@@ -37,58 +39,65 @@ public class GameScreen implements Screen {
 
     //=================Basic LibGDX
     //OrthographicCamera which is the eye of the user, i.e. which is that user sees.
-    OrthographicCamera camera;
+    public OrthographicCamera camera;
     //Viewport handles the way our screen will be rendered in different screen size, it decides what aspect ration to use and how much of the screen/game area to be shown
-    Viewport viewport;
+    public Viewport viewport;
     //Batch used for dumping all the graphics to be rendered
-    SpriteBatch batch;
+    public SpriteBatch batch;
 
     //===================From Tiled
     //loads a specific map
-    TmxMapLoader mapLoader;
+    public TmxMapLoader mapLoader;
     //the map object
-    TiledMap map;
+    public TiledMap map;
     //Used to render the map on the camera/screen
-    OrthogonalTiledMapRenderer renderer;
+    public OrthogonalTiledMapRenderer renderer;
 
     //===================Box 2D related
     //the world where all the physics simulation will take place
-    World world;
+    public World world;
     //the shape renderer for box 2d so that we can see the shapes of various fixtures
-    Box2DDebugRenderer b2dr;
+    public Box2DDebugRenderer b2dr;
     //A utility function to create the world from the map
-    JumpingMarbleWorldCreator worldCreator;
+    public JumpingMarbleWorldCreator worldCreator;
 
     //player handle that will be created by world
-    Player player;
+    public Player player;
 
     //all other casts
-    List<FutureWarsCast> casts;
+    public List<FutureWarsCast> casts;
 
     //Controller
-    Controller controller;
+    public Controller controller;
 
     //mas velocity of the player
-    float maxVelocity=0;
-    float cameraCalibration=0;
-    float heightCamCalibration=0;
-    float recoilTimeElapsed = 0;
-
+    public float maxVelocity=0;
+    public float cameraCalibration=0;
+    public float heightCamCalibration=0;
+    public float recoilTimeElapsed = 0;
+    public InputHandler inputHandler = new InputHandler();
+    public UpdateHandler updateHandler = new UpdateHandler();
     public List<GameBullet> bullets = new ArrayList<GameBullet>();
     public List<GameBullet> bulletsToBeRemoved = new ArrayList<GameBullet>();
+    public List<Blast> blastList = new ArrayList<Blast>();
+    public BlastHandler blastHandler = null;
+    public float xImp;
+    public float yImp;
+    public float xMag;
+    public float yMag;
+    public float xVelo;
+    public float yVelo;
+    public boolean started = false;
 
-    float xImp;
-    float yImp;
-    float xMag;
-    float yMag;
-    float xVelo;
-    float yVelo;
+    public AssetManager assetManager = null;
+    Music gameMusic = null;
 
-    public GameScreen(SpriteBatch batch){
+    public GameScreen(SpriteBatch batch, AssetManager assetManager){
         //Initialize all the variables
         float scrWidth = Gdx.graphics.getWidth();
         float scrHight = Gdx.graphics.getHeight();
         this.batch = batch;
+        this.assetManager = assetManager;
         camera = new OrthographicCamera();
         viewport = new FitViewport(GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
         //viewport = new FitViewport(scrWidth,scrHight,camera);
@@ -117,6 +126,13 @@ public class GameScreen implements Screen {
         }
 
         controller = new Controller(batch);
+        blastHandler = new BlastHandler(blastList);
+        Utility.gameScreen = this;
+
+        gameMusic = assetManager.get("music/Flying me softly.ogg",Music.class);
+        gameMusic.setLooping(true);
+        gameMusic.play();
+
     }
 
     @Override
@@ -136,15 +152,18 @@ public class GameScreen implements Screen {
         b2dr.render(world,camera.combined);
         batch.setProjectionMatrix(camera.combined);
 
-
         batch.begin();
         //player.draw(batch);
-        for(FutureWarsCast cast : casts){
+        Utility.render(batch,casts);
+        /*for(FutureWarsCast cast : casts){
             cast.draw(batch);
-        }
+        }*/
+        Utility.render(batch,bullets);/*
         for(GameBullet bullet : bullets){
             bullet.draw(batch);
-        }
+        }*/
+
+        Utility.render(batch,blastList);
         batch.end();
         controller.draw();
     }
@@ -154,184 +173,13 @@ public class GameScreen implements Screen {
         //handle the i/p every delta time
         handleIp(dt);
 
-        //update the world every 1/60 of a second?
-        world.step(1/60f,6,2);
-
-        //update all the characters
-        //player.update();
-        for(FutureWarsCast cast : casts){
-            cast.update(dt);
-        }
-
-        for(SuckerCreator creator : worldCreator.suckersCreator){
-            creator.createSucker();
-        }
-
-        for(Healer healer: worldCreator.healers){
-            healer.healPlayer();
-        }
-
-        for(GameBullet bullet: bullets){
-            bullet.update(dt);
-            if(bullet.toBeDestroyed){
-                bulletsToBeRemoved.add(bullet);
-            }
-        }
-        if( !Utility.world.isLocked()) {
-            for (GameBullet bullet : bulletsToBeRemoved) {
-                if(bullet.getBody()!=null) {
-                    Utility.world.destroyBody(bullet.getBody());
-                    bullet.setBody(null);
-                    bullet.destroyed = true;
-                }
-            }
-        }
-
-        bullets.remove(bulletsToBeRemoved);
-        bulletsToBeRemoved.clear();
-
-        worldCreator.destroyBodies();
-
-        //update the camera as the player moves (player decides the camera position
-        float x = player.body.getPosition().x;
-        if(x<(viewport.getWorldWidth()/2))
-            x = viewport.getWorldWidth()/2;
-        else if(x>(Utility.worldCreator.boundaryRight/ GameConstants.PPM - viewport.getWorldWidth()/2))
-            x = Utility.worldCreator.boundaryRight/ GameConstants.PPM - viewport.getWorldWidth()/2;
-
-        camera.position.x=x;
-
-        float y = player.body.getPosition().y;
-        if(y<viewport.getWorldHeight()/2)
-            y = viewport.getWorldHeight()/2;
-        else if(y>( Utility.worldCreator.boundaryTop/ GameConstants.PPM - viewport.getWorldHeight()/2))
-            y = ( Utility.worldCreator.boundaryTop/ GameConstants.PPM )- viewport.getWorldHeight()/2;
-
-        camera.position.y=y;
-        //System.out.println( player.body.getPosition().x + " -- " + player.body.getPosition().y);
-        camera.update();
-
-        //orthographic map renderer's position is decided by the camera
-        renderer.setView(camera);
-
-        //change the bullet type after reaching a some distance
-        //to be removed later
-        //if(x > (Utility.worldCreator.boundaryRight/ GameConstants.PPM)/2)
-            //player.selectedBullet = GameConstants.BOMB;
-
-        //get the body speed and resize the viewport
-        Vector2 velocity = player.body.getLinearVelocity();
-        maxVelocity = velocity.x>velocity.y?velocity.x:velocity.y;
-        if(Math.abs(maxVelocity-cameraCalibration)>1) {
-            if (maxVelocity - cameraCalibration > 0) {
-                cameraCalibration += .1;
-            } else if (maxVelocity - cameraCalibration < 0) {
-                cameraCalibration -= .1;
-            }
-        }
-        if(player.body.getPosition().y > Utility.worldCreator.boundaryTop/ GameConstants.PPM/2){
-            if((player.body.getPosition().y - Utility.worldCreator.boundaryTop/ GameConstants.PPM/2) > cameraCalibration){
-                cameraCalibration+=(.1);
-            }
-        }
-
-        float yCal = 4*cameraCalibration/3;
-        if(yCal > 6){
-            yCal = 6;
-        }
-
-        float xCal = 9 * yCal/4;
-       /* if(xCal>15){
-            xCal = 15;
-        }*/
-
-
-        viewport.setWorldSize(GameConstants.VIEW_PORT_WIDTH / GameConstants.PPM /*xCal*/,
-                GameConstants.VIEW_PORT_HIGHT / GameConstants.PPM /*yCal*/);
-
-        viewport.apply();
+        //update the game after handling the IP
+        updateHandler.update(this,dt);
     }
 
     //utility method to handle Ip
     private void handleIp(float dt){
-        if(controller.controles[GameConstants.UP] || Gdx.input.isKeyPressed(Input.Keys.UP)){
-            /*if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
-                player.body.applyLinearImpulse(new Vector2(0,5f),player.body.getWorldCenter(),true);
-            }else */{
-                player.body.applyLinearImpulse(new Vector2(0, 1f), player.body.getWorldCenter(), true);
-            }
-        }
-        if(controller.controles[GameConstants.DOWN] || Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-           /* if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
-                player.body.applyLinearImpulse(new Vector2(0,-5f),player.body.getWorldCenter(),true);
-            }else */{
-                player.body.applyLinearImpulse(new Vector2(0, -0.4f), player.body.getWorldCenter(), true);
-            }
-        }
-
-        if((controller.controles[GameConstants.LEFT] || Gdx.input.isKeyPressed(Input.Keys.LEFT))
-                //&& player.body.getLinearVelocity().x >= -2
-                ){
-           /* if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
-                player.body.applyLinearImpulse(new Vector2(-5f,0),player.body.getWorldCenter(),true);
-            }else */{
-                player.body.applyLinearImpulse(new Vector2(-0.4f, 0), player.body.getWorldCenter(), true);
-            }
-        }
-        if((controller.controles[GameConstants.RIGHT] || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-                //&& player.body.getLinearVelocity().x <= 2
-                ){
-            /*if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
-                player.body.applyLinearImpulse(new Vector2(5f,0),player.body.getWorldCenter(),true);
-            }else*/{
-                player.body.applyLinearImpulse(new Vector2(0.4f,0),player.body.getWorldCenter(),true);
-            }
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.FIRE_BASIC_BULLET]){
-            player.fire(bullets,dt);
-        }
-
-        if(controller.controles[GameConstants.CIRCLE_CONTROLLER]) {
-            System.out.println("Velocity== " + player.body.getLinearVelocity().x + "," + player.body.getLinearVelocity().y);
-            System.out.println("Control position==" + controller.x + "," + controller.y);
-            //System.out.println("=== " + (controller.x - 140) + ","  + (controller.y - 140));
-
-            //get the user input
-            xImp = (controller.x - 130) / GameConstants.PPM;
-            yImp = (controller.y - 130) / GameConstants.PPM;
-
-            //get magnitude
-            xMag = Math.abs(xImp) + 0.000001f; //avoid divide by 0
-
-            //get player velocity
-            xVelo = player.body.getLinearVelocity().x;
-
-            //decide if force/impluse to be applied
-            if(Math.abs(xVelo)>5){
-                if(xImp/xVelo < 0){ //if the force is applied in the opp direction of the body movement
-                    //nomalize the force
-                    if(xMag>150){ xImp = (xImp/xMag) * 150;}
-                    xImp = xImp/10;
-                }else{
-                    xImp = 0;
-                }
-            }
-
-            if (yImp < 0){yImp = 0;}else{ if(yImp>150){yImp = 150;}yImp = yImp/5;}
-
-            if (player.body.getLinearVelocity().y > 5) {
-                yImp = 0;
-            }
-
-            player.body.applyLinearImpulse(new Vector2(xImp, yImp), player.body.getWorldCenter(), true);
-            //player.body.applyForceToCenter(xImp,yImp,true);
-            System.out.println("xImp=" + xImp + "," + "yImp=" + yImp);
-        }
-        //To keep the object afloat
-       /* else if (player.body.getLinearVelocity().y < -1) {
-            player.body.applyForceToCenter(new Vector2(0, 50f), true);
-        }*/
-
+        inputHandler.hadleInput(this,dt);
     }
 
     @Override

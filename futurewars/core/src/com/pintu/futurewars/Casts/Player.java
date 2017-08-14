@@ -72,7 +72,7 @@ public class Player extends FutureWarsCast {
         //create fixtureDef using shape
         fixtureDef.shape = cshape;
         fixtureDef.restitution=.5f;
-        fixtureDef.friction=.2f;
+        fixtureDef.friction=0f;
 
         //create the fixture using fixture def
         Fixture f =body.createFixture(fixtureDef);
@@ -80,7 +80,7 @@ public class Player extends FutureWarsCast {
         //set the user data to be used in collision
         f.setUserData(this);
 
-        selectedBullet = GameConstants.BOMB;
+        selectedBullet = GameConstants.BURST_BULLET;
     }
 
     public void throwSuckers(){
@@ -109,13 +109,13 @@ public class Player extends FutureWarsCast {
     @Override
     public void update(float dt) {
         super.update(dt);
-        if(body.getLinearVelocity().x <= 5)
-            body.applyLinearImpulse(new Vector2(.5f,0),body.getWorldCenter(),true);
 
+        /*if(body.getLinearVelocity().x <= 5)
+            body.applyLinearImpulse(new Vector2(.5f,0),body.getWorldCenter(),true);*/
         //set walking animation
         walkingAnimationTime = walkingAnimationTime + dt;
         if(walkingAnimationTime>WALKING_ANIMATION_DELAY){
-            walkingAnimationTime  =0;
+            walkingAnimationTime=0;
             walkingState = (++walkingState)%2;
             region = atlas.findRegion(walkingStats[walkingState]);
             setRegion(region);

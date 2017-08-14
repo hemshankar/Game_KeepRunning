@@ -1,5 +1,6 @@
 package com.pintu.futurewars.com.pintu.futurewars.armory;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -29,6 +30,8 @@ public class BurstBullet extends GameBullet {
                 player.getY() + player.getHeight() / 1, GameConstants.RIGHT));
         bullets.add(new BasicBullet(player.getX() + player.getWidth() + 10 / GameConstants.PPM,
                 player.getY() + player.getHeight() / 4, GameConstants.RIGHT));
+        Utility.gameScreen.assetManager.get("audio/SHOOT008.mp3",Sound.class).play();
+        Utility.gameScreen.assetManager.get("audio/SHOOT008.mp3",Sound.class).play();
     }
 
     @Override

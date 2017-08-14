@@ -19,7 +19,9 @@ import com.pintu.futurewars.Utility.MapBodyBuilder;
 import com.pintu.futurewars.Utility.Utility;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by hsahu on 7/2/2017.
@@ -35,7 +37,7 @@ public class JumpingMarbleWorldCreator {
     public Player player;
     public World world;
     public List<FutureWarsCast> casts = new ArrayList<FutureWarsCast>();
-    public List<FutureWarsCast> toBeDestroyed = new ArrayList<FutureWarsCast>();
+    public Set<FutureWarsCast> toBeDestroyed = new HashSet<FutureWarsCast>();
     public List<Joint> joints = new ArrayList<Joint>();
     public float boundaryLeft;
     public float boundaryRight;
@@ -120,21 +122,23 @@ public class JumpingMarbleWorldCreator {
     }
 */
     public void removeBody(FutureWarsCast cast){
-        System.out.println("Removing from lists " + cast);
-        if(cast instanceof Sucker)
-            suckers.remove(cast);
-        if(cast instanceof Pusher)
-            pushers.remove(cast);
-        if(cast instanceof SuckerCreator)
-            suckersCreator.remove(cast);
-        if(cast instanceof Brick)
-            bricks.remove(cast);
-        if(cast instanceof Healer)
-            healers.remove(cast);
+        synchronized (toBeDestroyed) {
+            System.out.println("Removing from lists " + cast);
+            if (cast instanceof Sucker)
+                suckers.remove(cast);
+            if (cast instanceof Pusher)
+                pushers.remove(cast);
+            if (cast instanceof SuckerCreator)
+                suckersCreator.remove(cast);
+            if (cast instanceof Brick)
+                bricks.remove(cast);
+            if (cast instanceof Healer)
+                healers.remove(cast);
 
-        casts.remove(cast);
-        toBeDestroyed.add(cast);
-        //sucker.destroy();
+            casts.remove(cast);
+            toBeDestroyed.add(cast);
+            //sucker.destroy();
+        }
     }
 
 
@@ -149,13 +153,19 @@ public class JumpingMarbleWorldCreator {
     }
 
     public void destroyBodies(){
-        for(FutureWarsCast cast : toBeDestroyed){
-            Utility.world.destroyBody(cast.getBody());
-            //setPosition(getBody().getPosition().x - getWidth() / 2, getBody().getPosition().y - getHeight() / 2);
-            System.out.println("Destroyed ");
-            cast.destroyed = true;
+        try {
+            synchronized ("EDITING_BODY_LIST") {
+                for (FutureWarsCast cast : toBeDestroyed) {
+                    Utility.world.destroyBody(cast.getBody());
+                    //setPosition(getBody().getPosition().x - getWidth() / 2, getBody().getPosition().y - getHeight() / 2);
+                    System.out.println("Destroyed ");
+                    cast.destroyed = true;
+                }
+            }
+            toBeDestroyed.clear();
+        }catch(Exception e){
+            e.printStackTrace();
         }
-        toBeDestroyed.clear();
     }
 
     public void addJointsToRemove(List<Joint> joints){

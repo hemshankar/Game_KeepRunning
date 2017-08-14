@@ -9,6 +9,7 @@ public class GameConstants {
     public static final float PPM = 100f;
 
     public static final String ATLUS_FILE = "pack/JumpingMarblesPack.atlas";
+    public static final String BLAST_ATLUS_FILE = "pack/blastPack/EnemyBlast.atlas";
 
     //cast names
     public static final String PLAYER_ATLAS_NAME = "player";
