@@ -60,8 +60,10 @@ public class GameConstants {
     public static final String BASIC_BULLET_REGION_NAME = "basic_bullet";
     public static final float BASIC_BULLET_SPEED = 1f;
     public static final int BASIC_BULLET_DAMAGE = 50;
-    public static final float BASIC_BULLET_RECOIL_TIME = .2f;
-    public static final float BASIC_BULLET_TIME_TO_LIVE = 1f;
+    public static final float BASIC_BULLET_RECOIL_TIME = .5f;
+    public static final float BASIC_BULLET_TIME_TO_LIVE = .4f;
+    public static final float BASIC_BULLET_RETITUTION= 0f;
+    public static final float BASIC_BULLET_DENSITY = 10f;
 
     public final static String BASIC_BULLET = "BASIC_BULLET";
     public final static String BURST_BULLET = "BURST_BULLET";
@@ -77,5 +79,6 @@ public class GameConstants {
     //====================Map Related
     public static final String JUMPING_MARBAL_MAP = "tiles/JumpingMarblesMap2.tmx";
     public static final String FUTURE_WARS_MAP = "tiles/supersky.tmx";
+
 
 }

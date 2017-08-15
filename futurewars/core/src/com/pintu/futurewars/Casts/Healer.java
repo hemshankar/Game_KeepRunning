@@ -1,5 +1,6 @@
 package com.pintu.futurewars.Casts;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.math.Ellipse;
@@ -9,8 +10,12 @@ import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Utility.Utility;
 import com.pintu.futurewars.Constants.GameConstants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hsahu on 7/2/2017.
@@ -18,81 +23,23 @@ import com.pintu.futurewars.Constants.GameConstants;
 
 public class Healer extends FutureWarsCast {
 
-    public World world;
-    public Body body;
-    MapObject mapObject;
-    public Player player;
-    public boolean canHeal = false;
-    public Healer(World world,MapObject object ){
-        this.world = world;
-        this.mapObject = object;
-        defineHealer();
+    public Healer(int id, Map<String, String> props, World w, TextureAtlas a, MapObject obj) {
+        super(id, props, w, a, obj);
     }
 
-    public void defineHealer(){
-
-        //initiate the objects to create a body
-        CircleShape shape = new CircleShape();
-        BodyDef bdef = new BodyDef();
-        FixtureDef cFixtureDef = new FixtureDef();
-
-        //get the map object
-        Ellipse c = ((EllipseMapObject)mapObject).getEllipse();
-
-        //set the body definition
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set((c.x + c.width/2)/ GameConstants.PPM,(c.y + c.height/2)/ GameConstants.PPM);
-
-        //create the body using body definition
-        body = world.createBody(bdef);
-
-        //create shape
-        shape.setRadius(GameConstants.HEALER_SIZE/ GameConstants.PPM);
-
-        //create fixtureDef using shape
-        cFixtureDef.shape = shape;
-        cFixtureDef.restitution=0.5f;
-
-        //create the fixture using fixture def
-        Fixture f =body.createFixture(cFixtureDef);
-
-        //set the user data to be used in collision
-        f.setUserData(this);
-    }
-
-    @Override
-    public String getCastName() {
-        return GameConstants.HEALER_ATLAS_NAME;
-    }
-
-    @Override
-    public Body getBody() {
-        return body;
-    }
-
-    @Override
-    public void update(float dt) {
-        super.update(dt);
-        player = Utility.getPlayer();
-        if(player !=null) {
-            float playerX = player.body.getPosition().x;
-            float playerY = player.body.getPosition().y;
-
-            if (Math.abs(body.getPosition().x - playerX) < 50 / GameConstants.PPM
-                    && Math.abs(body.getPosition().y - playerY) < 50 / GameConstants.PPM) {
-                canHeal = true;
-            }
-        }
-    }
-    public void healPlayer(){
-        if(canHeal){
-            canHeal = false;
-            for(Sucker sucker: player.suckers){
-                System.out.println("Destroying " + sucker.suckerId);
-                Utility.worldCreator.removeBody(sucker);
-            }
-            player.suckers.clear();
-            player.joints.clear();
-        }
+    public void initialize(){
+        Map<String, String> props = new HashMap<String, String>();
+        props.put(GameObjectConstants.BODY_SHAPE,GameObjectConstants.CIRCLE);
+        props.put(GameObjectConstants.BODY_TYPE,GameObjectConstants.DYNAMIC);
+        //props.put(GameObjectConstants.IS_SENSOR,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.STATE_FRAMES,"STATE_1<->Healer");
+        //props.put(GameObjectConstants.IS_ANIMATED,GameObjectConstants.TRUE);
+        //props.put(GameObjectConstants.LOOP_ANIMATION,GameObjectConstants.TRUE);
+        //props.put(GameObjectConstants.ANIMATION_INTERVAL,".9");
+        //props.put(GameObjectConstants.IS_BULET,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.CURRENT_STATE,GameObjectConstants.STATE_1);
+        gProps = props;
+        defineBody();
+        initiateSpriteDetails();
     }
 }

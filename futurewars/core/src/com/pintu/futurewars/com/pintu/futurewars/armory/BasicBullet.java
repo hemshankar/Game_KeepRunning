@@ -10,11 +10,16 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Casts.Player;
+import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Utility.Utility;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hsahu on 7/15/2017.
@@ -22,79 +27,39 @@ import java.util.List;
 
 public class BasicBullet extends GameBullet {
 
-    public Body body;
-    public BasicBullet(float x, float y, int dir) {
-        super(x, y, dir);
-        defineBullet(x,y);
-        setSpriteRegion();
+    public BasicBullet(int id, Map<String, String> props,
+                       World w, TextureAtlas a,
+                       float x, float y) {
+        super(id, props, w, a, x, y);
+        initialize();
         fire();
     }
 
-    public static void newBasicBullet(Player player, List<GameBullet> bullets){
-        bullets.add(new BasicBullet(player.getX() + player.getWidth() + 10 / GameConstants.PPM,
-                player.getY() + player.getHeight() / 1, GameConstants.RIGHT));
-        Utility.gameScreen.assetManager.get("audio/SHOOT008.mp3",Sound.class).play();
-    }
-
     @Override
-    public void setSpriteRegion() {
-        TextureAtlas atlas = Utility.getAtlas();
-        region = atlas.findRegion(GameConstants.BASIC_BULLET_REGION_NAME);
-        setBounds(0,0, GameConstants.BASIC_BULLET_SIZE*2/ GameConstants.PPM, GameConstants.BASIC_BULLET_SIZE*2/ GameConstants.PPM);
-        setRegion(region);
-    }
-
-    @Override
-    public Body getBody() {
-        return body;
-    }
-
-    @Override
-    public void setBody(Body b) {
-        body = b;
-    }
-
-    public void defineBullet(float x, float y){
-
-        //initiate the objects to create a body
-        CircleShape cshape = new CircleShape();
-        BodyDef bdef = new BodyDef();
-        FixtureDef fixtureDef = new FixtureDef();
-
-        //set the body definition
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.bullet = true;
-        bdef.position.set(x,y);
-
-
-        //create the body using body definition
-        body = Utility.world.createBody(bdef);
-
-        //create shape
-        cshape.setRadius(GameConstants.BASIC_BULLET_SIZE/GameConstants.PPM);
-
-        //create fixtureDef using shape
-        fixtureDef.shape = cshape;
-        fixtureDef.restitution=0f;
-        //fixtureDef.friction=.2f;
-        fixtureDef.density = 1f;
-        //fixtureDef.isSensor = true;
-        //create the fixture using fixture def
-        Fixture f =body.createFixture(fixtureDef);
-
-        //set the user data to be used in collision
-        f.setUserData(this);
-
-        //set the time to live
-        timeTolive = GameConstants.BASIC_BULLET_TIME_TO_LIVE;
+    public void initialize() {
+        Map<String, String> props = new HashMap<String, String>();
+        props.put(GameObjectConstants.BODY_SHAPE,GameObjectConstants.CIRCLE);
+        props.put(GameObjectConstants.BODY_TYPE,GameObjectConstants.DYNAMIC);
+        props.put(GameObjectConstants.OBJECT_RADIUS,GameConstants.BASIC_BULLET_SIZE/2 + "");
+        props.put(GameObjectConstants.SPRITE_WIDTH,GameConstants.BASIC_BULLET_SIZE + "");
+        props.put(GameObjectConstants.SPRITE_HEIGHT,GameConstants.BASIC_BULLET_SIZE + "");
+        //props.put(GameObjectConstants.IS_SENSOR,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.STATE_FRAMES,"STATE_1<->" + GameConstants.BASIC_BULLET_REGION_NAME);
+        //props.put(GameObjectConstants.IS_ANIMATED,GameObjectConstants.TRUE);
+        //props.put(GameObjectConstants.LOOP_ANIMATION,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.TIME_TO_LIVE,GameConstants.BASIC_BULLET_TIME_TO_LIVE + "");
+        props.put(GameObjectConstants.IS_BULET,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.CURRENT_STATE,GameObjectConstants.STATE_1);
+        props.put(GameObjectConstants.RESTITUTION,GameConstants.BASIC_BULLET_RETITUTION + "");
+        props.put(GameObjectConstants.DENSITY,GameConstants.BASIC_BULLET_DENSITY + "");
+        gProps = props;
+        defineBody();
+        initiateSpriteDetails();
     }
 
     @Override
     public void fire(){
-        if(direction==GameConstants.LEFT)
-            body.applyLinearImpulse(new Vector2(-GameConstants.BASIC_BULLET_SPEED, 0), body.getWorldCenter(), true);
-        else
-            body.applyLinearImpulse(new Vector2(GameConstants.BASIC_BULLET_SPEED, 0), body.getWorldCenter(), true);
+        body.applyLinearImpulse(new Vector2(GameConstants.BASIC_BULLET_SPEED, 0), body.getWorldCenter(), true);
     }
 
     @Override

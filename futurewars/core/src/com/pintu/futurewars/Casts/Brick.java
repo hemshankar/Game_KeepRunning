@@ -1,5 +1,6 @@
 package com.pintu.futurewars.Casts;
 
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
@@ -10,61 +11,35 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Constants.GameObjectConstants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hsahu on 7/2/2017.
  */
 
 public class Brick extends FutureWarsCast {
-    public World world;
-    public Body body;
-    MapObject mapObject;
 
-    public Brick(World world,MapObject object ){
-        this.world = world;
-        this.mapObject = object;
-        definePusher();
-        setBounds(0,0,GameConstants.BRICK_SIZE*2/GameConstants.PPM,GameConstants.BRICK_SIZE/GameConstants.PPM);
+    public Brick(int id, Map<String, String> props, World w, TextureAtlas a, MapObject obj) {
+        super(id, props, w, a, obj);
     }
 
-    public void definePusher(){
-
-        //initiate the objects to create a body
-        PolygonShape shape = new PolygonShape();
-        BodyDef bdef = new BodyDef();
-        FixtureDef fixtureDef = new FixtureDef();
-
-        //get the map object
-        Rectangle rect = ((RectangleMapObject)mapObject).getRectangle();
-
-        //set the body definition
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        bdef.position.set((rect.x + rect.width/2)/ GameConstants.PPM,(rect.y + rect.height/2)/GameConstants.PPM);
-
-        //create the body using body definition
-        body = world.createBody(bdef);
-
-        //create shape
-        shape.setAsBox(GameConstants.BRICK_SIZE/GameConstants.PPM,GameConstants.BRICK_SIZE/2/GameConstants.PPM);
-
-        //create fixtureDef using shape
-        fixtureDef.shape = shape;
-        fixtureDef.restitution=0.5f;
-
-        //create the fixture using fixture def
-        Fixture f =body.createFixture(fixtureDef);
-
-        //set the user data to be used in collision
-        f.setUserData(this);
+    public void initialize(){
+        Map<String, String> props = new HashMap<String, String>();
+        props.put(GameObjectConstants.BODY_SHAPE,GameObjectConstants.POLYGON);
+        props.put(GameObjectConstants.BODY_TYPE,GameObjectConstants.DYNAMIC);
+        //props.put(GameObjectConstants.IS_SENSOR,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.STATE_FRAMES,"STATE_1<->brick");
+        //props.put(GameObjectConstants.IS_ANIMATED,GameObjectConstants.TRUE);
+        //props.put(GameObjectConstants.LOOP_ANIMATION,GameObjectConstants.TRUE);
+        //props.put(GameObjectConstants.ANIMATION_INTERVAL,".9");
+        //props.put(GameObjectConstants.IS_BULET,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.CURRENT_STATE,GameObjectConstants.STATE_1);
+        gProps = props;
+        defineBody();
+        initiateSpriteDetails();
     }
 
-    @Override
-    public String getCastName() {
-        return GameConstants.BRICK_ATLAS_NAME;
-    }
-
-    @Override
-    public Body getBody() {
-        return body;
-    }
 }

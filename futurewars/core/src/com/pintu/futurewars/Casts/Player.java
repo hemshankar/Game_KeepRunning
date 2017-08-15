@@ -2,25 +2,11 @@ package com.pintu.futurewars.Casts;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.math.Ellipse;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
-import com.pintu.futurewars.Constants.GameConstants;
-import com.pintu.futurewars.Utility.Utility;
-import com.pintu.futurewars.com.pintu.futurewars.armory.BasicBullet;
-import com.pintu.futurewars.com.pintu.futurewars.armory.Bomb;
-import com.pintu.futurewars.com.pintu.futurewars.armory.BurstBullet;
-import com.pintu.futurewars.com.pintu.futurewars.armory.GameBullet;
+import com.pintu.futurewars.Constants.GameObjectConstants;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hsahu on 7/2/2017.
@@ -28,9 +14,29 @@ import java.util.List;
 
 public class Player extends FutureWarsCast {
 
-    public World world;
+
+    public Player(int id, Map<String, String> props, World w, TextureAtlas a, MapObject obj) {
+        super(id, props, w, a, obj);
+    }
+
+    public void initialize(){
+        Map<String, String> props = new HashMap<String, String>();
+        props.put(GameObjectConstants.BODY_SHAPE,GameObjectConstants.CIRCLE);
+        props.put(GameObjectConstants.BODY_TYPE,GameObjectConstants.DYNAMIC);
+        //props.put(GameObjectConstants.IS_SENSOR,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.STATE_FRAMES,"STATE_1<->player");
+        //props.put(GameObjectConstants.IS_ANIMATED,GameObjectConstants.TRUE);
+        //props.put(GameObjectConstants.LOOP_ANIMATION,GameObjectConstants.TRUE);
+        //props.put(GameObjectConstants.ANIMATION_INTERVAL,".9");
+        //props.put(GameObjectConstants.IS_BULET,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.CURRENT_STATE,GameObjectConstants.STATE_1);
+        gProps = props;
+        defineBody();
+        initiateSpriteDetails();
+    }
+    /*public World world;
     public Body body;
-    MapObject mapObject;
+    public MapObject mapObject;
     public boolean removeSuckers = false;
     public float recoilTimeElapsed = 0;
     public List<Sucker> suckers = new ArrayList<Sucker>();
@@ -61,7 +67,7 @@ public class Player extends FutureWarsCast {
         //set the body definition
         bdef.type = BodyDef.BodyType.DynamicBody;
         bdef.bullet = true;
-        bdef.position.set((c.x + c.width/2)/ GameConstants.PPM,(c.y + c.height/2)/GameConstants.PPM);
+        bdef.position.set((c.xPos + c.width/2)/ GameConstants.PPM,(c.yPos + c.height/2)/GameConstants.PPM);
 
         //create the body using body definition
         body = world.createBody(bdef);
@@ -85,10 +91,10 @@ public class Player extends FutureWarsCast {
 
     public void throwSuckers(){
         for(Sucker s: suckers){
-            float xDirection = this.body.getPosition().x - s.body.getPosition().x;
+            float xDirection = this.body.getPosition().xPos - s.body.getPosition().xPos;
             xDirection = Math.abs(xDirection)/xDirection;
 
-            float yDirection = this.body.getPosition().y - s.body.getPosition().y;
+            float yDirection = this.body.getPosition().yPos - s.body.getPosition().yPos;
             yDirection = Math.abs(yDirection)/yDirection;
             s.body.setLinearVelocity((-xDirection) * 20f,  (-yDirection) * 20f);
             s.canSuck = false;
@@ -109,9 +115,9 @@ public class Player extends FutureWarsCast {
     @Override
     public void update(float dt) {
         super.update(dt);
-
-        /*if(body.getLinearVelocity().x <= 5)
-            body.applyLinearImpulse(new Vector2(.5f,0),body.getWorldCenter(),true);*/
+        //System.out.println(body.getPosition().xPos + "-----------------" + body.getPosition().yPos);
+        *//*if(body.getLinearVelocity().xPos <= 5)
+            body.applyLinearImpulse(new Vector2(.5f,0),body.getWorldCenter(),true);*//*
         //set walking animation
         walkingAnimationTime = walkingAnimationTime + dt;
         if(walkingAnimationTime>WALKING_ANIMATION_DELAY){
@@ -147,8 +153,8 @@ public class Player extends FutureWarsCast {
         } else if(GameConstants.BOMB.equals(selectedBullet)){
             if(recoilTimeElapsed > GameConstants.BOMB_RECOIL_TIME) {
                 recoilTimeElapsed = 0;
-                Bomb.newBomb(this, bullets);
+                //Bomb.newBomb(this, bullets);
             }
         }
-    }
+    }*/
 }

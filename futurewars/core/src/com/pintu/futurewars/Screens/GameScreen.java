@@ -17,19 +17,21 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Blasts.Blast;
 import com.pintu.futurewars.Blasts.BlastHandler.BlastHandler;
+import com.pintu.futurewars.Casts.Player2;
+import com.pintu.futurewars.Casts.SpeedBomb;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Controllers.Controller;
 import com.pintu.futurewars.Controllers.InputHandler;
 import com.pintu.futurewars.Utility.UpdateHandler;
 import com.pintu.futurewars.Utility.Utility;
-import com.pintu.futurewars.Casts.FutureWarsCast;
-import com.pintu.futurewars.Casts.Player;
 import com.pintu.futurewars.JumpingMarbleWorldCreator;
 import com.pintu.futurewars.Utility.WorldContactListner;
 import com.pintu.futurewars.com.pintu.futurewars.armory.GameBullet;
+import com.pintu.futurewars.commons.GameObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by hsahu on 7/1/2017.
@@ -62,10 +64,10 @@ public class GameScreen implements Screen {
     public JumpingMarbleWorldCreator worldCreator;
 
     //player handle that will be created by world
-    public Player player;
+    //public Player playerOld;
 
-    //all other casts
-    public List<FutureWarsCast> casts;
+    //all other gameObjects
+    public Set<GameObject> gameObjects;
 
     //Controller
     public Controller controller;
@@ -91,8 +93,9 @@ public class GameScreen implements Screen {
 
     public AssetManager assetManager = null;
     Music gameMusic = null;
-
+    public Player2 player2;
     public GameScreen(SpriteBatch batch, AssetManager assetManager){
+
         //Initialize all the variables
         float scrWidth = Gdx.graphics.getWidth();
         float scrHight = Gdx.graphics.getHeight();
@@ -119,13 +122,11 @@ public class GameScreen implements Screen {
 
         worldCreator = new JumpingMarbleWorldCreator(world, map);
         Utility.worldCreator = worldCreator;
-        player = worldCreator.player;
-        casts = worldCreator.casts;
-        for(FutureWarsCast cast : casts){
-            cast.initialize();
-        }
+        gameObjects = worldCreator.gameObjects;
+        player2 = worldCreator.player;//new Player2(22,null,world,Utility.getAtlas(),worldCreator.player.mapObject);
 
         controller = new Controller(batch);
+
         blastHandler = new BlastHandler(blastList);
         Utility.gameScreen = this;
 
@@ -133,6 +134,8 @@ public class GameScreen implements Screen {
         gameMusic.setLooping(true);
         gameMusic.play();
 
+        //add speedBombs
+        gameObjects.add(new SpeedBomb(111,null,world,Utility.getAtlas()));
     }
 
     @Override
@@ -153,17 +156,10 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         batch.begin();
-        //player.draw(batch);
-        Utility.render(batch,casts);
-        /*for(FutureWarsCast cast : casts){
-            cast.draw(batch);
-        }*/
-        Utility.render(batch,bullets);/*
-        for(GameBullet bullet : bullets){
-            bullet.draw(batch);
-        }*/
 
+        Utility.renderGameObjects(batch, gameObjects);
         Utility.render(batch,blastList);
+
         batch.end();
         controller.draw();
     }
@@ -175,6 +171,9 @@ public class GameScreen implements Screen {
 
         //update the game after handling the IP
         updateHandler.update(this,dt);
+
+        player2.update(dt);
+
     }
 
     //utility method to handle Ip

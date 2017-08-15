@@ -41,7 +41,7 @@ public class EnemyBlast extends Blast {
             if(blastState<TOTAL_BLAST_STATES) {
                 region = atlas.findRegion(enemyBlastRegions[blastState]);
                 setRegion(region);
-                //setPosition(x - getWidth() / 2, y - getHeight() / 2);
+                //setPosition(xPos - getWidth() / 2, yPos - getHeight() / 2);
             }else{
                 destroyed =true;
             }
