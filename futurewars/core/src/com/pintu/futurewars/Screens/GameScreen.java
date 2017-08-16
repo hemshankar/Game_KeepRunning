@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Casts.JumpingKit;
 import com.pintu.futurewars.Casts.Player2;
+import com.pintu.futurewars.Casts.PowerDrink;
 import com.pintu.futurewars.Casts.SpeedBomb;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Controllers.Controller;
@@ -142,6 +143,15 @@ public class GameScreen implements Screen {
             jKit.yPos = 5;
             jKit.initialize();
             gameObjects.add(jKit);
+        }
+
+        PowerDrink drink;
+        for(int i = 0;i<5;i++){
+            drink = new PowerDrink(3,world, GameUtility.getBlastAtlas(),null);
+            drink.xPos = 20 + i*30;
+            drink.yPos = 10;
+            drink.initialize();
+            gameObjects.add(drink);
         }
     }
 
