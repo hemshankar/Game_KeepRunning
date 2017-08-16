@@ -1,50 +1,43 @@
 package com.pintu.futurewars.Blasts;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
-import com.pintu.futurewars.Constants.GameConstants;
-import com.pintu.futurewars.Utility.Utility;
+import com.badlogic.gdx.physics.box2d.World;
+import com.pintu.futurewars.Constants.GameObjectConstants;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by hsahu on 8/10/2017.
  */
 
 public class EnemyBlast extends Blast {
-    AtlasRegion region;
     private static String []enemyBlastRegions = {"004","005","006","007","009","010"};
     private static final int TOTAL_BLAST_STATES = enemyBlastRegions.length;
-    private float x,y;
-    private final static float STATE_CHANGE_CONSTANT = .1f;
-    private float timeInCurrentState = 0f;
-    private int blastState = 0;
-    TextureAtlas atlas = null;
-    public EnemyBlast(float x_, float y_){
-        x = x_;
-        y = y_;
-        //super(Utility.getAtlas().findRegion(GameConstants.PLAYER_ATLAS_NAME));
-        atlas = Utility.getBlastAtlas();
 
-        region = atlas.findRegion(enemyBlastRegions[0]);
-        //should these be used
-        setBounds(0,0, GameConstants.SIZE_SCALE*4/ GameConstants.PPM, GameConstants.SIZE_SCALE*4/ GameConstants.PPM);
-        setRegion(region);
-        setPosition(x_,y_);
+
+    public EnemyBlast(int id, Map<String, String> props, World w, TextureAtlas a, float x_, float y_) {
+        super(id, props, w, a);
+        xPos = x_;
+        yPos = y_;
     }
 
-    public void update(float dt){
-        timeInCurrentState += dt;
-        if(!destroyed) {
-            if (timeInCurrentState > STATE_CHANGE_CONSTANT) {
-                timeInCurrentState = 0;
-                blastState++;
-            }
-            if(blastState<TOTAL_BLAST_STATES) {
-                region = atlas.findRegion(enemyBlastRegions[blastState]);
-                setRegion(region);
-                //setPosition(xPos - getWidth() / 2, yPos - getHeight() / 2);
-            }else{
-                destroyed =true;
-            }
-        }
+    @Override
+    public void initialize() {
+        Map<String, String> props = new HashMap<String, String>();
+        props.put(GameObjectConstants.SPRITE_WIDTH,"100");
+        props.put(GameObjectConstants.SPRITE_HEIGHT,"100");
+        props.put(GameObjectConstants.NO_BODY,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.REMOVE_AFTER_ANIMATION,GameObjectConstants.TRUE);
+        //props.put(GameObjectConstants.IS_SENSOR,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.STATE_FRAMES,"STATE_1<->004,005,006,007,009,010");
+        props.put(GameObjectConstants.IS_ANIMATED,GameObjectConstants.TRUE);
+        //props.put(GameObjectConstants.LOOP_ANIMATION,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.ANIMATION_INTERVAL,".1");
+        //props.put(GameObjectConstants.IS_BULLET,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.CURRENT_STATE,GameObjectConstants.STATE_1);
+        gProps = props;
+        defineBody();
+        initiateSpriteDetails();
     }
 }

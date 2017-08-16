@@ -1,24 +1,12 @@
 package com.pintu.futurewars.com.pintu.futurewars.armory;
 
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.CircleShape;
-import com.badlogic.gdx.physics.box2d.Fixture;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
-import com.pintu.futurewars.Casts.Player;
-import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
-import com.pintu.futurewars.Utility.Utility;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -48,7 +36,7 @@ public class BasicBullet extends GameBullet {
         //props.put(GameObjectConstants.IS_ANIMATED,GameObjectConstants.TRUE);
         //props.put(GameObjectConstants.LOOP_ANIMATION,GameObjectConstants.TRUE);
         props.put(GameObjectConstants.TIME_TO_LIVE,GameConstants.BASIC_BULLET_TIME_TO_LIVE + "");
-        props.put(GameObjectConstants.IS_BULET,GameObjectConstants.TRUE);
+        props.put(GameObjectConstants.IS_BULLET,GameObjectConstants.TRUE);
         props.put(GameObjectConstants.CURRENT_STATE,GameObjectConstants.STATE_1);
         props.put(GameObjectConstants.RESTITUTION,GameConstants.BASIC_BULLET_RETITUTION + "");
         props.put(GameObjectConstants.DENSITY,GameConstants.BASIC_BULLET_DENSITY + "");

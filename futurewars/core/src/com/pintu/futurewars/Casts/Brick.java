@@ -22,24 +22,7 @@ import java.util.Map;
 
 public class Brick extends FutureWarsCast {
 
-    public Brick(int id, Map<String, String> props, World w, TextureAtlas a, MapObject obj) {
-        super(id, props, w, a, obj);
+    public Brick(int id,World w, TextureAtlas a, MapObject obj) {
+        super(id,GameConstants.BRICK_PROPERTY_FILE, w, a, obj);
     }
-
-    public void initialize(){
-        Map<String, String> props = new HashMap<String, String>();
-        props.put(GameObjectConstants.BODY_SHAPE,GameObjectConstants.POLYGON);
-        props.put(GameObjectConstants.BODY_TYPE,GameObjectConstants.DYNAMIC);
-        //props.put(GameObjectConstants.IS_SENSOR,GameObjectConstants.TRUE);
-        props.put(GameObjectConstants.STATE_FRAMES,"STATE_1<->brick");
-        //props.put(GameObjectConstants.IS_ANIMATED,GameObjectConstants.TRUE);
-        //props.put(GameObjectConstants.LOOP_ANIMATION,GameObjectConstants.TRUE);
-        //props.put(GameObjectConstants.ANIMATION_INTERVAL,".9");
-        //props.put(GameObjectConstants.IS_BULET,GameObjectConstants.TRUE);
-        props.put(GameObjectConstants.CURRENT_STATE,GameObjectConstants.STATE_1);
-        gProps = props;
-        defineBody();
-        initiateSpriteDetails();
-    }
-
 }

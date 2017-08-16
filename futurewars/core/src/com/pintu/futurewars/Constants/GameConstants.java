@@ -80,5 +80,13 @@ public class GameConstants {
     public static final String JUMPING_MARBAL_MAP = "tiles/JumpingMarblesMap2.tmx";
     public static final String FUTURE_WARS_MAP = "tiles/supersky.tmx";
 
+    //======================Property Files============================
+    public static final String PLAYER_PROPERTY_FILE = "propertyFiles/player.txt";
+    public static final String PUSHER_PROPERTY_FILE = "propertyFiles/pusher.txt";
+    public static final String BRICK_PROPERTY_FILE = "propertyFiles/brick.txt";
+    public static final String GROUND_PROPERTY_FILE = "propertyFiles/ground.txt";
+    public static final String SPEED_BOMB_PROPERTY_FILE = "propertyFiles/speedBomb.txt";
+    public static final String JUMPING_KIT_PROPERTY_FILE = "propertyFiles/jumpingKit.txt";
+
 
 }

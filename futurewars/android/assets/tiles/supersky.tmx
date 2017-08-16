@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="2000" height="60" tilewidth="32" tileheight="32" nextobjectid="261">
+<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="2000" height="60" tilewidth="32" tileheight="32" nextobjectid="262">
  <tileset firstgid="1" source="image.tsx"/>
  <tileset firstgid="15" source="BasicTileSet.tsx"/>
  <tileset firstgid="3087" source="superSky.tsx"/>
@@ -9,43 +9,10 @@
   </data>
  </layer>
  <objectgroup name="bricks">
-  <object id="117" x="2449" y="1104.75" width="60" height="26"/>
-  <object id="120" x="2449.33" y="1077.75" width="60" height="26"/>
-  <object id="122" x="2449" y="1049.75" width="60" height="26"/>
-  <object id="124" x="2450.67" y="847.75" width="60" height="26"/>
-  <object id="125" x="2449.33" y="942.417" width="60" height="26"/>
-  <object id="127" x="2449" y="914.417" width="60" height="26"/>
-  <object id="129" x="2449.33" y="970.083" width="60" height="26"/>
-  <object id="130" x="2448.67" y="1163.75" width="60" height="26"/>
-  <object id="132" x="2448.67" y="1132.75" width="60" height="26"/>
-  <object id="135" x="2449.33" y="886.75" width="60" height="26"/>
-  <object id="137" x="2451" y="788.75" width="60" height="26"/>
-  <object id="139" x="2449.33" y="996.42" width="60" height="26"/>
-  <object id="141" x="2450.67" y="816.75" width="60" height="26"/>
-  <object id="142" x="2449.33" y="1023.08" width="60" height="26"/>
-  <object id="143" x="2451.33" y="761.75" width="60" height="26"/>
-  <object id="150" x="4089" y="1064.75" width="60" height="26"/>
-  <object id="153" x="4089.33" y="1037.75" width="60" height="26"/>
-  <object id="155" x="4089" y="1009.75" width="60" height="26"/>
-  <object id="158" x="4089.33" y="902.417" width="60" height="26"/>
-  <object id="160" x="4089" y="874.417" width="60" height="26"/>
-  <object id="162" x="4089.33" y="930.083" width="60" height="26"/>
-  <object id="163" x="4088.67" y="1123.75" width="60" height="26"/>
-  <object id="165" x="4088.67" y="1092.75" width="60" height="26"/>
-  <object id="168" x="4089.33" y="846.75" width="60" height="26"/>
-  <object id="172" x="4089.33" y="956.42" width="60" height="26"/>
-  <object id="175" x="4089.33" y="983.08" width="60" height="26"/>
-  <object id="183" x="5521" y="984.75" width="60" height="26"/>
-  <object id="186" x="5521.33" y="957.75" width="60" height="26"/>
-  <object id="188" x="5521" y="929.75" width="60" height="26"/>
-  <object id="191" x="5521.33" y="822.417" width="60" height="26"/>
-  <object id="193" x="5521" y="794.417" width="60" height="26"/>
-  <object id="195" x="5521.33" y="850.083" width="60" height="26"/>
   <object id="196" x="5520.67" y="1043.75" width="60" height="26"/>
-  <object id="198" x="5520.67" y="1012.75" width="60" height="26"/>
-  <object id="201" x="5521.33" y="766.75" width="60" height="26"/>
-  <object id="205" x="5521.33" y="876.42" width="60" height="26"/>
-  <object id="208" x="5521.33" y="903.08" width="60" height="26"/>
+ </objectgroup>
+ <objectgroup name="groundSensor">
+  <object id="261" x="4" y="1510.67" width="63260" height="10"/>
  </objectgroup>
  <objectgroup name="player">
   <object id="73" x="534.667" y="1240.49" width="24.2424" height="21.2121">
@@ -211,9 +178,9 @@
   </object>
  </objectgroup>
  <objectgroup name="staticObjects">
-  <object id="34" x="0" y="9.09091" width="33.3333" height="1327.27"/>
+  <object id="34" x="0" y="9.09091" width="33.3333" height="1494.27"/>
   <object id="40" x="12" y="8" width="63388" height="28"/>
-  <object id="42" x="-51.0303" y="1508.97" width="64989.2" height="128"/>
+  <object id="42" x="20.9697" y="1534.73" width="64989.2" height="128"/>
   <object id="260" x="62806" y="6.06" width="36" height="1499.88"/>
  </objectgroup>
  <objectgroup name="topBoundary">

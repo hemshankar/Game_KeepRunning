@@ -16,7 +16,7 @@ public class Player extends FutureWarsCast {
 
 
     public Player(int id, Map<String, String> props, World w, TextureAtlas a, MapObject obj) {
-        super(id, props, w, a, obj);
+        super(id, null, w, a, obj);
     }
 
     public void initialize(){
@@ -28,7 +28,7 @@ public class Player extends FutureWarsCast {
         //props.put(GameObjectConstants.IS_ANIMATED,GameObjectConstants.TRUE);
         //props.put(GameObjectConstants.LOOP_ANIMATION,GameObjectConstants.TRUE);
         //props.put(GameObjectConstants.ANIMATION_INTERVAL,".9");
-        //props.put(GameObjectConstants.IS_BULET,GameObjectConstants.TRUE);
+        //props.put(GameObjectConstants.IS_BULLET,GameObjectConstants.TRUE);
         props.put(GameObjectConstants.CURRENT_STATE,GameObjectConstants.STATE_1);
         gProps = props;
         defineBody();
@@ -42,7 +42,7 @@ public class Player extends FutureWarsCast {
     public List<Sucker> suckers = new ArrayList<Sucker>();
     public List<Joint> joints = new ArrayList<Joint>();
     public String selectedBullet = null;
-    TextureAtlas atlas = Utility.getAtlas();
+    TextureAtlas atlas = GameUtility.getAtlas();
     float WALKING_ANIMATION_DELAY = .2f;
     float walkingAnimationTime = 0;
     int walkingState = 1;
@@ -51,7 +51,7 @@ public class Player extends FutureWarsCast {
         this.world = world;
         this.mapObject = object;
         definePlayer();
-        Utility.setPlayer(this);
+        GameUtility.setPlayer(this);
     }
 
     public void definePlayer(){
@@ -105,9 +105,9 @@ public class Player extends FutureWarsCast {
     }
 
     public void setFree(){
-        Utility.worldCreator.addJointsToRemove(this.joints);
+        GameUtility.worldCreator.addJointsToRemove(this.joints);
         this.joints.clear();
-        Utility.worldCreator.removeJoints();
+        GameUtility.worldCreator.removeJoints();
         throwSuckers();
 
     }

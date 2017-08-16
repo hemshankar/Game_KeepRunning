@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.World;
+import com.pintu.futurewars.Blasts.EnemyBlast;
 import com.pintu.futurewars.Casts.Player;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
@@ -24,7 +25,7 @@ import java.util.Set;
  * Created by hsahu on 7/2/2017.
  */
 
-public class Utility {
+public class GameUtility {
     private static TextureAtlas atlas = new TextureAtlas(GameConstants.ATLUS_FILE);
     private static TextureAtlas blastAtlas = new TextureAtlas(GameConstants.BLAST_ATLUS_FILE);
     private static Player player = null;
@@ -81,5 +82,8 @@ public class Utility {
 
     public static void fireBasicBullet(float x, float y){
         gameScreen.gameObjects.add(new BasicBullet(id++,null,world,atlas,x,y));
+    }
+    public static void addEnemyBlast(float x, float y){
+        gameScreen.gameObjects.add(new EnemyBlast(id++,null,world,blastAtlas,x,y));
     }
 }

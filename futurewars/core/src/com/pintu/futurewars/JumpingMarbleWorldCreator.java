@@ -7,11 +7,12 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Casts.Brick;
+import com.pintu.futurewars.Casts.Ground;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Casts.Pusher;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.Utility.MapBodyBuilder;
-import com.pintu.futurewars.Utility.Utility;
 import com.pintu.futurewars.commons.GameObject;
 
 import java.util.ArrayList;
@@ -45,19 +46,37 @@ public class JumpingMarbleWorldCreator {
 
             //Create pushers
             int i = 0;
+            Pusher p;
             for (MapObject object : map.getLayers().get("pushers").getObjects().getByType(EllipseMapObject.class)) {
-                gameObjects.add(new Pusher(2210 + i++, null, world, Utility.getAtlas(), object));
+                p=new Pusher(2210 + i++, world, GameUtility.getAtlas(), object);
+                p.initialize();
+                gameObjects.add(p);
+                p.body.setUserData(p);
             }
 
             //Create bricks
+            Brick b;
             for (MapObject object : map.getLayers().get("bricks").getObjects().getByType(RectangleMapObject.class)) {
-                gameObjects.add(new Brick(2110 + i++, null, world, Utility.getAtlas(), object));
+                b=new Brick(2110 + i++, world, GameUtility.getAtlas(), object);
+                b.initialize();
+                gameObjects.add(b);
+                b.body.setUserData(b);
+            }
+
+            Ground g;
+            for (MapObject object : map.getLayers().get("groundSensor").getObjects().getByType(RectangleMapObject.class)) {
+                g=new Ground(210 + i++, world, GameUtility.getAtlas(), object);
+                g.initialize();
+                gameObjects.add(g);
+                g.body.setUserData(g);
             }
 
             //create player
             MapObject object = map.getLayers().get("player").getObjects().getByType(EllipseMapObject.class).get(0);
-            player = new Player2(222, null, world, Utility.getAtlas(), object);
+            player = new Player2(222, world, GameUtility.getAtlas(), object);
+            player.initialize();
             gameObjects.add(player);
+            player.body.setUserData(player);
 
             //create obstacles
             MapBodyBuilder.buildShapes(map, GameConstants.PPM, world, "staticObjects");

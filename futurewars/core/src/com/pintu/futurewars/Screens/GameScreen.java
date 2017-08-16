@@ -15,22 +15,18 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.pintu.futurewars.Blasts.Blast;
-import com.pintu.futurewars.Blasts.BlastHandler.BlastHandler;
+import com.pintu.futurewars.Casts.JumpingKit;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Casts.SpeedBomb;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Controllers.Controller;
 import com.pintu.futurewars.Controllers.InputHandler;
+import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.Utility.UpdateHandler;
-import com.pintu.futurewars.Utility.Utility;
 import com.pintu.futurewars.JumpingMarbleWorldCreator;
 import com.pintu.futurewars.Utility.WorldContactListner;
-import com.pintu.futurewars.com.pintu.futurewars.armory.GameBullet;
 import com.pintu.futurewars.commons.GameObject;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -79,10 +75,6 @@ public class GameScreen implements Screen {
     public float recoilTimeElapsed = 0;
     public InputHandler inputHandler = new InputHandler();
     public UpdateHandler updateHandler = new UpdateHandler();
-    public List<GameBullet> bullets = new ArrayList<GameBullet>();
-    public List<GameBullet> bulletsToBeRemoved = new ArrayList<GameBullet>();
-    public List<Blast> blastList = new ArrayList<Blast>();
-    public BlastHandler blastHandler = null;
     public float xImp;
     public float yImp;
     public float xMag;
@@ -113,7 +105,7 @@ public class GameScreen implements Screen {
         world = new World(new Vector2(0,-10),true);
         b2dr = new Box2DDebugRenderer();
         world.setContactListener(new WorldContactListner());
-        Utility.setWorld(world);
+        GameUtility.setWorld(world);
 
         //set the contact listener
 
@@ -121,21 +113,36 @@ public class GameScreen implements Screen {
         camera.position.set(viewport.getWorldWidth()/2,viewport.getWorldHeight()/2,0);
 
         worldCreator = new JumpingMarbleWorldCreator(world, map);
-        Utility.worldCreator = worldCreator;
+        GameUtility.worldCreator = worldCreator;
         gameObjects = worldCreator.gameObjects;
-        player2 = worldCreator.player;//new Player2(22,null,world,Utility.getAtlas(),worldCreator.player.mapObject);
+        player2 = worldCreator.player;//new Player2(22,null,world,GameUtility.getAtlas(),worldCreator.player.mapObject);
 
         controller = new Controller(batch);
 
-        blastHandler = new BlastHandler(blastList);
-        Utility.gameScreen = this;
+        GameUtility.gameScreen = this;
 
         gameMusic = assetManager.get("music/Flying me softly.ogg",Music.class);
         gameMusic.setLooping(true);
         gameMusic.play();
 
         //add speedBombs
-        gameObjects.add(new SpeedBomb(111,null,world,Utility.getAtlas()));
+        SpeedBomb b;
+        for(int i = 0;i<10;i++){
+            b = new SpeedBomb(111,world, GameUtility.getBlastAtlas(),null);
+            b.xPos = 10 + i*50;
+            b.yPos = 10;
+            b.initialize();
+            gameObjects.add(b);
+        }
+
+        JumpingKit jKit;
+        for(int i = 0;i<5;i++){
+            jKit = new JumpingKit(3,world, GameUtility.getAtlas(),null);
+            jKit.xPos = 30 + i*30;
+            jKit.yPos = 5;
+            jKit.initialize();
+            gameObjects.add(jKit);
+        }
     }
 
     @Override
@@ -157,8 +164,7 @@ public class GameScreen implements Screen {
 
         batch.begin();
 
-        Utility.renderGameObjects(batch, gameObjects);
-        Utility.render(batch,blastList);
+        GameUtility.renderGameObjects(batch, gameObjects);
 
         batch.end();
         controller.draw();
