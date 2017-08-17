@@ -1,12 +1,15 @@
 package com.pintu.futurewars.Utility;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.World;
+import com.common.exceptions.UtilityException;
 import com.pintu.futurewars.Blasts.EnemyBlast;
 import com.pintu.futurewars.Casts.Player;
 import com.pintu.futurewars.Casts.Player2;
@@ -16,6 +19,9 @@ import com.pintu.futurewars.Screens.GameScreen;
 import com.pintu.futurewars.com.pintu.futurewars.armory.BasicBullet;
 import com.pintu.futurewars.commons.GameObject;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,11 +32,13 @@ import java.util.Set;
  */
 
 public class GameUtility {
-    private static TextureAtlas atlas = new TextureAtlas(GameConstants.ATLUS_FILE);
-    private static TextureAtlas blastAtlas = new TextureAtlas(GameConstants.BLAST_ATLUS_FILE);
-    private static Player player = null;
-    private static Player2 player2 = null;
-    private static Map<String ,Map<String,String[]>> stateFrameDetailsMap
+    public static TextureAtlas atlas = new TextureAtlas(GameConstants.ATLUS_FILE);
+    public static TextureAtlas blastAtlas = new TextureAtlas(GameConstants.BLAST_ATLUS_FILE);
+    public static TextureAtlas ninjaAtlas = new TextureAtlas(GameConstants.NINJA_ATLUS_FILE);
+    public static TextureAtlas stickAtlas = new TextureAtlas(GameConstants.STICK_ATLUS_FILE);
+    public static Player player = null;
+    public static Player2 player2 = null;
+    public static Map<String ,Map<String,String[]>> stateFrameDetailsMap
                                                             = new HashMap<String, Map<String, String[]>>();
     public static TextureAtlas getAtlas(){
         return atlas;
@@ -85,5 +93,27 @@ public class GameUtility {
     }
     public static void addEnemyBlast(float x, float y){
         gameScreen.gameObjects.add(new EnemyBlast(id++,null,world,blastAtlas,x,y));
+    }
+    public static HashMap<String, String> populateConfigurationsFromConfigFile(String fileName) throws UtilityException {
+        HashMap configFile = new HashMap();
+        FileHandle file = Gdx.files.internal(fileName);
+        String text = file.readString();
+
+        try {
+            String [] lines = text.split("\n");
+            for (String str: lines){
+                str = str.trim();
+                  String[] arr = str.split("=");
+                if(arr.length > 1) {
+                    configFile.put(arr[0], arr[1]);
+                }
+            }
+        } catch (Exception var8) {
+            throw new UtilityException("Error getting lines from file to hashmap. \n Cause by: " + var8.toString());
+        } finally {
+           //close fineHandle?
+        }
+
+        return configFile;
     }
 }

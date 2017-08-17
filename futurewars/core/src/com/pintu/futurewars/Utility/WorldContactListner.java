@@ -65,14 +65,14 @@ public class WorldContactListner implements ContactListener {
         Fixture b = contact.getFixtureB();
 
         if(a.getUserData() instanceof Ground || b.getUserData() instanceof Ground){
-            System.out.println("=== something is ground");
+            //System.out.println("=== something is ground");
             Ground ground = (Ground)( a.getUserData() instanceof Ground ? a.getUserData() : b.getUserData());
             Fixture f  = ground == a.getUserData() ? b:a;
             Object obj =  f.getUserData();
-            System.out.println("=== other is " + obj);
+            //System.out.println("=== other is " + obj);
             if(obj instanceof Player2){
                 Player2 player = (Player2)obj;
-                System.out.println("===" + player.hasJumpingKit);
+                //System.out.println("===" + player.hasJumpingKit);
                 if(player.hasJumpingKit){
                     player.body.applyLinearImpulse(new Vector2(0, 6), player.body.getWorldCenter(), true);
                 }

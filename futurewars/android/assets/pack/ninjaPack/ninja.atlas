@@ -1,0 +1,61 @@
+
+ninja.png
+size: 512,128
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ninja001
+  rotate: false
+  xy: 2, 3
+  size: 59, 92
+  orig: 59, 92
+  offset: 0, 0
+  index: -1
+ninja002
+  rotate: false
+  xy: 63, 2
+  size: 56, 93
+  orig: 56, 93
+  offset: 0, 0
+  index: -1
+ninja003
+  rotate: false
+  xy: 245, 25
+  size: 61, 70
+  orig: 61, 70
+  offset: 0, 0
+  index: -1
+ninja004
+  rotate: false
+  xy: 182, 20
+  size: 61, 75
+  orig: 61, 75
+  offset: 0, 0
+  index: -1
+ninja005
+  rotate: false
+  xy: 308, 26
+  size: 49, 69
+  orig: 49, 69
+  offset: 0, 0
+  index: -1
+ninja006
+  rotate: false
+  xy: 121, 14
+  size: 59, 81
+  orig: 59, 81
+  offset: 0, 0
+  index: -1
+
+ninja2.png
+size: 1024,256
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+ninja/ninja
+  rotate: false
+  xy: 2, 2
+  size: 512, 128
+  orig: 512, 128
+  offset: 0, 0
+  index: -1

@@ -24,7 +24,6 @@ public class JumpingMarblesGame extends Game {
         assetManager.load("audio/Fire impact 1.wav",Sound.class);
         assetManager.load("audio/SHOOT008.mp3",Sound.class);
 
-
         //load all the assets synchronously
         assetManager.finishLoading();
 

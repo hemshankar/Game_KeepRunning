@@ -48,6 +48,7 @@ project(":desktop") {
         compile "com.badlogicgames.gdx:gdx-tools:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-desktop:$gdxVersion"
         compile "com.badlogicgames.gdx:gdx-controllers-platform:$gdxVersion:natives-desktop"
+        compile fileTree(dir: 'localLibs', include: '*.jar')
     }
 }
 
@@ -87,6 +88,7 @@ project(":android") {
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion"
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion"
+        compile fileTree(dir: 'localLibs', include: '*.jar')
     }
 }
 
@@ -104,6 +106,7 @@ project(":ios") {
         compile "com.badlogicgames.gdx:gdx-box2d-platform:$gdxVersion:natives-ios"
         compile "com.badlogicgames.gdx:gdx-bullet-platform:$gdxVersion:natives-ios"
         compile "com.badlogicgames.gdx:gdx-freetype-platform:$gdxVersion:natives-ios"
+        compile fileTree(dir: 'localLibs', include: '*.jar')
     }
 }
 
@@ -125,6 +128,7 @@ project(":html") {
         compile "com.badlogicgames.gdx:gdx-ai:$aiVersion:sources"
         compile "com.badlogicgames.ashley:ashley:$ashleyVersion:sources"
         compile "com.badlogicgames.box2dlights:box2dlights:$box2DLightsVersion:sources"
+        compile fileTree(dir: 'localLibs', include: '*.jar')
     }
 }
 

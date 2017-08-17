@@ -1,6 +1,12 @@
 BODY_SHAPE=CIRCLE
-OBJECT_RADIUS=35
+OBJECT_RADIUS=120
 BODY_TYPE=DYNAMIC
-STATE_FRAMES=STATE_1<->player
+STATE_FRAMES=STATE_1<->stickRight001,stickRight002,stickRight003,stickRight004,stickRight005,stickRight006,stickRight007,stickRight008,stickRight009,stickRight010,stickRight011,stickRight012,stickRight013,stickRight014<-->STATE_2<->stickLeft001,stickLeft002,stickLeft003,stickLeft004,stickLeft005,stickLeft006,stickLeft007,stickLeft008,stickLeft009,stickLeft010,stickLeft011,stickLeft012,stickLeft013,stickLeft014
 IS_BULLET=TRUE
 CURRENT_STATE=STATE_1
+IS_ANIMATED=TRUE
+LOOP_ANIMATION=TRUE
+ANIMATION_INTERVAL=.1
+SPRITE_WIDTH=80
+SPRITE_HEIGHT=120
+TEXTURE_PACK_NAME=pack/stickPack/stick.atlas

@@ -1,5 +1,6 @@
 package com.pintu.futurewars.commons;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
@@ -20,7 +21,9 @@ import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Utility.GameUtility;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,7 +72,7 @@ public abstract class AbstractGameObject implements GameObject{
     }
     public AbstractGameObject(int id, String propFile, World w, TextureAtlas a){
         objectId = id;
-        try{gProps = Utility.populateConfigurationsFromConfigFile(propFile);}
+        try{gProps = GameUtility.populateConfigurationsFromConfigFile(propFile);}
         catch (Exception e){e.printStackTrace();}
         world = w;
         atlas = a;
@@ -176,10 +179,6 @@ public abstract class AbstractGameObject implements GameObject{
         spriteWidth = (width == 0)? GameConstants.SIZE_SCALE:width;
         Float height = getFloat(gProps.get(GameObjectConstants.SPRITE_HEIGHT));
         spriteHeight = (height == 0)? GameConstants.SIZE_SCALE:height;
-
-    }
-
-    public void updateSprite() {
         isAnimated = valueEquals(gProps.get(GameObjectConstants.IS_ANIMATED), GameObjectConstants.TRUE) ? true : false;
         if (isAnimated) {
             Float animationInterval = getFloat(gProps.get(GameObjectConstants.ANIMATION_INTERVAL));
@@ -188,62 +187,73 @@ public abstract class AbstractGameObject implements GameObject{
         currentState = gProps.get(GameObjectConstants.CURRENT_STATE);
         //set bounds may also need to be updated properly
         sprite.setBounds(0, 0, spriteWidth * 2 / GameConstants.PPM, spriteHeight * 2 / GameConstants.PPM);
+
+    }
+
+    public void updateSprite() {
+
     }
     public void update(float dt){
-        timeLived+=dt;
-        if(destroyed){
-            return;
-        }
-        //===================Special cases for bullets and short lived game objects================
-        if(timeToLive!=0 && timeLived > timeToLive){
-            toBeDestroyed = true;
-            return;
-        }
-        updateSprite();
+        try {
+            timeLived += dt;
+            if (destroyed) {
+                return;
+            }
+            //===================Special cases for bullets and short lived game objects================
+            if (timeToLive != 0 && timeLived > timeToLive) {
+                toBeDestroyed = true;
+                return;
+            }
+            updateSprite();
 
-        if(previousState.equals(currentState)) {
-            timeInCurrentState += dt;
-            stateChanged = false;
-        }else{
-            timeInCurrentState = 0;
-            framesInCurrentState = stateFrameMap.get(currentState);
-            frameCounter = 0;
-            animationCompleted = false;
-            stateChanged = true;
-            previousState = currentState;
-        }
+            if (previousState.equals(currentState)) {
+                timeInCurrentState += dt;
+                stateChanged = false;
+            } else {
+                timeInCurrentState = 0;
+                framesInCurrentState = stateFrameMap.get(currentState);
+                frameCounter = 0;
+                animationCompleted = false;
+                stateChanged = true;
+                previousState = currentState;
+            }
 
-        if(!destroyed && !isEmpty(framesInCurrentState)) {
-            if(isAnimated) {
-                if (!animationCompleted) {
-                    if (timeInCurrentState > ANIMATION_INTERVAL) {
-                        timeInCurrentState = 0;
-                        frameCounter++;
-                    }
-                    if (frameCounter < framesInCurrentState.length) {
-                        sprite.setRegion(atlas.findRegion(framesInCurrentState[frameCounter]));
-                    } else if (isTrue(gProps.get(GameObjectConstants.LOOP_ANIMATION))) {
-                        frameCounter = 0;
-                        sprite.setRegion(atlas.findRegion(framesInCurrentState[frameCounter]));
-                    } else {
-                        animationCompleted = true;
-                        if(removeAfterAnimation){
-                            toBeDestroyed = true;
+            if (!destroyed && !isEmpty(framesInCurrentState)) {
+                if (isAnimated) {
+                    if (!animationCompleted) {
+                        if (timeInCurrentState > ANIMATION_INTERVAL) {
+                            timeInCurrentState = 0;
+                            frameCounter++;
+                        }
+                        if (frameCounter < framesInCurrentState.length) {
+                            //System.out.println(frameCounter);
+                            //System.out.println(Arrays.asList(framesInCurrentState));
+                            sprite.setRegion(atlas.findRegion(framesInCurrentState[frameCounter]));
+                        } else if (isTrue(gProps.get(GameObjectConstants.LOOP_ANIMATION))) {
+                            frameCounter = 0;
+                            sprite.setRegion(atlas.findRegion(framesInCurrentState[frameCounter]));
+                        } else {
+                            animationCompleted = true;
+                            if (removeAfterAnimation) {
+                                toBeDestroyed = true;
+                            }
                         }
                     }
+                } else {
+                    if (stateChanged) {
+                        sprite.setRegion(atlas.findRegion(framesInCurrentState[0]));
+                    }
                 }
-            }else{
-                if(stateChanged) {
-                    sprite.setRegion(atlas.findRegion(framesInCurrentState[0]));
+                if (haveBody) {
+                    sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
+                } else {
+                    sprite.setPosition(xPos, yPos);
                 }
-            }
-            if(haveBody) {
-                sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
-            }else{
+            } else {
                 sprite.setPosition(xPos, yPos);
             }
-        }else{
-            sprite.setPosition(xPos, yPos);
+        }catch(Exception e){
+            System.out.println("Error in frame ======" + frameCounter + "-- " + e.getMessage());
         }
     }
 

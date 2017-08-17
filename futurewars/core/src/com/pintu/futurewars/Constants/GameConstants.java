@@ -10,6 +10,8 @@ public class GameConstants {
 
     public static final String ATLUS_FILE = "pack/JumpingMarblesPack.atlas";
     public static final String BLAST_ATLUS_FILE = "pack/blastPack/EnemyBlast.atlas";
+    public static final String NINJA_ATLUS_FILE = "pack/ninjaPack/ninja.atlas";
+    public static final String STICK_ATLUS_FILE = "pack/stickPack/stick.atlas";
 
     //cast names
     public static final String PLAYER_ATLAS_NAME = "player";

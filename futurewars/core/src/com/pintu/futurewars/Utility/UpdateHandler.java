@@ -2,6 +2,7 @@ package com.pintu.futurewars.Utility;
 
 import com.badlogic.gdx.math.Vector2;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Screens.GameScreen;
 import com.pintu.futurewars.commons.GameObject;
 
@@ -73,6 +74,15 @@ public class UpdateHandler {
                 GameConstants.VIEW_PORT_HIGHT / GameConstants.PPM /*yCal*/);
 
         screen.viewport.apply();
+
+        //update players directions based on movement
+        if(screen.player2.body.getLinearVelocity().x > 0) {
+            screen.player2.currentState = GameObjectConstants.STATE_1;
+        }
+        if(screen.player2.body.getLinearVelocity().x < 0) {
+            screen.player2.currentState = GameObjectConstants.STATE_2;
+        }
+        screen.player2.ANIMATION_INTERVAL = 1/Math.abs(screen.player2.body.getLinearVelocity().x+0.000001f);
 
         //Always destroy the bodies at the end
         screen.worldCreator.removeBodies();

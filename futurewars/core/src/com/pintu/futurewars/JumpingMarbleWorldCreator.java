@@ -73,7 +73,7 @@ public class JumpingMarbleWorldCreator {
 
             //create player
             MapObject object = map.getLayers().get("player").getObjects().getByType(EllipseMapObject.class).get(0);
-            player = new Player2(222, world, GameUtility.getAtlas(), object);
+            player = new Player2(222, world, GameUtility.stickAtlas, object);
             player.initialize();
             gameObjects.add(player);
             player.body.setUserData(player);
