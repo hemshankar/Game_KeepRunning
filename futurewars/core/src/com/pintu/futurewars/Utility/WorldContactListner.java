@@ -23,32 +23,10 @@ import com.pintu.futurewars.commons.GameObject;
 public class WorldContactListner implements ContactListener {
     @Override
     public void beginContact(Contact contact) {
-        Fixture a = contact.getFixtureA();
-        Fixture b = contact.getFixtureB();
-
-        Object obj1 = contact.getFixtureA().getUserData();
-        Object obj2 = contact.getFixtureB().getUserData();
-
-
-        if(obj1 instanceof GameObject && obj2 instanceof GameObject){
-            if(obj1 instanceof Player2){
-                ((GameObject) obj2).handleContact((GameObject)obj1);
-            }else if(obj2 instanceof Player2){
-                ((GameObject) obj1).handleContact((GameObject)obj2);
-            }
-        }
-        /*if(a.getUserData() instanceof BasicBullet || b.getUserData() instanceof BasicBullet){
-            BasicBullet bullet = (BasicBullet)( a.getUserData() instanceof BasicBullet ? a.getUserData() : b.getUserData());
-            bullet.toBeDestroyed = true;
-
-            Fixture f  = bullet == a.getUserData() ? b:a;
-            Object obj =  f.getUserData();
-            if(obj instanceof FutureWarsCast && !(obj instanceof Player)){
-                FutureWarsCast cast = (FutureWarsCast)f.getUserData();
-                cast.takeDamage(bullet);
-            }
-        }*/
-
+        GameObject obj1 = (GameObject) contact.getFixtureA().getUserData();
+        GameObject obj2 = (GameObject) contact.getFixtureB().getUserData();
+        if(obj1 !=null && obj2 !=null)
+            obj2.handleContact(obj1);
     }
 
     @Override

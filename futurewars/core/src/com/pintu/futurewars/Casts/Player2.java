@@ -47,8 +47,8 @@ public class Player2 extends FutureWarsCast {
         if(GameConstants.BASIC_BULLET.equals(selectedBullet)){
             if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
                 recoilTimeElapsed = 0;
-                GameUtility.fireBasicBullet(body.getPosition().x + GameConstants.PLAYER_SIZE/GameConstants.PPM,
-                        body.getPosition().y + + GameConstants.PLAYER_SIZE/GameConstants.PPM/2);
+                GameUtility.fireBasicBullet(body.getPosition().x + spriteWidth/GameConstants.PPM,
+                        body.getPosition().y - spriteHeight/GameConstants.PPM);
             }
         }
     }

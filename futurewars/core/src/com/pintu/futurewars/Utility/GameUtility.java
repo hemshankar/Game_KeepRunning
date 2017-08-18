@@ -89,10 +89,15 @@ public class GameUtility {
     }
 
     public static void fireBasicBullet(float x, float y){
-        gameScreen.gameObjects.add(new BasicBullet(id++,null,world,atlas,x,y));
+        BasicBullet bullet = new BasicBullet(id++,world ,atlas,x,y);
+        bullet.initialize();
+        bullet.fire();
+        gameScreen.gameObjects.add(bullet);
     }
     public static void addEnemyBlast(float x, float y){
-        gameScreen.gameObjects.add(new EnemyBlast(id++,null,world,blastAtlas,x,y));
+        EnemyBlast blast = new EnemyBlast(id++,world,blastAtlas,x,y);
+        blast.initialize();
+        gameScreen.gameObjects.add(blast);
     }
     public static HashMap<String, String> populateConfigurationsFromConfigFile(String fileName) throws UtilityException {
         HashMap configFile = new HashMap();

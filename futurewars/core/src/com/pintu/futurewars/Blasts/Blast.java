@@ -13,9 +13,10 @@ import java.util.Map;
 
 abstract public class Blast extends AbstractGameObject{
 
-    public Blast(int id, Map<String, String> props, World w, TextureAtlas a) {
-        super(id, props, w, a);
-        initialize();
+    public Blast(int id, String fileName, World w, TextureAtlas a,float x_, float y_) {
+        super(id, fileName, w, a);
+        xPos = x_;
+        yPos = y_;
     }
 }
 

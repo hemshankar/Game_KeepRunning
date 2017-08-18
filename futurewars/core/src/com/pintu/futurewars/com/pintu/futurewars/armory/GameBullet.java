@@ -13,8 +13,8 @@ import java.util.Map;
 
 abstract public class GameBullet extends AbstractGameObject {
 
-    public GameBullet(int id, Map<String, String> props, World w, TextureAtlas a,float x, float y) {
-        super(id, props, w, a);
+    public GameBullet(int id, String propFilename, World w, TextureAtlas a,float x, float y) {
+        super(id, propFilename, w, a);
         this.xPos =x;
         this.yPos =y;
     }
