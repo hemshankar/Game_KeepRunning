@@ -14,7 +14,9 @@ import com.pintu.futurewars.Screens.GameScreen;
 public class InputHandler {
 
     public void hadleInput(GameScreen screen, float dt){
-
+            float speedLimit = screen.player2.health * (screen.player2.MAX_SPEED/screen.player2.MAX_HEALTH);
+       /* System.out.println("SpeedLimit: " +speedLimit);
+        System.out.println("Speed: " +screen.player2.body.getLinearVelocity().x);*/
         if((screen.controller.controles[GameConstants.UP] || Gdx.input.isKeyPressed(Input.Keys.UP))
                 && screen.player2.getBody().getLinearVelocity().y <= 5){
             /*if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
@@ -32,21 +34,23 @@ public class InputHandler {
         }
 
         if((screen.controller.controles[GameConstants.LEFT] || Gdx.input.isKeyPressed(Input.Keys.LEFT))
-            && screen.player2.getBody().getLinearVelocity().x >= -5
+            && screen.player2.getBody().getLinearVelocity().x >= -(speedLimit)
                 ){
            /* if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
                 player2.getBody().applyLinearImpulse(new Vector2(-5f,0),player2.getBody().getWorldCenter(),true);
             }else */{
-                screen.player2.getBody().applyLinearImpulse(new Vector2(-0.4f, 0), screen.player2.getBody().getWorldCenter(), true);
+                //System.out.println("========= Left" + speed);
+                screen.player2.getBody().applyLinearImpulse(new Vector2(-.5f, 0), screen.player2.getBody().getWorldCenter(), true);
             }
         }
         if((screen.controller.controles[GameConstants.RIGHT] || Gdx.input.isKeyPressed(Input.Keys.RIGHT))
-            && screen.player2.getBody().getLinearVelocity().x <= 5
+            && screen.player2.getBody().getLinearVelocity().x <= speedLimit//20
                 ){
             /*if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
                 player2.getBody().applyLinearImpulse(new Vector2(5f,0),player2.getBody().getWorldCenter(),true);
             }else*/{
-                screen.player2.getBody().applyLinearImpulse(new Vector2(0.4f,0),screen.player2.getBody().getWorldCenter(),true);
+                //System.out.println("========= Right" + speed);
+                screen.player2.getBody().applyLinearImpulse(new Vector2(.5f,0),screen.player2.getBody().getWorldCenter(),true);
             }
         }
         if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || screen.controller.controles[GameConstants.FIRE_BASIC_BULLET]){

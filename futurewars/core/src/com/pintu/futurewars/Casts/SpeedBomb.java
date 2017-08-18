@@ -2,10 +2,12 @@ package com.pintu.futurewars.Casts;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.commons.AbstractGameObject;
+import com.pintu.futurewars.commons.GameObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,5 +19,12 @@ import java.util.Map;
 public class SpeedBomb extends FutureWarsCast {
     public SpeedBomb(int id,World w, TextureAtlas a, MapObject obj) {
         super(id, GameConstants.SPEED_BOMB_PROPERTY_FILE, w, a, obj);
+    }
+    @Override
+    public void handleContact(GameObject gObj){
+        if(gObj instanceof Player2){
+            toBeDestroyed = true;
+            ((Player2) gObj).body.applyLinearImpulse(new Vector2(20, 10), body.getWorldCenter(), true);
+        }
     }
 }

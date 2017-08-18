@@ -346,5 +346,8 @@ public abstract class AbstractGameObject implements GameObject{
         return tmpStateFrameDetails;
     }
 
+    public void handleContact(GameObject gObj){
+        //To be implemented by Specific game object
+    }
 
 }

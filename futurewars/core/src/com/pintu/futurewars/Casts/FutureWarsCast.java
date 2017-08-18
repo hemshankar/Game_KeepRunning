@@ -17,7 +17,7 @@ import java.util.Map;
 
 abstract public class FutureWarsCast extends AbstractGameObject{
 
-    public int health = 100;
+    public float health = 100;
 
     public FutureWarsCast(int id, String propsFile, World w, TextureAtlas a, MapObject obj) {
         super(id, propsFile, w, a);
