@@ -15,6 +15,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.pintu.futurewars.Casts.CowBoyHat;
 import com.pintu.futurewars.Casts.JumpingKit;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Casts.PowerDrink;
@@ -153,6 +154,14 @@ public class GameScreen implements Screen {
             drink.initialize();
             gameObjects.add(drink);
         }
+        CowBoyHat hat;
+        for(int i = 0;i<5;i++){
+            hat = new CowBoyHat(3,world, GameUtility.getAtlas(),null);
+            hat.xPos = 20 + i*30;
+            hat.yPos = 5;
+            hat.initialize();
+            gameObjects.add(hat);
+        }
     }
 
     @Override
@@ -188,7 +197,7 @@ public class GameScreen implements Screen {
         //update the game after handling the IP
         updateHandler.update(this,dt);
 
-        player2.update(dt);
+        //         player2.update(dt);
 
     }
 

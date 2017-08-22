@@ -1,6 +1,7 @@
 package com.pintu.futurewars.commons;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
@@ -45,7 +46,7 @@ public abstract class AbstractGameObject implements GameObject{
     public Map<String,String> gProps = null;
     public boolean isAnimated = false;
     public Map<String,String[]> stateFrameMap = null;
-    public Map<String,String[]> stateSoundMap = null;
+    public Map<String,String> stateSoundMap = null;
     public float ANIMATION_INTERVAL = .1f;
     public float timeInCurrentState = 0f;
     public String currentState="";
@@ -62,6 +63,7 @@ public abstract class AbstractGameObject implements GameObject{
     //these can be a bit of overHead, since these needs to be maitained
     public float timeToLive = 0;
     public float timeLived = 0;
+
 
     public AbstractGameObject(int id, Map<String,String> props, World w, TextureAtlas a){
         objectId = id;
@@ -167,6 +169,9 @@ public abstract class AbstractGameObject implements GameObject{
 
             //====================set the user data to be used in collision========================
             f.setUserData(this);
+
+            //==================================CREATION SOUND=====================================
+
         }
     }
 
@@ -175,6 +180,7 @@ public abstract class AbstractGameObject implements GameObject{
      */
     public void initiateSpriteDetails() {
         stateFrameMap = getStateFrameDetails(gProps.get(GameObjectConstants.STATE_FRAMES));
+        stateSoundMap = getStateSoundDetails(gProps.get(GameObjectConstants.STATE_SOUNDS));
         Float width = getFloat(gProps.get(GameObjectConstants.SPRITE_WIDTH));
         spriteWidth = (width == 0)? GameConstants.SIZE_SCALE:width;
         Float height = getFloat(gProps.get(GameObjectConstants.SPRITE_HEIGHT));
@@ -216,6 +222,7 @@ public abstract class AbstractGameObject implements GameObject{
                 animationCompleted = false;
                 stateChanged = true;
                 previousState = currentState;
+                playSound(currentState);
             }
 
             if (!destroyed && !isEmpty(framesInCurrentState)) {
@@ -345,9 +352,43 @@ public abstract class AbstractGameObject implements GameObject{
         GameUtility.setStateFrameDetails(spriteDetails,tmpStateFrameDetails);
         return tmpStateFrameDetails;
     }
+    public Map<String,String> getStateSoundDetails(String soundDetails) {
+        Map<String,String> tmpStateSoundDetails = null;
+        if (soundDetails != null) {
+            tmpStateSoundDetails = GameUtility.getStateSoundDetails(soundDetails);
+            if(tmpStateSoundDetails!=null)
+                return tmpStateSoundDetails;
+            else
+                tmpStateSoundDetails = new HashMap<String, String>();
+
+            String[] value;
+            if (!isEmpty(soundDetails)) {
+                value = soundDetails.split("<-->"); //get each state details
+                if (!isEmpty(value)) {
+                    for (String stateDetails : value) {
+                        String[] stateSound = stateDetails.split("<->");
+                        if (!isEmpty(stateSound) && stateSound.length > 1) {
+                            tmpStateSoundDetails.put(stateSound[0], stateSound[1]);
+                        }
+                    }
+                }
+            }
+        }
+        GameUtility.setStateSoundDetails(soundDetails,tmpStateSoundDetails);
+        return tmpStateSoundDetails;
+    }
 
     public void handleContact(GameObject gObj){
         //To be implemented by Specific game object
     }
 
+    public void handleEndContact(GameObject gObj) {
+        //To be implemented by the specific game object extending this class
+    }
+
+    private void playSound(String sound){
+        if(stateSoundMap !=null && stateSoundMap.size()>0 && stateSoundMap.get(sound) !=null) {
+            GameUtility.gameScreen.assetManager.get(stateSoundMap.get(sound), Sound.class).play();
+        }
+    }
 }

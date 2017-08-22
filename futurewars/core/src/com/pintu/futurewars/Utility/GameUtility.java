@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.physics.box2d.World;
 import com.common.exceptions.UtilityException;
 import com.pintu.futurewars.Blasts.EnemyBlast;
+import com.pintu.futurewars.Blasts.PowerBlast;
 import com.pintu.futurewars.Casts.Player;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
@@ -40,6 +41,9 @@ public class GameUtility {
     public static Player2 player2 = null;
     public static Map<String ,Map<String,String[]>> stateFrameDetailsMap
                                                             = new HashMap<String, Map<String, String[]>>();
+    public static Map<String ,Map<String,String>> stateSoundDetailsMap
+                                                            = new HashMap<String, Map<String, String>>();
+
     public static TextureAtlas getAtlas(){
         return atlas;
     }
@@ -70,20 +74,32 @@ public class GameUtility {
 
     public static int id=0;
 
-    public static void render(SpriteBatch batch, List<? extends Sprite> sprites){
-        for(Sprite s: sprites){
-            s.draw(batch);
-        }
-    }
 
     public static void renderGameObjects(SpriteBatch batch, Set<GameObject> gos){
         for(GameObject obj: gos){
-            obj.getSprite().draw(batch);
+            if(obj.getSprite()!=null){
+                //System.out.println(obj);
+                //obj.getSprite().draw(batch);
+                if(obj.getSprite().getTexture() == null){
+                    System.out.print("Is NULL==============" + obj);
+                }else{
+                    obj.getSprite().draw(batch);
+                }
+            }
+
         }
     }
     public static Map<String,String[]> getStateFrameDetails(String key){
         return stateFrameDetailsMap.get(key);
     }
+
+    public static Map<String,String> getStateSoundDetails(String key){
+        return stateSoundDetailsMap.get(key);
+    }
+    public static void setStateSoundDetails(String key, Map<String,String> map){
+        stateSoundDetailsMap.put(key,map);
+    }
+
     public static void setStateFrameDetails(String str,Map<String,String[]> map){
         stateFrameDetailsMap.put(str,map);
     }
@@ -94,8 +110,26 @@ public class GameUtility {
         bullet.fire();
         gameScreen.gameObjects.add(bullet);
     }
+
+    public static void fireBurstBullet(float x, float y){
+        BasicBullet bullet = new BasicBullet(id++,world ,atlas,x+1,y-1);
+        bullet.initialize();
+        bullet.fire();
+        gameScreen.gameObjects.add(bullet);
+
+        bullet = new BasicBullet(id++,world ,atlas,x+1,y+1);
+        bullet.initialize();
+        bullet.fire();
+        gameScreen.gameObjects.add(bullet);
+    }
+
     public static void addEnemyBlast(float x, float y){
         EnemyBlast blast = new EnemyBlast(id++,world,blastAtlas,x,y);
+        blast.initialize();
+        gameScreen.gameObjects.add(blast);
+    }
+    public static void addPowerBlast(float x, float y){
+        PowerBlast blast = new PowerBlast(id++,world,blastAtlas,x,y);
         blast.initialize();
         gameScreen.gameObjects.add(blast);
     }

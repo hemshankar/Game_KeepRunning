@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
+import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.commons.AbstractGameObject;
 import com.pintu.futurewars.commons.GameObject;
 
@@ -26,5 +27,11 @@ public class SpeedBomb extends FutureWarsCast {
             toBeDestroyed = true;
             ((Player2) gObj).body.applyLinearImpulse(new Vector2(20, 10), body.getWorldCenter(), true);
         }
+    }
+
+    @Override
+    public void destroy(){
+        super.destroy();
+        GameUtility.addPowerBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
     }
 }

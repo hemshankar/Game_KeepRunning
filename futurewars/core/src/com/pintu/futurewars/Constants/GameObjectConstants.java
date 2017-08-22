@@ -38,7 +38,7 @@ public class GameObjectConstants {
     public final static String CURRENT_STATE = "CURRENT_STATE";
 
     /**
-     * value needs to be STATE_1<->FRAME1,FRAME2<-->STATE_2<->FRAME1
+     * value needs to be STATE_1<->SOUND1<-->STATE_2<->SOUND1
      * If IS_ANIMATED is true then states frame will be switched per second
      * If IS_ANIMATED is false then first frame will be selected for every state
      */

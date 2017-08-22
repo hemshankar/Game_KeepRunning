@@ -33,7 +33,6 @@ public class Player2 extends FutureWarsCast {
     }
 
     public void update(float dt){
-        super.update(dt);
         healthReduceTime += dt;
         recoilTimeElapsed +=dt;
         if(healthReduceTime > HEALTH_REDUCETION_TIME_CONSTANT && health > MIN_HEALTH){
@@ -41,6 +40,7 @@ public class Player2 extends FutureWarsCast {
             health -= HEALTH_REDUCTION_CONSTANT;
             System.out.println(health);
         }
+        super.update(dt);
     }
 
     public void fire(){
@@ -50,11 +50,30 @@ public class Player2 extends FutureWarsCast {
                 GameUtility.fireBasicBullet(body.getPosition().x + spriteWidth/GameConstants.PPM,
                         body.getPosition().y - spriteHeight/GameConstants.PPM);
             }
-        }
+        }else if(GameConstants.BURST_BULLET.equals(selectedBullet)){
+                if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
+                    recoilTimeElapsed = 0;
+                    GameUtility.fireBurstBullet(body.getPosition().x + spriteWidth / GameConstants.PPM,
+                            body.getPosition().y - spriteHeight / GameConstants.PPM);
+                }
+            }
     }
 
     @Override
     public void handleContact(GameObject gObj){
-        //To be implemented
+        gObj.handleContact(this);
+        /*if(gObj instanceof  Pusher){
+            takeDamage(GameConstants.PUSHER_DAMAGE);
+        }*/
+
+    }
+
+    @Override
+    public void handleEndContact(GameObject gObj){
+        if(gObj instanceof Ground){
+            if(hasJumpingKit){
+                body.applyLinearImpulse(new Vector2(0, 6), body.getWorldCenter(), true);
+            }
+        }
     }
 }

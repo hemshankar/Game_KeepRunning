@@ -30,6 +30,7 @@ public class GameConstants {
     public static final float SUCKER_SIZE = DESIRED_SIZE;
     public static final float SUCKER_CREATOR_SIZE = DESIRED_SIZE;
     public static final float BRICK_SIZE =45;
+    public static final float PUSHER_DAMAGE = 0;
 
     //Sucker Creator related
     public static final float SUCKER_CREATOR_RECOIL_TIME=30f;
@@ -62,7 +63,7 @@ public class GameConstants {
     public static final String BASIC_BULLET_REGION_NAME = "basic_bullet";
     public static final float BASIC_BULLET_SPEED = 1f;
     public static final int BASIC_BULLET_DAMAGE = 50;
-    public static final float BASIC_BULLET_RECOIL_TIME = .5f;
+    public static final float BASIC_BULLET_RECOIL_TIME = .2f;
     public static final float BASIC_BULLET_TIME_TO_LIVE = .4f;
     public static final float BASIC_BULLET_RETITUTION= 0f;
     public static final float BASIC_BULLET_DENSITY = 10f;
@@ -91,6 +92,9 @@ public class GameConstants {
     public static final String JUMPING_KIT_PROPERTY_FILE = "propertyFiles/jumpingKit.txt";
     public static final String POWER_DRINK_PROPERTY_FILE = "propertyFiles/powerDrink.txt";
     public static final String BASIC_BULLET_PROPERTY_FILE = "propertyFiles/armory/basicBullet.txt";
+    public static final String BURST_BULLET_PROPERTY_FILE = "propertyFiles/armory/burstBullet.txt";
     public static final String ENEMY_BLAST_PROPERTY_FILE = "propertyFiles/blasts/enemyBlast.txt";
+    public static final String POWER_BLAST_PROPERTY_FILE = "propertyFiles/blasts/powerBlast.txt";
+    public static final String COWBOY_HAT_PROPERTY_FILE = "propertyFiles/cowboyHat.txt";
 
 }

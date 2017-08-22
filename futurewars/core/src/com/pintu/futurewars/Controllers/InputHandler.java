@@ -78,7 +78,7 @@ public class InputHandler {
             screen.xVelo = screen.player2.getBody().getLinearVelocity().x;
 
             //decide if force/impluse to be applied
-            if(Math.abs(screen.xVelo)>5){
+            if(Math.abs(screen.xVelo)>speedLimit){
                 if(screen.xImp/screen.xVelo < 0){ //if the force is applied in the opp direction of the body movement
                     //nomalize the force
                     if(screen.xMag>150){ screen.xImp = (screen.xImp/screen.xMag) * 150;}

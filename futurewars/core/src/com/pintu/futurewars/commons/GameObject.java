@@ -18,5 +18,6 @@ public interface GameObject {
     public boolean toBeDestroyed();
     public void destroy();
     public void handleContact(GameObject gObj);
+    public void handleEndContact(GameObject gObj);
 
 }

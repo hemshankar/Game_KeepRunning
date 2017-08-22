@@ -31,23 +31,14 @@ public class WorldContactListner implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
-        Fixture a = contact.getFixtureA();
-        Fixture b = contact.getFixtureB();
+        GameObject obj1 = (GameObject) contact.getFixtureA().getUserData();
+        GameObject obj2 = (GameObject) contact.getFixtureB().getUserData();
 
-        if(a.getUserData() instanceof Ground || b.getUserData() instanceof Ground){
-            //System.out.println("=== something is ground");
-            Ground ground = (Ground)( a.getUserData() instanceof Ground ? a.getUserData() : b.getUserData());
-            Fixture f  = ground == a.getUserData() ? b:a;
-            Object obj =  f.getUserData();
-            //System.out.println("=== other is " + obj);
-            if(obj instanceof Player2){
-                Player2 player = (Player2)obj;
-                //System.out.println("===" + player.hasJumpingKit);
-                if(player.hasJumpingKit){
-                    player.body.applyLinearImpulse(new Vector2(0, 6), player.body.getWorldCenter(), true);
-                }
-            }
-        }
+        if(obj1 !=null && obj2 !=null)
+            if(obj1 instanceof Ground)
+                obj2.handleEndContact(obj1);
+            else
+                obj1.handleEndContact(obj2);
     }
 
     @Override
