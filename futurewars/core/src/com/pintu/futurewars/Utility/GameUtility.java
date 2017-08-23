@@ -18,6 +18,7 @@ import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.JumpingMarbleWorldCreator;
 import com.pintu.futurewars.Screens.GameScreen;
 import com.pintu.futurewars.com.pintu.futurewars.armory.BasicBullet;
+import com.pintu.futurewars.com.pintu.futurewars.armory.Bomb;
 import com.pintu.futurewars.commons.GameObject;
 
 import java.io.BufferedReader;
@@ -78,8 +79,6 @@ public class GameUtility {
     public static void renderGameObjects(SpriteBatch batch, Set<GameObject> gos){
         for(GameObject obj: gos){
             if(obj.getSprite()!=null){
-                //System.out.println(obj);
-                //obj.getSprite().draw(batch);
                 if(obj.getSprite().getTexture() == null){
                     System.out.print("Is NULL==============" + obj);
                 }else{
@@ -112,12 +111,30 @@ public class GameUtility {
     }
 
     public static void fireBurstBullet(float x, float y){
-        BasicBullet bullet = new BasicBullet(id++,world ,atlas,x+1,y-1);
+        BasicBullet bullet = new BasicBullet(id++,world ,atlas,x,y-1);
         bullet.initialize();
         bullet.fire();
         gameScreen.gameObjects.add(bullet);
 
         bullet = new BasicBullet(id++,world ,atlas,x+1,y+1);
+        bullet.initialize();
+        bullet.fire();
+        gameScreen.gameObjects.add(bullet);
+    }
+
+    public static void fireBurstBullet(float x, float y,float distance){
+        BasicBullet bullet = new BasicBullet(id++,world ,atlas,x,y-distance);
+        bullet.initialize();
+        bullet.fire();
+        gameScreen.gameObjects.add(bullet);
+
+        bullet = new BasicBullet(id++,world ,atlas,x,y+distance);
+        bullet.initialize();
+        bullet.fire();
+        gameScreen.gameObjects.add(bullet);
+    }
+    public static void Bomb(float x, float y){
+        Bomb bullet = new Bomb(id++,world ,atlas,x,y);
         bullet.initialize();
         bullet.fire();
         gameScreen.gameObjects.add(bullet);

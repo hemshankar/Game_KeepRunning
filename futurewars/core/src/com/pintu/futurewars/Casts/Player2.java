@@ -25,6 +25,9 @@ public class Player2 extends FutureWarsCast {
     public final float MAX_SPEED = 20;
     public final float MIN_HEALTH = 20;
 
+    public final float JUMP_KIT_EFFECT_TIME = 10f;
+    public float jumpEffectRemainig = 0;
+
     public Player2(int id, World w, TextureAtlas a, MapObject object) {
         super(id, GameConstants.PLAYER_PROPERTY_FILE, w, a,object);
         GameUtility.setPlayer(this);
@@ -35,6 +38,9 @@ public class Player2 extends FutureWarsCast {
     public void update(float dt){
         healthReduceTime += dt;
         recoilTimeElapsed +=dt;
+        if(jumpEffectRemainig>0){
+            jumpEffectRemainig -= dt;
+        }
         if(healthReduceTime > HEALTH_REDUCETION_TIME_CONSTANT && health > MIN_HEALTH){
             healthReduceTime = 0;
             health -= HEALTH_REDUCTION_CONSTANT;
@@ -47,16 +53,23 @@ public class Player2 extends FutureWarsCast {
         if(GameConstants.BASIC_BULLET.equals(selectedBullet)){
             if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
                 recoilTimeElapsed = 0;
-                GameUtility.fireBasicBullet(body.getPosition().x + spriteWidth/GameConstants.PPM,
-                        body.getPosition().y - spriteHeight/GameConstants.PPM);
+                GameUtility.fireBasicBullet(body.getPosition().x + ((4*spriteWidth)/2)/GameConstants.PPM,
+                        body.getPosition().y);
             }
         }else if(GameConstants.BURST_BULLET.equals(selectedBullet)){
-                if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
-                    recoilTimeElapsed = 0;
-                    GameUtility.fireBurstBullet(body.getPosition().x + spriteWidth / GameConstants.PPM,
-                            body.getPosition().y - spriteHeight / GameConstants.PPM);
-                }
+            if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
+                recoilTimeElapsed = 0;
+                GameUtility.fireBurstBullet(body.getPosition().x + ((4*spriteWidth)/2)/GameConstants.PPM,
+                        body.getPosition().y,(spriteHeight/4)/GameConstants.PPM);
             }
+        }else if(GameConstants.BOMB.equals(selectedBullet)){
+        if(recoilTimeElapsed > GameConstants.BOMB_RECOIL_TIME) {
+            recoilTimeElapsed = 0;
+            GameUtility.Bomb(body.getPosition().x + ((4*spriteWidth)/2)/GameConstants.PPM,
+                    body.getPosition().y);
+        }
+    }
+
     }
 
     @Override
@@ -71,7 +84,7 @@ public class Player2 extends FutureWarsCast {
     @Override
     public void handleEndContact(GameObject gObj){
         if(gObj instanceof Ground){
-            if(hasJumpingKit){
+            if(hasJumpingKit && jumpEffectRemainig > 0){
                 body.applyLinearImpulse(new Vector2(0, 6), body.getWorldCenter(), true);
             }
         }

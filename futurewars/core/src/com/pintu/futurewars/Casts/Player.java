@@ -148,7 +148,7 @@ public class Player extends FutureWarsCast {
         }else if(GameConstants.BURST_BULLET.equals(selectedBullet)){
             if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
                 recoilTimeElapsed = 0;
-                BurstBullet.newBurstBullet(this, bullets);
+                CowBoyBullet.newBurstBullet(this, bullets);
             }
         } else if(GameConstants.BOMB.equals(selectedBullet)){
             if(recoilTimeElapsed > GameConstants.BOMB_RECOIL_TIME) {

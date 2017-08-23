@@ -12,9 +12,9 @@ import com.pintu.futurewars.commons.GameObject;
  * Created by hsahu on 7/15/2017.
  */
 
-public class BurstBullet extends GameBullet {
+public class CowBoyBullet extends GameBullet {
 
-    public BurstBullet(int id, World w, TextureAtlas a, float x, float y) {
+    public CowBoyBullet(int id, World w, TextureAtlas a, float x, float y) {
         super(id, GameConstants.BURST_BULLET_PROPERTY_FILE, w, a, x,y);
     }
 

@@ -11,17 +11,16 @@ import com.pintu.futurewars.commons.GameObject;
  * Created by hsahu on 8/14/2017.
  */
 
-public class JumpingKit extends FutureWarsCast {
-    public JumpingKit(int id, World w, TextureAtlas a, MapObject obj) {
-        super(id, GameConstants.JUMPING_KIT_PROPERTY_FILE, w, a, obj);
+public class BombAmo extends FutureWarsCast {
+    public BombAmo(int id, World w, TextureAtlas a, MapObject obj) {
+        super(id, GameConstants.BOMB_AMO_PROPERTY_FILE, w, a, obj);
     }
 
     @Override
     public void handleContact(GameObject gObj){
         if(gObj instanceof Player2){
             toBeDestroyed = true;
-            ((Player2) gObj).hasJumpingKit = true;
-            ((Player2) gObj).jumpEffectRemainig = ((Player2) gObj).JUMP_KIT_EFFECT_TIME;
+            ((Player2) gObj).selectedBullet = GameConstants.BOMB;
         }
     }
 
@@ -30,4 +29,5 @@ public class JumpingKit extends FutureWarsCast {
         super.destroy();
         GameUtility.addPowerBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
     }
+
 }

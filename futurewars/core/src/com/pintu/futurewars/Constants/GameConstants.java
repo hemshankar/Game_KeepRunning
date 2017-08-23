@@ -93,6 +93,8 @@ public class GameConstants {
     public static final String POWER_DRINK_PROPERTY_FILE = "propertyFiles/powerDrink.txt";
     public static final String BASIC_BULLET_PROPERTY_FILE = "propertyFiles/armory/basicBullet.txt";
     public static final String BURST_BULLET_PROPERTY_FILE = "propertyFiles/armory/burstBullet.txt";
+    public static final String BOMB_PROPERTY_FILE = "propertyFiles/armory/bomb.txt";
+    public static final String BOMB_AMO_PROPERTY_FILE = "propertyFiles/bombAmo.txt";
     public static final String ENEMY_BLAST_PROPERTY_FILE = "propertyFiles/blasts/enemyBlast.txt";
     public static final String POWER_BLAST_PROPERTY_FILE = "propertyFiles/blasts/powerBlast.txt";
     public static final String COWBOY_HAT_PROPERTY_FILE = "propertyFiles/cowboyHat.txt";
