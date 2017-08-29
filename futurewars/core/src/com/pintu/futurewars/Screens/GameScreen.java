@@ -140,7 +140,7 @@ public class GameScreen implements Screen {
         }
 
         JumpingKit jKit;
-        for(int i = 0;i<5;i++){
+        for(int i = 0;i<15;i++){
             jKit = new JumpingKit(3,world, GameUtility.getAtlas(),null);
             jKit.xPos = 30 + i*30;
             jKit.yPos = 5;
@@ -149,7 +149,7 @@ public class GameScreen implements Screen {
         }
 
         PowerDrink drink;
-        for(int i = 0;i<5;i++){
+        for(int i = 0;i<15;i++){
             drink = new PowerDrink(3,world, GameUtility.getBlastAtlas(),null);
             drink.xPos = 20 + i*30;
             drink.yPos = 10;
@@ -157,7 +157,7 @@ public class GameScreen implements Screen {
             gameObjects.add(drink);
         }
         CowBoyHat hat;
-        for(int i = 0;i<5;i++){
+        for(int i = 0;i<15;i++){
             hat = new CowBoyHat(3,world, GameUtility.getAtlas(),null);
             hat.xPos = 20 + i*30;
             hat.yPos = 5;
@@ -165,7 +165,7 @@ public class GameScreen implements Screen {
             gameObjects.add(hat);
         }
         BombAmo amo;
-        for(int i = 0;i<5;i++){
+        for(int i = 0;i<15;i++){
             amo = new BombAmo(3,world, GameUtility.getAtlas(),null);
             amo.xPos = 15 + i*30;
             amo.yPos = 10;
@@ -173,7 +173,7 @@ public class GameScreen implements Screen {
             gameObjects.add(amo);
         }
         Coin coin;
-        for(int i = 0;i<5;i++){
+        for(int i = 0;i<10;i++){
             coin = new Coin(3,world, GameUtility.getAtlas(),null);
             coin.xPos = 2 + i*30;
             coin.yPos = 7;

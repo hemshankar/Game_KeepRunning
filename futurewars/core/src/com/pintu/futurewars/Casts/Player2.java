@@ -37,6 +37,7 @@ public class Player2 extends FutureWarsCast {
     }
 
     public void update(float dt){
+        float speedLimit = health * (MAX_SPEED/MAX_HEALTH);
         healthReduceTime += dt;
         recoilTimeElapsed +=dt;
         if(jumpEffectRemainig>0){
@@ -46,6 +47,9 @@ public class Player2 extends FutureWarsCast {
             healthReduceTime = 0;
             health -= HEALTH_REDUCTION_CONSTANT;
             //System.out.println(health);
+        }
+        if(getBody().getLinearVelocity().x <= speedLimit/2) {
+            getBody().applyLinearImpulse(new Vector2(0.5f, 0), getBody().getWorldCenter(), true);
         }
         super.update(dt);
     }

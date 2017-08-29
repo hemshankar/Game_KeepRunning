@@ -30,7 +30,7 @@ public class GameConstants {
     public static final float SUCKER_SIZE = DESIRED_SIZE;
     public static final float SUCKER_CREATOR_SIZE = DESIRED_SIZE;
     public static final float BRICK_SIZE =45;
-    public static final float PUSHER_DAMAGE = 5;
+    public static final float PUSHER_DAMAGE = .1f;
 
     //Sucker Creator related
     public static final float SUCKER_CREATOR_RECOIL_TIME=30f;
