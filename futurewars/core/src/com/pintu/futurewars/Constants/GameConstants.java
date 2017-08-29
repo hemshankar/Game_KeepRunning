@@ -30,7 +30,7 @@ public class GameConstants {
     public static final float SUCKER_SIZE = DESIRED_SIZE;
     public static final float SUCKER_CREATOR_SIZE = DESIRED_SIZE;
     public static final float BRICK_SIZE =45;
-    public static final float PUSHER_DAMAGE = 0;
+    public static final float PUSHER_DAMAGE = 5;
 
     //Sucker Creator related
     public static final float SUCKER_CREATOR_RECOIL_TIME=30f;
@@ -98,5 +98,6 @@ public class GameConstants {
     public static final String ENEMY_BLAST_PROPERTY_FILE = "propertyFiles/blasts/enemyBlast.txt";
     public static final String POWER_BLAST_PROPERTY_FILE = "propertyFiles/blasts/powerBlast.txt";
     public static final String COWBOY_HAT_PROPERTY_FILE = "propertyFiles/cowboyHat.txt";
+    public static final String COIN_PROPERTY_FILE = "propertyFiles/coin.txt";
 
 }

@@ -18,6 +18,7 @@ public class Player2 extends FutureWarsCast {
     public String selectedBullet = null;
     public boolean hasJumpingKit = false;
     public float healthReduceTime = 0;
+    public int totalCoin = 0;
     public final float HEALTH_REDUCETION_TIME_CONSTANT=.5f;//time after which the health will be automatically reduced by a unit
     public float HEALTH_REDUCTION_CONSTANT=1;
 
@@ -44,7 +45,7 @@ public class Player2 extends FutureWarsCast {
         if(healthReduceTime > HEALTH_REDUCETION_TIME_CONSTANT && health > MIN_HEALTH){
             healthReduceTime = 0;
             health -= HEALTH_REDUCTION_CONSTANT;
-            System.out.println(health);
+            //System.out.println(health);
         }
         super.update(dt);
     }
@@ -75,10 +76,14 @@ public class Player2 extends FutureWarsCast {
     @Override
     public void handleContact(GameObject gObj){
         gObj.handleContact(this);
-        /*if(gObj instanceof  Pusher){
-            takeDamage(GameConstants.PUSHER_DAMAGE);
-        }*/
-
+        if(gObj instanceof  Pusher){
+            float xVelocity = ((Pusher)gObj).body.getLinearVelocity().x;
+            float yVelocity = ((Pusher)gObj).body.getLinearVelocity().y;
+            //System.out.println("xVelocity: " + xVelocity + ", YVelocity: " + yVelocity);
+            if(Math.abs(xVelocity) > 10 || Math.abs(yVelocity) >10) {
+                takeDamage(GameConstants.PUSHER_DAMAGE);
+            }
+        }
     }
 
     @Override

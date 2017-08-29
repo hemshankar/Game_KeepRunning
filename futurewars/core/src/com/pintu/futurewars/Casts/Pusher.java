@@ -30,7 +30,12 @@ public class Pusher extends FutureWarsCast {
         if(gObj instanceof Player2){
             //toBeDestroyed = true;
             Player2 player2 = ((Player2) gObj);//.body.applyLinearImpulse(new Vector2(20, 10), body.getWorldCenter(), true);
-            player2.takeDamage(GameConstants.PUSHER_DAMAGE);
+            float xVelocity = body.getLinearVelocity().x;
+            float yVelocity = body.getLinearVelocity().y;
+            //System.out.println("xVelocity: " + xVelocity + ", YVelocity: " + yVelocity);
+            if(Math.abs(xVelocity) > 10 || Math.abs(yVelocity) >10) {
+                player2.takeDamage(GameConstants.PUSHER_DAMAGE);
+            }
         }
     }
 
@@ -45,7 +50,7 @@ public class Pusher extends FutureWarsCast {
         if(Math.abs(Math.abs(pXpose)-Math.abs(myXpos)) < 5
                 && Math.abs(Math.abs(pYpose)-Math.abs(myYpos)) < 5){
             if(itsPushTime(dt)) {
-                //body.setLinearVelocity((pXpose - myXpos) * 10f, (pYpose - myYpos) * 10f);
+                body.setLinearVelocity((pXpose - myXpos) * 10f, (pYpose - myYpos) * 10f);
             }
         }else{
             if(itsFlyTime(dt)) {

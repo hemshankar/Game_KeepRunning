@@ -16,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Casts.BombAmo;
+import com.pintu.futurewars.Casts.Coin;
 import com.pintu.futurewars.Casts.CowBoyHat;
 import com.pintu.futurewars.Casts.JumpingKit;
 import com.pintu.futurewars.Casts.Player2;
@@ -170,6 +171,14 @@ public class GameScreen implements Screen {
             amo.yPos = 10;
             amo.initialize();
             gameObjects.add(amo);
+        }
+        Coin coin;
+        for(int i = 0;i<5;i++){
+            coin = new Coin(3,world, GameUtility.getAtlas(),null);
+            coin.xPos = 2 + i*30;
+            coin.yPos = 7;
+            coin.initialize();
+            gameObjects.add(coin);
         }
     }
 

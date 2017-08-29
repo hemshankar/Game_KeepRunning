@@ -26,7 +26,7 @@ public class Bomb extends GameBullet {
 
     @Override
     public int getDamage() {
-        return GameConstants.BASIC_BULLET_DAMAGE;
+        return GameConstants.BOMB_DAMAGE;
     }
 
     @Override

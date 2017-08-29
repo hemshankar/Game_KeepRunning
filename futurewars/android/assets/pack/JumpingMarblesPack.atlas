@@ -60,3 +60,10 @@ basic_bullet
   orig: 32, 32
   offset: 0, 0
   index: -1
+coin
+  rotate: false
+  xy: 358, 30
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
