@@ -142,23 +142,23 @@ public class GameScreen implements Screen {
             b.initialize();
             gameObjects.add(b);
         }
-        /*Pusher p;
+        Pusher p;
         for(int i = 0;i<20;i++){
             p = new Pusher(143,world, GameUtility.getAtlas(),null);
             p.xPos = 5 + i*25;
             p.yPos = 10;
             p.initialize();
             gameObjects.add(p);
-        }*/
+        }
 
-        /*StickyBomb s;
+        StickyBomb s;
         for(int i = 0;i<10;i++){
             s = new StickyBomb(181,world, GameUtility.getBlastAtlas(),null);
             s.xPos = 7 + i*50;
             s.yPos = 10;
             s.initialize();
             gameObjects.add(s);
-        }*/
+        }
 
         JumpingKit jKit;
         for(int i = 0;i<5;i++){
@@ -202,14 +202,14 @@ public class GameScreen implements Screen {
             gameObjects.add(coin);
         }
 
-        /*WaterBalloon balloon;
+        WaterBalloon balloon;
         for(int i = 0;i<20;i++){
             balloon = new WaterBalloon(3,world, GameUtility.getBlastAtlas(),null);
             balloon.xPos = 2 + i*10;
             balloon.yPos = 7;
             balloon.initialize();
             gameObjects.add(balloon);
-        }*/
+        }
 
         Kaleen kaleen;
         for(int i = 0;i<10;i++){
