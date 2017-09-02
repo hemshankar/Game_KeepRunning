@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.pintu.futurewars.Constants.GameConstants;
-import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Screens.GameScreen;
 
 /**
@@ -18,12 +17,11 @@ public class InputHandler {
        /* System.out.println("SpeedLimit: " +speedLimit);
         System.out.println("Speed: " +screen.player2.body.getLinearVelocity().x);*/
         if((screen.controller.controles[GameConstants.UP] || Gdx.input.isKeyPressed(Input.Keys.UP))
-                && screen.player2.getBody().getLinearVelocity().y <= 5){
+                && screen.player2.getBody().getLinearVelocity().y <= 7){
             /*if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){
                 player2.getBody().applyLinearImpulse(new Vector2(0,5f),player2.getBody().getWorldCenter(),true);
-            }else */{
-                screen.player2.getBody().applyLinearImpulse(new Vector2(0, 1f), screen.player2.getBody().getWorldCenter(), true);
-            }
+            }else */
+             screen.player2.fly(dt);
         }
         if(screen.controller.controles[GameConstants.DOWN] || Gdx.input.isKeyPressed(Input.Keys.DOWN)){
            /* if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || controller.controles[GameConstants.THROW_SUCKER]){

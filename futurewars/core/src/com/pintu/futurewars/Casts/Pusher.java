@@ -54,7 +54,7 @@ public class Pusher extends FutureWarsCast {
             }
         }else{
             if(itsFlyTime(dt)) {
-                body.applyLinearImpulse(new Vector2(0, .9f), this.body.getWorldCenter(), true);
+                body.applyLinearImpulse(new Vector2(0, .5f), this.body.getWorldCenter(), true);
             }
         }
     }

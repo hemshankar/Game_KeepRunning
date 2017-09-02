@@ -21,7 +21,9 @@ import com.pintu.futurewars.Casts.CowBoyHat;
 import com.pintu.futurewars.Casts.JumpingKit;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Casts.PowerDrink;
+import com.pintu.futurewars.Casts.Pusher;
 import com.pintu.futurewars.Casts.SpeedBomb;
+import com.pintu.futurewars.Casts.StickyBomb;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Controllers.Controller;
 import com.pintu.futurewars.Controllers.InputHandler;
@@ -133,49 +135,66 @@ public class GameScreen implements Screen {
         SpeedBomb b;
         for(int i = 0;i<10;i++){
             b = new SpeedBomb(111,world, GameUtility.getBlastAtlas(),null);
-            b.xPos = 10 + i*50;
+            b.xPos = 5 + i*50;
             b.yPos = 10;
             b.initialize();
             gameObjects.add(b);
         }
+        Pusher p;
+        for(int i = 0;i<20;i++){
+            p = new Pusher(143,world, GameUtility.getAtlas(),null);
+            p.xPos = 5 + i*25;
+            p.yPos = 10;
+            p.initialize();
+            gameObjects.add(p);
+        }
+
+        StickyBomb s;
+        for(int i = 0;i<10;i++){
+            s = new StickyBomb(181,world, GameUtility.getBlastAtlas(),null);
+            s.xPos = 7 + i*50;
+            s.yPos = 10;
+            s.initialize();
+            gameObjects.add(s);
+        }
 
         JumpingKit jKit;
-        for(int i = 0;i<15;i++){
+        for(int i = 0;i<5;i++){
             jKit = new JumpingKit(3,world, GameUtility.getAtlas(),null);
-            jKit.xPos = 30 + i*30;
+            jKit.xPos = 30 + i*50;
             jKit.yPos = 5;
             jKit.initialize();
             gameObjects.add(jKit);
         }
 
         PowerDrink drink;
-        for(int i = 0;i<15;i++){
+        for(int i = 0;i<5;i++){
             drink = new PowerDrink(3,world, GameUtility.getBlastAtlas(),null);
-            drink.xPos = 20 + i*30;
+            drink.xPos = 20 + i*50;
             drink.yPos = 10;
             drink.initialize();
             gameObjects.add(drink);
         }
         CowBoyHat hat;
-        for(int i = 0;i<15;i++){
+        for(int i = 0;i<5;i++){
             hat = new CowBoyHat(3,world, GameUtility.getAtlas(),null);
-            hat.xPos = 20 + i*30;
+            hat.xPos = 20 + i*50;
             hat.yPos = 5;
             hat.initialize();
             gameObjects.add(hat);
         }
         BombAmo amo;
-        for(int i = 0;i<15;i++){
+        for(int i = 0;i<5;i++){
             amo = new BombAmo(3,world, GameUtility.getAtlas(),null);
-            amo.xPos = 15 + i*30;
+            amo.xPos = 15 + i*50;
             amo.yPos = 10;
             amo.initialize();
             gameObjects.add(amo);
         }
         Coin coin;
-        for(int i = 0;i<10;i++){
+        for(int i = 0;i<20;i++){
             coin = new Coin(3,world, GameUtility.getAtlas(),null);
-            coin.xPos = 2 + i*30;
+            coin.xPos = 2 + i*10;
             coin.yPos = 7;
             coin.initialize();
             gameObjects.add(coin);
@@ -215,8 +234,7 @@ public class GameScreen implements Screen {
         //update the game after handling the IP
         updateHandler.update(this,dt);
 
-        //         player2.update(dt);
-
+        //player2.update(dt);
     }
 
     //utility method to handle Ip

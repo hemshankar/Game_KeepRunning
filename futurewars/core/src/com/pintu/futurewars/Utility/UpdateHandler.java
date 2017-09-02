@@ -84,6 +84,8 @@ public class UpdateHandler {
         }
         screen.player2.ANIMATION_INTERVAL = 1/Math.abs(screen.player2.body.getLinearVelocity().x+0.000001f);
 
+        GameUtility.jointHandler.createAllJoints();
+
         //Always destroy the bodies at the end
         screen.worldCreator.removeBodies();
         screen.worldCreator.destroyBodies();

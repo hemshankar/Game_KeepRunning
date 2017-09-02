@@ -75,6 +75,7 @@ public class GameUtility {
 
     public static int id=0;
 
+    public static JointHandler jointHandler = new JointHandler();
 
     public static void renderGameObjects(SpriteBatch batch, Set<GameObject> gos){
         for(GameObject obj: gos){
@@ -172,4 +173,6 @@ public class GameUtility {
 
         return configFile;
     }
+
+
 }

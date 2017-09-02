@@ -29,5 +29,4 @@ public class BombAmo extends FutureWarsCast {
         super.destroy();
         GameUtility.addPowerBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
     }
-
 }

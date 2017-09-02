@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Utility.GameUtility;
-import com.pintu.futurewars.commons.AbstractGameObject;
 import com.pintu.futurewars.commons.GameObject;
 
 /**
@@ -28,6 +27,10 @@ public class Player2 extends FutureWarsCast {
 
     public final float JUMP_KIT_EFFECT_TIME = 10f;
     public float jumpEffectRemainig = 0;
+    
+    public float flyFuel = 10;
+    public static final float FLY_FUEL_REFILL_INTERVAL = 5;
+    public float flyFuelRechargeInterval = 0;
 
     public Player2(int id, World w, TextureAtlas a, MapObject object) {
         super(id, GameConstants.PLAYER_PROPERTY_FILE, w, a,object);
@@ -48,10 +51,11 @@ public class Player2 extends FutureWarsCast {
             health -= HEALTH_REDUCTION_CONSTANT;
             //System.out.println(health);
         }
-        if(getBody().getLinearVelocity().x <= speedLimit/2) {
-            getBody().applyLinearImpulse(new Vector2(0.5f, 0), getBody().getWorldCenter(), true);
+        if(getBody().getLinearVelocity().x <= speedLimit) {
+            getBody().applyLinearImpulse(new Vector2(2f, 0), getBody().getWorldCenter(), true);
         }
         super.update(dt);
+        flyFuelUpdate(dt);
     }
 
     public void fire(){
@@ -80,13 +84,17 @@ public class Player2 extends FutureWarsCast {
     @Override
     public void handleContact(GameObject gObj){
         gObj.handleContact(this);
-        if(gObj instanceof  Pusher){
-            float xVelocity = ((Pusher)gObj).body.getLinearVelocity().x;
-            float yVelocity = ((Pusher)gObj).body.getLinearVelocity().y;
+        if(gObj instanceof  Pusher) {
+            float xVelocity = ((Pusher) gObj).body.getLinearVelocity().x;
+            float yVelocity = ((Pusher) gObj).body.getLinearVelocity().y;
             //System.out.println("xVelocity: " + xVelocity + ", YVelocity: " + yVelocity);
-            if(Math.abs(xVelocity) > 10 || Math.abs(yVelocity) >10) {
+            if (Math.abs(xVelocity) > 10 || Math.abs(yVelocity) > 10) {
                 takeDamage(GameConstants.PUSHER_DAMAGE);
+                //GameUtility.jointHandler.createJoint(body,((Pusher) gObj).body,world,GameConstants.REVOLUTE);
             }
+        }
+        if(gObj instanceof  StickyBomb) {
+            GameUtility.jointHandler.createJoint(body,((StickyBomb) gObj).body,world,GameConstants.REVOLUTE);
         }
     }
 
@@ -96,6 +104,23 @@ public class Player2 extends FutureWarsCast {
             if(hasJumpingKit && jumpEffectRemainig > 0){
                 body.applyLinearImpulse(new Vector2(0, 6), body.getWorldCenter(), true);
             }
+        }
+    }
+
+    public void flyFuelUpdate(float dt){
+        flyFuelRechargeInterval += dt;
+        if(flyFuelRechargeInterval > FLY_FUEL_REFILL_INTERVAL){
+            if(flyFuel<100){
+                flyFuel++;
+            }
+            flyFuelRechargeInterval = 0;
+        }
+    }
+
+    public void fly(float dt){
+        if(flyFuel>0) {
+            flyFuel -= (4 * dt);
+            body.applyLinearImpulse(new Vector2(0, 1f), body.getWorldCenter(), true);
         }
     }
 }

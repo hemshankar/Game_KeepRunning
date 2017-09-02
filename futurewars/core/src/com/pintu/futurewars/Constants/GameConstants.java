@@ -61,7 +61,7 @@ public class GameConstants {
     //----------------------Bullets
     public static final float BASIC_BULLET_SIZE = 8;
     public static final String BASIC_BULLET_REGION_NAME = "basic_bullet";
-    public static final float BASIC_BULLET_SPEED = 1f;
+    public static final float BASIC_BULLET_SPEED = 10f;
     public static final int BASIC_BULLET_DAMAGE = 50;
     public static final float BASIC_BULLET_RECOIL_TIME = .2f;
     public static final float BASIC_BULLET_TIME_TO_LIVE = .4f;
@@ -73,7 +73,7 @@ public class GameConstants {
     public final static String BOMB = "BOMB";
 
     public static final float BOMB_SIZE = 20;
-    public static final float BOMB_SPEED = 3f;
+    public static final float BOMB_SPEED = 20f;
     public static final int BOMB_DAMAGE = 1000;
     public static final float BOMB_RECOIL_TIME = .4f;
     public static final float BOMB_TIME_TO_LIVE = 4f;
@@ -99,5 +99,18 @@ public class GameConstants {
     public static final String POWER_BLAST_PROPERTY_FILE = "propertyFiles/blasts/powerBlast.txt";
     public static final String COWBOY_HAT_PROPERTY_FILE = "propertyFiles/cowboyHat.txt";
     public static final String COIN_PROPERTY_FILE = "propertyFiles/coin.txt";
+    public static final String STICKY_BOMB_PROPERTY_FILE = "propertyFiles/stickyBomb.txt";
+
+    //============================Joint Constants================================
+    public static final String REVOLUTE = "revolute";
+    public static final String PRISMATIC = "presmatic";
+    public static final String DISTANT = "distant";
+    public static final String PULLY = "pully";
+    public static final String GEAR = "gear";
+    public static final String WHEEL = "wheel";
+    public static final String ROPE = "rope";
+    public static final String WELD = "weld";
+
+
 
 }

@@ -46,13 +46,13 @@ public class JumpingMarbleWorldCreator {
 
             //Create pushers
             int i = 0;
-            Pusher p;
+            /*Pusher p;
             for (MapObject object : map.getLayers().get("pushers").getObjects().getByType(EllipseMapObject.class)) {
                 p=new Pusher(2210 + i++, world, GameUtility.getAtlas(), object);
                 p.initialize();
                 gameObjects.add(p);
                 p.body.setUserData(p);
-            }
+            }*/
 
             //Create bricks
             Brick b;

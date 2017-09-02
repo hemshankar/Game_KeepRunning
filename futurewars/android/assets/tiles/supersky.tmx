@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="2000" height="60" tilewidth="32" tileheight="32" nextobjectid="343">
+<map version="1.0" tiledversion="1.0.1" orientation="orthogonal" renderorder="right-down" width="2000" height="60" tilewidth="32" tileheight="32" nextobjectid="523">
  <tileset firstgid="1" source="image.tsx"/>
  <tileset firstgid="15" source="BasicTileSet.tsx"/>
  <tileset firstgid="3087" source="superSky.tsx"/>
@@ -9,7 +9,51 @@
   </data>
  </layer>
  <objectgroup name="bricks">
-  <object id="196" x="5520.67" y="1043.75" width="60" height="26"/>
+  <object id="196" x="15339.1" y="919.835" width="26.5929" height="11.5236"/>
+  <object id="344" x="15338.1" y="957.807" width="26.5929" height="11.5236"/>
+  <object id="345" x="15338.1" y="957.807" width="26.5929" height="11.5236"/>
+  <object id="346" x="15338.1" y="1003.47" width="26.5929" height="11.5236"/>
+  <object id="347" x="15338.1" y="1038.39" width="26.5929" height="11.5236"/>
+  <object id="348" x="15339.4" y="877.223" width="26.5929" height="11.5236"/>
+  <object id="349" x="15338.1" y="835.588" width="26.5929" height="11.5236"/>
+  <object id="350" x="15338.1" y="792.609" width="26.5929" height="11.5236"/>
+  <object id="351" x="15338.1" y="749.631" width="26.5929" height="11.5236"/>
+  <object id="352" x="15340.8" y="713.368" width="26.5929" height="11.5236"/>
+  <object id="353" x="15340.8" y="673.076" width="26.5929" height="11.5236"/>
+  <object id="354" x="15343.5" y="635.47" width="26.5929" height="11.5236"/>
+  <object id="355" x="15342.1" y="603.236" width="26.5929" height="11.5236"/>
+  <object id="356" x="15342.1" y="572.345" width="26.5929" height="11.5236"/>
+  <object id="357" x="15342.1" y="542.798" width="26.5929" height="11.5236"/>
+  <object id="403" x="22988.6" y="1001.62" width="26.5929" height="11.5236"/>
+  <object id="404" x="22988.6" y="793.442" width="26.5929" height="11.5236"/>
+  <object id="405" x="22988.6" y="879.399" width="26.5929" height="11.5236"/>
+  <object id="406" x="22989.6" y="963.647" width="26.5929" height="11.5236"/>
+  <object id="407" x="22988.6" y="1082.2" width="26.5929" height="11.5236"/>
+  <object id="408" x="22991.3" y="716.887" width="26.5929" height="11.5236"/>
+  <object id="409" x="22990" y="921.035" width="26.5929" height="11.5236"/>
+  <object id="410" x="22991.3" y="757.18" width="26.5929" height="11.5236"/>
+  <object id="411" x="22992.7" y="616.157" width="26.5929" height="11.5236"/>
+  <object id="412" x="22988.6" y="1001.62" width="26.5929" height="11.5236"/>
+  <object id="413" x="22994" y="679.282" width="26.5929" height="11.5236"/>
+  <object id="414" x="22988.6" y="1047.28" width="26.5929" height="11.5236"/>
+  <object id="415" x="22992.7" y="586.61" width="26.5929" height="11.5236"/>
+  <object id="416" x="22988.6" y="836.421" width="26.5929" height="11.5236"/>
+  <object id="417" x="22992.7" y="647.048" width="26.5929" height="11.5236"/>
+  <object id="493" x="30888.5" y="973.251" width="26.5929" height="11.5236"/>
+  <object id="494" x="30888.5" y="765.077" width="26.5929" height="11.5236"/>
+  <object id="495" x="30888.5" y="851.034" width="26.5929" height="11.5236"/>
+  <object id="496" x="30889.4" y="935.281" width="26.5929" height="11.5236"/>
+  <object id="497" x="30888.5" y="1053.84" width="26.5929" height="11.5236"/>
+  <object id="498" x="30891.2" y="688.522" width="26.5929" height="11.5236"/>
+  <object id="499" x="30889.8" y="892.669" width="26.5929" height="11.5236"/>
+  <object id="500" x="30891.2" y="728.814" width="26.5929" height="11.5236"/>
+  <object id="501" x="30892.5" y="587.791" width="26.5929" height="11.5236"/>
+  <object id="502" x="30888.5" y="973.251" width="26.5929" height="11.5236"/>
+  <object id="503" x="30893.9" y="650.916" width="26.5929" height="11.5236"/>
+  <object id="504" x="30888.5" y="1018.92" width="26.5929" height="11.5236"/>
+  <object id="505" x="30892.5" y="558.244" width="26.5929" height="11.5236"/>
+  <object id="506" x="30888.5" y="808.055" width="26.5929" height="11.5236"/>
+  <object id="507" x="30892.5" y="618.682" width="26.5929" height="11.5236"/>
  </objectgroup>
  <objectgroup name="groundSensor">
   <object id="261" x="7.33333" y="1498.34" width="63260" height="10"/>

@@ -40,7 +40,7 @@ public class Controller {
         ControlButton down = new ControlButton(this, GameConstants.DOWN, GameConstants.DOWN_IMAGE);
         ControlButton left = new ControlButton(this, GameConstants.LEFT, GameConstants.LEFT_IMAGE);
         ControlButton right = new ControlButton(this, GameConstants.RIGHT, GameConstants.RIGHT_IMAGE);
-        ControlButton circleButton
+       /* ControlButton circleButton
                 = new ControlButton(this, GameConstants.CIRCLE_CONTROLLER, GameConstants.CIRCLE_IMAGE);
 
 
@@ -51,11 +51,17 @@ public class Controller {
         directions.row().pad(5,50,20,5);
         directions.add();
         directions.add();
-        directions.add();
+        directions.add();*/
 
-        /*
         float w = GameConstants.CONTROL_BUTTON_SIZE;
         float h = GameConstants.CONTROL_BUTTON_SIZE;
+
+        directions.add();
+        directions.add(right.image).size(w,h);
+        directions.add();
+
+        directions.row().pad(5,5,5,5);
+
 
         directions.add();
         directions.add(up.image).size(w,h);
@@ -63,13 +69,21 @@ public class Controller {
 
         directions.row().pad(5,5,5,5);
 
-        directions.add(left.image).size(w,h);
+        directions.add();//directions.add(left.image).size(w,h);
         directions.add();
-        directions.add(right.image).size(w,h);
+        directions.add();//directions.add(right.image).size(w,h);
 
-        directions.row().padBottom(5);
-
+        directions.row().padBottom(25);
+        directions.add();//directions.add(left.image).size(w,h);
         directions.add();
+        directions.add();//directions.add(right.image).size(w,h);
+        directions.row().padBottom(25);
+        directions.add();//directions.add(left.image).size(w,h);
+        directions.add();
+        directions.add();//directions.add(right.image).size(w,h);
+        directions.row().padBottom(25);
+
+        /*directions.add();
         directions.add(down.image).size(w,h);
         directions.add();*/
 
