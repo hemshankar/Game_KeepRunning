@@ -86,6 +86,7 @@ public class GameConstants {
     //======================Property Files============================
     public static final String PLAYER_PROPERTY_FILE = "propertyFiles/player.txt";
     public static final String PUSHER_PROPERTY_FILE = "propertyFiles/pusher.txt";
+    public static final String KALEEN_PROPERTY_FILE = "propertyFiles/kaleen.txt";
     public static final String BRICK_PROPERTY_FILE = "propertyFiles/brick.txt";
     public static final String GROUND_PROPERTY_FILE = "propertyFiles/ground.txt";
     public static final String SPEED_BOMB_PROPERTY_FILE = "propertyFiles/speedBomb.txt";
@@ -100,6 +101,7 @@ public class GameConstants {
     public static final String COWBOY_HAT_PROPERTY_FILE = "propertyFiles/cowboyHat.txt";
     public static final String COIN_PROPERTY_FILE = "propertyFiles/coin.txt";
     public static final String STICKY_BOMB_PROPERTY_FILE = "propertyFiles/stickyBomb.txt";
+    public static final String WATER_BALLOON_PROPERTY_FILE = "propertyFiles/waterBalloon.txt";
 
     //============================Joint Constants================================
     public static final String REVOLUTE = "revolute";

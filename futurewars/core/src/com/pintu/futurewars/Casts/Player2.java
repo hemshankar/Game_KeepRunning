@@ -22,7 +22,7 @@ public class Player2 extends FutureWarsCast {
     public float HEALTH_REDUCTION_CONSTANT=1;
 
     public final float MAX_HEALTH = 200;
-    public final float MAX_SPEED = 20;
+    public final float MAX_SPEED = 5;
     public final float MIN_HEALTH = 20;
 
     public final float JUMP_KIT_EFFECT_TIME = 10f;
@@ -83,7 +83,7 @@ public class Player2 extends FutureWarsCast {
 
     @Override
     public void handleContact(GameObject gObj){
-        gObj.handleContact(this);
+        /*gObj.handleContact(this);
         if(gObj instanceof  Pusher) {
             float xVelocity = ((Pusher) gObj).body.getLinearVelocity().x;
             float yVelocity = ((Pusher) gObj).body.getLinearVelocity().y;
@@ -95,7 +95,7 @@ public class Player2 extends FutureWarsCast {
         }
         if(gObj instanceof  StickyBomb) {
             GameUtility.jointHandler.createJoint(body,((StickyBomb) gObj).body,world,GameConstants.REVOLUTE);
-        }
+        }*/
     }
 
     @Override

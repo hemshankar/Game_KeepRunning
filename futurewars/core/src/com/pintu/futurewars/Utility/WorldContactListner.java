@@ -25,8 +25,13 @@ public class WorldContactListner implements ContactListener {
     public void beginContact(Contact contact) {
         GameObject obj1 = (GameObject) contact.getFixtureA().getUserData();
         GameObject obj2 = (GameObject) contact.getFixtureB().getUserData();
-        if(obj1 !=null && obj2 !=null)
-            obj2.handleContact(obj1);
+        if(obj1 !=null && obj2 !=null){
+            if(obj2 instanceof Player2){
+                obj1.handleContact(obj2);
+            }else{
+                obj2.handleContact(obj1);
+            }
+        }
     }
 
     @Override

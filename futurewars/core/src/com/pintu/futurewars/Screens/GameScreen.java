@@ -19,11 +19,13 @@ import com.pintu.futurewars.Casts.BombAmo;
 import com.pintu.futurewars.Casts.Coin;
 import com.pintu.futurewars.Casts.CowBoyHat;
 import com.pintu.futurewars.Casts.JumpingKit;
+import com.pintu.futurewars.Casts.Kaleen;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Casts.PowerDrink;
 import com.pintu.futurewars.Casts.Pusher;
 import com.pintu.futurewars.Casts.SpeedBomb;
 import com.pintu.futurewars.Casts.StickyBomb;
+import com.pintu.futurewars.Casts.WaterBalloon;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Controllers.Controller;
 import com.pintu.futurewars.Controllers.InputHandler;
@@ -140,23 +142,23 @@ public class GameScreen implements Screen {
             b.initialize();
             gameObjects.add(b);
         }
-        Pusher p;
+        /*Pusher p;
         for(int i = 0;i<20;i++){
             p = new Pusher(143,world, GameUtility.getAtlas(),null);
             p.xPos = 5 + i*25;
             p.yPos = 10;
             p.initialize();
             gameObjects.add(p);
-        }
+        }*/
 
-        StickyBomb s;
+        /*StickyBomb s;
         for(int i = 0;i<10;i++){
             s = new StickyBomb(181,world, GameUtility.getBlastAtlas(),null);
             s.xPos = 7 + i*50;
             s.yPos = 10;
             s.initialize();
             gameObjects.add(s);
-        }
+        }*/
 
         JumpingKit jKit;
         for(int i = 0;i<5;i++){
@@ -198,6 +200,24 @@ public class GameScreen implements Screen {
             coin.yPos = 7;
             coin.initialize();
             gameObjects.add(coin);
+        }
+
+        /*WaterBalloon balloon;
+        for(int i = 0;i<20;i++){
+            balloon = new WaterBalloon(3,world, GameUtility.getBlastAtlas(),null);
+            balloon.xPos = 2 + i*10;
+            balloon.yPos = 7;
+            balloon.initialize();
+            gameObjects.add(balloon);
+        }*/
+
+        Kaleen kaleen;
+        for(int i = 0;i<10;i++){
+            kaleen = new Kaleen(33,world, GameUtility.getAtlas(),null);
+            kaleen.xPos = 6 + i*30;
+            kaleen.yPos = 15;
+            kaleen.initialize();
+            gameObjects.add(kaleen);
         }
     }
 

@@ -67,3 +67,10 @@ coin
   orig: 32, 32
   offset: 0, 0
   index: -1
+kaleen
+  rotate: false
+  xy: 392, 30
+  size: 32, 32
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
