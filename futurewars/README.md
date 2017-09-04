@@ -1,3 +1,15 @@
+			Story
+Man mad calamities has struck the country because of the certain virus contamination. There are various decontamination centres have the antidote.
+You need to reach to these centres one by one within specified time, and release the antidote to save the city and nation.
+
+Rules:
+1. You need to start from one city and reach to other city within specified time.
+2. Sooner you complete a city, large time you have to save the country.
+3. If you fail to reach the targets in time, some other city will get contaminated, and needs decontamination again, hence requiring more time and effort.
+4. If all the cities are saved Country is saved, and once all the Countries are saved world is saved, game is finished
+5. New virus will break and the game restarts again.
+
+
 	Remaining Tasks
 
 1. Bots action automation - Done
@@ -29,3 +41,14 @@
 27. Speed display --- Done
 28. Health Bar Display --- Done
 29. Rocket Fuel Display --- Done
+30. Skates (jump is off when skates are on, )
+31. Shield state (Objects will collide, but will not lose health)
+32. Transparent state (can't collied with enemies )
+33. Magnet (should attract coins only)
+34. Coin score --- Done
+35. Different sounds: Metal collide, brick broken, wood broken, explosion, Gun Fire
+36. Obstacles:
+	1.  Reflector(if you fire, bullet will reflect), 
+	2. water Holes (if submerged for 3 secs, game over), 
+	3. Fire, 
+	4.Mines (can be detected only if mine detector is present)  
