@@ -3,11 +3,12 @@ Man mad calamities has struck the country because of the certain virus contamina
 You need to reach to these centres one by one within specified time, and release the antidote to save the city and nation.
 
 Rules:
-	1. You need to start from one city and reach to other city within specified time.
-	2. Sooner you complete a city, large time you have to save the country.
-	3. If you fail to reach the targets in time, some other city will get contaminated, and needs decontamination again, hence requiring more time and effort.
-	4. If all the cities are saved Country is saved, and once all the Countries are saved world is saved, game is finished
-	5. New virus will break and the game restarts again.
+
+1. You need to start from one city and reach to other city within specified time.
+2. Sooner you complete a city, large time you have to save the country.
+3. If you fail to reach the targets in time, some other city will get contaminated, and needs decontamination again, hence requiring more time and effort.
+4. If all the cities are saved Country is saved, and once all the Countries are saved world is saved, game is finished
+5. New virus will break and the game restarts again.
 
 
 	Remaining Tasks
