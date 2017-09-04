@@ -123,7 +123,7 @@ public class JumpingMarbleWorldCreator {
 
     public void removeJoints(){
         for(Joint j : joints){
-            System.out.println("Destroying joint");
+            //System.out.println("Destroying joint");
             world.destroyJoint(j);
         }
         joints.clear();

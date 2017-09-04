@@ -2,7 +2,7 @@ package com.pintu.futurewars.Controllers.InputListner;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.pintu.futurewars.Controllers.Controller;
+import com.pintu.futurewars.Controllers.Widgets;
 
 /**
  * Created by hsahu on 7/5/2017.
@@ -10,32 +10,32 @@ import com.pintu.futurewars.Controllers.Controller;
 
 public class ControllerInputListner extends InputListener {
 
-    public Controller controller;
+    public Widgets widgets;
     public int buttonId;
-    public ControllerInputListner(Controller ctrl, int id){
-        controller = ctrl;
+    public ControllerInputListner(Widgets ctrl, int id){
+        widgets = ctrl;
         buttonId = id;
 
     }
 
     @Override
     public void touchDragged(InputEvent event, float x, float y, int pointer) {
-        controller.x = x;
-        controller.y = y;
+        widgets.x = x;
+        widgets.y = y;
     }
 
     @Override
     public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-        controller.controles[buttonId] = false;
-        controller.x = 0;
-        controller.y = 0;
+        widgets.controles[buttonId] = false;
+        widgets.x = 0;
+        widgets.y = 0;
     }
 
     @Override
     public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-        controller.controles[buttonId] = true;
-        controller.x = x;
-        controller.y = y;
+        widgets.controles[buttonId] = true;
+        widgets.x = x;
+        widgets.y = y;
         return true;
     }
 }

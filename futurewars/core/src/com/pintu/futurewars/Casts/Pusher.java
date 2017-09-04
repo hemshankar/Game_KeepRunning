@@ -42,8 +42,8 @@ public class Pusher extends FutureWarsCast {
     @Override
     public void update(float dt){
         super.update(dt);
-        float pXpose = GameUtility.gameScreen.player2.body.getPosition().x;
-        float pYpose = GameUtility.gameScreen.player2.body.getPosition().y;
+        float pXpose = GameUtility.getGameScreen().player2.body.getPosition().x;
+        float pYpose = GameUtility.getGameScreen().player2.body.getPosition().y;
         float myXpos = body.getPosition().x;
         float myYpos = body.getPosition().y;
 

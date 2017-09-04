@@ -37,8 +37,8 @@ public class WaterBalloon extends FutureWarsCast {
         super.update(dt);
 
         if(!fired) {
-            float pXpose = GameUtility.gameScreen.player2.body.getPosition().x;
-            float pYpose = GameUtility.gameScreen.player2.body.getPosition().y;
+            float pXpose = GameUtility.getGameScreen().player2.body.getPosition().x;
+            float pYpose = GameUtility.getGameScreen().player2.body.getPosition().y;
             float myXpos = body.getPosition().x;
             float myYpos = body.getPosition().y;
 

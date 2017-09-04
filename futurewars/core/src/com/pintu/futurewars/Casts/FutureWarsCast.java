@@ -22,12 +22,12 @@ abstract public class FutureWarsCast extends AbstractGameObject{
 
     public void takeDamage(float damage){
         health-=damage;
-        System.out.println("Damage taken: " + damage);
+        //System.out.println("Damage taken: " + damage);
         if(health<=0){
            /*if(this instanceof Brick)
-                GameUtility.gameScreen.assetManager.get("audio/Fire impact 1.wav",Sound.class).play();
+                GameUtility.getGameScreen().assetManager.get("audio/Fire impact 1.wav",Sound.class).play();
             else if (this instanceof Pusher)
-                GameUtility.gameScreen.assetManager.get("audio/Wind effects 5.wav",Sound.class).play();*/
+                GameUtility.getGameScreen().assetManager.get("audio/Wind effects 5.wav",Sound.class).play();*/
 
             this.toBeDestroyed = true;
         }

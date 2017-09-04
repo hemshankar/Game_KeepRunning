@@ -89,6 +89,7 @@ public class UpdateHandler {
         //Always destroy the bodies at the end
         screen.worldCreator.removeBodies();
         screen.worldCreator.destroyBodies();
+        screen.widgets.update(dt);
     }
 
     private void updateGameObjects(Set<GameObject> gObjs, float dt){

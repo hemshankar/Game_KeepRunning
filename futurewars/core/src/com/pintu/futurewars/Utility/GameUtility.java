@@ -4,11 +4,17 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.common.exceptions.UtilityException;
 import com.pintu.futurewars.Blasts.EnemyBlast;
 import com.pintu.futurewars.Blasts.PowerBlast;
@@ -24,6 +30,7 @@ import com.pintu.futurewars.commons.GameObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +59,8 @@ public class GameUtility {
         return blastAtlas;
     }
 
-    public static GameScreen gameScreen= null;
+    //public static GameScreen gameScreen= null;
+    public static WeakReference<GameScreen> gameScreen = null;
     public static World world;
     public static void setPlayer(Player pler){
             player = pler;
@@ -80,8 +88,8 @@ public class GameUtility {
     public static void renderGameObjects(SpriteBatch batch, Set<GameObject> gos){
         for(GameObject obj: gos){
             if(obj.getSprite()!=null){
-                if(obj.getSprite().getTexture() == null){
-                    System.out.print("Is NULL==============" + obj);
+                if(obj.getSprite().getTexture() == null){ //improge this logic
+                    //System.out.print("Is NULL==============" + obj);
                 }else{
                     obj.getSprite().draw(batch);
                 }
@@ -108,48 +116,48 @@ public class GameUtility {
         BasicBullet bullet = new BasicBullet(id++,world ,atlas,x,y);
         bullet.initialize();
         bullet.fire();
-        gameScreen.gameObjects.add(bullet);
+        getGameScreen().gameObjects.add(bullet);
     }
 
     public static void fireBurstBullet(float x, float y){
         BasicBullet bullet = new BasicBullet(id++,world ,atlas,x,y-1);
         bullet.initialize();
         bullet.fire();
-        gameScreen.gameObjects.add(bullet);
+        getGameScreen().gameObjects.add(bullet);
 
         bullet = new BasicBullet(id++,world ,atlas,x+1,y+1);
         bullet.initialize();
         bullet.fire();
-        gameScreen.gameObjects.add(bullet);
+        getGameScreen().gameObjects.add(bullet);
     }
 
     public static void fireBurstBullet(float x, float y,float distance){
         BasicBullet bullet = new BasicBullet(id++,world ,atlas,x,y-distance);
         bullet.initialize();
         bullet.fire();
-        gameScreen.gameObjects.add(bullet);
+        getGameScreen().gameObjects.add(bullet);
 
         bullet = new BasicBullet(id++,world ,atlas,x,y+distance);
         bullet.initialize();
         bullet.fire();
-        gameScreen.gameObjects.add(bullet);
+        getGameScreen().gameObjects.add(bullet);
     }
     public static void Bomb(float x, float y){
         Bomb bullet = new Bomb(id++,world ,atlas,x,y);
         bullet.initialize();
         bullet.fire();
-        gameScreen.gameObjects.add(bullet);
+        getGameScreen().gameObjects.add(bullet);
     }
 
     public static void addEnemyBlast(float x, float y){
         EnemyBlast blast = new EnemyBlast(id++,world,blastAtlas,x,y);
         blast.initialize();
-        gameScreen.gameObjects.add(blast);
+        getGameScreen().gameObjects.add(blast);
     }
     public static void addPowerBlast(float x, float y){
         PowerBlast blast = new PowerBlast(id++,world,blastAtlas,x,y);
         blast.initialize();
-        gameScreen.gameObjects.add(blast);
+        getGameScreen().gameObjects.add(blast);
     }
     public static HashMap<String, String> populateConfigurationsFromConfigFile(String fileName) throws UtilityException {
         HashMap configFile = new HashMap();
@@ -174,5 +182,11 @@ public class GameUtility {
         return configFile;
     }
 
+    public static void setGameScreen(GameScreen screen){
+        gameScreen = new WeakReference<GameScreen>(screen);
+    }
 
+    public static GameScreen getGameScreen(){
+        return gameScreen.get();
+    }
 }

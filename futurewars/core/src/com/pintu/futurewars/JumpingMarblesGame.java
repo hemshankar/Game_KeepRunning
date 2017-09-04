@@ -1,10 +1,15 @@
 package com.pintu.futurewars;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Screens.GameScreen;
 
 public class JumpingMarblesGame extends Game {
@@ -13,7 +18,6 @@ public class JumpingMarblesGame extends Game {
 
 	//-----------Game Screens
 	private GameScreen gameScreen;
-	//private PurchaseScreen purchaseScreen;
 
 	@Override
 	public void create () {
@@ -28,7 +32,8 @@ public class JumpingMarblesGame extends Game {
         assetManager.finishLoading();
 
 		batch = new SpriteBatch();
-		gameScreen = new GameScreen(batch,assetManager);
+
+		gameScreen = new GameScreen(this);
 		setScreen(gameScreen);
 	}
 
@@ -41,6 +46,8 @@ public class JumpingMarblesGame extends Game {
 	public void dispose () {
 		batch.dispose();
 		assetManager.dispose();
+
+		//screens
 		gameScreen.dispose();
 	}
 }

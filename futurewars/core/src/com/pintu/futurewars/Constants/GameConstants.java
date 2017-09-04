@@ -39,7 +39,7 @@ public class GameConstants {
     public static final float VIEW_PORT_WIDTH = 1600;
     public static final float VIEW_PORT_HIGHT = 900;
 
-    //------------------Controller
+    //------------------Widgets
     public static final int UP = 0;
     public static final int RIGHT = 1;
     public static final int DOWN = 2;

@@ -15,7 +15,6 @@
 13. Enemies will be all sorts of enemies... plants, animals, fishes, zombies, humans, --- TBD
 14. There will be healers let say sun, and other extra things --- Out of version 1
 15. Special powers of each hero. --- TBD in version 2
-    
 16. Flying Kalieen --- Done Needs finishing
 17. Launcher(s)
 18. Sticky Bomb --- Done
@@ -26,5 +25,7 @@
 23. Water Baloons --- Done
 24. Bricks --- Done
 25.  Use Asset manager --- TBD
-26. Appearence of the player should change with health
-
+26. Appearance of the player should change with health --- TBD
+27. Speed display --- Done
+28. Health Bar Display --- Done
+29. Rocket Fuel Display --- Done

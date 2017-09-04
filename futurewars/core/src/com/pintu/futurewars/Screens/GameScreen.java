@@ -27,14 +27,16 @@ import com.pintu.futurewars.Casts.SpeedBomb;
 import com.pintu.futurewars.Casts.StickyBomb;
 import com.pintu.futurewars.Casts.WaterBalloon;
 import com.pintu.futurewars.Constants.GameConstants;
-import com.pintu.futurewars.Controllers.Controller;
+import com.pintu.futurewars.Controllers.Widgets;
 import com.pintu.futurewars.Controllers.InputHandler;
+import com.pintu.futurewars.JumpingMarblesGame;
 import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.Utility.UpdateHandler;
 import com.pintu.futurewars.JumpingMarbleWorldCreator;
 import com.pintu.futurewars.Utility.WorldContactListner;
 import com.pintu.futurewars.commons.GameObject;
 
+import java.lang.ref.WeakReference;
 import java.util.Set;
 
 /**
@@ -73,8 +75,8 @@ public class GameScreen implements Screen {
     //all other gameObjects
     public Set<GameObject> gameObjects;
 
-    //Controller
-    public Controller controller;
+    //Widgets
+    public Widgets widgets;
 
     //mas velocity of the player
     public float maxVelocity=0;
@@ -92,19 +94,21 @@ public class GameScreen implements Screen {
     public boolean started = false;
 
     public AssetManager assetManager = null;
-    Music gameMusic = null;
-    public Player2 player2;
-    public GameScreen(SpriteBatch batch, AssetManager assetManager){
+    public Music gameMusic = null;
+    public Player2 player2 = null;
+    public JumpingMarblesGame game = null;
+    public GameScreen(JumpingMarblesGame game){
 
         //Initialize all the variables
         float scrWidth = Gdx.graphics.getWidth();
         float scrHight = Gdx.graphics.getHeight();
-        this.batch = batch;
-        this.assetManager = assetManager;
+        this.game = game;
+        this.batch = game.batch;
+        this.assetManager = game.assetManager;
         camera = new OrthographicCamera();
         viewport = new FitViewport(GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
         //viewport = new FitViewport(scrWidth,scrHight,camera);
-        System.out.println("=====" + scrWidth + "--" + scrHight );
+        //System.out.println("=====" + scrWidth + "--" + scrHight );
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load(GameConstants.FUTURE_WARS_MAP);
@@ -125,9 +129,8 @@ public class GameScreen implements Screen {
         gameObjects = worldCreator.gameObjects;
         player2 = worldCreator.player;//new Player2(22,null,world,GameUtility.getAtlas(),worldCreator.player.mapObject);
 
-        controller = new Controller(batch);
-
-        GameUtility.gameScreen = this;
+        widgets = new Widgets(this);
+        GameUtility.setGameScreen(this);
 
         gameMusic = assetManager.get("music/Flying me softly.ogg",Music.class);
         gameMusic.setLooping(true);
@@ -243,7 +246,7 @@ public class GameScreen implements Screen {
         GameUtility.renderGameObjects(batch, gameObjects);
 
         batch.end();
-        controller.draw();
+        widgets.draw();
     }
 
     //utility method to be used in render
@@ -265,7 +268,7 @@ public class GameScreen implements Screen {
     @Override
     public void resize(int width, int height) {
         viewport.update(width,height);
-        controller.resize(width,height);
+        widgets.resize(width,height);
     }
 
     @Override
@@ -289,7 +292,7 @@ public class GameScreen implements Screen {
         renderer.dispose();
         world.dispose();
         b2dr.dispose();
-
+        widgets.dispose();
         //Never call ----batch.dispose();
     }
 }

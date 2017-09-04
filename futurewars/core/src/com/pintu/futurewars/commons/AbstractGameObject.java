@@ -388,7 +388,7 @@ public abstract class AbstractGameObject implements GameObject{
 
     private void playSound(String sound){
         if(stateSoundMap !=null && stateSoundMap.size()>0 && stateSoundMap.get(sound) !=null) {
-            GameUtility.gameScreen.assetManager.get(stateSoundMap.get(sound), Sound.class).play();
+            GameUtility.getGameScreen().assetManager.get(stateSoundMap.get(sound), Sound.class).play();
         }
     }
 }

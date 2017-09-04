@@ -34,9 +34,9 @@ public class StickyBomb extends FutureWarsCast {
         super.destroy();
         GameUtility.addPowerBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
         if(isAttached){
-            Body pBody = GameUtility.gameScreen.player2.body;
+            Body pBody = GameUtility.getGameScreen().player2.body;
             pBody.applyLinearImpulse(new Vector2(50f, 0), pBody.getWorldCenter(), true);
-            GameUtility.gameScreen.player2.takeDamage(10);
+            GameUtility.getGameScreen().player2.takeDamage(10);
         }
     }
 
@@ -44,8 +44,8 @@ public class StickyBomb extends FutureWarsCast {
     public void update(float dt) {
         super.update(dt);
         if (!fired) {
-            float pXpose = GameUtility.gameScreen.player2.body.getPosition().x;
-            float pYpose = GameUtility.gameScreen.player2.body.getPosition().y;
+            float pXpose = GameUtility.getGameScreen().player2.body.getPosition().x;
+            float pYpose = GameUtility.getGameScreen().player2.body.getPosition().y;
             float myXpos = body.getPosition().x;
             float myYpos = body.getPosition().y;
 
