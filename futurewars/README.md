@@ -1,4 +1,4 @@
-			Story
+=====================Story=====================
 Man mad calamities has struck the country because of the certain virus contamination. There are various decontamination centres have the antidote.
 You need to reach to these centres one by one within specified time, and release the antidote to save the city and nation.
 
@@ -11,7 +11,7 @@ Rules:
 5. New virus will break and the game restarts again.
 
 
-	Remaining Tasks
+================Remaining Tasks================
 
 1. Bots action automation - Done
 2. Music - Done
