@@ -5,12 +5,9 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
@@ -35,6 +32,7 @@ public class Widgets {
     Pixmap pixmap=null;
     ProgressBarStyle progressBarStyle =null;
     ProgressBar healthBar;
+    ProgressBar flyFuelBar;
     float time = 0;
     GameScreen screen = null;
     BitmapFont font=new BitmapFont();
@@ -45,14 +43,15 @@ public class Widgets {
                                 //upPressed, downPressed, leftPressed, rightPressed,throwPressed;
     OrthographicCamera ctrlCam;
     CustomLabel speedStats = null;
+    CustomLabel coinsCollected = null;
 
     public Widgets(GameScreen screen){
         this.screen = screen;
+        initFonts();
         ctrlCam = new OrthographicCamera();
         cViewPort = new FitViewport(GameConstants.VIEW_PORT_WIDTH,
                 GameConstants.VIEW_PORT_HIGHT,ctrlCam);
         stage = new Stage(cViewPort, screen.batch);
-
         Gdx.input.setInputProcessor(stage);
 
         //create directions
@@ -84,8 +83,9 @@ public class Widgets {
         stage.addActor(up.image);
 
         healthBar();
+        flyFuelBar();
 
-        initFonts();
+
         speedStats = new CustomLabel("0000", new Label.LabelStyle(font,Color.BLACK));
         speedStats.setWidth(10);
         speedStats.setHeight(10);
@@ -93,18 +93,25 @@ public class Widgets {
         //speedStats.setPosition(200,100);
         speedStats.text = "200";
         stage.addActor(speedStats);
+
+        coinsCollected = new  CustomLabel("0", new Label.LabelStyle(font,Color.BLACK));
+        coinsCollected.setWidth(10);
+        coinsCollected.setHeight(10);
+        coinsCollected.setPosition(stage.getWidth()-400,stage.getHeight()-50);
+        //speedStats.setPosition(200,100);
+        coinsCollected.text = "0";
+        stage.addActor(coinsCollected);
     }
 
     public void draw(){
-
         stage.draw();
-
     }
 
     public void update(float dt){
-        System.out.println(screen.player2.health);
         healthBar.setValue(screen.player2.health/screen.player2.MAX_HEALTH);
+        flyFuelBar.setValue(screen.player2.flyFuel/screen.player2.MAX_FLY_FUEL);
         speedStats.text = "Speed: " + (int)(screen.player2.body.getLinearVelocity().x) + "";
+        coinsCollected.text = "" + screen.player2.totalCoin;
         stage.act();
     }
 
@@ -114,6 +121,14 @@ public class Widgets {
 
 
     private void healthBar(){
+        //===================Replace the label Live with some image==============================
+        CustomLabel healthLabel = new CustomLabel("Life", new Label.LabelStyle(font,Color.BLACK));
+        healthLabel.setWidth(10);
+        healthLabel.setHeight(10);
+        healthLabel.setPosition(10,stage.getHeight()-50);
+        stage.addActor(healthLabel);
+        //===================End of Replace the label live with some image=======================
+
         Pixmap pixmap = new Pixmap(100, 20, Format.RGBA8888);
         pixmap.setColor(Color.RED);
         pixmap.fill();
@@ -139,15 +154,61 @@ public class Widgets {
         progressBarStyle.knobBefore = drawable;
 
         healthBar = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyle);
+
         healthBar.setValue(1.0f);
         healthBar.setAnimateDuration(0.025f);
         healthBar.setBounds(10, 10, 500, 20);
         healthBar.setFillParent(true);
-        healthBar.setPosition(10,stage.getHeight()-50);
+        healthBar.setPosition(130,stage.getHeight()-50);
+
         //return healthBar;
         stage.addActor(healthBar);
     }
 
+    private void flyFuelBar(){
+        //===================Replace the label fuel with some image==============================
+        CustomLabel fuelLabel = new CustomLabel("Fuel", new Label.LabelStyle(font,Color.BLACK));
+        fuelLabel.setWidth(10);
+        fuelLabel.setHeight(10);
+        fuelLabel.setPosition(10,stage.getHeight()-100);
+        stage.addActor(fuelLabel);
+        //===================End of Replace the label fuel with some image=======================
+
+        Pixmap pixmap = new Pixmap(100, 20, Format.RGBA8888);
+        pixmap.setColor(Color.RED);
+        pixmap.fill();
+        TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pixmap.dispose();
+        ProgressBarStyle progressBarStyle = new ProgressBarStyle();
+        progressBarStyle.background = drawable;
+
+        pixmap = new Pixmap(0, 20, Format.RGBA8888);
+        pixmap.setColor(Color.BLUE);
+        pixmap.fill();
+        drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pixmap.dispose();
+
+        progressBarStyle.knob = drawable;
+
+        pixmap = new Pixmap(100, 20, Format.RGBA8888);
+        pixmap.setColor(Color.BLUE);
+        pixmap.fill();
+        drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pixmap.dispose();
+
+        progressBarStyle.knobBefore = drawable;
+
+        flyFuelBar = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyle);
+
+        flyFuelBar.setValue(1.0f);
+        flyFuelBar.setAnimateDuration(0.025f);
+        flyFuelBar.setBounds(10, 10, 500, 20);
+        flyFuelBar.setFillParent(true);
+        flyFuelBar.setPosition(130,stage.getHeight()-100);
+
+        //return healthBar;
+        stage.addActor(flyFuelBar);
+    }
 
     public void dispose(){
         //speedStats.dispose();
@@ -176,7 +237,7 @@ public class Widgets {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/leadcoat.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        params.size = 50;
+        params.size = 40;
         params.color = Color.BLACK;
 
         font = generator.generateFont(params);

@@ -29,6 +29,7 @@ public class Player2 extends FutureWarsCast {
     public float jumpEffectRemainig = 0;
     
     public float flyFuel = 10;
+    public static final float MAX_FLY_FUEL = 10;
     public static final float FLY_FUEL_REFILL_INTERVAL = 5;
     public float flyFuelRechargeInterval = 0;
 
@@ -110,7 +111,7 @@ public class Player2 extends FutureWarsCast {
     public void flyFuelUpdate(float dt){
         flyFuelRechargeInterval += dt;
         if(flyFuelRechargeInterval > FLY_FUEL_REFILL_INTERVAL){
-            if(flyFuel<100){
+            if(flyFuel<MAX_FLY_FUEL){
                 flyFuel++;
             }
             flyFuelRechargeInterval = 0;
