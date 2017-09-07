@@ -113,6 +113,10 @@ public class GameConstants {
     public static final String ROPE = "rope";
     public static final String WELD = "weld";
 
+    //===================================Stages====================================
+    public static final String STAGE1 = "STAGE1";
+
+
 
 
 }

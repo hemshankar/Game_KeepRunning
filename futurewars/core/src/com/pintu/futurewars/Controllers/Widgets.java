@@ -212,6 +212,7 @@ public class Widgets {
 
     public void dispose(){
         //speedStats.dispose();
+        font.dispose();
     }
 
     public class CustomLabel extends com.badlogic.gdx.scenes.scene2d.ui.Label {

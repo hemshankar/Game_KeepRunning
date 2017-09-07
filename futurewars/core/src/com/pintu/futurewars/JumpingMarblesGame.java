@@ -6,18 +6,28 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Screens.GameScreen;
+import com.pintu.futurewars.Screens.StagesScreen;
+import com.pintu.futurewars.Screens.WelcomeScreen;
 
 public class JumpingMarblesGame extends Game {
 	public static SpriteBatch batch;
 	public AssetManager assetManager = null;//new AssetManager();
+	public OrthographicCamera camera;
+	//Viewport handles the way our screen will be rendered in different screen size, it decides what aspect ration to use and how much of the screen/game area to be shown
+	public Viewport viewport;
 
 	//-----------Game Screens
-	private GameScreen gameScreen;
+	private GameScreen gameScreen=null;
+	private WelcomeScreen welcomeScreen=null;
+	private StagesScreen stagesScreen = null;
 
 	@Override
 	public void create () {
@@ -33,8 +43,13 @@ public class JumpingMarblesGame extends Game {
 
 		batch = new SpriteBatch();
 
-		gameScreen = new GameScreen(this);
-		setScreen(gameScreen);
+		camera = new OrthographicCamera();
+		viewport = new FitViewport(GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
+
+		/*gameScreen = new GameScreen(this);
+		setScreen(gameScreen);*/
+		welcomeScreen = new WelcomeScreen(this);
+		setScreen(welcomeScreen);
 	}
 
 	@Override
@@ -48,6 +63,26 @@ public class JumpingMarblesGame extends Game {
 		assetManager.dispose();
 
 		//screens
-		gameScreen.dispose();
+		if(gameScreen!=null)
+			gameScreen.dispose();
+		if(welcomeScreen!=null)
+			welcomeScreen.dispose();
+		if(stagesScreen!=null)
+			stagesScreen.dispose();
+	}
+
+	public GameScreen getGameScreen(String stage){
+		if(GameConstants.STAGE1.equals(stage)){
+			if(gameScreen==null)
+			gameScreen = new GameScreen(this);
+			return gameScreen;
+		}
+		return null;
+	}
+
+	public StagesScreen getStagesScreen(){
+		if(stagesScreen == null)
+			stagesScreen = new StagesScreen(this);
+		return stagesScreen;
 	}
 }

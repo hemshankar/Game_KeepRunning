@@ -105,8 +105,8 @@ public class GameScreen implements Screen {
         this.game = game;
         this.batch = game.batch;
         this.assetManager = game.assetManager;
-        camera = new OrthographicCamera();
-        viewport = new FitViewport(GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
+        camera = game.camera;//new OrthographicCamera();
+        viewport = game.viewport;//new FitViewport(GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
         //viewport = new FitViewport(scrWidth,scrHight,camera);
         //System.out.println("=====" + scrWidth + "--" + scrHight );
 
