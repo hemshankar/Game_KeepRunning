@@ -58,3 +58,10 @@ Rules:
 	2. water Holes (if submerged for 3 secs, game over), 
 	3. Fire, 
 	4.Mines (can be detected only if mine detector is present)  
+
+37. Story Animation
+38. Loading screen 
+39. Welcome Screen -- Done
+40. Stage decision: what powers and enemies to be unlocked in each stage
+41. Clean code related to map
+
