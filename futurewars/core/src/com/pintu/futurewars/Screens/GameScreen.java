@@ -6,6 +6,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -13,11 +14,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Casts.BombAmo;
 import com.pintu.futurewars.Casts.Coin;
 import com.pintu.futurewars.Casts.CowBoyHat;
+import com.pintu.futurewars.Casts.Ground;
 import com.pintu.futurewars.Casts.JumpingKit;
 import com.pintu.futurewars.Casts.Kaleen;
 import com.pintu.futurewars.Casts.Player2;
@@ -26,7 +27,6 @@ import com.pintu.futurewars.Casts.Pusher;
 import com.pintu.futurewars.Casts.SpeedBomb;
 import com.pintu.futurewars.Casts.StickyBomb;
 import com.pintu.futurewars.Casts.WaterBalloon;
-import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Controllers.Widgets;
 import com.pintu.futurewars.Controllers.InputHandler;
 import com.pintu.futurewars.JumpingMarblesGame;
@@ -36,7 +36,6 @@ import com.pintu.futurewars.JumpingMarbleWorldCreator;
 import com.pintu.futurewars.Utility.WorldContactListner;
 import com.pintu.futurewars.commons.GameObject;
 
-import java.lang.ref.WeakReference;
 import java.util.Set;
 
 /**
@@ -97,6 +96,14 @@ public class GameScreen implements Screen {
     public Music gameMusic = null;
     public Player2 player2 = null;
     public JumpingMarblesGame game = null;
+    public Texture backgroundImage;
+    public float backImgX = 0;
+    public float backImgY = 0;
+    public float backImgWidth = 70;
+    public float backImgHeight = 50;
+    public float numOfBackImgs = 1;
+
+
     public GameScreen(JumpingMarblesGame game){
 
         //Initialize all the variables
@@ -110,9 +117,9 @@ public class GameScreen implements Screen {
         //viewport = new FitViewport(scrWidth,scrHight,camera);
         //System.out.println("=====" + scrWidth + "--" + scrHight );
 
-        mapLoader = new TmxMapLoader();
+        /*mapLoader = new TmxMapLoader();
         map = mapLoader.load(GameConstants.FUTURE_WARS_MAP);
-        renderer = new OrthogonalTiledMapRenderer(map,1/ GameConstants.PPM);
+        renderer = new OrthogonalTiledMapRenderer(map,1/ GameConstants.PPM);*/
 
         world = new World(new Vector2(0,-10),true);
         b2dr = new Box2DDebugRenderer();
@@ -137,6 +144,15 @@ public class GameScreen implements Screen {
         gameMusic.play();
 
         //add speedBombs
+
+        player2 = new Player2(222, world, GameUtility.stickAtlas, null);
+        player2.initialize();
+        gameObjects.add(player2);
+        player2.body.setUserData(player2);
+
+        //background Image-Should keep rotating
+        backgroundImage = new Texture(Gdx.files.internal("imgs/stage1BackGround.JPG"));
+
         SpeedBomb b;
         for(int i = 0;i<10;i++){
             b = new SpeedBomb(111,world, GameUtility.getBlastAtlas(),null);
@@ -222,6 +238,13 @@ public class GameScreen implements Screen {
             kaleen.initialize();
             gameObjects.add(kaleen);
         }
+
+        Ground g = new Ground(34,world, GameUtility.getAtlas(),null);
+        g.xPos = 0;
+        g.yPos = 4;
+        g.initialize();
+        gameObjects.add(g);
+
     }
 
     @Override
@@ -237,20 +260,25 @@ public class GameScreen implements Screen {
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        renderer.render();
+        //renderer.render();
         b2dr.render(world,camera.combined);
         batch.setProjectionMatrix(camera.combined);
 
-        batch.begin();
+        //Background Image
 
+        batch.begin();
+        batch.draw(backgroundImage,backImgX,backImgY,backImgWidth,backImgHeight);//Gdx.graphics.getWidth()/GameConstants.PPM,Gdx.graphics.getHeight()/GameConstants.PPM);
         GameUtility.renderGameObjects(batch, gameObjects);
 
         batch.end();
         widgets.draw();
+
+
     }
 
     //utility method to be used in render
     private void update(float dt){
+
         //handle the i/p every delta time
         handleIp(dt);
 
@@ -288,11 +316,12 @@ public class GameScreen implements Screen {
 
     @Override
     public void dispose() {
-        map.dispose();
-        renderer.dispose();
+        //map.dispose();
+        //renderer.dispose();
         world.dispose();
         b2dr.dispose();
         widgets.dispose();
+        backgroundImage.dispose();
         //Never call ----batch.dispose();
     }
 }

@@ -32,7 +32,7 @@ public class WelcomeScreen implements Screen {
     FitViewport cViewPort = null;
     Image welcomeImage = null;
 
-    private final float CHANGE_SCREEN_TIME = 3;
+    private final float CHANGE_SCREEN_TIME = 0;
     private float timeHappend = 0;
 
     public WelcomeScreen(JumpingMarblesGame game){

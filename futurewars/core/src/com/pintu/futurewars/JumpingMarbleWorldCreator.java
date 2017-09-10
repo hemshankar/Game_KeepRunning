@@ -33,10 +33,10 @@ public class JumpingMarbleWorldCreator {
 
     public List<Joint> joints = new ArrayList<Joint>();
 
-    public float boundaryLeft;
-    public float boundaryRight;
-    public float boundaryTop;
-    public float boundaryBottom;
+    public float boundaryLeft = 0;
+    public float boundaryRight = 63936;
+    public float boundaryTop = 1888;
+    public float boundaryBottom=392;
 
     public JumpingMarbleWorldCreator(World world, Map map){
 
@@ -55,41 +55,47 @@ public class JumpingMarbleWorldCreator {
             }*/
 
             //Create bricks
-            Brick b;
+           /* Brick b;
             for (MapObject object : map.getLayers().get("bricks").getObjects().getByType(RectangleMapObject.class)) {
                 b=new Brick(2110 + i++, world, GameUtility.getAtlas(), object);
                 b.initialize();
                 gameObjects.add(b);
                 b.body.setUserData(b);
-            }
+            }*/
 
-            Ground g;
+            /*Ground g;
             for (MapObject object : map.getLayers().get("groundSensor").getObjects().getByType(RectangleMapObject.class)) {
                 g=new Ground(210 + i++, world, GameUtility.getAtlas(), object);
                 g.initialize();
                 gameObjects.add(g);
                 g.body.setUserData(g);
-            }
+            }*/
 
             //create player
-            MapObject object = map.getLayers().get("player").getObjects().getByType(EllipseMapObject.class).get(0);
+            /*MapObject object = map.getLayers().get("player").getObjects().getByType(EllipseMapObject.class).get(0);
             player = new Player2(222, world, GameUtility.stickAtlas, object);
             player.initialize();
             gameObjects.add(player);
-            player.body.setUserData(player);
+            player.body.setUserData(player);*/
 
             //create obstacles
-            MapBodyBuilder.buildShapes(map, GameConstants.PPM, world, "staticObjects");
+            //MapBodyBuilder.buildShapes(map, GameConstants.PPM, world, "staticObjects");
 
             //Get boundaries
-            MapObject left = map.getLayers().get("leftBoundary").getObjects().getByType(RectangleMapObject.class).get(0);
+            /*MapObject left = map.getLayers().get("leftBoundary").getObjects().getByType(RectangleMapObject.class).get(0);
             boundaryLeft = ((RectangleMapObject) left).getRectangle().getX();
             MapObject right = map.getLayers().get("rightBoundary").getObjects().getByType(RectangleMapObject.class).get(0);
             boundaryRight = ((RectangleMapObject) right).getRectangle().getX();
             MapObject top = map.getLayers().get("topBoundary").getObjects().getByType(RectangleMapObject.class).get(0);
             boundaryTop = ((RectangleMapObject) top).getRectangle().getY();
             MapObject bottom = map.getLayers().get("bottomBoundary").getObjects().getByType(RectangleMapObject.class).get(0);
-            boundaryBottom = ((RectangleMapObject) bottom).getRectangle().getY();
+            boundaryBottom = ((RectangleMapObject) bottom).getRectangle().getY();*/
+
+            System.out.println("Left : " + boundaryLeft + ", "
+            + "Right : " + boundaryRight + ", "
+            + "Top : " + boundaryTop + ", "
+            + "Bottom : " + boundaryBottom + ", ");
+
         }
     }
 

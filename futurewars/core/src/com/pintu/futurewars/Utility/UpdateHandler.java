@@ -1,5 +1,6 @@
 package com.pintu.futurewars.Utility;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
@@ -41,7 +42,7 @@ public class UpdateHandler {
         screen.camera.update();
 
         //orthographic map renderer's position is decided by the camera
-        screen.renderer.setView(screen.camera);
+        //screen.renderer.setView(screen.camera);
 
         //get the body speed and resize the viewport
         Vector2 velocity = screen.player2.getBody().getLinearVelocity();
@@ -90,6 +91,11 @@ public class UpdateHandler {
         screen.worldCreator.removeBodies();
         screen.worldCreator.destroyBodies();
         screen.widgets.update(dt);
+
+        if(screen.player2.getBody().getPosition().x > screen.numOfBackImgs * screen.backImgWidth - 20){
+            screen.backImgX = screen.numOfBackImgs * screen.backImgWidth-30;
+            screen.numOfBackImgs++;
+        }
     }
 
     private void updateGameObjects(Set<GameObject> gObjs, float dt){
