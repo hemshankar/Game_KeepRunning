@@ -22,16 +22,20 @@ public class Player2 extends FutureWarsCast {
     public float HEALTH_REDUCTION_CONSTANT=1;
 
     public final float MAX_HEALTH = 200;
-    public final float MAX_SPEED = 5;
+    public final float MAX_SPEED = 20;
     public final float MIN_HEALTH = 20;
 
     public final float JUMP_KIT_EFFECT_TIME = 10f;
+    //public final float FLY_KIT_EFFECT_TIME = 10f;
     public float jumpEffectRemainig = 0;
+    //public float flyEffectRemainig = 0;
     
     public float flyFuel = 10;
-    public static final float MAX_FLY_FUEL = 10;
-    public static final float FLY_FUEL_REFILL_INTERVAL = 5;
+    public final float MAX_FLY_FUEL = 10;
+    public final float FLY_FUEL_REFILL_INTERVAL = 5;
     public float flyFuelRechargeInterval = 0;
+    public boolean canJump = false;
+    public boolean hasFlyingKit = false;
 
     public Player2(int id, World w, TextureAtlas a, MapObject object) {
         super(id, GameConstants.PLAYER_PROPERTY_FILE, w, a,object);
@@ -99,23 +103,21 @@ public class Player2 extends FutureWarsCast {
         }*/
     }
 
-    @Override
-    public void handleEndContact(GameObject gObj){
-        if(gObj instanceof Ground){
-            if(hasJumpingKit && jumpEffectRemainig > 0){
-                body.applyLinearImpulse(new Vector2(0, 6), body.getWorldCenter(), true);
-            }
-        }
-    }
+
 
     public void flyFuelUpdate(float dt){
+        if(flyFuel<=0){
+            hasFlyingKit = false;
+        }
+        /*
+        //logic to recharge fuel.
         flyFuelRechargeInterval += dt;
         if(flyFuelRechargeInterval > FLY_FUEL_REFILL_INTERVAL){
             if(flyFuel<MAX_FLY_FUEL){
                 flyFuel++;
             }
             flyFuelRechargeInterval = 0;
-        }
+        }*/
     }
 
     public void fly(float dt){

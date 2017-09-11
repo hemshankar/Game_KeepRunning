@@ -39,8 +39,8 @@ public class WorldContactListner implements ContactListener {
         GameObject obj1 = (GameObject) contact.getFixtureA().getUserData();
         GameObject obj2 = (GameObject) contact.getFixtureB().getUserData();
 
-        if(obj1 !=null && obj2 !=null)
-            if(obj1 instanceof Ground)
+        if(obj1 !=null && obj2 !=null) //making sure that control goes to Player
+            if(obj1 instanceof Player2)
                 obj2.handleEndContact(obj1);
             else
                 obj1.handleEndContact(obj2);

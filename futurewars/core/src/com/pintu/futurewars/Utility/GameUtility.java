@@ -189,4 +189,8 @@ public class GameUtility {
     public static GameScreen getGameScreen(){
         return gameScreen.get();
     }
+
+    public static void log(String className,String str){
+        System.out.println( className + ":" + str);
+    }
 }

@@ -18,7 +18,7 @@ brick
   orig: 60, 30
   offset: 0, 0
   index: -1
-player
+flyingKit
   rotate: false
   xy: 222, 30
   size: 32, 32

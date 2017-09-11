@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Screens.GameScreen;
+import com.pintu.futurewars.Screens.PauseScreen;
 import com.pintu.futurewars.Screens.StagesScreen;
 import com.pintu.futurewars.Screens.WelcomeScreen;
 
@@ -25,9 +26,10 @@ public class JumpingMarblesGame extends Game {
 	public Viewport viewport;
 
 	//-----------Game Screens
-	private GameScreen gameScreen=null;
-	private WelcomeScreen welcomeScreen=null;
-	private StagesScreen stagesScreen = null;
+	public GameScreen gameScreen=null;
+	public WelcomeScreen welcomeScreen=null;
+	public StagesScreen stagesScreen = null;
+	public PauseScreen pauseScreen = null;
 
 	@Override
 	public void create () {
@@ -49,6 +51,7 @@ public class JumpingMarblesGame extends Game {
 		/*gameScreen = new GameScreen(this);
 		setScreen(gameScreen);*/
 		welcomeScreen = new WelcomeScreen(this);
+		pauseScreen = new PauseScreen(this,null);
 		setScreen(welcomeScreen);
 	}
 
@@ -69,6 +72,8 @@ public class JumpingMarblesGame extends Game {
 			welcomeScreen.dispose();
 		if(stagesScreen!=null)
 			stagesScreen.dispose();
+		if(pauseScreen!=null)
+			pauseScreen.dispose();
 	}
 
 	public GameScreen getGameScreen(String stage){

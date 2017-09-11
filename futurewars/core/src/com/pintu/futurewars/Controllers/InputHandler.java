@@ -21,7 +21,11 @@ public class InputHandler {
             /*if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || widgets.controles[GameConstants.THROW_SUCKER]){
                 player2.getBody().applyLinearImpulse(new Vector2(0,5f),player2.getBody().getWorldCenter(),true);
             }else */
-             screen.player2.fly(dt);
+            if(screen.player2.hasFlyingKit){
+                screen.player2.fly(dt);
+            }else if(screen.player2.canJump){
+                screen.player2.getBody().applyLinearImpulse(new Vector2(0, 4f), screen.player2.getBody().getWorldCenter(), true);
+            }
         }
         if(screen.widgets.controles[GameConstants.DOWN] || Gdx.input.isKeyPressed(Input.Keys.DOWN)){
            /* if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || widgets.controles[GameConstants.THROW_SUCKER]){

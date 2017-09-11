@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
@@ -19,7 +22,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Controllers.Directions.ControlButton;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.pintu.futurewars.JumpingMarblesGame;
 import com.pintu.futurewars.Screens.GameScreen;
+import com.pintu.futurewars.Screens.PauseScreen;
 
 /**
  * Created by hsahu on 7/5/2017.
@@ -27,7 +32,7 @@ import com.pintu.futurewars.Screens.GameScreen;
 
 public class Widgets {
     Viewport cViewPort;
-    Stage stage;
+    public Stage stage;
     //Health bar related
     Pixmap pixmap=null;
     ProgressBarStyle progressBarStyle =null;
@@ -44,15 +49,15 @@ public class Widgets {
     OrthographicCamera ctrlCam;
     CustomLabel speedStats = null;
     CustomLabel coinsCollected = null;
-
-    public Widgets(GameScreen screen){
+    public JumpingMarblesGame game;
+    public Widgets(JumpingMarblesGame game,GameScreen screen){
+        this.game = game;
         this.screen = screen;
         initFonts();
         ctrlCam = new OrthographicCamera();
         cViewPort = new FitViewport(GameConstants.VIEW_PORT_WIDTH,
                 GameConstants.VIEW_PORT_HIGHT,ctrlCam);
         stage = new Stage(cViewPort, screen.batch);
-        Gdx.input.setInputProcessor(stage);
 
         //create directions
         Table directions = new Table();
@@ -85,7 +90,6 @@ public class Widgets {
         healthBar();
         flyFuelBar();
 
-
         speedStats = new CustomLabel("0000", new Label.LabelStyle(font,Color.BLACK));
         speedStats.setWidth(10);
         speedStats.setHeight(10);
@@ -113,6 +117,11 @@ public class Widgets {
         speedStats.text = "Speed: " + (int)(screen.player2.body.getLinearVelocity().x) + "";
         coinsCollected.text = "" + screen.player2.totalCoin;
         stage.act();
+        if(screen.player2.hasFlyingKit) {
+            flyFuelBar.setVisible(true);
+        }else{
+            flyFuelBar.setVisible(false);
+        }
     }
 
     public void resize(int w,int h){
@@ -163,6 +172,9 @@ public class Widgets {
 
         //return healthBar;
         stage.addActor(healthBar);
+
+        //add pause
+        addToStage("imgs/welcome.png","Stage 1");
     }
 
     private void flyFuelBar(){
@@ -242,5 +254,41 @@ public class Widgets {
         params.color = Color.BLACK;
 
         font = generator.generateFont(params);
+    }
+
+    private void addToStage(String imageLocation, String label){
+        Texture texture = new Texture(Gdx.files.internal(imageLocation));
+        Image stageImage = new Image(texture);
+        stageImage.setHeight(45);
+        stageImage.setWidth(40);
+        stageImage.setPosition(stage.getWidth()-200,stage.getHeight()-100);
+        stageImage.addListener(new StageListner(GameConstants.STAGE1));
+        stage.addActor(stageImage);
+
+        Label stagelabel = new Label(label,new Label.LabelStyle(font,Color.BLACK));
+        stagelabel.setWidth(40);
+        stagelabel.setHeight(40);
+        stagelabel.setPosition(stage.getWidth()-200,stage.getHeight()-10);
+        stagelabel.addListener(new StageListner(GameConstants.STAGE1));
+        stage.addActor(stagelabel);
+    }
+
+    public class StageListner extends InputListener {
+
+        String stage=null;
+        public StageListner(String stage){
+            this.stage = stage;
+        }
+
+        @Override
+        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            game.setScreen(game.pauseScreen);
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            //addLoadingLabel();
+            return true;
+        }
     }
 }

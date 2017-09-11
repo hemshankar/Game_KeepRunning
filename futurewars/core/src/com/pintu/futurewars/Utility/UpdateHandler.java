@@ -1,6 +1,5 @@
 package com.pintu.futurewars.Utility;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
@@ -92,8 +91,12 @@ public class UpdateHandler {
         screen.worldCreator.destroyBodies();
         screen.widgets.update(dt);
 
-        if(screen.player2.getBody().getPosition().x > screen.numOfBackImgs * screen.backImgWidth - 20){
-            screen.backImgX = screen.numOfBackImgs * screen.backImgWidth-30;
+        if(screen.player2.getBody().getPosition().x > screen.numOfBackImgs * screen.backImgWidth - 35){
+            if(screen.numOfBackImgs%2==1){
+                screen.backImgX2 = screen.numOfBackImgs * screen.backImgWidth;
+            }else {
+                screen.backImgX1 = screen.numOfBackImgs * screen.backImgWidth;
+            }
             screen.numOfBackImgs++;
         }
     }

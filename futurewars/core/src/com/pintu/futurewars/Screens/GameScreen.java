@@ -18,6 +18,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Casts.BombAmo;
 import com.pintu.futurewars.Casts.Coin;
 import com.pintu.futurewars.Casts.CowBoyHat;
+import com.pintu.futurewars.Casts.FlyingKit;
 import com.pintu.futurewars.Casts.Ground;
 import com.pintu.futurewars.Casts.JumpingKit;
 import com.pintu.futurewars.Casts.Kaleen;
@@ -96,11 +97,15 @@ public class GameScreen implements Screen {
     public Music gameMusic = null;
     public Player2 player2 = null;
     public JumpingMarblesGame game = null;
-    public Texture backgroundImage;
-    public float backImgX = 0;
-    public float backImgY = 0;
-    public float backImgWidth = 70;
-    public float backImgHeight = 50;
+
+    //Handle background separately
+    public Texture backgroundImages1,backgroundImages2;//,backgroundImage2;
+    public float backImgX1 = 0;
+    public float backImgY1 = 0;
+    public float backImgX2 = 0;
+    public float backImgY2 = 0;
+    public float backImgWidth = 60;
+    public float backImgHeight = 30;
     public float numOfBackImgs = 1;
 
 
@@ -136,7 +141,7 @@ public class GameScreen implements Screen {
         gameObjects = worldCreator.gameObjects;
         player2 = worldCreator.player;//new Player2(22,null,world,GameUtility.getAtlas(),worldCreator.player.mapObject);
 
-        widgets = new Widgets(this);
+        widgets = new Widgets(game,this);
         GameUtility.setGameScreen(this);
 
         gameMusic = assetManager.get("music/Flying me softly.ogg",Music.class);
@@ -151,12 +156,13 @@ public class GameScreen implements Screen {
         player2.body.setUserData(player2);
 
         //background Image-Should keep rotating
-        backgroundImage = new Texture(Gdx.files.internal("imgs/stage1BackGround.JPG"));
+        backgroundImages1 = new Texture(Gdx.files.internal("imgs/sky1.png"));//("imgs/stage1BackGround3.jpg"));
+        backgroundImages2 = new Texture(Gdx.files.internal("imgs/sky1.png"));
 
         SpeedBomb b;
         for(int i = 0;i<10;i++){
             b = new SpeedBomb(111,world, GameUtility.getBlastAtlas(),null);
-            b.xPos = 5 + i*50;
+            b.xPos = 100 + i*100;
             b.yPos = 10;
             b.initialize();
             gameObjects.add(b);
@@ -164,7 +170,7 @@ public class GameScreen implements Screen {
         Pusher p;
         for(int i = 0;i<20;i++){
             p = new Pusher(143,world, GameUtility.getAtlas(),null);
-            p.xPos = 5 + i*25;
+            p.xPos = 110 + i*50;
             p.yPos = 10;
             p.initialize();
             gameObjects.add(p);
@@ -173,7 +179,7 @@ public class GameScreen implements Screen {
         StickyBomb s;
         for(int i = 0;i<10;i++){
             s = new StickyBomb(181,world, GameUtility.getBlastAtlas(),null);
-            s.xPos = 7 + i*50;
+            s.xPos = 107 + i*150;
             s.yPos = 10;
             s.initialize();
             gameObjects.add(s);
@@ -182,16 +188,25 @@ public class GameScreen implements Screen {
         JumpingKit jKit;
         for(int i = 0;i<5;i++){
             jKit = new JumpingKit(3,world, GameUtility.getAtlas(),null);
-            jKit.xPos = 30 + i*50;
+            jKit.xPos = 130 + i*100;
             jKit.yPos = 5;
             jKit.initialize();
             gameObjects.add(jKit);
         }
 
+        FlyingKit fKit;
+        for(int i = 0;i<20;i++){
+            fKit = new FlyingKit(3,world, GameUtility.getAtlas(),null);
+            fKit.xPos = 130 + i*50;
+            fKit.yPos = 7;
+            fKit.initialize();
+            gameObjects.add(fKit);
+        }
+
         PowerDrink drink;
         for(int i = 0;i<5;i++){
             drink = new PowerDrink(3,world, GameUtility.getBlastAtlas(),null);
-            drink.xPos = 20 + i*50;
+            drink.xPos = 120 + i*50;
             drink.yPos = 10;
             drink.initialize();
             gameObjects.add(drink);
@@ -199,7 +214,7 @@ public class GameScreen implements Screen {
         CowBoyHat hat;
         for(int i = 0;i<5;i++){
             hat = new CowBoyHat(3,world, GameUtility.getAtlas(),null);
-            hat.xPos = 20 + i*50;
+            hat.xPos = 120 + i*100;
             hat.yPos = 5;
             hat.initialize();
             gameObjects.add(hat);
@@ -207,15 +222,15 @@ public class GameScreen implements Screen {
         BombAmo amo;
         for(int i = 0;i<5;i++){
             amo = new BombAmo(3,world, GameUtility.getAtlas(),null);
-            amo.xPos = 15 + i*50;
+            amo.xPos = 115 + i*50;
             amo.yPos = 10;
             amo.initialize();
             gameObjects.add(amo);
         }
         Coin coin;
-        for(int i = 0;i<20;i++){
+        for(int i = 0;i<200;i++){
             coin = new Coin(3,world, GameUtility.getAtlas(),null);
-            coin.xPos = 2 + i*10;
+            coin.xPos = 142 + i*10;
             coin.yPos = 7;
             coin.initialize();
             gameObjects.add(coin);
@@ -224,7 +239,7 @@ public class GameScreen implements Screen {
         WaterBalloon balloon;
         for(int i = 0;i<20;i++){
             balloon = new WaterBalloon(3,world, GameUtility.getBlastAtlas(),null);
-            balloon.xPos = 2 + i*10;
+            balloon.xPos = 122 + i*100;
             balloon.yPos = 7;
             balloon.initialize();
             gameObjects.add(balloon);
@@ -233,7 +248,7 @@ public class GameScreen implements Screen {
         Kaleen kaleen;
         for(int i = 0;i<10;i++){
             kaleen = new Kaleen(33,world, GameUtility.getAtlas(),null);
-            kaleen.xPos = 6 + i*30;
+            kaleen.xPos = 150 + i*100;
             kaleen.yPos = 15;
             kaleen.initialize();
             gameObjects.add(kaleen);
@@ -245,11 +260,15 @@ public class GameScreen implements Screen {
         g.initialize();
         gameObjects.add(g);
 
+        //handling pause
+        game.pauseScreen.stageScreen = this;
+
     }
 
     @Override
     public void show() {
-
+        System.out.println("Show called");
+        Gdx.input.setInputProcessor(widgets.stage);
     }
 
     @Override
@@ -265,9 +284,9 @@ public class GameScreen implements Screen {
         batch.setProjectionMatrix(camera.combined);
 
         //Background Image
-
         batch.begin();
-        batch.draw(backgroundImage,backImgX,backImgY,backImgWidth,backImgHeight);//Gdx.graphics.getWidth()/GameConstants.PPM,Gdx.graphics.getHeight()/GameConstants.PPM);
+        batch.draw(backgroundImages1, backImgX1, backImgY1,backImgWidth,backImgHeight);//Gdx.graphics.getWidth()/GameConstants.PPM,Gdx.graphics.getHeight()/GameConstants.PPM);
+        batch.draw(backgroundImages2, backImgX2, backImgY2,backImgWidth,backImgHeight);
         GameUtility.renderGameObjects(batch, gameObjects);
 
         batch.end();
@@ -301,27 +320,31 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-
+        System.out.println("GameScreen: Pause called");
     }
 
     @Override
     public void resume() {
-
+        System.out.println("Show called");
     }
 
     @Override
     public void hide() {
-
+        pause();
+        System.out.println("GameScreen: Hide called");
     }
 
     @Override
     public void dispose() {
+        System.out.println("GameScreen: Dispose called");
         //map.dispose();
         //renderer.dispose();
         world.dispose();
         b2dr.dispose();
         widgets.dispose();
-        backgroundImage.dispose();
+        backgroundImages1.dispose();
+        backgroundImages2.dispose();
+        GameUtility.log(this.getClass().getName(), "Disposed");
         //Never call ----batch.dispose();
     }
 }

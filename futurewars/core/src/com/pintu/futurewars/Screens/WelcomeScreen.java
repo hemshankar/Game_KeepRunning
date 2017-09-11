@@ -16,6 +16,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.JumpingMarblesGame;
+import com.pintu.futurewars.Utility.GameUtility;
+
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 
 /**
@@ -107,6 +109,7 @@ public class WelcomeScreen implements Screen {
     public void dispose() {
         font.dispose();
         stage.dispose();
+        GameUtility.log(this.getClass().getName(), "Disposed");
     }
     private void initFonts(){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/leadcoat.ttf"));
