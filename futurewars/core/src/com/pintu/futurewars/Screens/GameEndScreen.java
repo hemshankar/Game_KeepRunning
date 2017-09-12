@@ -1,7 +1,6 @@
 package com.pintu.futurewars.Screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,8 +8,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -21,14 +18,11 @@ import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.JumpingMarblesGame;
 import com.pintu.futurewars.Utility.GameUtility;
 
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
-import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
-
 /**
  * Created by hsahu on 9/6/2017.
  */
 
-public class StagesScreen implements Screen {
+public class GameEndScreen implements Screen {
 
     JumpingMarblesGame game = null;
     BitmapFont font = null;
@@ -40,7 +34,7 @@ public class StagesScreen implements Screen {
     private final float CHANGE_SCREEN_TIME = 5;
     private float timeHappend = 0;
 
-    public StagesScreen(JumpingMarblesGame game){
+    public GameEndScreen(JumpingMarblesGame game){
         this.game = game;
         ctrlCam = new OrthographicCamera();
         cViewPort = new FitViewport(GameConstants.VIEW_PORT_WIDTH,
@@ -48,11 +42,17 @@ public class StagesScreen implements Screen {
         stage = new Stage(cViewPort,game.batch);
 
         initFonts();
-        addStage("imgs/welcome.png","Stage 1");
-        addStage("imgs/welcome.png","Stage 2");
-        addStage("imgs/welcome.png","Stage 3");
-        //addLoadingLabel();
 
+
+    }
+
+    public void updateStages(String currentStage, String nextStage){
+        stage.getActors().clear();
+        StageDetails.stageCount = 0;
+        addButton("imgs/welcome.png",currentStage,currentStage);
+        addButton("imgs/welcome.png",nextStage,nextStage);
+        addButton("imgs/welcome.png",GameConstants.HOME_SCREEN,GameConstants.HOME_SCREEN);
+        //addLoadingLabel();
     }
 
     @Override
@@ -124,14 +124,14 @@ public class StagesScreen implements Screen {
         public static float padding = 10;
     }
 
-    private void addStage(String imageLocation, String label){
+    private void addButton(String imageLocation, String label, String stageName){
         Texture texture = new Texture(Gdx.files.internal(imageLocation));
         Image stageImage = new Image(texture);
         stageImage.setHeight(StageDetails.imageHeight);
         stageImage.setWidth(StageDetails.imageWidth);
         stageImage.setPosition(StageDetails.stageCount * (StageDetails.imageWidth + StageDetails.padding),
                                 stage.getHeight()/2);
-        stageImage.addListener(new StageListner(GameConstants.STAGE1));
+        stageImage.addListener(new StageListner(stageName));
         stage.addActor(stageImage);
 
         Label stagelabel = new Label(label,new Label.LabelStyle(font,Color.BLACK));
@@ -139,20 +139,12 @@ public class StagesScreen implements Screen {
         stagelabel.setHeight(StageDetails.labelHeight);
         stagelabel.setPosition(StageDetails.stageCount * (StageDetails.labelWidth + StageDetails.padding),
                                 stage.getHeight()/2-50);
-        stagelabel.addListener(new StageListner(GameConstants.STAGE1));
+        stagelabel.addListener(new StageListner(stageName));
         stage.addActor(stagelabel);
 
         StageDetails.stageCount++;
     }
 
-    public void addLoadingLabel(){
-        loading = new Label("Loading...",new Label.LabelStyle(font,Color.BLACK));
-        loading.setWidth(StageDetails.labelWidth);
-        loading.setHeight(StageDetails.labelHeight);
-        loading.setPosition(stage.getWidth()-300,50);
-        loading.addListener(new StageListner(GameConstants.STAGE1));
-        stage.addActor(loading);
-    }
 
     public class StageListner extends InputListener{
 
@@ -163,12 +155,15 @@ public class StagesScreen implements Screen {
 
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(game.getNewGameScreen(stage));
+            if(GameConstants.HOME_SCREEN.equals(stage)) {
+                game.setScreen(game.getStagesScreen());
+            }else{
+                game.setScreen(game.getNewGameScreen(stage));
+            }
         }
 
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            addLoadingLabel();
             return true;
         }
     }

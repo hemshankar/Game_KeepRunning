@@ -34,7 +34,7 @@ public class JumpingMarbleWorldCreator {
     public List<Joint> joints = new ArrayList<Joint>();
 
     public float boundaryLeft = 0;
-    public float boundaryRight = 63936;
+    public float boundaryRight = 93936;
     public float boundaryTop = 1888;
     public float boundaryBottom=392;
 

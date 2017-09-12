@@ -91,6 +91,7 @@ public class GameConstants {
     public static final String GROUND_PROPERTY_FILE = "propertyFiles/ground.txt";
     public static final String SPEED_BOMB_PROPERTY_FILE = "propertyFiles/speedBomb.txt";
     public static final String JUMPING_KIT_PROPERTY_FILE = "propertyFiles/jumpingKit.txt";
+    public static final String MAGNET_PROPERTY_FILE = "propertyFiles/magnet.txt";
     public static final String FLYING_KIT_PROPERTY_FILE = "propertyFiles/flyingKit.txt";
     public static final String POWER_DRINK_PROPERTY_FILE = "propertyFiles/powerDrink.txt";
     public static final String BASIC_BULLET_PROPERTY_FILE = "propertyFiles/armory/basicBullet.txt";
@@ -116,7 +117,7 @@ public class GameConstants {
 
     //===================================Stages====================================
     public static final String STAGE1 = "STAGE1";
-
+    public static final String HOME_SCREEN = "HOME_SCREEN";
 
 
 

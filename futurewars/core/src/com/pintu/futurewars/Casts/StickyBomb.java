@@ -24,7 +24,7 @@ public class StickyBomb extends FutureWarsCast {
     @Override
     public void handleContact(GameObject gObj){
         if(gObj instanceof Player2){
-            GameUtility.jointHandler.createJoint(body,((Player2) gObj).body,world,GameConstants.REVOLUTE);
+            GameUtility.jointHandler.createJoint(body,((Player2) gObj).body,world,GameConstants.WELD);
             isAttached = true;
         }
     }
@@ -51,7 +51,7 @@ public class StickyBomb extends FutureWarsCast {
 
             if (Math.abs(Math.abs(pXpose) - Math.abs(myXpos)) < 5
                     && Math.abs(Math.abs(pYpose) - Math.abs(myYpos)) < 5) {
-                body.setLinearVelocity((pXpose - myXpos) * 10f, (pYpose - myYpos) * 10f);
+                body.setLinearVelocity((pXpose - myXpos) * 5f, (pYpose - myYpos) * 5f);
                 fired = true;
             }
         }else {

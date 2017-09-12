@@ -23,12 +23,21 @@ public class UpdateHandler {
 
         //update the camera as the player moves (player decides the camera position
         float x = screen.player2.getBody().getPosition().x;
+
         if(x<(screen.viewport.getWorldWidth()/2))
             x = screen.viewport.getWorldWidth()/2;
         else if(x>(GameUtility.worldCreator.boundaryRight/ GameConstants.PPM - screen.viewport.getWorldWidth()/2))
             x = GameUtility.worldCreator.boundaryRight/ GameConstants.PPM - screen.viewport.getWorldWidth()/2;
 
         screen.camera.position.x=x;
+
+        //stage Completed
+        if(screen.player2.getBody().getPosition().x>GameUtility.worldCreator.boundaryRight/ GameConstants.PPM ){
+            screen.game.setScreen(screen.game.getGameEndScreen(GameConstants.STAGE1,GameConstants.STAGE1));
+            screen.gameMusic.stop();
+            //screen.game.getGameScreen(GameConstants.STAGE1).dispose();
+        }
+
 
         float y = screen.player2.getBody().getPosition().y;
         if(y<screen.viewport.getWorldHeight()/2)

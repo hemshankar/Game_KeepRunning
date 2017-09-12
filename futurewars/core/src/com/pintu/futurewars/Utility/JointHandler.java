@@ -3,6 +3,7 @@ package com.pintu.futurewars.Utility;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
+import com.badlogic.gdx.physics.box2d.joints.WeldJointDef;
 import com.pintu.futurewars.Constants.GameConstants;
 
 import java.util.ArrayList;
@@ -28,7 +29,13 @@ public class JointHandler {
         w.createJoint(jDef);
     }
     public void createWeldJoint(Body a, Body b, World w){
-
+        WeldJointDef jDef = new WeldJointDef();
+        jDef.bodyA = a;
+        jDef.bodyB = b;
+        jDef.collideConnected = true;
+        //jDef.localAnchorA.set(50/GameConstants.PPM,0);
+        //jDef.localAnchorB.set(300/GameConstants.PPM,300/GameConstants.PPM);
+        w.createJoint(jDef);
     }
     public void createPrismaticJoint(Body a, Body b, World w){
 
@@ -94,7 +101,7 @@ public class JointHandler {
             }else if(type.equalsIgnoreCase(GameConstants.PRISMATIC)){
                 createRevoluteJoint(a,b,world);
             }else if(type.equalsIgnoreCase(GameConstants.WELD)){
-                createRevoluteJoint(a,b,world);
+                createWeldJoint(a,b,world);
             }
         }
     }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Screens.GameEndScreen;
 import com.pintu.futurewars.Screens.GameScreen;
 import com.pintu.futurewars.Screens.PauseScreen;
 import com.pintu.futurewars.Screens.StagesScreen;
@@ -30,6 +31,7 @@ public class JumpingMarblesGame extends Game {
 	public WelcomeScreen welcomeScreen=null;
 	public StagesScreen stagesScreen = null;
 	public PauseScreen pauseScreen = null;
+	public GameEndScreen gameEndScreen = null;
 
 	@Override
 	public void create () {
@@ -79,9 +81,10 @@ public class JumpingMarblesGame extends Game {
 	public GameScreen getGameScreen(String stage){
 		if(GameConstants.STAGE1.equals(stage)){
 			if(gameScreen==null)
-			gameScreen = new GameScreen(this);
+				gameScreen = new GameScreen(this);
 			return gameScreen;
 		}
+
 		return null;
 	}
 
@@ -89,5 +92,19 @@ public class JumpingMarblesGame extends Game {
 		if(stagesScreen == null)
 			stagesScreen = new StagesScreen(this);
 		return stagesScreen;
+	}
+
+	public GameScreen getNewGameScreen(String stage){
+		if(gameScreen!=null)
+			gameScreen.dispose();
+		gameScreen = null;
+		return getGameScreen(stage);
+	}
+
+	public GameEndScreen getGameEndScreen(String currentStage, String nextStage){
+		if(gameEndScreen == null)
+			gameEndScreen = new GameEndScreen(this);
+		gameEndScreen.updateStages(currentStage,nextStage);
+		return gameEndScreen;
 	}
 }

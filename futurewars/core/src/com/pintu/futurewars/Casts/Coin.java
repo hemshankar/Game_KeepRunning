@@ -26,6 +26,24 @@ public class Coin extends FutureWarsCast {
     }
 
     @Override
+    public void update(float dt) {
+        super.update(dt);
+        if (GameUtility.getGameScreen().player2.hasMagnet) {
+            float pXpose = GameUtility.getGameScreen().player2.body.getPosition().x;
+            float pYpose = GameUtility.getGameScreen().player2.body.getPosition().y;
+            float myXpos = body.getPosition().x;
+            float myYpos = body.getPosition().y;
+
+            if (Math.abs(Math.abs(pXpose) - Math.abs(myXpos)) < 5
+                    && Math.abs(Math.abs(pYpose) - Math.abs(myYpos)) < 5) {
+                float xDir = (pXpose - myXpos)/Math.abs(pXpose - myXpos);
+                float yDir = (pYpose - myYpos)/Math.abs(pYpose - myYpos);
+                body.setLinearVelocity( xDir * 10f, yDir * 10f);
+            }
+        }
+    }
+
+    @Override
     public void destroy(){
         super.destroy();
         //GameUtility.addPowerBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);

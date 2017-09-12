@@ -63,5 +63,21 @@ Rules:
 38. Loading screen 
 39. Welcome Screen -- Done
 40. Stage decision: what powers and enemies to be unlocked in each stage
-41. Clean code related to map
+41. Clean code related to map(make sure to retain in a seperate place as might be required for later games)
+42. Pause Screen. -- Done
+43. Change to jumping -- Done
+44. Add Flying Kit -- Done
+45. Magnet ---  Done
+46. Purchase Screen
+47. Random movement of the hanging item
+48. Slow the speed of the boobms, increase as the speed of the object increases.
+49. Coin Sounds
+50. Make Stamina modifiable: Heath rapidly decreases initailly and when the stamina increases Health decreases slowly (health = speed)
+51. Update the jumping kit to affect only when jump button is clicked.
+52. Game End Screen -- Done
+53. Destroy/Remove all the objects which are not required (as the player moves on)
+54. Increase the Screen width when speed increases
+55. Animation/Art work
+56. Rocket 
+
 

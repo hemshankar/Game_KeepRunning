@@ -22,6 +22,7 @@ import com.pintu.futurewars.Casts.FlyingKit;
 import com.pintu.futurewars.Casts.Ground;
 import com.pintu.futurewars.Casts.JumpingKit;
 import com.pintu.futurewars.Casts.Kaleen;
+import com.pintu.futurewars.Casts.Magnet;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Casts.PowerDrink;
 import com.pintu.futurewars.Casts.Pusher;
@@ -236,6 +237,15 @@ public class GameScreen implements Screen {
             gameObjects.add(coin);
         }
 
+        Magnet m;
+        for(int i = 0;i<20;i++){
+            m = new Magnet(3,world, GameUtility.getAtlas(),null);
+            m.xPos = 5 + i*10;
+            m.yPos = 5;
+            m.initialize();
+            gameObjects.add(m);
+        }
+
         WaterBalloon balloon;
         for(int i = 0;i<20;i++){
             balloon = new WaterBalloon(3,world, GameUtility.getBlastAtlas(),null);
@@ -280,7 +290,6 @@ public class GameScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         //renderer.render();
-        b2dr.render(world,camera.combined);
         batch.setProjectionMatrix(camera.combined);
 
         //Background Image
@@ -292,6 +301,7 @@ public class GameScreen implements Screen {
         batch.end();
         widgets.draw();
 
+        b2dr.render(world,camera.combined);
 
     }
 

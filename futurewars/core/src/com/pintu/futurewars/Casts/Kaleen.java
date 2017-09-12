@@ -32,7 +32,7 @@ public class Kaleen extends FutureWarsCast {
         if(gObj instanceof Player2){
             //toBeDestroyed = true;
             Player2 player2 = ((Player2) gObj);//.body.applyLinearImpulse(new Vector2(20, 10), body.getWorldCenter(), true);
-            GameUtility.jointHandler.createJoint(body,player2.body,world,GameConstants.REVOLUTE);
+            GameUtility.jointHandler.createJoint(body,player2.body,world,GameConstants.WELD);
             hasPlayer = true;
         }
     }

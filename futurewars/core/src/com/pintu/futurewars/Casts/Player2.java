@@ -16,19 +16,20 @@ public class Player2 extends FutureWarsCast {
     public float recoilTimeElapsed = 0;
     public String selectedBullet = null;
     public boolean hasJumpingKit = false;
+    public boolean hasMagnet = false;
     public float healthReduceTime = 0;
     public int totalCoin = 0;
     public final float HEALTH_REDUCETION_TIME_CONSTANT=.5f;//time after which the health will be automatically reduced by a unit
     public float HEALTH_REDUCTION_CONSTANT=1;
 
     public final float MAX_HEALTH = 200;
-    public final float MAX_SPEED = 20;
+    public final float MAX_SPEED = 10;
     public final float MIN_HEALTH = 20;
 
     public final float JUMP_KIT_EFFECT_TIME = 10f;
-    //public final float FLY_KIT_EFFECT_TIME = 10f;
+    public final float MAGNET_EFFECT_TIME = 5f;
     public float jumpEffectRemainig = 0;
-    //public float flyEffectRemainig = 0;
+    public float magnetEffectRemainig = 0;
     
     public float flyFuel = 10;
     public final float MAX_FLY_FUEL = 10;
@@ -51,12 +52,17 @@ public class Player2 extends FutureWarsCast {
         if(jumpEffectRemainig>0){
             jumpEffectRemainig -= dt;
         }
+        if(magnetEffectRemainig>0){
+            magnetEffectRemainig -= dt;
+        }else{
+            hasMagnet = false;
+        }
         if(healthReduceTime > HEALTH_REDUCETION_TIME_CONSTANT && health > MIN_HEALTH){
             healthReduceTime = 0;
             health -= HEALTH_REDUCTION_CONSTANT;
             //System.out.println(health);
         }
-        if(getBody().getLinearVelocity().x <= speedLimit) {
+        if(getBody().getLinearVelocity().x <= speedLimit && canJump == true) {
             getBody().applyLinearImpulse(new Vector2(2f, 0), getBody().getWorldCenter(), true);
         }
         super.update(dt);
