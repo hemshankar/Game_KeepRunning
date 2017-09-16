@@ -160,7 +160,7 @@ public abstract class AbstractGameObject implements GameObject{
                     Float.parseFloat(gProps.get(GameObjectConstants.RESTITUTION)) : .5f;
             //=====================================FRICTION========================================
             fixtureDef.friction = gProps.get(GameObjectConstants.FRICTION) != null ?
-                    Float.parseFloat(gProps.get(GameObjectConstants.FRICTION)) : .2f;
+                    Float.parseFloat(gProps.get(GameObjectConstants.FRICTION)) : 0f;
             //=====================================FRICTION========================================
             if (gProps.get(GameObjectConstants.DENSITY) != null)
                 fixtureDef.density = Float.parseFloat(gProps.get(GameObjectConstants.DENSITY));
@@ -309,6 +309,8 @@ public abstract class AbstractGameObject implements GameObject{
                             new Vector2((player.body.getLinearVelocity().x - body.getLinearVelocity().x) * 0.25f, 0),
                             this.body.getWorldCenter(), true);
                     body.setLinearDamping(.5f);
+                }else{
+                    body.setLinearDamping(0f);
                 }
             }
 

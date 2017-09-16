@@ -89,4 +89,6 @@ Rules:
 67. there is possible a memory Leak... check if all the items are disposed properly... Monitor using memory monitor provided in android studios
 68. Character should talk
 69. Auto aim/ auto tracking of the bullet can be done by setting the bullet position. Can be used for locking the target.
+70. Highlight speed when player crosses the speed limits.
+71. The tararara sound when player does something amazing
 

@@ -66,7 +66,7 @@ public class Player2 extends FutureWarsCast {
             //System.out.println(health);
         }
         if(getBody().getLinearVelocity().x <= speedLimit && canJump == true) {
-            //getBody().applyLinearImpulse(new Vector2(2f, 0), getBody().getWorldCenter(), true);
+            getBody().applyLinearImpulse(new Vector2(2f, 0), getBody().getWorldCenter(), true);
         }
         super.update(dt);
         flyFuelUpdate(dt);

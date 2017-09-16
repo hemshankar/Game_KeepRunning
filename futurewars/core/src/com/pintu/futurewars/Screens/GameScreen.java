@@ -181,7 +181,7 @@ public class GameScreen implements Screen {
             gameObjects.add(p);
         }
 
-        StickyBomb s;
+        /*StickyBomb s;
         for(int i = 0;i<20;i++){
             s = new StickyBomb(181,world, GameUtility.getBlastAtlas(),null);
             s.xPos = 37 + i*20;
@@ -189,7 +189,7 @@ public class GameScreen implements Screen {
             s.flyPosition = 10;
             s.initialize();
             gameObjects.add(s);
-        }
+        }*/
 
         JumpingKit jKit;
         for(int i = 0;i<5;i++){
@@ -204,9 +204,9 @@ public class GameScreen implements Screen {
         FlyingKit fKit;
         for(int i = 0;i<20;i++){
             fKit = new FlyingKit(3,world, GameUtility.getAtlas(),null);
-            fKit.xPos = 130 + i*50;
+            fKit.xPos = 2 + i*10;
             fKit.yPos = 7;
-            fKit.flyPosition = 7;
+            fKit.flyPosition = 9;
             fKit.initialize();
             gameObjects.add(fKit);
         }
@@ -272,8 +272,8 @@ public class GameScreen implements Screen {
         for(int i = 0;i<10;i++){
             kaleen = new Kaleen(33,world, GameUtility.getAtlas(),null);
             kaleen.xPos = 150 + i*100;
-            kaleen.yPos = 15;
-            kaleen.flyPosition = 15;
+            kaleen.yPos = 7;
+            kaleen.flyPosition = 9;
             kaleen.initialize();
             gameObjects.add(kaleen);
         }
