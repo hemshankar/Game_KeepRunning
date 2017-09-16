@@ -15,7 +15,9 @@ import com.pintu.futurewars.commons.GameObject;
 
 public class Pusher extends FutureWarsCast {
 
-    public static final float PUSH_INTERVAL = 1f;
+    public final float PUSH_INTERVAL = .5f;
+    public float pushTimer = 0;
+
     public Pusher(int id,World w, TextureAtlas a, MapObject obj) {
         super(id,GameConstants.PUSHER_PROPERTY_FILE, w, a, obj);
     }
@@ -44,17 +46,28 @@ public class Pusher extends FutureWarsCast {
     @Override
     public void update(float dt){
         super.update(dt);
-        float pXpose = GameUtility.getGameScreen().player2.body.getPosition().x;
-        float pYpose = GameUtility.getGameScreen().player2.body.getPosition().y;
+        Player2 player = GameUtility.getGameScreen().player2;
+        float pXpose = player.body.getPosition().x;
+        float pYpose = player.body.getPosition().y;
         float myXpos = body.getPosition().x;
         float myYpos = body.getPosition().y;
 
-        if(Math.abs(Math.abs(pXpose)-Math.abs(myXpos)) < 5
+        if( Math.abs(Math.abs(pXpose)-Math.abs(myXpos)) < 5
                 && Math.abs(Math.abs(pYpose)-Math.abs(myYpos)) < 5){
-            if(false){//itsPushTime(dt)) {
-                body.setLinearVelocity((pXpose - myXpos) * 10f, (pYpose - myYpos) * 10f);
+            canFly = false;
+            if(itsPushTime(dt)) {
+                float xForce = (pXpose - myXpos) * Math.abs(player.body.getLinearVelocity().x + 0.1f);
+                xForce = xForce > (pXpose - myXpos) ? xForce : (pXpose - myXpos);
+                float yForce = (pYpose - myYpos) * Math.abs(player.body.getLinearVelocity().y + 0.1f);
+                yForce = yForce > (pYpose - myYpos) ? yForce : (pYpose - myYpos);
+
+                body.setLinearVelocity(xForce, yForce);
             }
+        }else{
+            canFly = true;
         }
+
+
 
         if(!flying){
             body.applyLinearImpulse(new Vector2(0, 1f), this.body.getWorldCenter(), true);
@@ -68,9 +81,9 @@ public class Pusher extends FutureWarsCast {
     }
 
     private boolean itsPushTime(float dt){
-        flyTimer += dt;
-        if(flyTimer > PUSH_INTERVAL){
-            flyTimer = 0;
+        pushTimer += dt;
+        if(pushTimer > PUSH_INTERVAL){
+            pushTimer = 0;
             return true;
         }
         return false;

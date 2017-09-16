@@ -308,7 +308,7 @@ public abstract class AbstractGameObject implements GameObject{
                     body.applyLinearImpulse(
                             new Vector2((player.body.getLinearVelocity().x - body.getLinearVelocity().x) * 0.25f, 0),
                             this.body.getWorldCenter(), true);
-                    body.setLinearDamping(.5f);
+                    body.setLinearDamping(1f);
                 }else{
                     body.setLinearDamping(0f);
                 }

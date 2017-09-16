@@ -43,8 +43,8 @@ public class Coin extends FutureWarsCast {
                 float xDir = (pXpose - myXpos)/Math.abs(pXpose - myXpos);
                 float yDir = (pYpose - myYpos)/Math.abs(pYpose - myYpos);
                 //body.setLinearVelocity( xDir * (Math.abs(player.body.getLinearVelocity().x) + 10f), yDir * (Math.abs(player.body.getLinearVelocity().y) + 10f));
-                body.setLinearVelocity((pXpose - myXpos) *(player.body.getLinearVelocity().x+10) ,
-                        (pYpose - myYpos) * (player.body.getLinearVelocity().x+10));
+                body.setLinearVelocity(5*(pXpose - myXpos) *(Math.abs(player.body.getLinearVelocity().x)+5) ,
+                        5*(pYpose - myYpos) * (Math.abs(player.body.getLinearVelocity().y)+5));
                 canFly = false;
             }
         }

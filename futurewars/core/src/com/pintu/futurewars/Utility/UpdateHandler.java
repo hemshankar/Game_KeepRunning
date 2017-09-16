@@ -39,7 +39,7 @@ public class UpdateHandler {
         screen.camera.position.x=x+4;
 
         //stage Completed
-        if(screen.player2.getBody().getPosition().x>GameUtility.worldCreator.boundaryRight/ GameConstants.PPM ){
+        if(screen.player2.getBody().getPosition().x>GameUtility.worldCreator.boundaryRight/GameConstants.PPM ){
             screen.game.setScreen(screen.game.getGameEndScreen(GameConstants.STAGE1,GameConstants.STAGE1));
             screen.gameMusic.stop();
             //screen.game.getGameScreen(GameConstants.STAGE1).dispose();

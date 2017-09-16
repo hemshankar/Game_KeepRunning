@@ -13,6 +13,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Casts.BombAmo;
@@ -174,22 +175,25 @@ public class GameScreen implements Screen {
         Pusher p;
         for(int i = 0;i<20;i++){
             p = new Pusher(143,world, GameUtility.getAtlas(),null);
-            p.xPos = 10 + i*10;
+            p.xPos = 9 + i*20;
             p.yPos = 10;
-            p.flyPosition = 10;
+            p.flyPosition = 7;
             p.initialize();
             gameObjects.add(p);
         }
 
-        /*StickyBomb s;
+        StickyBomb s;
         for(int i = 0;i<20;i++){
             s = new StickyBomb(181,world, GameUtility.getBlastAtlas(),null);
             s.xPos = 37 + i*20;
             s.yPos = 10;
             s.flyPosition = 10;
             s.initialize();
+            MassData massData = new MassData();
+            massData.mass = .00000f;
+            s.body.setMassData(massData);
             gameObjects.add(s);
-        }*/
+        }
 
         JumpingKit jKit;
         for(int i = 0;i<5;i++){
@@ -204,7 +208,7 @@ public class GameScreen implements Screen {
         FlyingKit fKit;
         for(int i = 0;i<20;i++){
             fKit = new FlyingKit(3,world, GameUtility.getAtlas(),null);
-            fKit.xPos = 2 + i*10;
+            fKit.xPos = 20 + i*13;
             fKit.yPos = 7;
             fKit.flyPosition = 9;
             fKit.initialize();
@@ -214,7 +218,7 @@ public class GameScreen implements Screen {
         PowerDrink drink;
         for(int i = 0;i<5;i++){
             drink = new PowerDrink(3,world, GameUtility.getBlastAtlas(),null);
-            drink.xPos = 120 + i*50;
+            drink.xPos = 10 + i*50;
             drink.yPos = 10;
             drink.flyPosition = 10;
             drink.initialize();
@@ -223,7 +227,7 @@ public class GameScreen implements Screen {
         CowBoyHat hat;
         for(int i = 0;i<5;i++){
             hat = new CowBoyHat(3,world, GameUtility.getAtlas(),null);
-            hat.xPos = 120 + i*100;
+            hat.xPos = 20 + i*30;
             hat.yPos = 5;
             hat.flyPosition = 5;
             hat.initialize();
@@ -271,7 +275,7 @@ public class GameScreen implements Screen {
         Kaleen kaleen;
         for(int i = 0;i<10;i++){
             kaleen = new Kaleen(33,world, GameUtility.getAtlas(),null);
-            kaleen.xPos = 150 + i*100;
+            kaleen.xPos = 12 + i*15;
             kaleen.yPos = 7;
             kaleen.flyPosition = 9;
             kaleen.initialize();
@@ -321,7 +325,7 @@ public class GameScreen implements Screen {
         batch.end();
         widgets.draw();
 
-        b2dr.render(world,camera.combined);
+        //b2dr.render(world,camera.combined);
 
     }
 

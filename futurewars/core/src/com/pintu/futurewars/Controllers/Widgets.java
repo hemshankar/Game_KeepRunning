@@ -50,6 +50,7 @@ public class Widgets {
     CustomLabel speedStats = null;
     CustomLabel coinsCollected = null;
     CustomLabel timePassed = null;
+    CustomLabel distance = null;
     public JumpingMarblesGame game;
     public Widgets(JumpingMarblesGame game,GameScreen screen){
         this.game = game;
@@ -94,7 +95,7 @@ public class Widgets {
         speedStats = new CustomLabel("0000", new Label.LabelStyle(font,Color.BLACK));
         speedStats.setWidth(10);
         speedStats.setHeight(10);
-        speedStats.setPosition(stage.getWidth()-200,stage.getHeight()-50);
+        speedStats.setPosition(stage.getWidth()-500,stage.getHeight()-20);
         //speedStats.setPosition(200,100);
         speedStats.text = "200";
         stage.addActor(speedStats);
@@ -113,6 +114,13 @@ public class Widgets {
         timePassed.setHeight(10);
         timePassed.setPosition(stage.getWidth()-500,stage.getHeight()-100);
         stage.addActor(timePassed);
+
+        //Label to display time
+        distance = new  CustomLabel("Distance : km", new Label.LabelStyle(font,Color.BLACK));
+        distance.setWidth(10);
+        distance.setHeight(10);
+        distance.setPosition(stage.getWidth()-500,stage.getHeight()-150);
+        stage.addActor(distance);
     }
 
     public void draw(){
@@ -125,6 +133,9 @@ public class Widgets {
         speedStats.text = "Speed: " + (int)(screen.player2.body.getLinearVelocity().x) + "";
         coinsCollected.text = "Coins: " + screen.player2.totalCoin;
         timePassed.text = "Time Left: "+ ((int)screen.gameTime - (int)screen.timePassed) + " s";
+        distance.text = "Distance : "
+                +  (int)(screen.player2.body.getPosition().x/GameConstants.PPM)
+                + " m";
         stage.act();
         if(screen.player2.hasFlyingKit) {
             flyFuelBar.setVisible(true);
@@ -259,7 +270,7 @@ public class Widgets {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/leadcoat.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        params.size = 40;
+        params.size = 30;
         params.color = Color.BLACK;
 
         font = generator.generateFont(params);
@@ -270,14 +281,14 @@ public class Widgets {
         Image stageImage = new Image(texture);
         stageImage.setHeight(45);
         stageImage.setWidth(40);
-        stageImage.setPosition(stage.getWidth()-200,stage.getHeight()-100);
+        stageImage.setPosition(stage.getWidth()-200,stage.getHeight()-150);
         stageImage.addListener(new StageListner(GameConstants.STAGE1));
         stage.addActor(stageImage);
 
         Label stagelabel = new Label(label,new Label.LabelStyle(font,Color.BLACK));
         stagelabel.setWidth(40);
         stagelabel.setHeight(40);
-        stagelabel.setPosition(stage.getWidth()-200,stage.getHeight()-10);
+        stagelabel.setPosition(stage.getWidth()-200,stage.getHeight()-200);
         stagelabel.addListener(new StageListner(GameConstants.STAGE1));
         stage.addActor(stagelabel);
     }

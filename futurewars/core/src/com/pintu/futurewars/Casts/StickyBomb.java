@@ -52,8 +52,14 @@ public class StickyBomb extends FutureWarsCast {
 
             if (Math.abs(Math.abs(pXpose) - Math.abs(myXpos)) < 5
                     && Math.abs(Math.abs(pYpose) - Math.abs(myYpos)) < 5) {
-                body.setLinearVelocity((pXpose - myXpos) *(player.body.getLinearVelocity().x+10) ,
-                        (pYpose - myYpos) * (player.body.getLinearVelocity().x+10));
+
+                float xForce = (pXpose - myXpos) * Math.abs(player.body.getLinearVelocity().x + 0.1f);
+                xForce = xForce > (pXpose - myXpos)*5 ? xForce : (pXpose - myXpos)*5;
+                float yForce = (pYpose - myYpos) * Math.abs(player.body.getLinearVelocity().y + 0.1f);
+                yForce = yForce > (pYpose - myYpos)*5 ? yForce : (pYpose - myYpos)*5;
+
+                body.setLinearVelocity(xForce, yForce);
+
                 fired = true;
                 canFly = false;
             }
