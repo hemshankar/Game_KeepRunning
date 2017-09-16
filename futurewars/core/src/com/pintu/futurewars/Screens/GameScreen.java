@@ -109,6 +109,8 @@ public class GameScreen implements Screen {
     public float backImgHeight = 30;
     public float numOfBackImgs = 1;
 
+    public float timePassed = 0;
+    public float gameTime = 120;
 
     public GameScreen(JumpingMarblesGame game){
 
@@ -171,7 +173,7 @@ public class GameScreen implements Screen {
         Pusher p;
         for(int i = 0;i<20;i++){
             p = new Pusher(143,world, GameUtility.getAtlas(),null);
-            p.xPos = 110 + i*50;
+            p.xPos = 10 + i*10;
             p.yPos = 10;
             p.initialize();
             gameObjects.add(p);
@@ -231,7 +233,7 @@ public class GameScreen implements Screen {
         Coin coin;
         for(int i = 0;i<200;i++){
             coin = new Coin(3,world, GameUtility.getAtlas(),null);
-            coin.xPos = 142 + i*10;
+            coin.xPos = 42 + i*10;
             coin.yPos = 7;
             coin.initialize();
             gameObjects.add(coin);
@@ -301,7 +303,7 @@ public class GameScreen implements Screen {
         batch.end();
         widgets.draw();
 
-        b2dr.render(world,camera.combined);
+        //b2dr.render(world,camera.combined);
 
     }
 

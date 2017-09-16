@@ -184,6 +184,12 @@ public abstract class AbstractGameObject implements GameObject{
         Float width = getFloat(gProps.get(GameObjectConstants.SPRITE_WIDTH));
         spriteWidth = (width == 0)? GameConstants.SIZE_SCALE:width;
         Float height = getFloat(gProps.get(GameObjectConstants.SPRITE_HEIGHT));
+        String atlasName = gProps.get(GameObjectConstants.TEXTURE_ATLAS_NAME);
+        if(!isEmpty(atlasName)){
+            atlas = new TextureAtlas(atlasName);
+        }else if(atlas == null){
+            throw new RuntimeException("Not texture atlas defined");
+        }
         spriteHeight = (height == 0)? GameConstants.SIZE_SCALE:height;
         isAnimated = valueEquals(gProps.get(GameObjectConstants.IS_ANIMATED), GameObjectConstants.TRUE) ? true : false;
         if (isAnimated) {
@@ -260,7 +266,8 @@ public abstract class AbstractGameObject implements GameObject{
                 sprite.setPosition(xPos, yPos);
             }
         }catch(Exception e){
-            System.out.println("Error in frame ======" + frameCounter + "-- " + e.getMessage());
+            System.out.println("Error in frame ======" + frameCounter + "--"
+                    + gProps.get(GameObjectConstants.TEXTURE_ATLAS_NAME) + " :" + e.getMessage());
         }
     }
 

@@ -78,6 +78,9 @@ Rules:
 53. Destroy/Remove all the objects which are not required (as the player moves on)
 54. Increase the Screen width when speed increases
 55. Animation/Art work
-56. Rocket 
+56. Rocket
+60. Gift Pack
+61. One girl character
+62. Horse Ride
 
 

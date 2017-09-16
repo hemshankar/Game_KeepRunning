@@ -15,6 +15,13 @@ import java.util.Set;
 public class UpdateHandler {
 
     public void update(GameScreen screen,float dt){
+
+        screen.timePassed +=dt;
+        if(screen.timePassed >=screen.gameTime){
+            screen.game.setScreen(screen.game.getGameEndScreen(GameConstants.STAGE1,GameConstants.STAGE1));
+            screen.gameMusic.stop();
+        }
+
         //update the world every 1/60 of a second?
         screen.world.step(1/60f,6,2);
 
@@ -91,7 +98,7 @@ public class UpdateHandler {
         if(screen.player2.body.getLinearVelocity().x < 0) {
             screen.player2.currentState = GameObjectConstants.STATE_2;
         }
-        screen.player2.ANIMATION_INTERVAL = 1/Math.abs(screen.player2.body.getLinearVelocity().x+0.000001f);
+        screen.player2.ANIMATION_INTERVAL = .2f/Math.abs(screen.player2.body.getLinearVelocity().x+0.000001f);
 
         GameUtility.jointHandler.createAllJoints();
 

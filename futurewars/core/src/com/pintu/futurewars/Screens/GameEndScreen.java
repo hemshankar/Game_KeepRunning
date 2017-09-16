@@ -53,6 +53,13 @@ public class GameEndScreen implements Screen {
         addButton("imgs/welcome.png",nextStage,nextStage);
         addButton("imgs/welcome.png",GameConstants.HOME_SCREEN,GameConstants.HOME_SCREEN);
         //addLoadingLabel();
+
+        Label gameOverLabel = new Label("Game Over",new Label.LabelStyle(font,Color.BLACK));
+        gameOverLabel.setWidth(StageDetails.labelWidth);
+        gameOverLabel.setHeight(StageDetails.labelHeight);
+        gameOverLabel.setPosition(stage.getWidth()/2-gameOverLabel.getWidth(), stage.getHeight()-20);
+
+        stage.addActor(gameOverLabel);
     }
 
     @Override

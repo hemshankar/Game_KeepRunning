@@ -1,0 +1,83 @@
+
+ninja2.png
+size: 2048,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+01
+  rotate: false
+  xy: 2, 366
+  size: 279, 362
+  orig: 279, 362
+  offset: 0, 0
+  index: -1
+02
+  rotate: false
+  xy: 2, 2
+  size: 279, 362
+  orig: 279, 362
+  offset: 0, 0
+  index: -1
+03
+  rotate: false
+  xy: 283, 366
+  size: 279, 362
+  orig: 279, 362
+  offset: 0, 0
+  index: -1
+04
+  rotate: false
+  xy: 283, 2
+  size: 279, 362
+  orig: 279, 362
+  offset: 0, 0
+  index: -1
+05
+  rotate: false
+  xy: 564, 366
+  size: 279, 362
+  orig: 279, 362
+  offset: 0, 0
+  index: -1
+06
+  rotate: false
+  xy: 564, 2
+  size: 279, 362
+  orig: 279, 362
+  offset: 0, 0
+  index: -1
+07
+  rotate: false
+  xy: 845, 366
+  size: 279, 362
+  orig: 279, 362
+  offset: 0, 0
+  index: -1
+08
+  rotate: false
+  xy: 845, 2
+  size: 279, 362
+  orig: 279, 362
+  offset: 0, 0
+  index: -1
+09
+  rotate: false
+  xy: 1126, 366
+  size: 279, 362
+  orig: 279, 362
+  offset: 0, 0
+  index: -1
+10
+  rotate: false
+  xy: 1126, 2
+  size: 279, 362
+  orig: 279, 362
+  offset: 0, 0
+  index: -1
+11
+  rotate: false
+  xy: 1407, 366
+  size: 279, 362
+  orig: 279, 362
+  offset: 0, 0
+  index: -1

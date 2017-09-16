@@ -22,6 +22,7 @@ public class Pusher extends FutureWarsCast {
     private static final float PUSH_INTERVAL = 1f;
     private static final float FLY_INTERVAL = .1f;
     private float timer = 0f;
+    public boolean flying = true;
     public Pusher(int id,World w, TextureAtlas a, MapObject obj) {
         super(id,GameConstants.PUSHER_PROPERTY_FILE, w, a, obj);
     }
@@ -36,6 +37,14 @@ public class Pusher extends FutureWarsCast {
             if(Math.abs(xVelocity) > 10 || Math.abs(yVelocity) >10) {
                 player2.takeDamage(GameConstants.PUSHER_DAMAGE);
             }
+        }else if(gObj instanceof Ground){
+            flying = false;
+        }
+    }
+
+    public void handleEndContact(GameObject gObj) {
+        if(gObj instanceof Ground){
+            flying = true;
         }
     }
 
@@ -49,14 +58,23 @@ public class Pusher extends FutureWarsCast {
 
         if(Math.abs(Math.abs(pXpose)-Math.abs(myXpos)) < 5
                 && Math.abs(Math.abs(pYpose)-Math.abs(myYpos)) < 5){
-            if(itsPushTime(dt)) {
+            if(false){//itsPushTime(dt)) {
                 body.setLinearVelocity((pXpose - myXpos) * 10f, (pYpose - myYpos) * 10f);
             }
-        }else{
-            if(itsFlyTime(dt)) {
-                body.applyLinearImpulse(new Vector2(0, .5f), this.body.getWorldCenter(), true);
-            }
         }
+            if(itsFlyTime(dt) && body.getPosition().y < 10) {
+            body.applyLinearImpulse(new Vector2(0, 1f), this.body.getWorldCenter(), true);
+        }
+
+        if(!flying){
+            body.applyLinearImpulse(new Vector2(0, 1f), this.body.getWorldCenter(), true);
+        }
+        if(pXpose < myXpos){
+            this.currentState = GameObjectConstants.STATE_2;
+        }else{
+            this.currentState = GameObjectConstants.STATE_1;
+        }
+
     }
 
     private boolean itsPushTime(float dt){

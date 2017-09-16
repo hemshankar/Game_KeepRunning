@@ -76,6 +76,8 @@ public class JumpingMarblesGame extends Game {
 			stagesScreen.dispose();
 		if(pauseScreen!=null)
 			pauseScreen.dispose();
+		if(gameEndScreen!=null)
+			gameEndScreen.dispose();
 	}
 
 	public GameScreen getGameScreen(String stage){

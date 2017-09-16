@@ -1,3 +1,21 @@
+Game Should be:
+1. Smooth
+2. Dynamic
+3. Stylish
+4. Gorgeous
+5. Cool
+
+Things that mater:
+1. Menus
+2. UI
+3. Camera Work
+4. Color Choices
+5. Fonts
+6. Animation
+7. Character Design
+8. Presentation of information
+9. New and different experiences that help get out of the monotonous world 
+
 
 1. Pusher -- Pushes harder with increasing level
 2. Normal Fire -- None
@@ -12,4 +30,4 @@
 11. Coin Round - A special round with only coins, Flying kit and magnets
 12. Magnet - Stay time can increase
 13. Kaleen - Speed can increase
- 
+14. Tunneller: helps travel underground, with less obstacles and hidden treasures. (Speeds increases with upgrade)

@@ -25,6 +25,8 @@ public class Ground extends FutureWarsCast {
             if(p.hasJumpingKit && p.jumpEffectRemainig > 0){
                 p.body.applyLinearImpulse(new Vector2(0, 6), p.body.getWorldCenter(), true);
             }
+        }else{
+            gObj.handleEndContact(this);
         }
     }
 
@@ -33,6 +35,8 @@ public class Ground extends FutureWarsCast {
         if(gObj instanceof Player2){
             Player2 p = (Player2) gObj;
             p.canJump = true;
+        }else{
+            gObj.handleContact(this);
         }
     }
 }

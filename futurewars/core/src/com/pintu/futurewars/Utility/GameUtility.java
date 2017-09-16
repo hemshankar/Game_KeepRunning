@@ -43,7 +43,7 @@ import java.util.Set;
 public class GameUtility {
     public static TextureAtlas atlas = new TextureAtlas(GameConstants.ATLUS_FILE);
     public static TextureAtlas blastAtlas = new TextureAtlas(GameConstants.BLAST_ATLUS_FILE);
-    public static TextureAtlas ninjaAtlas = new TextureAtlas(GameConstants.NINJA_ATLUS_FILE);
+    //public static TextureAtlas ninjaAtlas = new TextureAtlas(GameConstants.NINJA_ATLUS_FILE);
     public static TextureAtlas stickAtlas = new TextureAtlas(GameConstants.STICK_ATLUS_FILE);
     public static Player player = null;
     public static Player2 player2 = null;

@@ -49,6 +49,7 @@ public class Widgets {
     OrthographicCamera ctrlCam;
     CustomLabel speedStats = null;
     CustomLabel coinsCollected = null;
+    CustomLabel timePassed = null;
     public JumpingMarblesGame game;
     public Widgets(JumpingMarblesGame game,GameScreen screen){
         this.game = game;
@@ -101,10 +102,17 @@ public class Widgets {
         coinsCollected = new  CustomLabel("0", new Label.LabelStyle(font,Color.BLACK));
         coinsCollected.setWidth(10);
         coinsCollected.setHeight(10);
-        coinsCollected.setPosition(stage.getWidth()-400,stage.getHeight()-50);
+        coinsCollected.setPosition(stage.getWidth()-500,stage.getHeight()-50);
         //speedStats.setPosition(200,100);
         coinsCollected.text = "0";
         stage.addActor(coinsCollected);
+
+        //Label to display time
+        timePassed = new  CustomLabel("Time Left: " + (int)screen.gameTime + " s", new Label.LabelStyle(font,Color.BLACK));
+        timePassed.setWidth(10);
+        timePassed.setHeight(10);
+        timePassed.setPosition(stage.getWidth()-500,stage.getHeight()-100);
+        stage.addActor(timePassed);
     }
 
     public void draw(){
@@ -115,7 +123,8 @@ public class Widgets {
         healthBar.setValue(screen.player2.health/screen.player2.MAX_HEALTH);
         flyFuelBar.setValue(screen.player2.flyFuel/screen.player2.MAX_FLY_FUEL);
         speedStats.text = "Speed: " + (int)(screen.player2.body.getLinearVelocity().x) + "";
-        coinsCollected.text = "" + screen.player2.totalCoin;
+        coinsCollected.text = "Coins: " + screen.player2.totalCoin;
+        timePassed.text = "Time Left: "+ ((int)screen.gameTime - (int)screen.timePassed) + " s";
         stage.act();
         if(screen.player2.hasFlyingKit) {
             flyFuelBar.setVisible(true);
