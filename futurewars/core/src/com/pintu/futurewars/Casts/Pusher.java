@@ -4,14 +4,10 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
-import com.common.utilities.Utility;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.commons.GameObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by hsahu on 7/2/2017.
@@ -19,10 +15,7 @@ import java.util.Map;
 
 public class Pusher extends FutureWarsCast {
 
-    private static final float PUSH_INTERVAL = 1f;
-    private static final float FLY_INTERVAL = .1f;
-    private float timer = 0f;
-    public boolean flying = true;
+    public static final float PUSH_INTERVAL = 1f;
     public Pusher(int id,World w, TextureAtlas a, MapObject obj) {
         super(id,GameConstants.PUSHER_PROPERTY_FILE, w, a, obj);
     }
@@ -62,9 +55,6 @@ public class Pusher extends FutureWarsCast {
                 body.setLinearVelocity((pXpose - myXpos) * 10f, (pYpose - myYpos) * 10f);
             }
         }
-            if(itsFlyTime(dt) && body.getPosition().y < 10) {
-            body.applyLinearImpulse(new Vector2(0, 1f), this.body.getWorldCenter(), true);
-        }
 
         if(!flying){
             body.applyLinearImpulse(new Vector2(0, 1f), this.body.getWorldCenter(), true);
@@ -78,22 +68,14 @@ public class Pusher extends FutureWarsCast {
     }
 
     private boolean itsPushTime(float dt){
-        timer += dt;
-        if(timer > PUSH_INTERVAL){
-            timer = 0;
+        flyTimer += dt;
+        if(flyTimer > PUSH_INTERVAL){
+            flyTimer = 0;
             return true;
         }
         return false;
     }
 
-    private boolean itsFlyTime(float dt){
-        timer += dt;
-        if(timer > FLY_INTERVAL){
-            timer = 0;
-            return true;
-        }
-        return false;
-    }
     @Override
     public void destroy(){
         super.destroy();

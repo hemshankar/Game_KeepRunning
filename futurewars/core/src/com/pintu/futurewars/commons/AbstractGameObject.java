@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
@@ -63,6 +64,13 @@ public abstract class AbstractGameObject implements GameObject{
     //these can be a bit of overHead, since these needs to be maitained
     public float timeToLive = 0;
     public float timeLived = 0;
+
+    public static final float FLY_INTERVAL = .1f;
+    public float flyTimer = 0f;
+    public boolean flying = true;
+    public boolean canFly = true;
+    public float flyLimitTop = 10;
+    public float flyLimitLow = 0;
 
 
     public AbstractGameObject(int id, Map<String,String> props, World w, TextureAtlas a){
@@ -265,6 +273,13 @@ public abstract class AbstractGameObject implements GameObject{
             } else {
                 sprite.setPosition(xPos, yPos);
             }
+
+            if(canFly && itsFlyTime(dt) && body.getPosition().y < flyLimitTop) {
+                body.applyLinearImpulse(new Vector2(0, body.getMass()), this.body.getWorldCenter(), true);
+            }
+            /*if(itsFlyTime(dt) && body.getPosition().y < flyLimitLow) {
+                body.applyLinearImpulse(new Vector2(0, body.getMass()), this.body.getWorldCenter(), true);
+            }*/
         }catch(Exception e){
             System.out.println("Error in frame ======" + frameCounter + "--"
                     + gProps.get(GameObjectConstants.TEXTURE_ATLAS_NAME) + " :" + e.getMessage());
@@ -397,5 +412,14 @@ public abstract class AbstractGameObject implements GameObject{
         if(stateSoundMap !=null && stateSoundMap.size()>0 && stateSoundMap.get(sound) !=null) {
             GameUtility.getGameScreen().assetManager.get(stateSoundMap.get(sound), Sound.class).play();
         }
+    }
+
+    public boolean itsFlyTime(float dt){
+        flyTimer += dt;
+        if(flyTimer > FLY_INTERVAL){
+            flyTimer = 0;
+            return true;
+        }
+        return false;
     }
 }

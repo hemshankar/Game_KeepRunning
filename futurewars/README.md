@@ -82,5 +82,9 @@ Rules:
 60. Gift Pack
 61. One girl character
 62. Horse Ride
+63. When the birds/pushers fly fast they should flap fast
+64. Make a generic method for fly. Since most of the game objects will be flying, they can use this -- Done
+65. Change the all the game objects to dynamic bodies as they need to move. Brick may be static -- Done
+66. Space can be simulated, if an up force of the mass of the body is applied to the body, can contribute to a new stage 
 
 

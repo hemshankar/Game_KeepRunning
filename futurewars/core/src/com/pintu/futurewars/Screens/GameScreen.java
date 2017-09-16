@@ -165,7 +165,7 @@ public class GameScreen implements Screen {
         SpeedBomb b;
         for(int i = 0;i<10;i++){
             b = new SpeedBomb(111,world, GameUtility.getBlastAtlas(),null);
-            b.xPos = 100 + i*100;
+            b.xPos = 10 + i*10;
             b.yPos = 10;
             b.initialize();
             gameObjects.add(b);

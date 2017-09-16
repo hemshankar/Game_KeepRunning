@@ -20,6 +20,8 @@ import java.util.Map;
 public class SpeedBomb extends FutureWarsCast {
     public SpeedBomb(int id,World w, TextureAtlas a, MapObject obj) {
         super(id, GameConstants.SPEED_BOMB_PROPERTY_FILE, w, a, obj);
+        flyLimitTop = 9;
+        flyLimitLow = 7.5f;
     }
     @Override
     public void handleContact(GameObject gObj){
