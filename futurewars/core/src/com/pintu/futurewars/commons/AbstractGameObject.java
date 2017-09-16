@@ -1,6 +1,5 @@
 package com.pintu.futurewars.commons;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -18,14 +17,13 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
-import com.common.utilities.Utility;
+import com.pintu.futurewars.Casts.Ground;
+import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Utility.GameUtility;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -65,12 +63,13 @@ public abstract class AbstractGameObject implements GameObject{
     public float timeToLive = 0;
     public float timeLived = 0;
 
-    public static final float FLY_INTERVAL = .1f;
+    public static final float FLY_INTERVAL = 0f;
     public float flyTimer = 0f;
     public boolean flying = true;
     public boolean canFly = true;
-    public float flyLimitTop = 10;
-    public float flyLimitLow = 0;
+    public float flyPosition = 10;
+    //public float flyLimitLow = 5;
+    //public float stickToPositionFactor = 1f;
 
 
     public AbstractGameObject(int id, Map<String,String> props, World w, TextureAtlas a){
@@ -171,7 +170,9 @@ public abstract class AbstractGameObject implements GameObject{
             }
             //==================================CREATE BODY========================================
             body = world.createBody(bdef);
-
+            //=====================================DAMPING========================================
+            body.setLinearDamping(gProps.get(GameObjectConstants.DAMPING) != null ?
+                    Float.parseFloat(gProps.get(GameObjectConstants.DAMPING)) : 0f);
             //================================CREATE FIXTURE=======================================
             Fixture f = body.createFixture(fixtureDef);
 
@@ -274,12 +275,49 @@ public abstract class AbstractGameObject implements GameObject{
                 sprite.setPosition(xPos, yPos);
             }
 
-            if(canFly && itsFlyTime(dt) && body.getPosition().y < flyLimitTop) {
-                body.applyLinearImpulse(new Vector2(0, body.getMass()), this.body.getWorldCenter(), true);
+           /* if(canFly && itsFlyTime(dt) && body.getPosition().y < flyLimitLow) {
+                body.applyLinearImpulse(
+                        new Vector2(0, world.getGravity().y + (-1 * body.getLinearVelocity().y) * 1.5f),
+                        this.body.getWorldCenter(), true);
             }
-            /*if(itsFlyTime(dt) && body.getPosition().y < flyLimitLow) {
-                body.applyLinearImpulse(new Vector2(0, body.getMass()), this.body.getWorldCenter(), true);
+            if(canFly && itsFlyTime(dt) && body.getPosition().y > flyPosition) {
+                body.applyLinearImpulse(
+                        new Vector2(0, -1 * body.getLinearVelocity().y*1.5f),
+                        this.body.getWorldCenter(), true);
             }*/
+
+            if(canFly && itsFlyTime(dt)
+                    && body.getPosition().y < flyPosition){
+                    //&& body.getLinearVelocity().y <0) {
+                body.applyLinearImpulse(
+                        new Vector2(0,flyPosition - body.getPosition().y),
+                                    this.body.getWorldCenter(), true);
+            }
+            /*else if(canFly && itsFlyTime(dt) && body.getPosition().y > flyPosition) {
+                body.applyLinearImpulse(
+                        new Vector2(0, .5f*(flyPosition - body.getPosition().y)
+                                             * stickToPositionFactor),
+                        this.body.getWorldCenter(), true);
+            }*/
+
+            Player2 player = GameUtility.getGameScreen().player2;
+
+            //move with player
+            if(!(this instanceof Player2)){
+                if(Math.abs(player.body.getLinearVelocity().x - body.getLinearVelocity().x)>20) {
+                    body.applyLinearImpulse(
+                            new Vector2((player.body.getLinearVelocity().x - body.getLinearVelocity().x) * 0.25f, 0),
+                            this.body.getWorldCenter(), true);
+                    body.setLinearDamping(.5f);
+                }
+            }
+
+            //Destroy Non Seen casts
+            if(!(this instanceof Player2)
+                    && !(this instanceof Ground)
+                    && Math.abs(player.body.getPosition().x - body.getPosition().x)>500){
+                toBeDestroyed = true;
+            }
         }catch(Exception e){
             System.out.println("Error in frame ======" + frameCounter + "--"
                     + gProps.get(GameObjectConstants.TEXTURE_ATLAS_NAME) + " :" + e.getMessage());

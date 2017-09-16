@@ -43,6 +43,9 @@ public class Player2 extends FutureWarsCast {
         GameUtility.setPlayer(this);
         selectedBullet = GameConstants.BASIC_BULLET;
         health = MAX_HEALTH;
+        canFly = false;
+        hasJumpingKit = true;
+        jumpEffectRemainig = JUMP_KIT_EFFECT_TIME;
     }
 
     public void update(float dt){

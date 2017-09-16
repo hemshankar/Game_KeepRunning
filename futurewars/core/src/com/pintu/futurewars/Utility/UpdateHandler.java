@@ -36,7 +36,7 @@ public class UpdateHandler {
         else if(x>(GameUtility.worldCreator.boundaryRight/ GameConstants.PPM - screen.viewport.getWorldWidth()/2))
             x = GameUtility.worldCreator.boundaryRight/ GameConstants.PPM - screen.viewport.getWorldWidth()/2;
 
-        screen.camera.position.x=x;
+        screen.camera.position.x=x+4;
 
         //stage Completed
         if(screen.player2.getBody().getPosition().x>GameUtility.worldCreator.boundaryRight/ GameConstants.PPM ){
@@ -52,7 +52,7 @@ public class UpdateHandler {
         else if(y>( GameUtility.worldCreator.boundaryTop/ GameConstants.PPM - screen.viewport.getWorldHeight()/2))
             y = ( GameUtility.worldCreator.boundaryTop/ GameConstants.PPM )- screen.viewport.getWorldHeight()/2;
 
-        screen.camera.position.y=y;
+        screen.camera.position.y=y+2;
         //System.out.println( player.body.getPosition().xPos + " -- " + player.body.getPosition().yPos);
         screen.camera.update();
 

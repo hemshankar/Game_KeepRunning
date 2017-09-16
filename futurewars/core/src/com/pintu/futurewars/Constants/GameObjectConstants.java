@@ -21,6 +21,7 @@ public class GameObjectConstants {
     public final static String RESTITUTION = "RESTITUTION";
     public final static String FRICTION = "FRICTION";
     public final static String DENSITY = "DENSITY";
+    public final static String DAMPING = "DAMPING";
 
     public final static String IS_SENSOR = "IS_SENSOR";
     public final static String HEALTH = "HEALTH";

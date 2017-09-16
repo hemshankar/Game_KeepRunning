@@ -86,5 +86,7 @@ Rules:
 64. Make a generic method for fly. Since most of the game objects will be flying, they can use this -- Done
 65. Change the all the game objects to dynamic bodies as they need to move. Brick may be static -- Done
 66. Space can be simulated, if an up force of the mass of the body is applied to the body, can contribute to a new stage 
-
+67. there is possible a memory Leak... check if all the items are disposed properly... Monitor using memory monitor provided in android studios
+68. Character should talk
+69. Auto aim/ auto tracking of the bullet can be done by setting the bullet position. Can be used for locking the target.
 

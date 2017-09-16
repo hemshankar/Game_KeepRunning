@@ -46,6 +46,7 @@ public class WaterBalloon extends FutureWarsCast {
                     && Math.abs(Math.abs(pYpose) - Math.abs(myYpos)) < 5) {
                 body.setLinearVelocity((pXpose - myXpos) * 5f, (pYpose - myYpos) * 5f);
                 fired = true;
+                canFly = false;
             }
         }
     }

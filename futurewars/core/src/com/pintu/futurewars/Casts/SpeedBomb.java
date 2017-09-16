@@ -5,13 +5,8 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
-import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Utility.GameUtility;
-import com.pintu.futurewars.commons.AbstractGameObject;
 import com.pintu.futurewars.commons.GameObject;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by hsahu on 8/14/2017.
@@ -20,8 +15,7 @@ import java.util.Map;
 public class SpeedBomb extends FutureWarsCast {
     public SpeedBomb(int id,World w, TextureAtlas a, MapObject obj) {
         super(id, GameConstants.SPEED_BOMB_PROPERTY_FILE, w, a, obj);
-        flyLimitTop = 9;
-        flyLimitLow = 7.5f;
+        flyPosition = 9;
     }
     @Override
     public void handleContact(GameObject gObj){

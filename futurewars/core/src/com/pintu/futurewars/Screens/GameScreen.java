@@ -167,6 +167,7 @@ public class GameScreen implements Screen {
             b = new SpeedBomb(111,world, GameUtility.getBlastAtlas(),null);
             b.xPos = 10 + i*10;
             b.yPos = 10;
+            b.flyPosition = 10;
             b.initialize();
             gameObjects.add(b);
         }
@@ -175,15 +176,17 @@ public class GameScreen implements Screen {
             p = new Pusher(143,world, GameUtility.getAtlas(),null);
             p.xPos = 10 + i*10;
             p.yPos = 10;
+            p.flyPosition = 10;
             p.initialize();
             gameObjects.add(p);
         }
 
         StickyBomb s;
-        for(int i = 0;i<10;i++){
+        for(int i = 0;i<20;i++){
             s = new StickyBomb(181,world, GameUtility.getBlastAtlas(),null);
-            s.xPos = 107 + i*150;
+            s.xPos = 37 + i*20;
             s.yPos = 10;
+            s.flyPosition = 10;
             s.initialize();
             gameObjects.add(s);
         }
@@ -193,6 +196,7 @@ public class GameScreen implements Screen {
             jKit = new JumpingKit(3,world, GameUtility.getAtlas(),null);
             jKit.xPos = 130 + i*100;
             jKit.yPos = 5;
+            jKit.flyPosition = 5;
             jKit.initialize();
             gameObjects.add(jKit);
         }
@@ -202,6 +206,7 @@ public class GameScreen implements Screen {
             fKit = new FlyingKit(3,world, GameUtility.getAtlas(),null);
             fKit.xPos = 130 + i*50;
             fKit.yPos = 7;
+            fKit.flyPosition = 7;
             fKit.initialize();
             gameObjects.add(fKit);
         }
@@ -211,6 +216,7 @@ public class GameScreen implements Screen {
             drink = new PowerDrink(3,world, GameUtility.getBlastAtlas(),null);
             drink.xPos = 120 + i*50;
             drink.yPos = 10;
+            drink.flyPosition = 10;
             drink.initialize();
             gameObjects.add(drink);
         }
@@ -219,6 +225,7 @@ public class GameScreen implements Screen {
             hat = new CowBoyHat(3,world, GameUtility.getAtlas(),null);
             hat.xPos = 120 + i*100;
             hat.yPos = 5;
+            hat.flyPosition = 5;
             hat.initialize();
             gameObjects.add(hat);
         }
@@ -227,6 +234,7 @@ public class GameScreen implements Screen {
             amo = new BombAmo(3,world, GameUtility.getAtlas(),null);
             amo.xPos = 115 + i*50;
             amo.yPos = 10;
+            amo.flyPosition = 10;
             amo.initialize();
             gameObjects.add(amo);
         }
@@ -235,6 +243,7 @@ public class GameScreen implements Screen {
             coin = new Coin(3,world, GameUtility.getAtlas(),null);
             coin.xPos = 42 + i*10;
             coin.yPos = 7;
+            coin.flyPosition = 7;
             coin.initialize();
             gameObjects.add(coin);
         }
@@ -244,6 +253,7 @@ public class GameScreen implements Screen {
             m = new Magnet(3,world, GameUtility.getAtlas(),null);
             m.xPos = 5 + i*10;
             m.yPos = 5;
+            m.flyPosition = 5;
             m.initialize();
             gameObjects.add(m);
         }
@@ -253,6 +263,7 @@ public class GameScreen implements Screen {
             balloon = new WaterBalloon(3,world, GameUtility.getBlastAtlas(),null);
             balloon.xPos = 122 + i*100;
             balloon.yPos = 7;
+            balloon.flyPosition = 7;
             balloon.initialize();
             gameObjects.add(balloon);
         }
@@ -262,6 +273,7 @@ public class GameScreen implements Screen {
             kaleen = new Kaleen(33,world, GameUtility.getAtlas(),null);
             kaleen.xPos = 150 + i*100;
             kaleen.yPos = 15;
+            kaleen.flyPosition = 15;
             kaleen.initialize();
             gameObjects.add(kaleen);
         }
@@ -271,6 +283,12 @@ public class GameScreen implements Screen {
         g.yPos = 4;
         g.initialize();
         gameObjects.add(g);
+
+        Ground roof = new Ground(134,world, GameUtility.getAtlas(),null);
+        roof.xPos = 0;
+        roof.yPos = 20;
+        roof.initialize();
+        gameObjects.add(roof);
 
         //handling pause
         game.pauseScreen.stageScreen = this;
@@ -303,7 +321,7 @@ public class GameScreen implements Screen {
         batch.end();
         widgets.draw();
 
-        //b2dr.render(world,camera.combined);
+        b2dr.render(world,camera.combined);
 
     }
 

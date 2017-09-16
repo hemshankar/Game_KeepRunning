@@ -44,15 +44,18 @@ public class StickyBomb extends FutureWarsCast {
     public void update(float dt) {
         super.update(dt);
         if (!fired) {
-            float pXpose = GameUtility.getGameScreen().player2.body.getPosition().x;
-            float pYpose = GameUtility.getGameScreen().player2.body.getPosition().y;
+            Player2 player = GameUtility.getGameScreen().player2;
+            float pXpose = player.body.getPosition().x;
+            float pYpose = player.body.getPosition().y;
             float myXpos = body.getPosition().x;
             float myYpos = body.getPosition().y;
 
             if (Math.abs(Math.abs(pXpose) - Math.abs(myXpos)) < 5
                     && Math.abs(Math.abs(pYpose) - Math.abs(myYpos)) < 5) {
-                body.setLinearVelocity((pXpose - myXpos) * 5f, (pYpose - myYpos) * 5f);
+                body.setLinearVelocity((pXpose - myXpos) *(player.body.getLinearVelocity().x+10) ,
+                        (pYpose - myYpos) * (player.body.getLinearVelocity().x+10));
                 fired = true;
+                canFly = false;
             }
         }else {
             updateMe(dt);
