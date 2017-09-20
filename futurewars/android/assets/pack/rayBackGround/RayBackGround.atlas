@@ -1,0 +1,197 @@
+
+RayBackGround.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+135
+  rotate: false
+  xy: 2, 2
+  size: 920, 920
+  orig: 920, 920
+  offset: 0, 0
+  index: -1
+225
+  rotate: false
+  xy: 924, 924
+  size: 920, 920
+  orig: 920, 920
+  offset: 0, 0
+  index: -1
+315
+  rotate: false
+  xy: 924, 2
+  size: 920, 920
+  orig: 920, 920
+  offset: 0, 0
+  index: -1
+45
+  rotate: false
+  xy: 2, 924
+  size: 920, 920
+  orig: 920, 920
+  offset: 0, 0
+  index: -1
+
+RayBackGround2.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+120
+  rotate: false
+  xy: 893, 893
+  size: 889, 889
+  orig: 889, 889
+  offset: 0, 0
+  index: -1
+150
+  rotate: false
+  xy: 893, 2
+  size: 889, 889
+  orig: 889, 889
+  offset: 0, 0
+  index: -1
+30
+  rotate: false
+  xy: 2, 893
+  size: 889, 889
+  orig: 889, 889
+  offset: 0, 0
+  index: -1
+60
+  rotate: false
+  xy: 2, 2
+  size: 889, 889
+  orig: 889, 889
+  offset: 0, 0
+  index: -1
+
+RayBackGround3.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+210
+  rotate: false
+  xy: 2, 893
+  size: 889, 889
+  orig: 889, 889
+  offset: 0, 0
+  index: -1
+240
+  rotate: false
+  xy: 2, 2
+  size: 889, 889
+  orig: 889, 889
+  offset: 0, 0
+  index: -1
+300
+  rotate: false
+  xy: 893, 893
+  size: 889, 889
+  orig: 889, 889
+  offset: 0, 0
+  index: -1
+330
+  rotate: false
+  xy: 893, 2
+  size: 889, 889
+  orig: 889, 889
+  offset: 0, 0
+  index: -1
+
+RayBackGround4.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+105
+  rotate: false
+  xy: 801, 801
+  size: 797, 797
+  orig: 797, 797
+  offset: 0, 0
+  index: -1
+15
+  rotate: false
+  xy: 2, 801
+  size: 797, 797
+  orig: 797, 797
+  offset: 0, 0
+  index: -1
+165
+  rotate: false
+  xy: 801, 2
+  size: 797, 797
+  orig: 797, 797
+  offset: 0, 0
+  index: -1
+75
+  rotate: false
+  xy: 2, 2
+  size: 797, 797
+  orig: 797, 797
+  offset: 0, 0
+  index: -1
+
+RayBackGround5.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+0
+  rotate: false
+  xy: 2, 801
+  size: 651, 651
+  orig: 651, 651
+  offset: 0, 0
+  index: -1
+180
+  rotate: false
+  xy: 1308, 801
+  size: 651, 651
+  orig: 651, 651
+  offset: 0, 0
+  index: -1
+195
+  rotate: false
+  xy: 655, 2
+  size: 797, 797
+  orig: 797, 797
+  offset: 0, 0
+  index: -1
+270
+  rotate: false
+  xy: 2, 148
+  size: 651, 651
+  orig: 651, 651
+  offset: 0, 0
+  index: -1
+90
+  rotate: false
+  xy: 655, 801
+  size: 651, 651
+  orig: 651, 651
+  offset: 0, 0
+  index: -1
+
+RayBackGround6.png
+size: 2048,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+255
+  rotate: false
+  xy: 2, 2
+  size: 797, 797
+  orig: 797, 797
+  offset: 0, 0
+  index: -1
+285
+  rotate: false
+  xy: 801, 2
+  size: 797, 797
+  orig: 797, 797
+  offset: 0, 0
+  index: -1

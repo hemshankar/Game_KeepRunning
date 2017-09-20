@@ -92,3 +92,8 @@ Rules:
 70. Highlight speed when player crosses the speed limits.
 71. The tararara sound when player does something amazing
 
+
+============================BUGS================================
+1. Each object is creating its own atlas. Fix this to use cache to store each atlas.
+2. Backgrounds are coming in foreground... Solution will be to use 2 array of game objects one for background and other for foreground or add the background to the bottom while add the foreground to the top
+

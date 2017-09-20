@@ -1,20 +1,10 @@
 package com.pintu.futurewars.Utility;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.common.exceptions.UtilityException;
 import com.pintu.futurewars.Blasts.EnemyBlast;
 import com.pintu.futurewars.Blasts.PowerBlast;
@@ -27,12 +17,8 @@ import com.pintu.futurewars.com.pintu.futurewars.armory.BasicBullet;
 import com.pintu.futurewars.com.pintu.futurewars.armory.Bomb;
 import com.pintu.futurewars.commons.GameObject;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -41,23 +27,15 @@ import java.util.Set;
  */
 
 public class GameUtility {
-    public static TextureAtlas atlas = new TextureAtlas(GameConstants.ATLUS_FILE);
-    public static TextureAtlas blastAtlas = new TextureAtlas(GameConstants.BLAST_ATLUS_FILE);
-    //public static TextureAtlas ninjaAtlas = new TextureAtlas(GameConstants.NINJA_ATLUS_FILE);
-    public static TextureAtlas stickAtlas = new TextureAtlas(GameConstants.STICK_ATLUS_FILE);
+
+    public static Map<String,TextureAtlas> atlasMap = new HashMap<String, TextureAtlas>();
+
     public static Player player = null;
     public static Player2 player2 = null;
     public static Map<String ,Map<String,String[]>> stateFrameDetailsMap
                                                             = new HashMap<String, Map<String, String[]>>();
     public static Map<String ,Map<String,String>> stateSoundDetailsMap
                                                             = new HashMap<String, Map<String, String>>();
-
-    public static TextureAtlas getAtlas(){
-        return atlas;
-    }
-    public static TextureAtlas getBlastAtlas(){
-        return blastAtlas;
-    }
 
     //public static GameScreen gameScreen= null;
     public static WeakReference<GameScreen> gameScreen = null;
@@ -113,49 +91,51 @@ public class GameUtility {
     }
 
     public static void fireBasicBullet(float x, float y){
-        BasicBullet bullet = new BasicBullet(id++,world ,atlas,x,y);
+        BasicBullet bullet = new BasicBullet(id++,world ,getAtlas(GameConstants.ATLAS_FILE),x,y);
         bullet.initialize();
         bullet.fire();
         getGameScreen().gameObjects.add(bullet);
     }
 
     public static void fireBurstBullet(float x, float y){
-        BasicBullet bullet = new BasicBullet(id++,world ,atlas,x,y-1);
+        BasicBullet bullet = new BasicBullet(id++,world ,getAtlas(GameConstants.ATLAS_FILE),x,y-1);
         bullet.initialize();
         bullet.fire();
         getGameScreen().gameObjects.add(bullet);
 
-        bullet = new BasicBullet(id++,world ,atlas,x+1,y+1);
+        bullet = new BasicBullet(id++,world ,getAtlas(GameConstants.ATLAS_FILE),x+1,y+1);
         bullet.initialize();
         bullet.fire();
         getGameScreen().gameObjects.add(bullet);
     }
 
     public static void fireBurstBullet(float x, float y,float distance){
-        BasicBullet bullet = new BasicBullet(id++,world ,atlas,x,y-distance);
+        BasicBullet bullet = new BasicBullet(id++,world ,getAtlas(GameConstants.ATLAS_FILE),x,y-distance);
         bullet.initialize();
         bullet.fire();
         getGameScreen().gameObjects.add(bullet);
 
-        bullet = new BasicBullet(id++,world ,atlas,x,y+distance);
+        bullet = new BasicBullet(id++,world ,getAtlas(GameConstants.ATLAS_FILE),x,y+distance);
         bullet.initialize();
         bullet.fire();
         getGameScreen().gameObjects.add(bullet);
     }
     public static void Bomb(float x, float y){
-        Bomb bullet = new Bomb(id++,world ,atlas,x,y);
+        Bomb bullet = new Bomb(id++,world ,getAtlas(GameConstants.ATLAS_FILE),x,y);
         bullet.initialize();
         bullet.fire();
         getGameScreen().gameObjects.add(bullet);
     }
 
     public static void addEnemyBlast(float x, float y){
-        EnemyBlast blast = new EnemyBlast(id++,world,blastAtlas,x,y);
+        EnemyBlast blast = new EnemyBlast(id++,world,getAtlas(GameConstants.BLAST_ATLUS_FILE),x,y);
         blast.initialize();
+        blast.canFly = false;
         getGameScreen().gameObjects.add(blast);
     }
     public static void addPowerBlast(float x, float y){
-        PowerBlast blast = new PowerBlast(id++,world,blastAtlas,x,y);
+        PowerBlast blast = new PowerBlast(id++,world,getAtlas(GameConstants.BLAST_ATLUS_FILE),x,y);
+        blast.canFly = false;
         blast.initialize();
         getGameScreen().gameObjects.add(blast);
     }
@@ -192,5 +172,21 @@ public class GameUtility {
 
     public static void log(String className,String str){
         System.out.println( className + ":" + str);
+    }
+    public static TextureAtlas getAtlas(String fileName){
+        TextureAtlas ta = atlasMap.get(fileName);
+        if(ta == null){
+            ta = new TextureAtlas(fileName);
+            atlasMap.put(fileName,ta);
+        }
+        return ta;
+    }
+
+    public static void disposeAllAtlas(){
+        for(TextureAtlas at: atlasMap.values()){
+            at.dispose();
+            log("GameUtility",at.getClass().getName() + " disposed");
+        }
+        atlasMap.clear();
     }
 }

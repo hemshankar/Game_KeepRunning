@@ -3,10 +3,10 @@ package com.pintu.futurewars.Casts;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Utility.GameUtility;
+import com.pintu.futurewars.backgrounds.BackGround1;
 import com.pintu.futurewars.commons.GameObject;
 
 /**
@@ -14,9 +14,11 @@ import com.pintu.futurewars.commons.GameObject;
  */
 
 public class SpeedBomb extends FutureWarsCast {
+    BackGround1 background = null;
     public SpeedBomb(int id,World w, TextureAtlas a, MapObject obj) {
         super(id, GameConstants.SPEED_BOMB_PROPERTY_FILE, w, a, obj);
         flyPosition = 9;
+        background = new BackGround1(234,GameConstants.BACKGROUND1_PROPERTY_FILE,w,a);
     }
     @Override
     public void handleContact(GameObject gObj){
@@ -27,8 +29,19 @@ public class SpeedBomb extends FutureWarsCast {
     }
 
     @Override
+    public void initialize() {
+        super.initialize();
+        background.flyPosition = 9;
+        background.xPos = this.xPos;
+        background.yPos = 10;
+        background.initialize();
+        GameUtility.getGameScreen().gameObjects.add(background);
+    }
+
+    @Override
     public void destroy(){
         super.destroy();
+        background.toBeDestroyed = true;
         GameUtility.addPowerBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
     }
 }

@@ -8,7 +8,7 @@ public class GameConstants {
     //setting the pixel per meter constant, to be used for scaling all the objects (in size or weight?)
     public static final float PPM = 100f;
 
-    public static final String ATLUS_FILE = "pack/JumpingMarblesPack.atlas";
+    public static final String ATLAS_FILE = "pack/JumpingMarblesPack.atlas";
     public static final String BLAST_ATLUS_FILE = "pack/blastPack/EnemyBlast.atlas";
     public static final String NINJA_ATLUS_FILE = "pack/ninjaPack/ninja2.atlas";
     public static final String STICK_ATLUS_FILE = "pack/stickPack/stick.atlas";
@@ -104,7 +104,7 @@ public class GameConstants {
     public static final String COIN_PROPERTY_FILE = "propertyFiles/coin.txt";
     public static final String STICKY_BOMB_PROPERTY_FILE = "propertyFiles/stickyBomb.txt";
     public static final String WATER_BALLOON_PROPERTY_FILE = "propertyFiles/waterBalloon.txt";
-
+    public static final String BACKGROUND1_PROPERTY_FILE = "propertyFiles/background1.txt";
     //============================Joint Constants================================
     public static final String REVOLUTE = "revolute";
     public static final String PRISMATIC = "presmatic";

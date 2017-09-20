@@ -195,7 +195,7 @@ public abstract class AbstractGameObject implements GameObject{
         Float height = getFloat(gProps.get(GameObjectConstants.SPRITE_HEIGHT));
         String atlasName = gProps.get(GameObjectConstants.TEXTURE_ATLAS_NAME);
         if(!isEmpty(atlasName)){
-            atlas = new TextureAtlas(atlasName);
+            atlas = GameUtility.getAtlas(atlasName);
         }else if(atlas == null){
             throw new RuntimeException("Not texture atlas defined");
         }
@@ -286,7 +286,7 @@ public abstract class AbstractGameObject implements GameObject{
                         this.body.getWorldCenter(), true);
             }*/
 
-            if(canFly && itsFlyTime(dt)
+            if(haveBody && canFly && itsFlyTime(dt)
                     && body.getPosition().y < flyPosition){
                     //&& body.getLinearVelocity().y <0) {
                 body.applyLinearImpulse(
@@ -303,14 +303,18 @@ public abstract class AbstractGameObject implements GameObject{
             Player2 player = GameUtility.getGameScreen().player2;
 
             //move with player
-            if(!(this instanceof Player2)){
-                if(Math.abs(player.body.getLinearVelocity().x - body.getLinearVelocity().x)>20) {
-                    body.applyLinearImpulse(
-                            new Vector2((player.body.getLinearVelocity().x - body.getLinearVelocity().x) * 0.25f, 0),
-                            this.body.getWorldCenter(), true);
-                    body.setLinearDamping(1f);
-                }else{
+            if(!(this instanceof Player2) && haveBody){
+
+                if(player.body.getLinearVelocity().x - 10 <= body.getLinearVelocity().x) {
+                    body.setLinearDamping(1);
+                }else {
                     body.setLinearDamping(0f);
+                    float diff = player.body.getLinearVelocity().x - body.getLinearVelocity().x;
+                    if (diff > 10) {
+                        body.applyLinearImpulse(
+                                new Vector2(diff * 0.01f, 0),
+                                this.body.getWorldCenter(), true);
+                    }
                 }
             }
 

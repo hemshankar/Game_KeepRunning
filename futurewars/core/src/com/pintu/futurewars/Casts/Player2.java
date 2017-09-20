@@ -44,8 +44,8 @@ public class Player2 extends FutureWarsCast {
         selectedBullet = GameConstants.BASIC_BULLET;
         health = MAX_HEALTH;
         canFly = false;
-        hasJumpingKit = true;
-        jumpEffectRemainig = JUMP_KIT_EFFECT_TIME;
+        hasFlyingKit = true;
+        flyFuel = MAX_FLY_FUEL;
     }
 
     public void update(float dt){
@@ -66,7 +66,7 @@ public class Player2 extends FutureWarsCast {
             //System.out.println(health);
         }
         if(getBody().getLinearVelocity().x <= speedLimit && canJump == true) {
-            getBody().applyLinearImpulse(new Vector2(2f, 0), getBody().getWorldCenter(), true);
+            //getBody().applyLinearImpulse(new Vector2(2f, 0), getBody().getWorldCenter(), true);
         }
         super.update(dt);
         flyFuelUpdate(dt);
