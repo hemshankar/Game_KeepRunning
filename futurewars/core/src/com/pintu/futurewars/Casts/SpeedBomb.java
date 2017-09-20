@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Utility.GameUtility;
-import com.pintu.futurewars.backgrounds.BackGround1;
+import com.pintu.futurewars.backgrounds.BackGround;
 import com.pintu.futurewars.commons.GameObject;
 
 /**
@@ -14,11 +14,11 @@ import com.pintu.futurewars.commons.GameObject;
  */
 
 public class SpeedBomb extends FutureWarsCast {
-    BackGround1 background = null;
+    BackGround background = null;
     public SpeedBomb(int id,World w, TextureAtlas a, MapObject obj) {
         super(id, GameConstants.SPEED_BOMB_PROPERTY_FILE, w, a, obj);
         flyPosition = 9;
-        background = new BackGround1(234,GameConstants.BACKGROUND1_PROPERTY_FILE,w,a);
+        background = new BackGround(234,GameConstants.BACKGROUND1_PROPERTY_FILE,w,a,this);
     }
     @Override
     public void handleContact(GameObject gObj){
@@ -33,7 +33,7 @@ public class SpeedBomb extends FutureWarsCast {
         super.initialize();
         background.flyPosition = 9;
         background.xPos = this.xPos;
-        background.yPos = 10;
+        background.yPos = this.yPos;
         background.initialize();
         GameUtility.getGameScreen().gameObjects.add(background);
     }

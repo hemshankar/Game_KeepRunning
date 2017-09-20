@@ -1,0 +1,89 @@
+
+pack1.png
+size: 2048,2048
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+JetPack4
+  rotate: false
+  xy: 2, 1106
+  size: 854, 896
+  orig: 854, 896
+  offset: 0, 0
+  index: -1
+blackBomb
+  rotate: false
+  xy: 2, 304
+  size: 800, 800
+  orig: 800, 800
+  offset: 0, 0
+  index: -1
+bombAmo
+  rotate: false
+  xy: 1596, 561
+  size: 360, 720
+  orig: 360, 720
+  offset: 0, 0
+  index: -1
+cowBoyHat
+  rotate: false
+  xy: 804, 16
+  size: 720, 504
+  orig: 720, 504
+  offset: 0, 0
+  index: -1
+jetBack1
+  rotate: false
+  xy: 2, 2
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+jetPack2
+  rotate: false
+  xy: 304, 2
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+pinkBomb
+  rotate: false
+  xy: 858, 522
+  size: 736, 759
+  orig: 736, 759
+  offset: 0, 0
+  index: -1
+sb1
+  rotate: false
+  xy: 1526, 41
+  size: 483, 479
+  orig: 483, 479
+  offset: 0, 0
+  index: -1
+shoes
+  rotate: false
+  xy: 858, 1283
+  size: 1024, 719
+  orig: 1024, 719
+  offset: 0, 0
+  index: -1
+
+pack12.png
+size: 2048,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+jetpack3
+  rotate: false
+  xy: 2, 2
+  size: 650, 650
+  orig: 650, 650
+  offset: 0, 0
+  index: -1
+redBull
+  rotate: false
+  xy: 654, 52
+  size: 400, 600
+  orig: 400, 600
+  offset: 0, 0
+  index: -1

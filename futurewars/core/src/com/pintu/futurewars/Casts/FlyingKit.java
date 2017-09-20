@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Utility.GameUtility;
+import com.pintu.futurewars.backgrounds.BackGround;
 import com.pintu.futurewars.commons.GameObject;
 
 /**
@@ -12,8 +13,10 @@ import com.pintu.futurewars.commons.GameObject;
  */
 
 public class FlyingKit extends FutureWarsCast {
+    BackGround background = null;
     public FlyingKit(int id, World w, TextureAtlas a, MapObject obj) {
         super(id, GameConstants.FLYING_KIT_PROPERTY_FILE, w, a, obj);
+        background = new BackGround(234,GameConstants.BACKGROUND1_PROPERTY_FILE,w,a,this);
     }
 
     @Override
@@ -27,8 +30,19 @@ public class FlyingKit extends FutureWarsCast {
     }
 
     @Override
+    public void initialize() {
+        super.initialize();
+        background.flyPosition = 9;
+        background.xPos = this.xPos;
+        background.yPos = this.yPos;
+        background.initialize();
+        GameUtility.getGameScreen().gameObjects.add(background);
+    }
+
+    @Override
     public void destroy(){
         super.destroy();
+        background.toBeDestroyed = true;
         GameUtility.addPowerBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
     }
 }

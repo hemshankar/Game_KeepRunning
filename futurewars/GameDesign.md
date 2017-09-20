@@ -2,7 +2,7 @@ Game Should be:
 1. Smooth
 2. Dynamic
 3. Stylish
-4. Gorgeous
+4. Gorgeous 
 5. Cool
 
 Things that mater:
@@ -14,7 +14,10 @@ Things that mater:
 6. Animation
 7. Character Design
 8. Presentation of information
-9. New and different experiences that help get out of the monotonous world 
+9. New and different experiences that help get out of the monotonous world
+
+How to make game addictive 
+1. Ego, if it is social do people will think of their ego 
 
 
 1. Pusher -- Pushes harder with increasing level

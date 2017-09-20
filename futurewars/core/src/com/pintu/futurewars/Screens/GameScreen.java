@@ -102,7 +102,7 @@ public class GameScreen implements Screen {
     public JumpingMarblesGame game = null;
 
     //Handle background separately
-    public Texture backgroundImages1,backgroundImages2;//,backgroundImage2;
+    public Texture screenBackgroundImages1, screenBackgroundImages2;//,backgroundImage2;
     public float backImgX1 = 0;
     public float backImgY1 = 0;
     public float backImgX2 = 0;
@@ -161,22 +161,22 @@ public class GameScreen implements Screen {
         player2.body.setUserData(player2);
 
         //background Image-Should keep rotating
-        backgroundImages1 = new Texture(Gdx.files.internal("imgs/sky1.png"));//("imgs/stage1BackGround3.jpg"));
-        backgroundImages2 = new Texture(Gdx.files.internal("imgs/sky1.png"));
+        screenBackgroundImages1 = new Texture(Gdx.files.internal("imgs/sky1.png"));//("imgs/stage1BackGround3.jpg"));
+        screenBackgroundImages2 = new Texture(Gdx.files.internal("imgs/sky1.png"));
 
         SpeedBomb b;
-        for(int i = 0;i<10;i++){
+        for(int i = 0;i<130;i++){
             b = new SpeedBomb(111,world, GameUtility.getAtlas(GameConstants.BLAST_ATLUS_FILE),null);
-            b.xPos = 10 + i*10;
-            b.yPos = 10;
-            b.flyPosition = 10;
+            b.xPos = 0 + i*50;
+            b.yPos = 8;
+            //b.flyPosition = 9;
             b.initialize();
             gameObjects.add(b);
         }
         Pusher p;
         for(int i = 0;i<20;i++){
             p = new Pusher(143,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
-            p.xPos = 119 + i*120;
+            p.xPos = 10 + i*50;
             p.yPos = 10;
             p.flyPosition = 7;
             p.initialize();
@@ -186,9 +186,9 @@ public class GameScreen implements Screen {
         StickyBomb s;
         for(int i = 0;i<20;i++){
             s = new StickyBomb(181,world, GameUtility.getAtlas(GameConstants.BLAST_ATLUS_FILE),null);
-            s.xPos = 137 + i*120;
-            s.yPos = 10;
-            s.flyPosition = 10;
+            s.xPos = 17 + i*50;
+            s.yPos = 9;
+            s.flyPosition = 8;
             s.initialize();
             MassData massData = new MassData();
             massData.mass = .00000f;
@@ -197,19 +197,19 @@ public class GameScreen implements Screen {
         }
 
         JumpingKit jKit;
-        for(int i = 0;i<5;i++){
+        for(int i = 0;i<335;i++){
             jKit = new JumpingKit(3,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
-            jKit.xPos = 130 + i*100;
-            jKit.yPos = 5;
-            jKit.flyPosition = 5;
+            jKit.xPos = 25 + i*60;
+            jKit.yPos = 7;
+            jKit.flyPosition = 7;
             jKit.initialize();
             gameObjects.add(jKit);
         }
 
         FlyingKit fKit;
-        for(int i = 0;i<20;i++){
+        for(int i = 0;i<120;i++){
             fKit = new FlyingKit(3,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
-            fKit.xPos = 120 + i*123;
+            fKit.xPos = 33 + i*50;
             fKit.yPos = 7;
             fKit.flyPosition = 7;
             fKit.initialize();
@@ -219,25 +219,27 @@ public class GameScreen implements Screen {
         PowerDrink drink;
         for(int i = 0;i<5;i++){
             drink = new PowerDrink(3,world, GameUtility.getAtlas(GameConstants.BLAST_ATLUS_FILE),null);
-            drink.xPos = 110 + i*150;
-            drink.yPos = 10;
+            drink.xPos = 40 + i*50;
+            drink.yPos = 9;
             drink.flyPosition = 10;
             drink.initialize();
             gameObjects.add(drink);
         }
+
         CowBoyHat hat;
-        for(int i = 0;i<5;i++){
+        for(int i = 0;i<335;i++){
             hat = new CowBoyHat(3,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
-            hat.xPos = 210 + i*130;
+            hat.xPos = 70 + i*70;
             hat.yPos = 5;
-            hat.flyPosition = 5;
+            hat.flyPosition = 7;
             hat.initialize();
             gameObjects.add(hat);
         }
+
         BombAmo amo;
-        for(int i = 0;i<5;i++){
+        for(int i = 0;i<225;i++){
             amo = new BombAmo(3,world,GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
-            amo.xPos = 115 + i*150;
+            amo.xPos = 40 + i*50;
             amo.yPos = 10;
             amo.flyPosition = 10;
             amo.initialize();
@@ -246,14 +248,14 @@ public class GameScreen implements Screen {
         Coin coin;
         for(int i = 0;i<200;i++){
             coin = new Coin(3,world, null,null);
-            coin.xPos = 412 + i*100;
+            coin.xPos = 42 + i*10;
             coin.yPos = 7;
-            coin.flyPosition = 7;
+            coin.flyPosition = 6;
             coin.initialize();
             gameObjects.add(coin);
         }
 
-        Magnet m;
+        /*Magnet m;
         for(int i = 0;i<20;i++){
             m = new Magnet(3,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
             m.xPos = 115 + i*100;
@@ -281,8 +283,7 @@ public class GameScreen implements Screen {
             kaleen.flyPosition = 9;
             kaleen.initialize();
             gameObjects.add(kaleen);
-        }
-
+        }*/
         Ground g = new Ground(34,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
         g.xPos = 0;
         g.yPos = 4;
@@ -291,7 +292,7 @@ public class GameScreen implements Screen {
 
         Ground roof = new Ground(134,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
         roof.xPos = 0;
-        roof.yPos = 25;
+        roof.yPos = 20;
         roof.initialize();
         gameObjects.add(roof);
 
@@ -319,8 +320,8 @@ public class GameScreen implements Screen {
 
         //Background Image
         batch.begin();
-        batch.draw(backgroundImages1, backImgX1, backImgY1,backImgWidth,backImgHeight);//Gdx.graphics.getWidth()/GameConstants.PPM,Gdx.graphics.getHeight()/GameConstants.PPM);
-        batch.draw(backgroundImages2, backImgX2, backImgY2,backImgWidth,backImgHeight);
+        batch.draw(screenBackgroundImages1, backImgX1, backImgY1,backImgWidth,backImgHeight);//Gdx.graphics.getWidth()/GameConstants.PPM,Gdx.graphics.getHeight()/GameConstants.PPM);
+        batch.draw(screenBackgroundImages2, backImgX2, backImgY2,backImgWidth,backImgHeight);
         GameUtility.renderGameObjects(batch, gameObjects);
 
         batch.end();
@@ -377,8 +378,8 @@ public class GameScreen implements Screen {
         world.dispose();
         b2dr.dispose();
         widgets.dispose();
-        backgroundImages1.dispose();
-        backgroundImages2.dispose();
+        screenBackgroundImages1.dispose();
+        screenBackgroundImages2.dispose();
         GameUtility.disposeAllAtlas();
         GameUtility.log(this.getClass().getName(), "Disposed");
         //Never call ----batch.dispose();

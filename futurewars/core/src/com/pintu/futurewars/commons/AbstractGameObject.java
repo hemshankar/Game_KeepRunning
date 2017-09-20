@@ -319,7 +319,7 @@ public abstract class AbstractGameObject implements GameObject{
             }
 
             //Destroy Non Seen casts
-            if(!(this instanceof Player2)
+            if(haveBody && !(this instanceof Player2)
                     && !(this instanceof Ground)
                     && Math.abs(player.body.getPosition().x - body.getPosition().x)>500){
                 toBeDestroyed = true;

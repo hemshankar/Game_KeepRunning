@@ -105,6 +105,10 @@ public class GameConstants {
     public static final String STICKY_BOMB_PROPERTY_FILE = "propertyFiles/stickyBomb.txt";
     public static final String WATER_BALLOON_PROPERTY_FILE = "propertyFiles/waterBalloon.txt";
     public static final String BACKGROUND1_PROPERTY_FILE = "propertyFiles/background1.txt";
+    public static final String BACKGROUND2_PROPERTY_FILE = "propertyFiles/background2.txt";
+    public static final String BACKGROUND3_PROPERTY_FILE = "propertyFiles/background3.txt";
+    public static final String BACKGROUND4_PROPERTY_FILE = "propertyFiles/background4.txt";
+
     //============================Joint Constants================================
     public static final String REVOLUTE = "revolute";
     public static final String PRISMATIC = "presmatic";
