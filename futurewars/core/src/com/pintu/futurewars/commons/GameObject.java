@@ -19,5 +19,9 @@ public interface GameObject {
     public void destroy();
     public void handleContact(GameObject gObj);
     public void handleEndContact(GameObject gObj);
+    public void setXpos(float x);
+    public void setYpos(float y);
+    public void setFlyPos(float f);
+    public GameObject getBackground();
 
 }

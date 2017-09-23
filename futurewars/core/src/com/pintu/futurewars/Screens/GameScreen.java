@@ -114,6 +114,11 @@ public class GameScreen implements Screen {
     public float timePassed = 0;
     public float gameTime = 120;
 
+    public float slowMotionEffect = 0;
+    public float slowMotionEffectTime = 2f;
+    public boolean isslowMotionEffect = false;
+    public long sleepTime = 0;
+
     public GameScreen(JumpingMarblesGame game){
 
         //Initialize all the variables
@@ -153,146 +158,26 @@ public class GameScreen implements Screen {
         gameMusic.setLooping(true);
         gameMusic.play();
 
-        //add speedBombs
-
-        player2 = new Player2(222, world, null, null);
-        player2.initialize();
-        gameObjects.add(player2);
-        player2.body.setUserData(player2);
-
         //background Image-Should keep rotating
         screenBackgroundImages1 = new Texture(Gdx.files.internal("imgs/sky1.png"));//("imgs/stage1BackGround3.jpg"));
         screenBackgroundImages2 = new Texture(Gdx.files.internal("imgs/sky1.png"));
 
-        SpeedBomb b;
-        for(int i = 0;i<130;i++){
-            b = new SpeedBomb(111,world, GameUtility.getAtlas(GameConstants.BLAST_ATLUS_FILE),null);
-            b.xPos = 0 + i*50;
-            b.yPos = 8;
-            //b.flyPosition = 9;
-            b.initialize();
-            gameObjects.add(b);
-        }
-        Pusher p;
-        for(int i = 0;i<20;i++){
-            p = new Pusher(143,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
-            p.xPos = 10 + i*50;
-            p.yPos = 10;
-            p.flyPosition = 7;
-            p.initialize();
-            gameObjects.add(p);
-        }
+        System.out.println("Total game objects at start: " + gameObjects.size() + ": " + gameObjects);
 
-        StickyBomb s;
-        for(int i = 0;i<20;i++){
-            s = new StickyBomb(181,world, GameUtility.getAtlas(GameConstants.BLAST_ATLUS_FILE),null);
-            s.xPos = 17 + i*50;
-            s.yPos = 9;
-            s.flyPosition = 8;
-            s.initialize();
-            MassData massData = new MassData();
-            massData.mass = .00000f;
-            s.body.setMassData(massData);
-            gameObjects.add(s);
-        }
+        player2 = new Player2();
+        player2.initialize();
+        gameObjects.add(player2);
+        player2.body.setUserData(player2);
 
-        JumpingKit jKit;
-        for(int i = 0;i<335;i++){
-            jKit = new JumpingKit(3,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
-            jKit.xPos = 25 + i*60;
-            jKit.yPos = 7;
-            jKit.flyPosition = 7;
-            jKit.initialize();
-            gameObjects.add(jKit);
-        }
-
-        FlyingKit fKit;
-        for(int i = 0;i<120;i++){
-            fKit = new FlyingKit(3,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
-            fKit.xPos = 33 + i*50;
-            fKit.yPos = 7;
-            fKit.flyPosition = 7;
-            fKit.initialize();
-            gameObjects.add(fKit);
-        }
-
-        PowerDrink drink;
-        for(int i = 0;i<5;i++){
-            drink = new PowerDrink(3,world, GameUtility.getAtlas(GameConstants.BLAST_ATLUS_FILE),null);
-            drink.xPos = 40 + i*50;
-            drink.yPos = 9;
-            drink.flyPosition = 10;
-            drink.initialize();
-            gameObjects.add(drink);
-        }
-
-        CowBoyHat hat;
-        for(int i = 0;i<335;i++){
-            hat = new CowBoyHat(3,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
-            hat.xPos = 70 + i*70;
-            hat.yPos = 5;
-            hat.flyPosition = 7;
-            hat.initialize();
-            gameObjects.add(hat);
-        }
-
-        BombAmo amo;
-        for(int i = 0;i<225;i++){
-            amo = new BombAmo(3,world,GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
-            amo.xPos = 40 + i*50;
-            amo.yPos = 10;
-            amo.flyPosition = 10;
-            amo.initialize();
-            gameObjects.add(amo);
-        }
-        Coin coin;
-        for(int i = 0;i<200;i++){
-            coin = new Coin(3,world, null,null);
-            coin.xPos = 42 + i*10;
-            coin.yPos = 7;
-            coin.flyPosition = 6;
-            coin.initialize();
-            gameObjects.add(coin);
-        }
-
-        /*Magnet m;
-        for(int i = 0;i<20;i++){
-            m = new Magnet(3,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
-            m.xPos = 115 + i*100;
-            m.yPos = 5;
-            m.flyPosition = 5;
-            m.initialize();
-            gameObjects.add(m);
-        }
-
-        WaterBalloon balloon;
-        for(int i = 0;i<20;i++){
-            balloon = new WaterBalloon(3,world, GameUtility.getAtlas(GameConstants.BLAST_ATLUS_FILE),null);
-            balloon.xPos = 122 + i*100;
-            balloon.yPos = 7;
-            balloon.flyPosition = 7;
-            balloon.initialize();
-            gameObjects.add(balloon);
-        }
-
-        Kaleen kaleen;
-        for(int i = 0;i<10;i++){
-            kaleen = new Kaleen(33,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
-            kaleen.xPos = 112 + i*105;
-            kaleen.yPos = 7;
-            kaleen.flyPosition = 9;
-            kaleen.initialize();
-            gameObjects.add(kaleen);
-        }*/
-        Ground g = new Ground(34,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
+        Ground g = new Ground();
         g.xPos = 0;
         g.yPos = 4;
         g.initialize();
         gameObjects.add(g);
 
-        Ground roof = new Ground(134,world, GameUtility.getAtlas(GameConstants.ATLAS_FILE),null);
+        Ground roof = new Ground();
         roof.xPos = 0;
-        roof.yPos = 20;
+        roof.yPos = 50;
         roof.initialize();
         gameObjects.add(roof);
 
@@ -378,9 +263,11 @@ public class GameScreen implements Screen {
         world.dispose();
         b2dr.dispose();
         widgets.dispose();
+        gameObjects.clear();
         screenBackgroundImages1.dispose();
         screenBackgroundImages2.dispose();
         GameUtility.disposeAllAtlas();
+        GameUtility.gameObjectCreator.reset();
         GameUtility.log(this.getClass().getName(), "Disposed");
         //Never call ----batch.dispose();
     }

@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Utility.GameObjectDetails;
 import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.backgrounds.BackGround;
 import com.pintu.futurewars.commons.GameObject;
@@ -13,10 +14,18 @@ import com.pintu.futurewars.commons.GameObject;
  */
 
 public class JumpingKit extends FutureWarsCast {
-    BackGround background = null;
-    public JumpingKit(int id, World w, TextureAtlas a, MapObject obj) {
-        super(id, GameConstants.JUMPING_KIT_PROPERTY_FILE, w, a, obj);
-        background = new BackGround(234,GameConstants.BACKGROUND2_PROPERTY_FILE,w,a,this);
+    public static void init(){
+        GameObjectDetails gameObjectDetails = new GameObjectDetails();
+        gameObjectDetails.objectClass = JumpingKit.class;
+        gameObjectDetails.yPos = 10;
+        gameObjectDetails.flyPos = 9;
+
+        GameUtility.gameObjectCreator.register(GameConstants.JUMPING_KIT,gameObjectDetails);
+    }
+
+    public JumpingKit() {
+        super(GameConstants.JUMPING_KIT_PROPERTY_FILE);
+        background = new BackGround(GameConstants.BACKGROUND2_PROPERTY_FILE,this);
     }
 
     @Override

@@ -2,7 +2,7 @@
 pack1.png
 size: 2048,2048
 format: RGBA8888
-filter: Nearest,Nearest
+filter: Linear,Linear
 repeat: none
 JetPack4
   rotate: false
@@ -69,20 +69,34 @@ shoes
   index: -1
 
 pack12.png
-size: 2048,1024
+size: 1024,2048
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 jetpack3
   rotate: false
-  xy: 2, 2
+  xy: 2, 604
   size: 650, 650
   orig: 650, 650
   offset: 0, 0
   index: -1
+magnet-1
+  rotate: false
+  xy: 2, 8
+  size: 552, 594
+  orig: 552, 594
+  offset: 0, 0
+  index: -1
+magnet-2
+  rotate: false
+  xy: 2, 1256
+  size: 655, 720
+  orig: 655, 720
+  offset: 0, 0
+  index: -1
 redBull
   rotate: false
-  xy: 654, 52
+  xy: 556, 2
   size: 400, 600
   orig: 400, 600
   offset: 0, 0

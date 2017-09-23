@@ -5,7 +5,9 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Utility.GameObjectDetails;
 import com.pintu.futurewars.Utility.GameUtility;
+import com.pintu.futurewars.backgrounds.BackGround;
 import com.pintu.futurewars.commons.GameObject;
 
 /**
@@ -16,9 +18,20 @@ public class Coin extends FutureWarsCast {
 
     public float attTimer = 0;
     public float ATTRACT_INTERVAL = .001f;
-    public Coin(int id, World w, TextureAtlas a, MapObject obj) {
-        super(id, GameConstants.COIN_PROPERTY_FILE, w, a, obj);
+
+    public static void init(){
+        GameObjectDetails gameObjectDetails = new GameObjectDetails();
+        gameObjectDetails.objectClass = Coin.class;
+        gameObjectDetails.yPos = 10;
+        gameObjectDetails.flyPos = 9;
+
+        GameUtility.gameObjectCreator.register(GameConstants.COIN,gameObjectDetails);
     }
+
+    public Coin() {
+        super(GameConstants.COIN_PROPERTY_FILE);
+    }
+
     @Override
     public void handleContact(GameObject gObj){
         if(gObj instanceof Player2){
@@ -43,8 +56,8 @@ public class Coin extends FutureWarsCast {
                 float xDir = (pXpose - myXpos)/Math.abs(pXpose - myXpos);
                 float yDir = (pYpose - myYpos)/Math.abs(pYpose - myYpos);
                 //body.setLinearVelocity( xDir * (Math.abs(player.body.getLinearVelocity().x) + 10f), yDir * (Math.abs(player.body.getLinearVelocity().y) + 10f));
-                body.setLinearVelocity(5*(pXpose - myXpos) *(Math.abs(player.body.getLinearVelocity().x)+5) ,
-                        5*(pYpose - myYpos) * (Math.abs(player.body.getLinearVelocity().y)+5));
+                body.setLinearVelocity(xDir * (1.5f*Math.abs(pXpose - myXpos) +(Math.abs(player.body.getLinearVelocity().x))) ,
+                        yDir * (1.5f*Math.abs(pYpose - myYpos) +(Math.abs(player.body.getLinearVelocity().y))));
                 canFly = false;
             }
         }

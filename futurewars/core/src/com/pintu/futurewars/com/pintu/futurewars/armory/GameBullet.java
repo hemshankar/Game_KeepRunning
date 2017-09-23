@@ -17,6 +17,7 @@ abstract public class GameBullet extends AbstractGameObject {
         super(id, propFilename, w, a);
         this.xPos =x;
         this.yPos =y;
+        canFly = false;
     }
 
     abstract public void fire();

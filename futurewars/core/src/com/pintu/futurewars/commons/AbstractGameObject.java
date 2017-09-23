@@ -22,6 +22,7 @@ import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Utility.GameUtility;
+import com.pintu.futurewars.backgrounds.BackGround;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -67,10 +68,13 @@ public abstract class AbstractGameObject implements GameObject{
     public float flyTimer = 0f;
     public boolean flying = true;
     public boolean canFly = true;
+    public boolean applyDamping = true;
     public float flyPosition = 10;
+
     //public float flyLimitLow = 5;
     //public float stickToPositionFactor = 1f;
-
+    public BackGround background = null;
+    public boolean isBackground = false;
 
     public AbstractGameObject(int id, Map<String,String> props, World w, TextureAtlas a){
         objectId = id;
@@ -211,9 +215,78 @@ public abstract class AbstractGameObject implements GameObject{
 
     }
 
-    public void updateSprite() {
+    public void updateSprite( float dt) {
 
+        //====================================Set Sprite Region=====================================
+        if (previousState.equals(currentState)) {
+            timeInCurrentState += dt;
+            stateChanged = false;
+        } else {
+            timeInCurrentState = 0;
+            framesInCurrentState = stateFrameMap.get(currentState);
+            frameCounter = 0;
+            animationCompleted = false;
+            stateChanged = true;
+            previousState = currentState;
+            playSound(currentState);
+        }
+
+        if (!destroyed && !isEmpty(framesInCurrentState)) {
+            if (isAnimated) {
+                if (!animationCompleted) {
+                    if (timeInCurrentState > ANIMATION_INTERVAL) {
+                        timeInCurrentState = 0;
+                        frameCounter++;
+                    }
+                    if (frameCounter < framesInCurrentState.length) {
+                        //System.out.println(frameCounter);
+                        //System.out.println(Arrays.asList(framesInCurrentState));
+                        sprite.setRegion(atlas.findRegion(framesInCurrentState[frameCounter]));
+                    } else if (isTrue(gProps.get(GameObjectConstants.LOOP_ANIMATION))) {
+                        frameCounter = 0;
+                        sprite.setRegion(atlas.findRegion(framesInCurrentState[frameCounter]));
+                    } else {animationCompleted = true;
+                        if (removeAfterAnimation) {
+                            toBeDestroyed = true;
+                        }
+                    }
+                }else{
+                    //if animation completed and looping is not set
+                    sprite.setRegion(atlas.findRegion(framesInCurrentState[framesInCurrentState.length-1]));
+                }
+            } else {
+                if (stateChanged) {
+                    sprite.setRegion(atlas.findRegion(framesInCurrentState[0]));
+                }
+            }
+
+            //====================================Set Sprite Position=====================================
+            if (haveBody && !isBackground) {
+                sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
+            } else if(!isBackground){
+                    sprite.setPosition(xPos, yPos);
+            }
+        } else {
+            if(!isBackground)
+                sprite.setPosition(xPos, yPos);
+        }
     }
+
+    @Override
+    public void setXpos(float x) {
+        xPos = x;
+    }
+
+    @Override
+    public void setYpos(float y) {
+        yPos = y;
+    }
+
+    @Override
+    public void setFlyPos(float f) {
+        flyPosition = f;
+    }
+
     public void update(float dt){
         try {
             timeLived += dt;
@@ -225,55 +298,8 @@ public abstract class AbstractGameObject implements GameObject{
                 toBeDestroyed = true;
                 return;
             }
-            updateSprite();
+            updateSprite(dt);
 
-            if (previousState.equals(currentState)) {
-                timeInCurrentState += dt;
-                stateChanged = false;
-            } else {
-                timeInCurrentState = 0;
-                framesInCurrentState = stateFrameMap.get(currentState);
-                frameCounter = 0;
-                animationCompleted = false;
-                stateChanged = true;
-                previousState = currentState;
-                playSound(currentState);
-            }
-
-            if (!destroyed && !isEmpty(framesInCurrentState)) {
-                if (isAnimated) {
-                    if (!animationCompleted) {
-                        if (timeInCurrentState > ANIMATION_INTERVAL) {
-                            timeInCurrentState = 0;
-                            frameCounter++;
-                        }
-                        if (frameCounter < framesInCurrentState.length) {
-                            //System.out.println(frameCounter);
-                            //System.out.println(Arrays.asList(framesInCurrentState));
-                            sprite.setRegion(atlas.findRegion(framesInCurrentState[frameCounter]));
-                        } else if (isTrue(gProps.get(GameObjectConstants.LOOP_ANIMATION))) {
-                            frameCounter = 0;
-                            sprite.setRegion(atlas.findRegion(framesInCurrentState[frameCounter]));
-                        } else {
-                            animationCompleted = true;
-                            if (removeAfterAnimation) {
-                                toBeDestroyed = true;
-                            }
-                        }
-                    }
-                } else {
-                    if (stateChanged) {
-                        sprite.setRegion(atlas.findRegion(framesInCurrentState[0]));
-                    }
-                }
-                if (haveBody) {
-                    sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
-                } else {
-                    sprite.setPosition(xPos, yPos);
-                }
-            } else {
-                sprite.setPosition(xPos, yPos);
-            }
 
            /* if(canFly && itsFlyTime(dt) && body.getPosition().y < flyLimitLow) {
                 body.applyLinearImpulse(
@@ -303,9 +329,9 @@ public abstract class AbstractGameObject implements GameObject{
             Player2 player = GameUtility.getGameScreen().player2;
 
             //move with player
-            if(!(this instanceof Player2) && haveBody){
+            if(!(this instanceof Player2) && haveBody && canFly){
 
-                if(player.body.getLinearVelocity().x - 10 <= body.getLinearVelocity().x) {
+                if(applyDamping && player.body.getLinearVelocity().x - 10 <= body.getLinearVelocity().x) {
                     body.setLinearDamping(1);
                 }else {
                     body.setLinearDamping(0f);
@@ -321,7 +347,8 @@ public abstract class AbstractGameObject implements GameObject{
             //Destroy Non Seen casts
             if(haveBody && !(this instanceof Player2)
                     && !(this instanceof Ground)
-                    && Math.abs(player.body.getPosition().x - body.getPosition().x)>500){
+                    && Math.abs(player.body.getPosition().x - body.getPosition().x)
+                                        > Math.abs(player.body.getLinearVelocity().x) * 2 + GameConstants.DISTANCE_BETWEEN_GAME_OBJ){
                 toBeDestroyed = true;
             }
         }catch(Exception e){
@@ -353,6 +380,7 @@ public abstract class AbstractGameObject implements GameObject{
             if(haveBody)
                 world.destroyBody(body);
             destroyed=true;
+            System.out.println("Destroyed: " + this);
         }
     }
 
@@ -465,5 +493,10 @@ public abstract class AbstractGameObject implements GameObject{
             return true;
         }
         return false;
+    }
+
+    @Override
+    public GameObject getBackground() {
+        return background;
     }
 }

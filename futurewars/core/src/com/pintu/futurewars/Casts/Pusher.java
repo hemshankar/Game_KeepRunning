@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
+import com.pintu.futurewars.Utility.GameObjectDetails;
 import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.commons.GameObject;
 
@@ -18,9 +19,22 @@ public class Pusher extends FutureWarsCast {
     public final float PUSH_INTERVAL = .5f;
     public float pushTimer = 0;
 
-    public Pusher(int id,World w, TextureAtlas a, MapObject obj) {
-        super(id,GameConstants.PUSHER_PROPERTY_FILE, w, a, obj);
+    public static void init(){
+        GameObjectDetails gameObjectDetails = new GameObjectDetails();
+        gameObjectDetails.objectClass = Pusher.class;
+        gameObjectDetails.yPos = 10;
+        gameObjectDetails.flyPos = 9;
+
+        GameUtility.gameObjectCreator.register(GameConstants.PUSHER,gameObjectDetails);
     }
+
+    public Pusher() {
+        super(GameConstants.PUSHER_PROPERTY_FILE);
+    }
+
+    /*public Pusher(int id,World w, TextureAtlas a, MapObject obj) {
+        super(id,GameConstants.PUSHER_PROPERTY_FILE, w, a, obj);
+    }*/
     @Override
     public void handleContact(GameObject gObj){
         if(gObj instanceof Player2){
@@ -31,6 +45,7 @@ public class Pusher extends FutureWarsCast {
             //System.out.println("xVelocity: " + xVelocity + ", YVelocity: " + yVelocity);
             if(Math.abs(xVelocity) > 10 || Math.abs(yVelocity) >10) {
                 player2.takeDamage(GameConstants.PUSHER_DAMAGE);
+                GameUtility.getGameScreen().isslowMotionEffect = true;
             }
         }else if(gObj instanceof Ground){
             flying = false;

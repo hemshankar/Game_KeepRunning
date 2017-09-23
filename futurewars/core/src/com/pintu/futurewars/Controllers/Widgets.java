@@ -81,12 +81,12 @@ public class Widgets {
 
         FireButton.image.setWidth(w);
         FireButton.image.setHeight(h);
-        FireButton.image.setPosition(stage.getWidth()-150,50);
+        FireButton.image.setPosition(stage.getWidth()-180,100);
         stage.addActor(FireButton.image);
 
         up.image.setWidth(w);
         up.image.setHeight(h);
-        up.image.setPosition(50,50);
+        up.image.setPosition(80,100);
         stage.addActor(up.image);
 
         healthBar();
@@ -130,12 +130,12 @@ public class Widgets {
     public void update(float dt){
         healthBar.setValue(screen.player2.health/screen.player2.MAX_HEALTH);
         flyFuelBar.setValue(screen.player2.flyFuel/screen.player2.MAX_FLY_FUEL);
-        speedStats.text = "Speed: " + (int)(screen.player2.body.getLinearVelocity().x) + "";
+        speedStats.text = "Speed: " + (int)(screen.player2.body.getLinearVelocity().x*(3.6)) + " kmph";
         coinsCollected.text = "Coins: " + screen.player2.totalCoin;
         timePassed.text = "Time Left: "+ ((int)screen.gameTime - (int)screen.timePassed) + " s";
         distance.text = "Distance : "
-                +  (int)(screen.player2.body.getPosition().x/GameConstants.PPM)
-                + " m";
+                +  ((int)(1000*screen.player2.body.getPosition().x)/(1000000.0))
+                + " km";
         stage.act();
         if(screen.player2.hasFlyingKit) {
             flyFuelBar.setVisible(true);

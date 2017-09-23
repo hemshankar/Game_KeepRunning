@@ -33,7 +33,8 @@ public class JointHandler {
         jDef.bodyA = a;
         jDef.bodyB = b;
         jDef.collideConnected = true;
-        //jDef.localAnchorA.set(50/GameConstants.PPM,0);
+        //jDef.localAnchorA.set(100/GameConstants.PPM,0);
+        jDef.localAnchorA.set(0,60/GameConstants.PPM);
         //jDef.localAnchorB.set(300/GameConstants.PPM,300/GameConstants.PPM);
         w.createJoint(jDef);
     }

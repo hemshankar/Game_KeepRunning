@@ -12,12 +12,24 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.pintu.futurewars.Casts.Coin;
+import com.pintu.futurewars.Casts.CowBoyHat;
+import com.pintu.futurewars.Casts.FlyingKit;
+import com.pintu.futurewars.Casts.JumpingKit;
+import com.pintu.futurewars.Casts.Kaleen;
+import com.pintu.futurewars.Casts.Magnet;
+import com.pintu.futurewars.Casts.PowerDrink;
+import com.pintu.futurewars.Casts.Pusher;
+import com.pintu.futurewars.Casts.SpeedBomb;
+import com.pintu.futurewars.Casts.StickyBomb;
+import com.pintu.futurewars.Casts.WaterBalloon;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Screens.GameEndScreen;
 import com.pintu.futurewars.Screens.GameScreen;
 import com.pintu.futurewars.Screens.PauseScreen;
 import com.pintu.futurewars.Screens.StagesScreen;
 import com.pintu.futurewars.Screens.WelcomeScreen;
+import com.pintu.futurewars.Utility.GameUtility;
 
 public class JumpingMarblesGame extends Game {
 	public static SpriteBatch batch;
@@ -35,6 +47,17 @@ public class JumpingMarblesGame extends Game {
 
 	@Override
 	public void create () {
+		//Kaleen.init();
+		Pusher.init();
+		/*PowerDrink.init();
+		JumpingKit.init();
+		Coin.init();
+		CowBoyHat.init();
+		SpeedBomb.init();
+		FlyingKit.init();
+		StickyBomb.init();
+		Magnet.init();
+		WaterBalloon.init();*/
 		assetManager = new AssetManager();
         //load assets
         assetManager.load("music/Flying me softly.ogg", Music.class);
@@ -78,6 +101,7 @@ public class JumpingMarblesGame extends Game {
 			pauseScreen.dispose();
 		if(gameEndScreen!=null)
 			gameEndScreen.dispose();
+
 	}
 
 	public GameScreen getGameScreen(String stage){

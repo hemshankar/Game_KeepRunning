@@ -124,5 +124,23 @@ public class GameConstants {
     public static final String HOME_SCREEN = "HOME_SCREEN";
 
 
+    //===============================Various GameObjects===========================
+    public static String KALEEN = "KALEEN";
+    public static String PLAYER = "PLAYER";
+    public static String PUSHER = "PUSHER";
+    public static String SPEED_BOMB = "SPEED_BOMB";
+    public static String POWER_DRINK = "POWER_DRINK";
+    public static String COIN = "COIN";
+    public static String BOMB_AMO = "BOMB_AMO";
+    public static String COWBOY_HAT = "COWBOY_HAT";
+    public static String FLYING_KIT = "FLYING_KIT";
+    public static String JUMPING_KIT = "JUMPING_KIT";
+    public static String MAGNET = "MAGNET";
+    public static String STICKY_BOMB = "STICKY_BOMB";
+    public static String WATER_BALOON = "WATER_BALOON";
+
+    //==============================For GameObjectCreator==========================
+    public static float DISTANCE_BETWEEN_GAME_OBJ =20;
+
 
 }

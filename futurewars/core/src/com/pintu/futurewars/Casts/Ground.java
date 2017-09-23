@@ -16,6 +16,9 @@ public class Ground extends FutureWarsCast {
     public Ground(int id, World w, TextureAtlas a, MapObject obj) {
         super(id,GameConstants.GROUND_PROPERTY_FILE, w, a, obj);
     }
+    public Ground() {
+        super(GameConstants.GROUND_PROPERTY_FILE);
+    }
 
     @Override
     public void handleEndContact(GameObject gObj){

@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Utility.GameObjectDetails;
 import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.commons.GameObject;
 
@@ -16,8 +17,17 @@ import com.pintu.futurewars.commons.GameObject;
 public class WaterBalloon extends FutureWarsCast {
     public boolean fired = false;
 
-    public WaterBalloon(int id, World w, TextureAtlas a, MapObject obj) {
-        super(id, GameConstants.WATER_BALLOON_PROPERTY_FILE, w, a, obj);
+    public static void init(){
+        GameObjectDetails gameObjectDetails = new GameObjectDetails();
+        gameObjectDetails.objectClass = WaterBalloon.class;
+        gameObjectDetails.yPos = 10;
+        gameObjectDetails.flyPos = 9;
+
+        GameUtility.gameObjectCreator.register(GameConstants.WATER_BALOON,gameObjectDetails);
+    }
+
+    public WaterBalloon() {
+        super(GameConstants.WATER_BALLOON_PROPERTY_FILE);
     }
     @Override
     public void handleContact(GameObject gObj){

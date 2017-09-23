@@ -15,6 +15,7 @@ import com.pintu.futurewars.JumpingMarbleWorldCreator;
 import com.pintu.futurewars.Screens.GameScreen;
 import com.pintu.futurewars.com.pintu.futurewars.armory.BasicBullet;
 import com.pintu.futurewars.com.pintu.futurewars.armory.Bomb;
+import com.pintu.futurewars.commons.AbstractGameObject;
 import com.pintu.futurewars.commons.GameObject;
 
 import java.lang.ref.WeakReference;
@@ -63,13 +64,29 @@ public class GameUtility {
 
     public static JointHandler jointHandler = new JointHandler();
 
+    public static GameObjectCreator gameObjectCreator = new GameObjectCreator();
+
     public static void renderGameObjects(SpriteBatch batch, Set<GameObject> gos){
         for(GameObject obj: gos){
             if(obj.getSprite()!=null){
                 if(obj.getSprite().getTexture() == null){ //improge this logic
                     //System.out.print("Is NULL==============" + obj);
                 }else{
-                    obj.getSprite().draw(batch);
+                    try {
+                        AbstractGameObject o = (AbstractGameObject) obj;
+                        if (!o.isBackground) { //if the object is not a background draw its background first
+                            if (o.getBackground() != null && !o.background.toBeDestroyed) {
+                                o.getBackground().getSprite().setPosition(o.body.getPosition().x - o.getBackground().getSprite().getWidth() / 2,
+                                        o.body.getPosition().y - o.getBackground().getSprite().getHeight() / 2);
+                                //o.getBackground().getSprite().setPosition(o.getSprite().getX(),o.sprite.getY());
+                                o.getBackground().getSprite().draw(batch);
+                            }
+                            o.getSprite().draw(batch);
+                        }
+                    }catch(Exception e){
+                        System.out.println("Error in obj: " + obj);
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -188,5 +205,9 @@ public class GameUtility {
             log("GameUtility",at.getClass().getName() + " disposed");
         }
         atlasMap.clear();
+    }
+
+    public void reset(){
+
     }
 }

@@ -93,8 +93,18 @@ Rules:
 71. The tararara sound when player does something amazing
 72. Ground will have mix of sand and thorns... which will either reduce the speed or health
 73. Handle background separately... too much of code is required otherwise 
-
-
+74. Michal jacson moon walk...
+75. Lots of skins... can be used for creating menus
+76. Coin should come smoothly to the user.
+77. resize all the images.. and use different images for different camera angle.
+78. Good resource for game image processing.
+79. Include sawastik sign
+80. Improve kaaleen
+81. Cut videos from youtube http://hesetube.com/watch?v=bru7H11qA4Y
+82. 10 new challenges daily with different/random difficulty.
+83. Underwater theme for crossing the ocean.
+84. Make sure that there are no objects in the world, when the game is started or restarted (i.e. setScreen is called again for the GameScreen)
+85. Slow motion effect is tough.
 ============================BUGS================================
 1. Each object is creating its own atlas. Fix this to use cache to store each atlas.
 2. Backgrounds are coming in foreground... Solution will be to use 2 array of game objects one for background and other for foreground or add the background to the bottom while add the foreground to the top

@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Utility.GameObjectDetails;
 import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.backgrounds.BackGround;
 import com.pintu.futurewars.commons.GameObject;
@@ -14,12 +15,26 @@ import com.pintu.futurewars.commons.GameObject;
  */
 
 public class SpeedBomb extends FutureWarsCast {
-    BackGround background = null;
+
+    public static void init(){
+        GameObjectDetails gameObjectDetails = new GameObjectDetails();
+        gameObjectDetails.objectClass = SpeedBomb.class;
+        gameObjectDetails.yPos = 10;
+        gameObjectDetails.flyPos = 9;
+
+        GameUtility.gameObjectCreator.register(GameConstants.SPEED_BOMB,gameObjectDetails);
+    }
+
+    public SpeedBomb() {
+        super(GameConstants.SPEED_BOMB_PROPERTY_FILE);
+        background = new BackGround(GameConstants.BACKGROUND1_PROPERTY_FILE,this);
+    }
+/*
     public SpeedBomb(int id,World w, TextureAtlas a, MapObject obj) {
         super(id, GameConstants.SPEED_BOMB_PROPERTY_FILE, w, a, obj);
         flyPosition = 9;
-        background = new BackGround(234,GameConstants.BACKGROUND1_PROPERTY_FILE,w,a,this);
-    }
+        background = new BackGround(GameConstants.BACKGROUND1_PROPERTY_FILE,this);
+    }*/
     @Override
     public void handleContact(GameObject gObj){
         if(gObj instanceof Player2){

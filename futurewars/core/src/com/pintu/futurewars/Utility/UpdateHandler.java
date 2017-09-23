@@ -21,9 +21,31 @@ public class UpdateHandler {
             screen.game.setScreen(screen.game.getGameEndScreen(GameConstants.STAGE1,GameConstants.STAGE1));
             screen.gameMusic.stop();
         }
+        float fps = 45f;
+        if(screen.isslowMotionEffect){
+            //fps = 5f;
+            try{
+                if(screen.slowMotionEffect < screen.slowMotionEffectTime/2) {
+                    if(screen.sleepTime<=100) {
+                        screen.sleepTime += 10;
+                    }
+                }else{
+                    if(screen.sleepTime>=20) {
+                        screen.sleepTime -= 5;
+                    }
+                }
+                Thread.sleep(screen.sleepTime);
+            }catch(Exception e){
 
+            }
+            screen.slowMotionEffect+=dt;
+            if(screen.slowMotionEffect>screen.slowMotionEffectTime){
+                screen.slowMotionEffect = 0;
+                screen.isslowMotionEffect = false;
+            }
+        }
         //update the world every 1/60 of a second?
-        screen.world.step(1/60f,6,2);
+        screen.world.step(1/fps,8,3);
 
         //update all the game objects at the start
         updateGameObjects(screen.gameObjects,dt);
@@ -36,6 +58,7 @@ public class UpdateHandler {
         else if(x>(GameUtility.worldCreator.boundaryRight/ GameConstants.PPM - screen.viewport.getWorldWidth()/2))
             x = GameUtility.worldCreator.boundaryRight/ GameConstants.PPM - screen.viewport.getWorldWidth()/2;
 
+        //keep the player on slightly left of the center
         screen.camera.position.x=x+4;
 
         //stage Completed
@@ -52,6 +75,7 @@ public class UpdateHandler {
         else if(y>( GameUtility.worldCreator.boundaryTop/ GameConstants.PPM - screen.viewport.getWorldHeight()/2))
             y = ( GameUtility.worldCreator.boundaryTop/ GameConstants.PPM )- screen.viewport.getWorldHeight()/2;
 
+        //keep the player on slightly bottom of the center
         screen.camera.position.y=y+2;
         //System.out.println( player.body.getPosition().xPos + " -- " + player.body.getPosition().yPos);
         screen.camera.update();
@@ -62,7 +86,7 @@ public class UpdateHandler {
         //get the body speed and resize the viewport
         Vector2 velocity = screen.player2.getBody().getLinearVelocity();
         screen.maxVelocity = velocity.x>velocity.y?velocity.x:velocity.y;
-        if(Math.abs(screen.maxVelocity-screen.cameraCalibration)>1) {
+        /*if(Math.abs(screen.maxVelocity-screen.cameraCalibration)>1) {
             if (screen.maxVelocity - screen.cameraCalibration > 0) {
                 screen.cameraCalibration += .1;
             } else if (screen.maxVelocity - screen.cameraCalibration < 0) {
@@ -81,13 +105,31 @@ public class UpdateHandler {
         }
 
         float xCal = 9 * yCal/4;
-       /* if(xCal>15){
+       *//* if(xCal>15){
             xCal = 15;
         }*/
 
 
-        screen.viewport.setWorldSize(GameConstants.VIEW_PORT_WIDTH / GameConstants.PPM /*xCal*/,
-                GameConstants.VIEW_PORT_HIGHT / GameConstants.PPM /*yCal*/);
+       /* screen.viewport.setWorldSize(GameConstants.VIEW_PORT_WIDTH / GameConstants.PPM ,
+                GameConstants.VIEW_PORT_HIGHT/ GameConstants.PPM );*/
+        //screen.viewport.setWorldSize(xCal,yCal);
+
+        float xCal=0;
+        if(screen.isslowMotionEffect){
+            if(0f != screen.cameraCalibration){
+                screen.cameraCalibration += ((0f - screen.cameraCalibration)/2);
+            }
+        }else if(screen.cameraCalibration != screen.maxVelocity){
+            screen.cameraCalibration += ((screen.maxVelocity - screen.cameraCalibration)/50);
+        }
+        xCal = (screen.cameraCalibration/50 + 1f) *  GameConstants.VIEW_PORT_WIDTH;
+
+        if(xCal>4000){
+            xCal = 4000;
+        }
+        float yCal = (xCal)/2;//(screen.cameraCalibration /10 + 1f);
+        System.out.println("xCal: " + xCal);
+        screen.viewport.setWorldSize(xCal / GameConstants.PPM , yCal / GameConstants.PPM );
 
         screen.viewport.apply();
 
@@ -114,6 +156,11 @@ public class UpdateHandler {
                 screen.backImgX1 = screen.numOfBackImgs * screen.backImgWidth;
             }
             screen.numOfBackImgs++;
+        }
+        try {
+            GameUtility.gameObjectCreator.createNextObj(screen.player2);
+        }catch (Exception e) {
+            GameUtility.log(UpdateHandler.class.getName(),"Failed while creating gameObject: " + e.getMessage());
         }
     }
 

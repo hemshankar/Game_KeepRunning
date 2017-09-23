@@ -15,6 +15,10 @@ abstract public class FutureWarsCast extends AbstractGameObject{
 
     public float health = 100;
 
+    public FutureWarsCast(String propsFile) {
+        super(3, propsFile, GameUtility.world, null);
+    }
+
     public FutureWarsCast(int id, String propsFile, World w, TextureAtlas a, MapObject obj) {
         super(id, propsFile, w, a);
         mapObject = obj;
