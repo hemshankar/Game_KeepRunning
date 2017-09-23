@@ -20,8 +20,8 @@ public class WaterBalloon extends FutureWarsCast {
     public static void init(){
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
         gameObjectDetails.objectClass = WaterBalloon.class;
-        gameObjectDetails.yPos = 10;
-        gameObjectDetails.flyPos = 9;
+//        gameObjectDetails.yPos = 7;
+//        gameObjectDetails.flyPos = 8;
 
         GameUtility.gameObjectCreator.register(GameConstants.WATER_BALOON,gameObjectDetails);
     }

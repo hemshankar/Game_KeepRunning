@@ -19,9 +19,9 @@ public class SpeedBomb extends FutureWarsCast {
     public static void init(){
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
         gameObjectDetails.objectClass = SpeedBomb.class;
-        gameObjectDetails.yPos = 10;
+       /* gameObjectDetails.yPos = 10;
         gameObjectDetails.flyPos = 9;
-
+*/
         GameUtility.gameObjectCreator.register(GameConstants.SPEED_BOMB,gameObjectDetails);
     }
 
@@ -40,6 +40,7 @@ public class SpeedBomb extends FutureWarsCast {
         if(gObj instanceof Player2){
             toBeDestroyed = true;
             ((Player2) gObj).body.applyLinearImpulse(new Vector2(20, 10), body.getWorldCenter(), true);
+            GameUtility.getGameScreen().isslowMotionEffect = true;
         }
     }
 

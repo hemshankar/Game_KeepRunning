@@ -17,9 +17,9 @@ public class CowBoyHat extends FutureWarsCast {
     public static void init(){
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
         gameObjectDetails.objectClass = CowBoyHat.class;
-        gameObjectDetails.yPos = 10;
+        /*gameObjectDetails.yPos = 10;
         gameObjectDetails.flyPos = 9;
-
+*/
         GameUtility.gameObjectCreator.register(GameConstants.COWBOY_HAT,gameObjectDetails);
     }
 

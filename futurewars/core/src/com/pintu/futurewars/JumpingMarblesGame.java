@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.pintu.futurewars.Casts.BombAmo;
 import com.pintu.futurewars.Casts.Coin;
 import com.pintu.futurewars.Casts.CowBoyHat;
 import com.pintu.futurewars.Casts.FlyingKit;
@@ -47,9 +48,9 @@ public class JumpingMarblesGame extends Game {
 
 	@Override
 	public void create () {
-		//Kaleen.init();
+		Kaleen.init();
 		Pusher.init();
-		/*PowerDrink.init();
+		PowerDrink.init();
 		JumpingKit.init();
 		Coin.init();
 		CowBoyHat.init();
@@ -57,7 +58,8 @@ public class JumpingMarblesGame extends Game {
 		FlyingKit.init();
 		StickyBomb.init();
 		Magnet.init();
-		WaterBalloon.init();*/
+		WaterBalloon.init();
+		BombAmo.init();
 		assetManager = new AssetManager();
         //load assets
         assetManager.load("music/Flying me softly.ogg", Music.class);

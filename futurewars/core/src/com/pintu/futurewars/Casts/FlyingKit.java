@@ -17,9 +17,9 @@ public class FlyingKit extends FutureWarsCast {
     public static void init(){
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
         gameObjectDetails.objectClass = FlyingKit.class;
-        gameObjectDetails.yPos = 10;
+     /*   gameObjectDetails.yPos = 10;
         gameObjectDetails.flyPos = 9;
-
+*/
         GameUtility.gameObjectCreator.register(GameConstants.FLYING_KIT,gameObjectDetails);
     }
 

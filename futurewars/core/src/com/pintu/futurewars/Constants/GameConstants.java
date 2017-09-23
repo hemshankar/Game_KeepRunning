@@ -140,7 +140,7 @@ public class GameConstants {
     public static String WATER_BALOON = "WATER_BALOON";
 
     //==============================For GameObjectCreator==========================
-    public static float DISTANCE_BETWEEN_GAME_OBJ =20;
+    public static float DISTANCE_BETWEEN_GAME_OBJ =200;
 
 
 }

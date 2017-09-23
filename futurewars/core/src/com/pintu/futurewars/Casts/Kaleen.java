@@ -29,8 +29,10 @@ public class Kaleen extends FutureWarsCast {
     public static void init(){
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
         gameObjectDetails.objectClass = Kaleen.class;
+/*
         gameObjectDetails.yPos = 10;
         gameObjectDetails.flyPos = 9;
+*/
 
         GameUtility.gameObjectCreator.register(GameConstants.KALEEN,gameObjectDetails);
     }

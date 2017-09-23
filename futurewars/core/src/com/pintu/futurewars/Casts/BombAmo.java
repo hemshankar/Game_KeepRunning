@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Utility.GameObjectDetails;
 import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.backgrounds.BackGround;
 import com.pintu.futurewars.commons.GameObject;
@@ -13,10 +14,19 @@ import com.pintu.futurewars.commons.GameObject;
  */
 
 public class BombAmo extends FutureWarsCast {
-    BackGround background = null;
-    public BombAmo(int id, World w, TextureAtlas a, MapObject obj) {
-        super(id, GameConstants.BOMB_AMO_PROPERTY_FILE, w, a, obj);
-        background = new BackGround(234,GameConstants.BACKGROUND4_PROPERTY_FILE,w,a,this);
+
+    public static void init(){
+        GameObjectDetails gameObjectDetails = new GameObjectDetails();
+        gameObjectDetails.objectClass = BombAmo.class;
+       /* gameObjectDetails.yPos = 10;
+        gameObjectDetails.flyPos = 9;
+*/
+        GameUtility.gameObjectCreator.register(GameConstants.BOMB_AMO,gameObjectDetails);
+    }
+
+    public BombAmo() {
+        super(GameConstants.BOMB_AMO_PROPERTY_FILE);
+        background = new BackGround(GameConstants.BACKGROUND4_PROPERTY_FILE,this);
     }
 
     @Override

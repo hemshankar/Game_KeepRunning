@@ -17,8 +17,8 @@ public class Magnet extends FutureWarsCast {
     public static void init(){
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
         gameObjectDetails.objectClass = Magnet.class;
-        gameObjectDetails.yPos = 10;
-        gameObjectDetails.flyPos = 9;
+        /*gameObjectDetails.yPos = 10;
+        gameObjectDetails.flyPos = 9;*/
 
         GameUtility.gameObjectCreator.register(GameConstants.MAGNET,gameObjectDetails);
     }

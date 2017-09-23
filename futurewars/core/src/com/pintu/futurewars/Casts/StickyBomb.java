@@ -24,8 +24,10 @@ public class StickyBomb extends FutureWarsCast {
     public static void init(){
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
         gameObjectDetails.objectClass = StickyBomb.class;
+/*
         gameObjectDetails.yPos = 10;
         gameObjectDetails.flyPos = 9;
+*/
 
         GameUtility.gameObjectCreator.register(GameConstants.STICKY_BOMB,gameObjectDetails);
     }

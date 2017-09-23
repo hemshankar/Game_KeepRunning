@@ -9,7 +9,7 @@ import com.pintu.futurewars.commons.GameObject;
 public class GameObjectDetails {
 
     public Class objectClass;
-    public float yPos;
-    public float flyPos;
+    public float yPos = 7;
+    public float flyPos = 8;
 
 }

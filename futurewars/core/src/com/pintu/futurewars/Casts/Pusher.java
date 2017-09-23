@@ -22,8 +22,8 @@ public class Pusher extends FutureWarsCast {
     public static void init(){
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
         gameObjectDetails.objectClass = Pusher.class;
-        gameObjectDetails.yPos = 10;
-        gameObjectDetails.flyPos = 9;
+        /*gameObjectDetails.yPos = 10;
+        gameObjectDetails.flyPos = 9;*/
 
         GameUtility.gameObjectCreator.register(GameConstants.PUSHER,gameObjectDetails);
     }
