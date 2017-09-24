@@ -143,5 +143,12 @@ public class GameConstants {
     //==============================For GameObjectCreator==========================
     public static float DISTANCE_BETWEEN_GAME_OBJ =20;
 
+    //=================================SYNC_CONSTANTS==============================
+    public static final String CATCH_OBJECT = "CATCH_OBJECT";
+
+    //==================================OTHERS=====================================
+    public static final float CATCH_RANGE = 40000;
+    public static final float ROPE_WIDTH = .05f;
+
 
 }

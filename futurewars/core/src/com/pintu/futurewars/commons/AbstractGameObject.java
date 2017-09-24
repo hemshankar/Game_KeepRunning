@@ -14,11 +14,11 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Casts.Ground;
+import com.pintu.futurewars.Casts.Player;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
@@ -78,6 +78,8 @@ public abstract class AbstractGameObject implements GameObject{
     public BackGround background = null;
     public boolean isBackground = false;
     public ShapeHelper.GameShape ropeConnection = null;
+    public boolean doneCatching = false; //catching a gameObject can be done only once
+    public boolean nonCatchable = false;
 
     public AbstractGameObject(int id, String propFile, World w, TextureAtlas a){
         objectId = id;
@@ -295,19 +297,14 @@ public abstract class AbstractGameObject implements GameObject{
                 toBeDestroyed = true;
                 return;
             }
-            updateSprite(dt);
 
-
-           /* if(canFly && itsFlyTime(dt) && body.getPosition().y < flyLimitLow) {
-                body.applyLinearImpulse(
-                        new Vector2(0, world.getGravity().y + (-1 * body.getLinearVelocity().y) * 1.5f),
-                        this.body.getWorldCenter(), true);
+            if(!(this instanceof Player2) && !(this instanceof Ground)){
+                synchronized (GameConstants.CATCH_OBJECT) {
+                    amITheNearest();
+                }
             }
-            if(canFly && itsFlyTime(dt) && body.getPosition().y > flyPosition) {
-                body.applyLinearImpulse(
-                        new Vector2(0, -1 * body.getLinearVelocity().y*1.5f),
-                        this.body.getWorldCenter(), true);
-            }*/
+
+            updateSprite(dt);
 
             if(haveBody && canFly && itsFlyTime(dt)
                     && body.getPosition().y < flyPosition){
@@ -316,12 +313,6 @@ public abstract class AbstractGameObject implements GameObject{
                         new Vector2(0,flyPosition - body.getPosition().y),
                                     this.body.getWorldCenter(), true);
             }
-            /*else if(canFly && itsFlyTime(dt) && body.getPosition().y > flyPosition) {
-                body.applyLinearImpulse(
-                        new Vector2(0, .5f*(flyPosition - body.getPosition().y)
-                                             * stickToPositionFactor),
-                        this.body.getWorldCenter(), true);
-            }*/
 
             Player2 player = GameUtility.getGameScreen().player2;
 
@@ -374,10 +365,20 @@ public abstract class AbstractGameObject implements GameObject{
     }
     public void destroy(){
         if(toBeDestroyed){
+            GameUtility.log(this.getClass().getName(),"Destroyed: " + this);
+            if(GameUtility.getGameScreen().player2.jointMap.get(this)!=null){
+                GameUtility.getGameScreen().player2.jointMap.remove(this);
+            }
+            if(GameUtility.getGameScreen().nearestGameObj!=null
+                    && GameUtility.getGameScreen().nearestGameObj.equals(this)){
+                GameUtility.getGameScreen().nearestGameObj = null;
+                GameUtility.getGameScreen().nearestDist = Float.MAX_VALUE;
+            }
+            GameUtility.shapeHelper.removeShape(ropeConnection);
+
             if(haveBody)
                 world.destroyBody(body);
             destroyed=true;
-            System.out.println("Destroyed: " + this);
         }
     }
 
@@ -470,7 +471,16 @@ public abstract class AbstractGameObject implements GameObject{
     }
 
     public void handleContact(GameObject gObj){
-        //To be implemented by Specific game object
+        if(this instanceof Player2 || !(gObj instanceof Player2))
+            return;
+
+        //check if this contact happened as a result of the catch
+        Player2 player2 = ((Player2) gObj);
+        if(ropeConnection !=null && player2.jointMap.get(this)!=null) {
+            GameUtility.jointHandler.removeJoint(player2.jointMap.remove(this), world);
+            GameUtility.shapeHelper.removeShape(ropeConnection);
+            ropeConnection = null;
+        }
     }
 
     public void handleEndContact(GameObject gObj) {
@@ -495,5 +505,39 @@ public abstract class AbstractGameObject implements GameObject{
     @Override
     public GameObject getBackground() {
         return background;
+    }
+
+    public void amITheNearest(){
+
+        //if I am the nearest, reset the settings
+        if(this.equals(GameUtility.getGameScreen().nearestGameObj)) {
+            GameUtility.getGameScreen().nearestDist = Float.MAX_VALUE;
+            GameUtility.getGameScreen().nearestGameObj = null;
+        }
+
+        Player2 p = GameUtility.getGameScreen().player2;
+        //make sure its not already joint
+        if(nonCatchable
+                || p.jointMap.get(this)!=null
+                || destroyed
+                || toBeDestroyed
+                || doneCatching
+                || isBackground)
+            return;
+
+        float xDis = p.body.getPosition().x - body.getPosition().x;
+        float yDis = p.body.getPosition().y - body.getPosition().y;
+
+        if(xDis>5) {
+            return;
+        }
+
+        float dist = xDis*xDis + yDis*yDis;
+        dist *=dist;
+
+        if(dist<GameUtility.getGameScreen().nearestDist){
+            GameUtility.getGameScreen().nearestDist = dist;
+            GameUtility.getGameScreen().nearestGameObj = this;
+        }
     }
 }

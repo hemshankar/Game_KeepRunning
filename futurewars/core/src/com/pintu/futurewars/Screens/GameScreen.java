@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -26,8 +25,11 @@ import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.Utility.UpdateHandler;
 import com.pintu.futurewars.JumpingMarbleWorldCreator;
 import com.pintu.futurewars.Utility.WorldContactListner;
+import com.pintu.futurewars.commons.AbstractGameObject;
 import com.pintu.futurewars.commons.GameObject;
 
+import java.util.Comparator;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 /**
@@ -108,6 +110,10 @@ public class GameScreen implements Screen {
     public long sleepTime = 0;
 
     public ShapeRenderer shapeRenderer = null;
+    //Comparator<GameObject> comparator = new GameObjectComparator();
+    //PriorityQueue<GameObject> gameObjectsPQ = new PriorityQueue<GameObject>(10,comparator);
+    public float nearestDist = Float.MAX_VALUE; //(x*x + y*y)^2
+    public GameObject nearestGameObj = null;
 
     public GameScreen(JumpingMarblesGame game){
 
@@ -266,4 +272,17 @@ public class GameScreen implements Screen {
         GameUtility.log(this.getClass().getName(), "Disposed");
         //Never call ----batch.dispose();
     }
+
+    /*public class GameObjectComparator implements Comparator<GameObject>
+    {
+        @Override
+        public int compare(GameObject gameObject, GameObject t1) {
+            if(gameObject.getBody().getPosition().x<t1.getBody().getPosition().x)
+                return 1;
+            if(gameObject.getBody().getPosition().x>t1.getBody().getPosition().x)
+                return -1;
+
+            return 0;
+        }
+    }*/
 }

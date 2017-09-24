@@ -49,7 +49,7 @@ public class JumpingMarblesGame extends Game {
 	@Override
 	public void create () {
 		Kaleen.init();
-		/*Pusher.init();
+		Pusher.init();
 		PowerDrink.init();
 		JumpingKit.init();
 		Coin.init();
@@ -59,7 +59,7 @@ public class JumpingMarblesGame extends Game {
 		StickyBomb.init();
 		Magnet.init();
 		WaterBalloon.init();
-		BombAmo.init();*/
+		BombAmo.init();
 		assetManager = new AssetManager();
         //load assets
         assetManager.load("music/Flying me softly.ogg", Music.class);

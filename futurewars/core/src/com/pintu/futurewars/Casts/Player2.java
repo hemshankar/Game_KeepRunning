@@ -1,5 +1,6 @@
 package com.pintu.futurewars.Casts;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
@@ -7,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Utility.GameUtility;
+import com.pintu.futurewars.commons.AbstractGameObject;
 import com.pintu.futurewars.commons.GameObject;
 
 import java.util.HashMap;
@@ -91,7 +93,7 @@ public class Player2 extends FutureWarsCast {
     }
 
     public void fire(){
-        if(GameConstants.BASIC_BULLET.equals(selectedBullet)){
+        /*if(GameConstants.BASIC_BULLET.equals(selectedBullet)){
             if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
                 recoilTimeElapsed = 0;
                 GameUtility.fireBasicBullet(body.getPosition().x + ((4*spriteWidth)/2)/GameConstants.PPM,
@@ -109,12 +111,25 @@ public class Player2 extends FutureWarsCast {
                 GameUtility.Bomb(body.getPosition().x + ((4*spriteWidth)/2)/GameConstants.PPM,
                         body.getPosition().y);
             }
-        }
+        }*/
 
+        //create a RopeJoint with the nearest gameObject
+        AbstractGameObject nearestGO = (AbstractGameObject)GameUtility.getGameScreen().nearestGameObj;
+        GameUtility.log(this.getClass().getName(),"Nearest Object: "+nearestGO);
+        if(nearestGO!=null && this.jointMap.get(nearestGO)==null && GameUtility.getGameScreen().nearestDist<GameConstants.CATCH_RANGE) {
+            //this sets the nearestObject in the player.jointMap
+            GameUtility.jointHandler.createJoint(this, nearestGO, world, GameConstants.ROPE);
+            nearestGO.ropeConnection =
+                    GameUtility.shapeHelper.drawLine(this,nearestGO,GameConstants.ROPE_WIDTH, Color.BROWN,Color.BROWN);
+            nearestGO.doneCatching = true;
+            GameUtility.getGameScreen().nearestGameObj = null;
+            GameUtility.getGameScreen().nearestDist = Float.MAX_VALUE;
+        }
     }
 
     @Override
     public void handleContact(GameObject gObj){
+        super.handleContact(gObj);
         /*gObj.handleContact(this);
         if(gObj instanceof  Pusher) {
             float xVelocity = ((Pusher) gObj).body.getLinearVelocity().x;

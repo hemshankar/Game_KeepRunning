@@ -48,7 +48,7 @@ public class UpdateHandler {
         screen.world.step(1/fps,8,3);
 
         //update all the game objects at the start
-        updateGameObjects(screen.gameObjects,dt);
+        updateAllGameObjects(screen.gameObjects,dt);
 
         //update the camera as the player moves (player decides the camera position
         float x = screen.player2.getBody().getPosition().x;
@@ -164,7 +164,7 @@ public class UpdateHandler {
         }
     }
 
-    private void updateGameObjects(Set<GameObject> gObjs, float dt){
+    private void updateAllGameObjects(Set<GameObject> gObjs, float dt){
         for(GameObject obj: gObjs){
             obj.update(dt);
         }

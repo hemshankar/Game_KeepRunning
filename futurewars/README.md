@@ -110,6 +110,7 @@ Rules:
 88. Flying horse, normal horse, bulls, kites,
 89. Gun/Bullet should be auto fire to enemies, and when bullets are up, gun is thrown...
 90. Take something from the present play that will help in future or in the next match.
+91. Bird will hit only after catching
 ============================BUGS================================
 1. Each object is creating its own atlas. Fix this to use cache to store each atlas.
 2. Backgrounds are coming in foreground... Solution will be to use 2 array of game objects one for background and other for foreground or add the background to the bottom while add the foreground to the top

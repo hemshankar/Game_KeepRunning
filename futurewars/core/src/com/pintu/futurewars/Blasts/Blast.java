@@ -17,6 +17,7 @@ abstract public class Blast extends AbstractGameObject{
         super(id, fileName, w, a);
         xPos = x_;
         yPos = y_;
+        nonCatchable = true;
     }
 }
 

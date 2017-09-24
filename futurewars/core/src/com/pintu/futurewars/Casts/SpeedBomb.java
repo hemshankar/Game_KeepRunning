@@ -37,6 +37,7 @@ public class SpeedBomb extends FutureWarsCast {
     }*/
     @Override
     public void handleContact(GameObject gObj){
+        super.handleContact(gObj);
         if(gObj instanceof Player2){
             toBeDestroyed = true;
             ((Player2) gObj).body.applyLinearImpulse(new Vector2(20, 10), body.getWorldCenter(), true);

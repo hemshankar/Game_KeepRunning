@@ -46,18 +46,18 @@ public class Kaleen extends FutureWarsCast {
     }*/
     @Override
     public void handleContact(GameObject gObj){
+        super.handleContact(gObj);
         if(gObj instanceof Player2){
-            //toBeDestroyed = true;
-            background.toBeDestroyed = true;
+            //background.toBeDestroyed = true;
             applyDamping = false;
             Player2 player2 = ((Player2) gObj);
-            if(player2.jointMap.get(this)!=null) {
+            /*if(player2.jointMap.get(this)!=null) {
                 GameUtility.jointHandler.removeJoint(player2.jointMap.remove(this), world);
                 if (ropeConnection != null) {
                     GameUtility.shapeHelper.removeShape(ropeConnection);
                 }
                 ropeConnection = null;
-            }
+            }*/
             GameUtility.jointHandler.createJoint(player2,this,world,GameConstants.WELD);
             hasPlayer = true;
         }
@@ -77,7 +77,7 @@ public class Kaleen extends FutureWarsCast {
     @Override
     public void update(float dt){
         super.update(dt);
-        Player2 player = GameUtility.getGameScreen().player2;
+        /*Player2 player = GameUtility.getGameScreen().player2;
         float pXpose = player.body.getPosition().x;
         float pYpose = player.body.getPosition().y;
         float myXpos = body.getPosition().x;
@@ -87,7 +87,7 @@ public class Kaleen extends FutureWarsCast {
                 && Math.abs(Math.abs(pYpose)-Math.abs(myYpos)) < 5){
              GameUtility.jointHandler.createJoint(player,this,world,GameConstants.ROPE);
              ropeConnection = GameUtility.shapeHelper.drawLine(player,this,.1f, Color.BLUE,Color.BLUE);
-        }
+        }*/
 
         if(hasPlayer){
             travelled +=dt;
@@ -104,7 +104,6 @@ public class Kaleen extends FutureWarsCast {
     @Override
     public void destroy(){
         super.destroy();
-        GameUtility.getGameScreen().player2.jointMap.remove(this);
         GameUtility.addEnemyBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
     }
 

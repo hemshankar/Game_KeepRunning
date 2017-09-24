@@ -27,16 +27,16 @@ public class GameObjectCreator {
         GameUtility.log(this.getClass().getName(),"Registered: " + objId);
     }
 
-    public void createObject(String objectID,float xPos) throws Exception{
+    public GameObject createObject(String objectID,float xPos) throws Exception{
         GameObjectDetails details = objectDetailsList.get(objectID);
-        createObject(objectID,xPos,details.yPos,details.flyPos);
+        return createObject(objectID,xPos,details.yPos,details.flyPos);
     }
 
-    public void createObject(String objectID,float xPos, float yPos, float flyPosition) throws Exception{
+    public GameObject createObject(String objectID,float xPos, float yPos, float flyPosition) throws Exception{
         GameObjectDetails details = objectDetailsList.get(objectID);
-
+        GameObject gameObject = null;
         if(details!=null){
-            GameObject gameObject = (GameObject) details.objectClass.getConstructor().newInstance();
+            gameObject = (GameObject) details.objectClass.getConstructor().newInstance();
             gameObject.setXpos(xPos);
             gameObject.setYpos(yPos);
             gameObject.setFlyPos(flyPosition);
@@ -46,6 +46,7 @@ public class GameObjectCreator {
         }else{
             GameUtility.log(this.getClass().getName(),"No such object: " + objectID);
         }
+        return gameObject;
     }
 
     public void createNextObj(Player2 player) throws Exception{

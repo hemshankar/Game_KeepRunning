@@ -36,6 +36,7 @@ public class PowerDrink extends FutureWarsCast {
 
     @Override
     public void handleContact(GameObject gObj){
+        super.handleContact(gObj);
         if(gObj instanceof Player2){
             toBeDestroyed = true;
             ((Player2) gObj).health = 200;

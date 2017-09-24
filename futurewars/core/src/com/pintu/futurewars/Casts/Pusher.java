@@ -53,6 +53,7 @@ public class Pusher extends FutureWarsCast {
     }
 
     public void handleEndContact(GameObject gObj) {
+        super.handleContact(gObj);
         if(gObj instanceof Ground){
             flying = true;
         }

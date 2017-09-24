@@ -17,12 +17,14 @@ public class BackGround extends AbstractGameObject {
         super(id, propFile, w, a);
         foreGroundObj = f;
         isBackground = true;
+        nonCatchable = true;
     }
 
     public BackGround(String propFile,GameObject f) {
         super(5, propFile, GameUtility.world,null);
         foreGroundObj = f;
         isBackground = true;
+        nonCatchable = true;
     }
 
     @Override

@@ -39,16 +39,18 @@ public class ShapeHelper {
     }
 
     public GameShape drawLine(GameObject a, GameObject b,Float width,Color c1,Color c2){
-        GameShape shape = new GameShape();
-        shape.type = ShapeType.Filled;
-        shape.a = a;
-        shape.b = b;
-        shape.c1 = c1;
-        shape.c2 = c2;
-        shape.width = width;
-        shape.drawType = GameShape.DrawType.BETWEEN_OBJECTS;
-        shapes.add(shape);
-        return shape;
+        synchronized (SHAPE_SYNC_CONST) {
+            GameShape shape = new GameShape();
+            shape.type = ShapeType.Filled;
+            shape.a = a;
+            shape.b = b;
+            shape.c1 = c1;
+            shape.c2 = c2;
+            shape.width = width;
+            shape.drawType = GameShape.DrawType.BETWEEN_OBJECTS;
+            shapes.add(shape);
+            return shape;
+        }
     }
 
     public void removeShape(GameShape s){
@@ -89,7 +91,7 @@ public class ShapeHelper {
                 shapeRenderer.begin(type);
                 shapeRenderer.setColor(1, 1, 1, 1);
                 shapeRenderer.rectLine(a.getBody().getPosition().x, a.getBody().getPosition().y
-                            , b.getBody().getPosition().x, b.getBody().getPosition().y,width);
+                            , b.getBody().getPosition().x, b.getBody().getPosition().y,width,c1,c2);
                 /*if(type == ShapeType.Line)
                     shapeRenderer.rectLine(x1,y1,x2,y2,width,c1,c2);*/
 

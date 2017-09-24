@@ -74,8 +74,8 @@ public class Widgets {
         ControlButton circleButton
                 = new ControlButton(this, GameConstants.CIRCLE_CONTROLLER, GameConstants.CIRCLE_IMAGE);
 
-        float w = GameConstants.FIRE_BUTTON_SIZE;
-        float h = GameConstants.FIRE_BUTTON_SIZE;
+        float w = GameConstants.CONTROL_BUTTON_SIZE;
+        float h = GameConstants.CONTROL_BUTTON_SIZE;
 
         ControlButton FireButton = new ControlButton(this, GameConstants.FIRE_BASIC_BULLET, GameConstants.POWER_IMAGE);
 

@@ -18,6 +18,7 @@ abstract public class GameBullet extends AbstractGameObject {
         this.xPos =x;
         this.yPos =y;
         canFly = false;
+        nonCatchable = false;
     }
 
     abstract public void fire();

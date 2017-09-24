@@ -31,6 +31,7 @@ public class WaterBalloon extends FutureWarsCast {
     }
     @Override
     public void handleContact(GameObject gObj){
+        super.handleContact(gObj);
         if(fired) {
             toBeDestroyed = true;
         }

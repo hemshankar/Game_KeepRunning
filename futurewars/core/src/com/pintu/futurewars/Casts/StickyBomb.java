@@ -37,6 +37,7 @@ public class StickyBomb extends FutureWarsCast {
     }
     @Override
     public void handleContact(GameObject gObj){
+        super.handleContact(gObj);
         if(gObj instanceof Player2){
             GameUtility.jointHandler.createJoint(gObj,this,world,GameConstants.WELD);
             isAttached = true;
