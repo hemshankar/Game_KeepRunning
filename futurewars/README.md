@@ -75,8 +75,8 @@ Rules:
 50. Make Stamina modifiable: Heath rapidly decreases initailly and when the stamina increases Health decreases slowly (health = speed)
 51. Update the jumping kit to affect only when jump button is clicked.
 52. Game End Screen -- Done
-53. Destroy/Remove all the objects which are not required (as the player moves on)
-54. Increase the Screen width when speed increases
+53. Destroy/Remove all the objects which are not required (as the player moves on) :  ================Done 
+54. Increase the Screen width when speed increases: ================Done 
 55. Animation/Art work
 56. Rocket
 60. Gift Pack
@@ -93,8 +93,8 @@ Rules:
 71. The tararara sound when player does something amazing
 72. Ground will have mix of sand and thorns... which will either reduce the speed or health
 73. Handle background separately... too much of code is required otherwise 
-74. Michal jacson moon walk...
-75. Lots of skins... can be used for creating menus
+74. Michal jacson moon walk... ================Out of version 1
+75. Lots of skins... can be used for creating menus 
 76. Coin should come smoothly to the user.
 77. resize all the images.. and use different images for different camera angle.
 78. Good resource for game image processing.
@@ -103,14 +103,14 @@ Rules:
 81. Cut videos from youtube http://hesetube.com/watch?v=bru7H11qA4Y
 82. 10 new challenges daily with different/random difficulty.
 83. Underwater theme for crossing the ocean.
-84. Make sure that there are no objects in the world, when the game is started or restarted (i.e. setScreen is called again for the GameScreen)
-85. Slow motion effect is tough.
+84. Make sure that there are no objects in the world, when the game is started or restarted (i.e. setScreen is called again for the GameScreen) : ================Done 
+85. Slow motion effect is tough: ================Done 
 86. Player can be drunk.
 87. Should it be auto fire? And instead of fire it, player should be able to catch the game objects using ropes. Ropes are not infinite, but they will be enough for initial stages.
 88. Flying horse, normal horse, bulls, kites,
 89. Gun/Bullet should be auto fire to enemies, and when bullets are up, gun is thrown...
 90. Take something from the present play that will help in future or in the next match.
-91. Bird will hit only after catching
+91. Bird will hit only after catching...
 ============================BUGS================================
 1. Each object is creating its own atlas. Fix this to use cache to store each atlas.
 2. Backgrounds are coming in foreground... Solution will be to use 2 array of game objects one for background and other for foreground or add the background to the bottom while add the foreground to the top
