@@ -14,6 +14,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -22,6 +23,7 @@ import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Utility.GameUtility;
+import com.pintu.futurewars.Utility.ShapeHelper;
 import com.pintu.futurewars.backgrounds.BackGround;
 
 import java.util.HashMap;
@@ -75,14 +77,8 @@ public abstract class AbstractGameObject implements GameObject{
     //public float stickToPositionFactor = 1f;
     public BackGround background = null;
     public boolean isBackground = false;
+    public ShapeHelper.GameShape ropeConnection = null;
 
-    public AbstractGameObject(int id, Map<String,String> props, World w, TextureAtlas a){
-        objectId = id;
-        gProps = props;
-        world = w;
-        atlas = a;
-        sprite = new Sprite();
-    }
     public AbstractGameObject(int id, String propFile, World w, TextureAtlas a){
         objectId = id;
         try{gProps = GameUtility.populateConfigurationsFromConfigFile(propFile);}
@@ -90,6 +86,7 @@ public abstract class AbstractGameObject implements GameObject{
         world = w;
         atlas = a;
         sprite = new Sprite();
+
     }
 
     public void initialize(){
@@ -338,7 +335,7 @@ public abstract class AbstractGameObject implements GameObject{
                     float diff = player.body.getLinearVelocity().x - body.getLinearVelocity().x;
                     if (diff > 10) {
                         body.applyLinearImpulse(
-                                new Vector2(diff * 0.01f, 0),
+                                new Vector2(diff * 0.1f, 0),
                                 this.body.getWorldCenter(), true);
                     }
                 }

@@ -128,7 +128,6 @@ public class UpdateHandler {
             xCal = 4000;
         }
         float yCal = (xCal)/2;//(screen.cameraCalibration /10 + 1f);
-        System.out.println("xCal: " + xCal);
         screen.viewport.setWorldSize(xCal / GameConstants.PPM , yCal / GameConstants.PPM );
 
         screen.viewport.apply();
@@ -143,6 +142,7 @@ public class UpdateHandler {
         screen.player2.ANIMATION_INTERVAL = .2f/Math.abs(screen.player2.body.getLinearVelocity().x+0.000001f);
 
         GameUtility.jointHandler.createAllJoints();
+        GameUtility.jointHandler.removeAllJoints();
 
         //Always destroy the bodies at the end
         screen.worldCreator.removeBodies();

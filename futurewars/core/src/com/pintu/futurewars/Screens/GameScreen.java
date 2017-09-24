@@ -8,29 +8,17 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.*;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.MassData;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.pintu.futurewars.Casts.BombAmo;
-import com.pintu.futurewars.Casts.Coin;
-import com.pintu.futurewars.Casts.CowBoyHat;
-import com.pintu.futurewars.Casts.FlyingKit;
 import com.pintu.futurewars.Casts.Ground;
-import com.pintu.futurewars.Casts.JumpingKit;
-import com.pintu.futurewars.Casts.Kaleen;
-import com.pintu.futurewars.Casts.Magnet;
 import com.pintu.futurewars.Casts.Player2;
-import com.pintu.futurewars.Casts.PowerDrink;
-import com.pintu.futurewars.Casts.Pusher;
-import com.pintu.futurewars.Casts.SpeedBomb;
-import com.pintu.futurewars.Casts.StickyBomb;
-import com.pintu.futurewars.Casts.WaterBalloon;
-import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Controllers.Widgets;
 import com.pintu.futurewars.Controllers.InputHandler;
 import com.pintu.futurewars.JumpingMarblesGame;
@@ -119,6 +107,8 @@ public class GameScreen implements Screen {
     public boolean isslowMotionEffect = false;
     public long sleepTime = 0;
 
+    public ShapeRenderer shapeRenderer = null;
+
     public GameScreen(JumpingMarblesGame game){
 
         //Initialize all the variables
@@ -184,6 +174,8 @@ public class GameScreen implements Screen {
         //handling pause
         game.pauseScreen.stageScreen = this;
 
+        shapeRenderer = new ShapeRenderer();
+
     }
 
     @Override
@@ -212,7 +204,9 @@ public class GameScreen implements Screen {
         batch.end();
         widgets.draw();
 
-        //b2dr.render(world,camera.combined);
+        GameUtility.shapeHelper.drawShapes(shapeRenderer,camera);
+
+        b2dr.render(world,camera.combined);
 
     }
 
@@ -266,6 +260,7 @@ public class GameScreen implements Screen {
         gameObjects.clear();
         screenBackgroundImages1.dispose();
         screenBackgroundImages2.dispose();
+        shapeRenderer.dispose();
         GameUtility.disposeAllAtlas();
         GameUtility.gameObjectCreator.reset();
         GameUtility.log(this.getClass().getName(), "Disposed");

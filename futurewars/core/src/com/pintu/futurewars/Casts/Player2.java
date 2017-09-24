@@ -3,10 +3,15 @@ package com.pintu.futurewars.Casts;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.commons.GameObject;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by hsahu on 7/2/2017.
@@ -37,6 +42,8 @@ public class Player2 extends FutureWarsCast {
     public float flyFuelRechargeInterval = 0;
     public boolean canJump = false;
     public boolean hasFlyingKit = false;
+
+    public Map<GameObject,Joint> jointMap = new HashMap<GameObject, Joint>();
 
     public Player2() {
         super(2, GameConstants.PLAYER_PROPERTY_FILE, GameUtility.world, null,null);
@@ -97,12 +104,12 @@ public class Player2 extends FutureWarsCast {
                         body.getPosition().y,(spriteHeight/4)/GameConstants.PPM);
             }
         }else if(GameConstants.BOMB.equals(selectedBullet)){
-        if(recoilTimeElapsed > GameConstants.BOMB_RECOIL_TIME) {
-            recoilTimeElapsed = 0;
-            GameUtility.Bomb(body.getPosition().x + ((4*spriteWidth)/2)/GameConstants.PPM,
-                    body.getPosition().y);
+            if(recoilTimeElapsed > GameConstants.BOMB_RECOIL_TIME) {
+                recoilTimeElapsed = 0;
+                GameUtility.Bomb(body.getPosition().x + ((4*spriteWidth)/2)/GameConstants.PPM,
+                        body.getPosition().y);
+            }
         }
-    }
 
     }
 

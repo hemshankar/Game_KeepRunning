@@ -1,9 +1,7 @@
 package com.pintu.futurewars.Casts;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Utility.GameObjectDetails;
 import com.pintu.futurewars.Utility.GameUtility;
@@ -52,8 +50,15 @@ public class Kaleen extends FutureWarsCast {
             //toBeDestroyed = true;
             background.toBeDestroyed = true;
             applyDamping = false;
-            Player2 player2 = ((Player2) gObj);//.body.applyLinearImpulse(new Vector2(20, 10), body.getWorldCenter(), true);
-            GameUtility.jointHandler.createJoint(body,player2.body,world,GameConstants.WELD);
+            Player2 player2 = ((Player2) gObj);
+            if(player2.jointMap.get(this)!=null) {
+                GameUtility.jointHandler.removeJoint(player2.jointMap.remove(this), world);
+                if (ropeConnection != null) {
+                    GameUtility.shapeHelper.removeShape(ropeConnection);
+                }
+                ropeConnection = null;
+            }
+            GameUtility.jointHandler.createJoint(player2,this,world,GameConstants.WELD);
             hasPlayer = true;
         }
     }
@@ -72,6 +77,18 @@ public class Kaleen extends FutureWarsCast {
     @Override
     public void update(float dt){
         super.update(dt);
+        Player2 player = GameUtility.getGameScreen().player2;
+        float pXpose = player.body.getPosition().x;
+        float pYpose = player.body.getPosition().y;
+        float myXpos = body.getPosition().x;
+        float myYpos = body.getPosition().y;
+
+        if(!hasPlayer && player.jointMap.get(this)==null && Math.abs(Math.abs(pXpose)-Math.abs(myXpos)) < 5
+                && Math.abs(Math.abs(pYpose)-Math.abs(myYpos)) < 5){
+             GameUtility.jointHandler.createJoint(player,this,world,GameConstants.ROPE);
+             ropeConnection = GameUtility.shapeHelper.drawLine(player,this,.1f, Color.BLUE,Color.BLUE);
+        }
+
         if(hasPlayer){
             travelled +=dt;
             if(travelled > TRAVEL_TIME){
@@ -87,6 +104,7 @@ public class Kaleen extends FutureWarsCast {
     @Override
     public void destroy(){
         super.destroy();
+        GameUtility.getGameScreen().player2.jointMap.remove(this);
         GameUtility.addEnemyBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
     }
 

@@ -138,9 +138,10 @@ public class GameConstants {
     public static String MAGNET = "MAGNET";
     public static String STICKY_BOMB = "STICKY_BOMB";
     public static String WATER_BALOON = "WATER_BALOON";
+    public static String BRICK = "BRICK";
 
     //==============================For GameObjectCreator==========================
-    public static float DISTANCE_BETWEEN_GAME_OBJ =200;
+    public static float DISTANCE_BETWEEN_GAME_OBJ =20;
 
 
 }

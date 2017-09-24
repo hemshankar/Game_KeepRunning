@@ -65,6 +65,7 @@ public class GameUtility {
     public static JointHandler jointHandler = new JointHandler();
 
     public static GameObjectCreator gameObjectCreator = new GameObjectCreator();
+    public static ShapeHelper shapeHelper = new ShapeHelper();
 
     public static void renderGameObjects(SpriteBatch batch, Set<GameObject> gos){
         for(GameObject obj: gos){
@@ -188,7 +189,7 @@ public class GameUtility {
     }
 
     public static void log(String className,String str){
-        //System.out.println( className + ":" + str);
+        System.out.println( className + ":" + str);
     }
     public static TextureAtlas getAtlas(String fileName){
         TextureAtlas ta = atlasMap.get(fileName);

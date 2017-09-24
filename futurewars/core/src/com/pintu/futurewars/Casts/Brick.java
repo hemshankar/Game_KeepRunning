@@ -12,7 +12,9 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
+import com.pintu.futurewars.Utility.GameObjectDetails;
 import com.pintu.futurewars.Utility.GameUtility;
+import com.pintu.futurewars.backgrounds.BackGround;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,8 +25,17 @@ import java.util.Map;
 
 public class Brick extends FutureWarsCast {
 
-    public Brick(int id,World w, TextureAtlas a, MapObject obj) {
-        super(id,GameConstants.BRICK_PROPERTY_FILE, w, a, obj);
+    public static void init(){
+        GameObjectDetails gameObjectDetails = new GameObjectDetails();
+        gameObjectDetails.objectClass = Brick.class;
+       /* gameObjectDetails.yPos = 10;
+        gameObjectDetails.flyPos = 9;
+*/
+        GameUtility.gameObjectCreator.register(GameConstants.BRICK,gameObjectDetails);
+    }
+
+    public Brick() {
+        super(GameConstants.BRICK_PROPERTY_FILE);
     }
 
     @Override
