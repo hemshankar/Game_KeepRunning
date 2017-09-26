@@ -104,6 +104,7 @@ public class Kaleen extends FutureWarsCast {
     @Override
     public void destroy(){
         super.destroy();
+        background.toBeDestroyed = true;
         GameUtility.addEnemyBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
     }
 

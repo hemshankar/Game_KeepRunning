@@ -16,6 +16,7 @@ import com.pintu.futurewars.Casts.BombAmo;
 import com.pintu.futurewars.Casts.Coin;
 import com.pintu.futurewars.Casts.CowBoyHat;
 import com.pintu.futurewars.Casts.FlyingKit;
+import com.pintu.futurewars.Casts.Horse;
 import com.pintu.futurewars.Casts.JumpingKit;
 import com.pintu.futurewars.Casts.Kaleen;
 import com.pintu.futurewars.Casts.Magnet;
@@ -49,17 +50,21 @@ public class JumpingMarblesGame extends Game {
 	@Override
 	public void create () {
 		Kaleen.init();
+		Horse.init();
 		Pusher.init();
 		PowerDrink.init();
 		JumpingKit.init();
 		Coin.init();
+		Horse.init();
 		CowBoyHat.init();
 		SpeedBomb.init();
 		FlyingKit.init();
 		StickyBomb.init();
+		Horse.init();
 		Magnet.init();
 		WaterBalloon.init();
 		BombAmo.init();
+		Horse.init();
 		assetManager = new AssetManager();
         //load assets
         assetManager.load("music/Flying me softly.ogg", Music.class);
