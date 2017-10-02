@@ -36,6 +36,12 @@ public class Brick extends FutureWarsCast {
 
     public Brick() {
         super(GameConstants.BRICK_PROPERTY_FILE);
+        moveWithPlayer = false;
+        canFly = false;
+    }
+
+    public static void createBricks(){
+
     }
 
     @Override

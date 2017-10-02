@@ -1,4 +1,4 @@
-package com.pintu.futurewars.Controllers;
+package com.pintu.futurewars.Utility;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;

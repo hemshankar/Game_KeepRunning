@@ -2,7 +2,6 @@ package com.pintu.futurewars.Casts;
 
 import com.badlogic.gdx.math.Vector2;
 import com.pintu.futurewars.Constants.GameConstants;
-import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Utility.GameObjectDetails;
 import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.commons.GameObject;
@@ -11,7 +10,7 @@ import com.pintu.futurewars.commons.GameObject;
  * Created by hsahu on 7/2/2017.
  */
 
-public class Horse extends FutureWarsCast {
+public class Cat extends FutureWarsCast {
 
     private static final float TRAVEL_TIME = 5f;
     private float travelled = 0f;
@@ -21,14 +20,14 @@ public class Horse extends FutureWarsCast {
 
     public static void init(){
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
-        gameObjectDetails.objectClass = Horse.class;
-        gameObjectDetails.flyPos= 6.5f;
-        gameObjectDetails.yPos = 6.5f;
-        GameUtility.gameObjectCreator.register(GameConstants.HORSE,gameObjectDetails);
+        gameObjectDetails.objectClass = Cat.class;
+        gameObjectDetails.flyPos= 5.5f;
+        gameObjectDetails.yPos = 5.5f;
+        GameUtility.gameObjectCreator.register(GameConstants.CAT,gameObjectDetails);
     }
 
-    public Horse() {
-        super(GameConstants.HORSE_PROPERTY_FILE);
+    public Cat() {
+        super(GameConstants.CAT_PROPERTY_FILE);
         canFly = false;
     }
 

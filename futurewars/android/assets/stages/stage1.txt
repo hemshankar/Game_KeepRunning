@@ -1,0 +1,6 @@
+10=com.pintu.futurewars.Casts.Brick<->BRICK<->10<->10
+10.002=com.pintu.futurewars.Casts.Brick<->BRICK<->10<->10
+10.0003=com.pintu.futurewars.Casts.Brick<->BRICK<->10<->10
+10.0004=com.pintu.futurewars.Casts.Brick<->BRICK<->10<->10
+10.0005=com.pintu.futurewars.Casts.Brick<->BRICK<->10<->10
+

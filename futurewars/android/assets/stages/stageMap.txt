@@ -1,0 +1,1 @@
+STAGE_1=stages/stage1.txt

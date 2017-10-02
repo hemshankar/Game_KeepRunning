@@ -11,5 +11,6 @@ public class GameObjectDetails {
     public Class objectClass;
     public float yPos = 7;
     public float flyPos = 8;
+    public String type;
 
 }

@@ -1,6 +1,8 @@
 package com.pintu.futurewars.Screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -19,48 +21,22 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Casts.Ground;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Controllers.Widgets;
-import com.pintu.futurewars.Controllers.InputHandler;
+import com.pintu.futurewars.Utility.InputHandler;
 import com.pintu.futurewars.JumpingMarblesGame;
 import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.Utility.UpdateHandler;
 import com.pintu.futurewars.JumpingMarbleWorldCreator;
 import com.pintu.futurewars.Utility.WorldContactListner;
-import com.pintu.futurewars.commons.AbstractGameObject;
 import com.pintu.futurewars.commons.GameObject;
 
-import java.util.Comparator;
-import java.util.PriorityQueue;
 import java.util.Set;
 
 /**
  * Created by hsahu on 7/1/2017.
  */
 
-public class GameScreen implements Screen {
+public class GameScreen extends BaseScreen {
 
-    //=================Basic LibGDX
-    //OrthographicCamera which is the eye of the user, i.e. which is that user sees.
-    public OrthographicCamera camera;
-    //Viewport handles the way our screen will be rendered in different screen size, it decides what aspect ration to use and how much of the screen/game area to be shown
-    public Viewport viewport;
-    //Batch used for dumping all the graphics to be rendered
-    public SpriteBatch batch;
-
-    //===================From Tiled
-    //loads a specific map
-    public TmxMapLoader mapLoader;
-    //the map object
-    public TiledMap map;
-    //Used to render the map on the camera/screen
-    public OrthogonalTiledMapRenderer renderer;
-
-    //===================Box 2D related
-    //the world where all the physics simulation will take place
-    public World world;
-    //the shape renderer for box 2d so that we can see the shapes of various fixtures
-    public Box2DDebugRenderer b2dr;
-    //A utility function to create the world from the map
-    public JumpingMarbleWorldCreator worldCreator;
 
     //player handle that will be created by world
     //public Player playerOld;
@@ -187,7 +163,13 @@ public class GameScreen implements Screen {
     @Override
     public void show() {
         System.out.println("Show called");
-        Gdx.input.setInputProcessor(widgets.stage);
+        InputProcessor inputProcessorOne = this;
+        InputProcessor inputProcessorTwo = this.widgets.stage;
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(inputProcessorOne);
+        inputMultiplexer.addProcessor(inputProcessorTwo);
+        Gdx.input.setInputProcessor(inputMultiplexer);
+        //Gdx.input.setInputProcessor(widgets.stage);
     }
 
     @Override

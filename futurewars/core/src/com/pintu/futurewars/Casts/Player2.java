@@ -86,14 +86,14 @@ public class Player2 extends FutureWarsCast {
             //System.out.println(health);
         }
         if(getBody().getLinearVelocity().x <= speedLimit && canJump == true) {
-            getBody().applyLinearImpulse(new Vector2(2f, 0), getBody().getWorldCenter(), true);
+            //getBody().applyLinearImpulse(new Vector2(2f, 0), getBody().getWorldCenter(), true);
         }
         super.update(dt);
         flyFuelUpdate(dt);
     }
 
     public void fire(){
-        /*if(GameConstants.BASIC_BULLET.equals(selectedBullet)){
+        if(GameConstants.BASIC_BULLET.equals(selectedBullet)){
             if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
                 recoilTimeElapsed = 0;
                 GameUtility.fireBasicBullet(body.getPosition().x + ((4*spriteWidth)/2)/GameConstants.PPM,
@@ -111,10 +111,10 @@ public class Player2 extends FutureWarsCast {
                 GameUtility.Bomb(body.getPosition().x + ((4*spriteWidth)/2)/GameConstants.PPM,
                         body.getPosition().y);
             }
-        }*/
+        }
 
         //create a RopeJoint with the nearest gameObject
-        AbstractGameObject nearestGO = (AbstractGameObject)GameUtility.getGameScreen().nearestGameObj;
+        /*AbstractGameObject nearestGO = (AbstractGameObject)GameUtility.getGameScreen().nearestGameObj;
         GameUtility.log(this.getClass().getName(),"Nearest Object: "+nearestGO);
         if(nearestGO!=null && this.jointMap.get(nearestGO)==null && GameUtility.getGameScreen().nearestDist<GameConstants.CATCH_RANGE) {
             //this sets the nearestObject in the player.jointMap
@@ -124,7 +124,7 @@ public class Player2 extends FutureWarsCast {
             nearestGO.doneCatching = true;
             GameUtility.getGameScreen().nearestGameObj = null;
             GameUtility.getGameScreen().nearestDist = Float.MAX_VALUE;
-        }
+        }*/
     }
 
     @Override

@@ -111,6 +111,14 @@ Rules:
 89. Gun/Bullet should be auto fire to enemies, and when bullets are up, gun is thrown...
 90. Take something from the present play that will help in future or in the next match.
 91. Bird will hit only after catching...
+92. All the expression of the face should be at the Left/Right - Top of the screen.
+93. Spring objects in ground to throw up.
+94. Shooter objects, for shooting speed bombs and water balloons
+95. Clicking on the character should catch them.
+96. Make Kite as eagle, and change the colour to black
+
+
+
 ============================BUGS================================
 1. Each object is creating its own atlas. Fix this to use cache to store each atlas.
 2. Backgrounds are coming in foreground... Solution will be to use 2 array of game objects one for background and other for foreground or add the background to the bottom while add the foreground to the top

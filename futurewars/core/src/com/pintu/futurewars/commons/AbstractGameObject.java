@@ -72,6 +72,7 @@ public abstract class AbstractGameObject implements GameObject{
     public boolean canFly = true;
     public boolean applyDamping = true;
     public float flyPosition = 10;
+    public boolean moveWithPlayer = true;
 
     //public float flyLimitLow = 5;
     //public float stickToPositionFactor = 1f;
@@ -80,6 +81,8 @@ public abstract class AbstractGameObject implements GameObject{
     public ShapeHelper.GameShape ropeConnection = null;
     public boolean doneCatching = false; //catching a gameObject can be done only once
     public boolean nonCatchable = false;
+    public float ropeLength = -1;
+    public boolean removeRopeConnectionOnContact = true;
 
     public AbstractGameObject(int id, String propFile, World w, TextureAtlas a){
         objectId = id;
@@ -94,6 +97,8 @@ public abstract class AbstractGameObject implements GameObject{
     public void initialize(){
         defineBody();
         initiateSpriteDetails();
+        if(body!=null)
+            body.setUserData(this);
     }
 
     /**
@@ -298,14 +303,15 @@ public abstract class AbstractGameObject implements GameObject{
                 return;
             }
 
-            if(!(this instanceof Player2) && !(this instanceof Ground)){
+            /*if(!(this instanceof Player2) && !(this instanceof Ground)){
                 synchronized (GameConstants.CATCH_OBJECT) {
                     amITheNearest();
                 }
-            }
+            }*/
 
             updateSprite(dt);
 
+            //keep in the flyPosition
             if(haveBody && canFly && itsFlyTime(dt)
                     && body.getPosition().y < flyPosition){
                     //&& body.getLinearVelocity().y <0) {
@@ -317,7 +323,7 @@ public abstract class AbstractGameObject implements GameObject{
             Player2 player = GameUtility.getGameScreen().player2;
 
             //move with player
-            if(!(this instanceof Player2) && haveBody && canFly){
+            if(moveWithPlayer && !(this instanceof Player2) && haveBody ){//){
 
                 if(applyDamping && player.body.getLinearVelocity().x - 10 <= body.getLinearVelocity().x) {
                     body.setLinearDamping(1);
@@ -476,7 +482,9 @@ public abstract class AbstractGameObject implements GameObject{
 
         //check if this contact happened as a result of the catch
         Player2 player2 = ((Player2) gObj);
-        if(ropeConnection !=null && player2.jointMap.get(this)!=null) {
+        if(removeRopeConnectionOnContact &&
+                ropeConnection !=null &&
+                player2.jointMap.get(this)!=null) {
             GameUtility.jointHandler.removeJoint(player2.jointMap.remove(this), world);
             GameUtility.shapeHelper.removeShape(ropeConnection);
             ropeConnection = null;

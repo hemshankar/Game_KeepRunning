@@ -87,7 +87,7 @@ public class Widgets {
         up.image.setWidth(w);
         up.image.setHeight(h);
         up.image.setPosition(80,100);
-        stage.addActor(up.image);
+        stage.addActor(circleButton.image);
 
         healthBar();
         flyFuelBar();

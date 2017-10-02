@@ -189,7 +189,7 @@ public class GameUtility {
     }
 
     public static void log(String className,String str){
-        //System.out.println( className + ":" + str);
+        System.out.println( className + ":" + str);
     }
     public static TextureAtlas getAtlas(String fileName){
         TextureAtlas ta = atlasMap.get(fileName);
@@ -210,5 +210,11 @@ public class GameUtility {
 
     public void reset(){
 
+    }
+
+    public static boolean isEmptyString(String str){
+        if(str!=null && str.length()>0)
+            return true;
+        return false;
     }
 }

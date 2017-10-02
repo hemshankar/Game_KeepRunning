@@ -13,12 +13,15 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Casts.BombAmo;
+import com.pintu.futurewars.Casts.Brick;
+import com.pintu.futurewars.Casts.Cat;
 import com.pintu.futurewars.Casts.Coin;
 import com.pintu.futurewars.Casts.CowBoyHat;
 import com.pintu.futurewars.Casts.FlyingKit;
 import com.pintu.futurewars.Casts.Horse;
 import com.pintu.futurewars.Casts.JumpingKit;
 import com.pintu.futurewars.Casts.Kaleen;
+import com.pintu.futurewars.Casts.Kite;
 import com.pintu.futurewars.Casts.Magnet;
 import com.pintu.futurewars.Casts.PowerDrink;
 import com.pintu.futurewars.Casts.Pusher;
@@ -49,22 +52,24 @@ public class JumpingMarblesGame extends Game {
 
 	@Override
 	public void create () {
+		/*Brick.init();
 		Kaleen.init();
 		Horse.init();
 		Pusher.init();
 		PowerDrink.init();
 		JumpingKit.init();
 		Coin.init();
-		Horse.init();
 		CowBoyHat.init();
 		SpeedBomb.init();
 		FlyingKit.init();
 		StickyBomb.init();
-		Horse.init();
 		Magnet.init();
 		WaterBalloon.init();
 		BombAmo.init();
-		Horse.init();
+		SpeedBomb.init();
+		Cat.init();
+		Kite.init();*/
+		GameUtility.gameObjectCreator.populateObjectDetailsFromFile("stages/stage1.txt");
 		assetManager = new AssetManager();
         //load assets
         assetManager.load("music/Flying me softly.ogg", Music.class);

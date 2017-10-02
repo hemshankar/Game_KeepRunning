@@ -26,52 +26,52 @@ public class JointHandler {
     public List<JointDetails> jointCreateList = new ArrayList<JointDetails>();
     public List<JointDetails> removeJointList = new ArrayList<JointDetails>();
 
-    public Joint createRevoluteJoint(GameObject a, GameObject b, World w){
+    public Joint createRevoluteJoint(JointDetails jd){
         RevoluteJointDef jDef = new RevoluteJointDef();
-        jDef.bodyA = a.getBody();
-        jDef.bodyB = b.getBody();
+        jDef.bodyA = jd.a.getBody();
+        jDef.bodyB = jd.b.getBody();
         jDef.collideConnected = true;
         jDef.localAnchorA.set(50/GameConstants.PPM,0);
         //jDef.localAnchorB.set(300/GameConstants.PPM,300/GameConstants.PPM);
-        return w.createJoint(jDef);
+        return jd.world.createJoint(jDef);
     }
-    public Joint createWeldJoint(GameObject a, GameObject b, World w){
+    public Joint createWeldJoint(JointDetails jd){
         WeldJointDef jDef = new WeldJointDef();
-        jDef.bodyA = a.getBody();
-        jDef.bodyB = b.getBody();
+        jDef.bodyA = jd.a.getBody();
+        jDef.bodyB = jd.b.getBody();
         jDef.collideConnected = true;
         //jDef.dampingRatio = 100f;
         //jDef.localAnchorA.set(100/GameConstants.PPM,0);
-        GameUtility.log("==============" + a.getSprite().getWidth()," " + -(a.getSprite().getHeight()));
-        jDef.localAnchorA.set(a.getSprite().getWidth(),-(a.getSprite().getHeight()));//10,a.getSprite().getHeight()*-1);// 100/GameConstants.PPM);
+        //GameUtility.log("==============" + jd.a.getSprite().getWidth()," " + -(jd.a.getSprite().getHeight()));
+        jDef.localAnchorA.set(jd.a.getSprite().getWidth(),-(jd.a.getSprite().getHeight()));//10,a.getSprite().getHeight()*-1);// 100/GameConstants.PPM);
         //jDef.localAnchorB.set(300/GameConstants.PPM,300/GameConstants.PPM);
-        return w.createJoint(jDef);
+        return jd.world.createJoint(jDef);
     }
-    public Joint createPrismaticJoint(GameObject a, GameObject b, World w){
+    public Joint createPrismaticJoint(JointDetails jd){
         return null;
     }
-    public Joint createDistantJoint(GameObject a, GameObject b, World w){
+    public Joint createDistantJoint(JointDetails jd){
         return null;
     }
-    public Joint createPullyJoint(GameObject a, GameObject b, World w){
+    public Joint createPullyJoint(JointDetails jd){
         return null;
     }
-    public Joint createGearJoint(GameObject a, GameObject b, World w){
+    public Joint createGearJoint(JointDetails jd){
         return null;
     }
-    public Joint createWheelJoint(GameObject a, GameObject b, World w){
+    public Joint createWheelJoint(JointDetails jd){
         return null;
     }
-    public Joint createRopeJoint(GameObject a, GameObject b, World w){
+    public Joint createRopeJoint(JointDetails jd){
         RopeJointDef jDef = new RopeJointDef();
-        jDef.bodyA = a.getBody();
-        jDef.bodyB = b.getBody();
+        jDef.bodyA = jd.a.getBody();
+        jDef.bodyB = jd.b.getBody();
         jDef.collideConnected = true;
-
+        jDef.maxLength = jd.length;
         //jDef.localAnchorA.set(100/GameConstants.PPM,0);
         jDef.localAnchorA.set(0,10/GameConstants.PPM);
         //jDef.localAnchorB.set(300/GameConstants.PPM,300/GameConstants.PPM);
-        RopeJoint r = (RopeJoint)w.createJoint(jDef);
+        RopeJoint r = (RopeJoint)jd.world.createJoint(jDef);
         //r.setMaxLength(0);
         return r;
     }
@@ -96,7 +96,17 @@ public class JointHandler {
 
     public void createJoint(GameObject aGameObject,GameObject bGameObject, World w, String t){
         synchronized(JOINT_CREATE_REMOVE_SYNC_CONST) {
-            jointCreateList.add(new JointDetails(aGameObject,bGameObject,w,t));
+            jointCreateList.add(new JointDetails(aGameObject,bGameObject,w,t,0));
+        }
+    }
+
+    public void createJoint(GameObject aGameObject,
+                            GameObject bGameObject,
+                            World w,
+                            String t,
+                            float length){
+        synchronized(JOINT_CREATE_REMOVE_SYNC_CONST) {
+            jointCreateList.add(new JointDetails(aGameObject,bGameObject,w,t,length));
         }
     }
 
@@ -112,38 +122,40 @@ public class JointHandler {
         World world;
         String type;
         Joint joint;
+        float length=0;
 
         public JointDetails(Joint j,World w){
             joint = j;
             world = w;
         }
 
-        public JointDetails(GameObject aBody,GameObject bBody, World w, String t){
+        public JointDetails(GameObject aBody,GameObject bBody, World w, String t,float len){
             a = aBody;
             b = bBody;
             world = w;
             type = t;
+            length = len;
         }
 
         public void createJoint(){
             Player2 p = getPlayer(a,b);
             GameObject g = getOtherGameObject(a,b);
             if(type.equalsIgnoreCase(GameConstants.REVOLUTE)){
-                p.jointMap.put(g,createRevoluteJoint(a,b,world));
+                p.jointMap.put(g,createRevoluteJoint(this));
             }else if(type.equalsIgnoreCase(GameConstants.DISTANT)){
-                p.jointMap.put(g,createRevoluteJoint(a,b,world));
+                p.jointMap.put(g,createRevoluteJoint(this));
             }else if(type.equalsIgnoreCase(GameConstants.ROPE)){
-                p.jointMap.put(g,createRopeJoint(a,b,world));
+                p.jointMap.put(g,createRopeJoint(this));
             }else if(type.equalsIgnoreCase(GameConstants.PULLY)){
-                p.jointMap.put(g,createRevoluteJoint(a,b,world));
+                p.jointMap.put(g,createRevoluteJoint(this));
             }else if(type.equalsIgnoreCase(GameConstants.GEAR)){
-                p.jointMap.put(g,createRevoluteJoint(a,b,world));
+                p.jointMap.put(g,createRevoluteJoint(this));
             }else if(type.equalsIgnoreCase(GameConstants.WHEEL)){
-                p.jointMap.put(g,createRevoluteJoint(a,b,world));
+                p.jointMap.put(g,createRevoluteJoint(this));
             }else if(type.equalsIgnoreCase(GameConstants.PRISMATIC)){
-                p.jointMap.put(g,createRevoluteJoint(a,b,world));
+                p.jointMap.put(g,createRevoluteJoint(this));
             }else if(type.equalsIgnoreCase(GameConstants.WELD)){
-                p.jointMap.put(g,createWeldJoint(a,b,world));
+                p.jointMap.put(g,createWeldJoint(this));
             }
         }
 

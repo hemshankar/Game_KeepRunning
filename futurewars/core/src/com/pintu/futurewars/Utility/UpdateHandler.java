@@ -1,9 +1,13 @@
 package com.pintu.futurewars.Utility;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
+import com.pintu.futurewars.Casts.Ground;
+import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Screens.GameScreen;
+import com.pintu.futurewars.commons.AbstractGameObject;
 import com.pintu.futurewars.commons.GameObject;
 
 import java.util.Set;
@@ -15,6 +19,31 @@ import java.util.Set;
 public class UpdateHandler {
 
     public void update(GameScreen screen,float dt){
+
+        if(screen.bodyThatWasHit!=null) {
+            AbstractGameObject hitGameObject = (AbstractGameObject)screen.bodyThatWasHit.getUserData();
+            if(hitGameObject==null
+                    || hitGameObject instanceof Player2
+                    || hitGameObject instanceof Ground
+                    || hitGameObject.nonCatchable
+                    || screen.player2.jointMap.get(hitGameObject)!=null
+                    || hitGameObject.destroyed
+                    || hitGameObject.toBeDestroyed
+                    || hitGameObject.doneCatching
+                    || hitGameObject.isBackground) {
+                //do nothing
+            }else{
+                GameUtility.jointHandler.createJoint(screen.player2,
+                        hitGameObject,
+                        screen.world,
+                        GameConstants.ROPE,
+                        hitGameObject.ropeLength);
+                hitGameObject.ropeConnection =
+                        GameUtility.shapeHelper.drawLine(screen.player2, hitGameObject, GameConstants.ROPE_WIDTH, Color.BROWN, Color.BROWN);
+                hitGameObject.doneCatching = true;
+            }
+            screen.bodyThatWasHit = null;
+        }
 
         screen.timePassed +=dt;
         if(screen.timePassed >=screen.gameTime){
@@ -158,7 +187,7 @@ public class UpdateHandler {
             screen.numOfBackImgs++;
         }
         try {
-            GameUtility.gameObjectCreator.createNextObj(screen.player2);
+            GameUtility.gameObjectCreator.createNextObject(screen.player2);
         }catch (Exception e) {
             GameUtility.log(UpdateHandler.class.getName(),"Failed while creating gameObject: " + e.getMessage());
         }

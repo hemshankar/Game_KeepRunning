@@ -85,8 +85,10 @@ public class GameConstants {
 
     //======================Property Files============================
     public static final String PLAYER_PROPERTY_FILE = "propertyFiles/player.txt";
+    public static final String KITE_PROPERTY_FILE = "propertyFiles/kite.txt";
     public static final String PUSHER_PROPERTY_FILE = "propertyFiles/pusher.txt";
     public static final String HORSE_PROPERTY_FILE = "propertyFiles/horse.txt";
+    public static final String CAT_PROPERTY_FILE = "propertyFiles/cat.txt";
     public static final String KALEEN_PROPERTY_FILE = "propertyFiles/kaleen.txt";
     public static final String BRICK_PROPERTY_FILE = "propertyFiles/brick.txt";
     public static final String GROUND_PROPERTY_FILE = "propertyFiles/ground.txt";
@@ -129,7 +131,9 @@ public class GameConstants {
     public static String KALEEN = "KALEEN";
     public static String PLAYER = "PLAYER";
     public static String PUSHER = "PUSHER";
+    public static String KITE = "KITE";
     public static String HORSE = "HORSE";
+    public static String CAT = "CAT";
     public static String SPEED_BOMB = "SPEED_BOMB";
     public static String POWER_DRINK = "POWER_DRINK";
     public static String COIN = "COIN";
