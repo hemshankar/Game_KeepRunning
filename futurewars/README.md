@@ -116,6 +116,7 @@ Rules:
 94. Shooter objects, for shooting speed bombs and water balloons
 95. Clicking on the character should catch them.
 96. Make Kite as eagle, and change the colour to black
+97. Power of generating game objects while playing.
 
 
 

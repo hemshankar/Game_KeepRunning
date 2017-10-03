@@ -1,1 +1,3 @@
-STAGE_1=stages/stage1.txt
+STAGE1=stages/stage1.txt
+STAGE2=stages/stage2.txt
+STAGE3=stages/stage3.txt

@@ -23,9 +23,9 @@ public class GameObjectCreator {
     public Map<String,GameObjectDetails> objectDetailsList = new HashMap<String, GameObjectDetails>();
     public List<String> objectList = new ArrayList<String>();
 
-    public Map<String,String> creationDetails = null;
+    public Map<Float,String> creationDetails =  new HashMap<Float, String>();;
     public Map<String,String> stageFileMap = null;
-    List<String> positions = null;
+    List<Float> positions = new ArrayList<Float>();
 
     public void register(String objId,GameObjectDetails objectDetails){
         objectDetailsList.put(objId,objectDetails);
@@ -106,9 +106,9 @@ public class GameObjectCreator {
         if(positions.isEmpty())
             return;
         float safeDist = player.body.getPosition().x + 1*player.body.getLinearVelocity().x + GameConstants.DISTANCE_BETWEEN_GAME_OBJ;
-        if(safeDist>Float.parseFloat(positions.get(0))){
+        if(safeDist>positions.get(0)){
 
-            createObject(toGameObjectDetails(creationDetails.get(positions.get(0))),safeDist);
+            createObject(toGameObjectDetails(creationDetails.get(positions.get(0))),positions.get(0));
 
             creationDetails.remove(positions.remove(0));
         }
@@ -118,10 +118,19 @@ public class GameObjectCreator {
         stageFileMap = GameUtility.populateConfigurationsFromConfigFile(fileName);
     }
 
-    public void populateObjectDetailsFromFile(String fileName){
+    public void populateObjectDetailsFromFile(String stageName){
         try{
-            creationDetails = GameUtility.populateConfigurationsFromConfigFile(fileName);
-            positions =  new ArrayList<String>(creationDetails.keySet());
+            Map<String,String> creationD = GameUtility.populateConfigurationsFromConfigFile(stageFileMap.get(stageName));
+            List<String> posVals =  new ArrayList<String>(creationD.keySet());
+            positions.clear();
+            for(String key: posVals){
+                positions.add(Float.parseFloat(key));
+                if(creationDetails.get(Float.parseFloat(key))==null) {
+                    creationDetails.put(Float.parseFloat(key), creationD.get(key));
+                }else{
+                    positions.remove(positions.size()-1);
+                }
+            }
             Collections.sort(positions);
             GameUtility.log(this.getClass().getName(),positions.toString());
         }

@@ -18,7 +18,10 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.pintu.futurewars.Casts.Ground;
+import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.JumpingMarbleWorldCreator;
+import com.pintu.futurewars.Utility.GameUtility;
 
 /**
  * Created by hsahu on 10/1/2017.
@@ -56,9 +59,14 @@ abstract public class BaseScreen extends InputAdapter implements Screen {
     QueryCallback callback = new QueryCallback() {
         @Override
         public boolean reportFixture (Fixture fixture) {
-            bodyThatWasHit = fixture.getBody();
+
+            Body body = fixture.getBody();
+            GameUtility.log("1" + this.getClass().getName(),body.getUserData().toString());
+            if(!(body.getUserData() instanceof Ground) && !(body.getUserData() instanceof Player2)){
+                bodyThatWasHit = body;
+            }
             if (fixture.testPoint(point.x, point.y)) {
-                bodyThatWasHit = fixture.getBody();
+                //bodyThatWasHit = fixture.getBody();
                 return false;
             } else
                 return true;
@@ -88,13 +96,12 @@ abstract public class BaseScreen extends InputAdapter implements Screen {
         bodyThatWasHit = null;
         world.QueryAABB(callback, point.x - 1, point.y - 1, point.x + 1, point.y + 1);
 
+        //GameUtility.log(this.getClass().getName(),bodyThatWasHit.getUserData().toString());
+
         if(bodyThatWasHit != null) {
             // Do something with the body
         }
-
         return false;
-
-
     }
 
     @Override

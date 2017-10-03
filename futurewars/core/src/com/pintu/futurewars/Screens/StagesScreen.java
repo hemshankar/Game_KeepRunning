@@ -48,9 +48,9 @@ public class StagesScreen implements Screen {
         stage = new Stage(cViewPort,game.batch);
 
         initFonts();
-        addStage("imgs/welcome.png","Stage 1");
-        addStage("imgs/welcome.png","Stage 2");
-        addStage("imgs/welcome.png","Stage 3");
+        addStage("imgs/welcome.png",GameConstants.STAGE1);
+        addStage("imgs/welcome.png",GameConstants.STAGE2);
+        addStage("imgs/welcome.png",GameConstants.STAGE3);
         //addLoadingLabel();
 
     }
@@ -131,7 +131,7 @@ public class StagesScreen implements Screen {
         stageImage.setWidth(StageDetails.imageWidth);
         stageImage.setPosition(StageDetails.stageCount * (StageDetails.imageWidth + StageDetails.padding),
                                 stage.getHeight()/2);
-        stageImage.addListener(new StageListner(GameConstants.STAGE1));
+        stageImage.addListener(new StageListner(label));
         stage.addActor(stageImage);
 
         Label stagelabel = new Label(label,new Label.LabelStyle(font,Color.BLACK));
@@ -139,7 +139,7 @@ public class StagesScreen implements Screen {
         stagelabel.setHeight(StageDetails.labelHeight);
         stagelabel.setPosition(StageDetails.stageCount * (StageDetails.labelWidth + StageDetails.padding),
                                 stage.getHeight()/2-50);
-        stagelabel.addListener(new StageListner(GameConstants.STAGE1));
+        stagelabel.addListener(new StageListner(label));
         stage.addActor(stagelabel);
 
         StageDetails.stageCount++;
@@ -150,7 +150,7 @@ public class StagesScreen implements Screen {
         loading.setWidth(StageDetails.labelWidth);
         loading.setHeight(StageDetails.labelHeight);
         loading.setPosition(stage.getWidth()-300,50);
-        loading.addListener(new StageListner(GameConstants.STAGE1));
+        //loading.addListener(new StageListner(stage));
         stage.addActor(loading);
     }
 

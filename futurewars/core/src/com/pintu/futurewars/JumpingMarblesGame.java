@@ -52,44 +52,51 @@ public class JumpingMarblesGame extends Game {
 
 	@Override
 	public void create () {
-		/*Brick.init();
-		Kaleen.init();
-		Horse.init();
-		Pusher.init();
-		PowerDrink.init();
-		JumpingKit.init();
-		Coin.init();
-		CowBoyHat.init();
-		SpeedBomb.init();
-		FlyingKit.init();
-		StickyBomb.init();
-		Magnet.init();
-		WaterBalloon.init();
-		BombAmo.init();
-		SpeedBomb.init();
-		Cat.init();
-		Kite.init();*/
-		GameUtility.gameObjectCreator.populateObjectDetailsFromFile("stages/stage1.txt");
-		assetManager = new AssetManager();
-        //load assets
-        assetManager.load("music/Flying me softly.ogg", Music.class);
-        assetManager.load("audio/Wind effects 5.wav",Sound.class);
-        assetManager.load("audio/Fire impact 1.wav",Sound.class);
-        assetManager.load("audio/SHOOT008.mp3",Sound.class);
+		try {
+			/*Brick.init();
+			Kaleen.init();
+			Horse.init();
+			Pusher.init();
+			PowerDrink.init();
+			JumpingKit.init();
+			Coin.init();
+			CowBoyHat.init();
+			SpeedBomb.init();
+			FlyingKit.init();
+			StickyBomb.init();
+			Magnet.init();
+			WaterBalloon.init();
+			BombAmo.init();
+			SpeedBomb.init();
+			Cat.init();
+			Kite.init();*/
 
-        //load all the assets synchronously
-        assetManager.finishLoading();
+			//load Stage Map details
+			GameUtility.gameObjectCreator.populateStageMapDetails("stages/stageMap.txt");
 
-		batch = new SpriteBatch();
+			assetManager = new AssetManager();
+			//load assets
+			assetManager.load("music/Flying me softly.ogg", Music.class);
+			assetManager.load("audio/Wind effects 5.wav",Sound.class);
+			assetManager.load("audio/Fire impact 1.wav",Sound.class);
+			assetManager.load("audio/SHOOT008.mp3",Sound.class);
 
-		camera = new OrthographicCamera();
-		viewport = new FitViewport(GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
+			//load all the assets synchronously
+			assetManager.finishLoading();
 
-		/*gameScreen = new GameScreen(this);
-		setScreen(gameScreen);*/
-		welcomeScreen = new WelcomeScreen(this);
-		pauseScreen = new PauseScreen(this,null);
-		setScreen(welcomeScreen);
+			batch = new SpriteBatch();
+
+			camera = new OrthographicCamera();
+			viewport = new FitViewport(GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
+
+			/*gameScreen = new GameScreen(this);
+			setScreen(gameScreen);*/
+			welcomeScreen = new WelcomeScreen(this);
+			pauseScreen = new PauseScreen(this,null);
+			setScreen(welcomeScreen);
+		}catch(Exception e){
+			GameUtility.log(this.getClass().getName(),e.getMessage());
+		}
 	}
 
 	@Override
@@ -116,14 +123,9 @@ public class JumpingMarblesGame extends Game {
 
 	}
 
-	public GameScreen getGameScreen(String stage){
-		if(GameConstants.STAGE1.equals(stage)){
-			if(gameScreen==null)
-				gameScreen = new GameScreen(this);
-			return gameScreen;
-		}
-
-		return null;
+	public GameScreen getGameScreen(){
+        gameScreen = new GameScreen(this);
+        return gameScreen;
 	}
 
 	public StagesScreen getStagesScreen(){
@@ -135,8 +137,9 @@ public class JumpingMarblesGame extends Game {
 	public GameScreen getNewGameScreen(String stage){
 		if(gameScreen!=null)
 			gameScreen.dispose();
-		gameScreen = null;
-		return getGameScreen(stage);
+		//gameScreen = null;
+		GameUtility.gameObjectCreator.populateObjectDetailsFromFile(stage);
+		return getGameScreen();
 	}
 
 	public GameEndScreen getGameEndScreen(String currentStage, String nextStage){

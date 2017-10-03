@@ -55,7 +55,7 @@ public class InputHandler {
                 screen.player2.getBody().applyLinearImpulse(new Vector2(.5f,0),screen.player2.getBody().getWorldCenter(),true);
             }
         }
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || screen.widgets.controles[GameConstants.FIRE_BASIC_BULLET]){
+        if(Gdx.input.isKeyPressed(Input.Keys.SPACE) || screen.widgets.controles[GameConstants.FIRE_BASIC_BULLET]){
             if(!screen.started){
                 screen.player2.getBody().applyLinearImpulse(new Vector2(5f, 2f), screen.player2.getBody().getWorldCenter(), true);
                 screen.started = true;

@@ -124,8 +124,9 @@ public class GameConstants {
 
     //===================================Stages====================================
     public static final String STAGE1 = "STAGE1";
+    public static final String STAGE2 = "STAGE2";
+    public static final String STAGE3 = "STAGE3";
     public static final String HOME_SCREEN = "HOME_SCREEN";
-
 
     //===============================Various GameObjects===========================
     public static String KALEEN = "KALEEN";

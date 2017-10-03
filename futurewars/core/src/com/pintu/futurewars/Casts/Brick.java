@@ -15,6 +15,7 @@ import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Utility.GameObjectDetails;
 import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.backgrounds.BackGround;
+import com.pintu.futurewars.commons.GameObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -42,6 +43,12 @@ public class Brick extends FutureWarsCast {
 
     public static void createBricks(){
 
+    }
+
+    @Override
+    public void handleContact(GameObject gObj) {
+        super.handleContact(gObj);
+        doneCatching = false;
     }
 
     @Override
