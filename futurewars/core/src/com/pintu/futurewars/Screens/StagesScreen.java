@@ -2,6 +2,8 @@ package com.pintu.futurewars.Screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,6 +11,16 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.input.GestureDetector;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.EllipseMapObject;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -20,6 +32,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.JumpingMarblesGame;
 import com.pintu.futurewars.Utility.GameUtility;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.alpha;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
@@ -28,7 +42,7 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeIn;
  * Created by hsahu on 9/6/2017.
  */
 
-public class StagesScreen implements Screen {
+public class StagesScreen implements Screen,GestureDetector.GestureListener {
 
     JumpingMarblesGame game = null;
     BitmapFont font = null;
@@ -36,16 +50,28 @@ public class StagesScreen implements Screen {
     Label loading = null;
     OrthographicCamera ctrlCam = null;
     FitViewport cViewPort = null;
+    World world = null;//new World(new Vector2(0,0),true);
 
     private final float CHANGE_SCREEN_TIME = 5;
-    private float timeHappend = 0;
+    private float timeHappend = 1;
+
+    public TmxMapLoader mapLoader = null;
+    public TiledMap map = null;
+    public OrthogonalTiledMapRenderer renderer = null;
+    private float currentZoom = 1;
+    Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
 
     public StagesScreen(JumpingMarblesGame game){
         this.game = game;
+        world = new World(new Vector2(0,0),true);
         ctrlCam = new OrthographicCamera();
-        cViewPort = new FitViewport(GameConstants.VIEW_PORT_WIDTH,
-                GameConstants.VIEW_PORT_HIGHT,ctrlCam);
+        cViewPort = new FitViewport(GameConstants.VIEW_PORT_WIDTH,GameConstants.VIEW_PORT_HIGHT,ctrlCam);
         stage = new Stage(cViewPort,game.batch);
+
+        mapLoader = new TmxMapLoader();
+        map = mapLoader.load(GameConstants.WORLD_MAP);
+        renderer = new OrthogonalTiledMapRenderer(map,1);
+
 
         initFonts();
         addStage("imgs/welcome.png",GameConstants.STAGE1);
@@ -53,11 +79,24 @@ public class StagesScreen implements Screen {
         addStage("imgs/welcome.png",GameConstants.STAGE3);
         //addLoadingLabel();
 
+        for (MapObject object : map.getLayers().get("cities").getObjects().getByType(EllipseMapObject.class)) {
+            Ellipse eclipse = ((EllipseMapObject) object).getEllipse();
+            addCity("imgs/danger.png",object.getName(),eclipse.x,eclipse.y);
+        }
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        InputProcessor inputProcessorOne = new GestureDetector(this);
+        InputProcessor inputProcessorTwo = stage;
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(inputProcessorOne);
+        inputMultiplexer.addProcessor(inputProcessorTwo);
+        Gdx.input.setInputProcessor(inputMultiplexer);
+        //Gdx.input.setInputProcessor(stage);
+        //Gdx.input.setInputProcessor(new GestureDetector(this));
+        ctrlCam.translate(600,1500);
+        ctrlCam.update();
     }
 
     public void update(float dt){
@@ -65,16 +104,24 @@ public class StagesScreen implements Screen {
         if(timeHappend>CHANGE_SCREEN_TIME){
             //game.setScreen(game.getGameScreen());
         }
+        for(Actor a: stage.getActors()){
+            a.setWidth(20*10*ctrlCam.zoom);
+            a.setHeight(20*10*ctrlCam.zoom);
+        }
         stage.act();
     }
 
     @Override
     public void render(float delta) {
         //Gdx.gl.glClearColor(.4f,.6f,.5f,1);
-        Gdx.gl.glClearColor(1,1,1,1);
+        Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        world.step(1/60f, 6, 2);
+        renderer.setView(ctrlCam);
+        renderer.render();
         update(delta);
         stage.draw();
+        debugRenderer.render(world, ctrlCam.combined);
     }
 
     @Override
@@ -101,16 +148,78 @@ public class StagesScreen implements Screen {
     public void dispose() {
         font.dispose();
         stage.dispose();
+        map.dispose();
+        renderer.dispose();
         GameUtility.log(this.getClass().getName(), "Disposed");
     }
     private void initFonts(){
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/leadcoat.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        params.size = 50;
-        params.color = Color.BLACK;
+        params.size = 20;
+        params.color = Color.YELLOW;
 
         font = generator.generateFont(params);
+    }
+
+    @Override
+    public boolean touchDown(float x, float y, int pointer, int button) {
+        //ctrlCam.zoom = 2f * currentZoom;
+        ctrlCam.update();
+        return false;
+    }
+
+    @Override
+    public boolean tap(float x, float y, int count, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean longPress(float x, float y) {
+        return false;
+    }
+
+    @Override
+    public boolean fling(float velocityX, float velocityY, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean pan(float x, float y, float deltaX, float deltaY) {
+        /*ctrlCam.translate(-deltaX,deltaY);
+        ctrlCam.update();*/
+        ctrlCam.translate(-deltaX * currentZoom,deltaY * currentZoom);
+        ctrlCam.update();
+        return false;
+    }
+
+    @Override
+    public boolean panStop(float x, float y, int pointer, int button) {
+        currentZoom = ctrlCam.zoom;
+        return false;
+    }
+
+    @Override
+    public boolean zoom(float initialDistance, float distance) {
+        /*cViewPort.setWorldSize(cViewPort.getWorldWidth()-distance/100,
+                cViewPort.getWorldHeight()-distance/100);
+        cViewPort.apply();*/
+        ctrlCam.zoom = (initialDistance / distance) * currentZoom;
+        ctrlCam.update();
+        return true;
+    }
+
+    @Override
+    public boolean pinch(Vector2 initialPointer1, Vector2 initialPointer2, Vector2 pointer1, Vector2 pointer2) {
+       /* cViewPort.setWorldSize(cViewPort.getWorldWidth()+pointer1.y/100,
+                cViewPort.getWorldHeight()+pointer2.y/100);
+        cViewPort.apply();*/
+        return false;
+    }
+
+    @Override
+    public void pinchStop() {
+
     }
 
     public static class StageDetails{
@@ -134,7 +243,7 @@ public class StagesScreen implements Screen {
         stageImage.addListener(new StageListner(label));
         stage.addActor(stageImage);
 
-        Label stagelabel = new Label(label,new Label.LabelStyle(font,Color.BLACK));
+        Label stagelabel = new Label(label,new Label.LabelStyle(font,Color.SKY));
         stagelabel.setWidth(StageDetails.labelWidth);
         stagelabel.setHeight(StageDetails.labelHeight);
         stagelabel.setPosition(StageDetails.stageCount * (StageDetails.labelWidth + StageDetails.padding),
@@ -143,6 +252,23 @@ public class StagesScreen implements Screen {
         stage.addActor(stagelabel);
 
         StageDetails.stageCount++;
+    }
+    private void addCity(String imageLocation, String label, float x, float y){
+        Texture texture = new Texture(Gdx.files.internal(imageLocation));
+        Image stageImage = new Image(texture);
+        stageImage.setHeight(50);
+        stageImage.setWidth(50);
+        stageImage.setPosition(x,y);
+        stageImage.addListener(new StageListner(label));
+        stage.addActor(stageImage);
+
+        Label stagelabel = new Label(label,new Label.LabelStyle(font,Color.SKY));
+        stagelabel.setWidth(5);
+        stagelabel.setHeight(5);
+        stagelabel.setPosition(x,y-20);
+        stagelabel.addListener(new StageListner(label));
+        stage.addActor(stagelabel);
+        //StageDetails.stageCount++;
     }
 
     public void addLoadingLabel(){

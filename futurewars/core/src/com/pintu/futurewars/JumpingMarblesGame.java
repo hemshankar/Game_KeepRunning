@@ -87,8 +87,8 @@ public class JumpingMarblesGame extends Game {
 			batch = new SpriteBatch();
 
 			camera = new OrthographicCamera();
+			//viewport = new FitViewport(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());//GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
 			viewport = new FitViewport(GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
-
 			/*gameScreen = new GameScreen(this);
 			setScreen(gameScreen);*/
 			welcomeScreen = new WelcomeScreen(this);

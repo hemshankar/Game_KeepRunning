@@ -45,7 +45,7 @@ public class Pusher extends FutureWarsCast {
             //System.out.println("xVelocity: " + xVelocity + ", YVelocity: " + yVelocity);
             if(Math.abs(xVelocity) > 10 || Math.abs(yVelocity) >10) {
                 player2.takeDamage(GameConstants.PUSHER_DAMAGE);
-                GameUtility.getGameScreen().isslowMotionEffect = true;
+                //GameUtility.getGameScreen().isslowMotionEffect = true;
             }
         }else if(gObj instanceof Ground){
             flying = false;

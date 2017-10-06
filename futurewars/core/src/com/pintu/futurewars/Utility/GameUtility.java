@@ -185,6 +185,8 @@ public class GameUtility {
     }
 
     public static GameScreen getGameScreen(){
+        if(gameScreen==null)
+            return null;
         return gameScreen.get();
     }
 

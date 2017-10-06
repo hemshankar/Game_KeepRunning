@@ -37,8 +37,8 @@ public abstract class AbstractGameObject implements GameObject{
 
     public int objectId;
     public Body body = null;
-    boolean haveBody = false;
-    boolean removeAfterAnimation = false;
+    public boolean haveBody = false;
+    public boolean removeAfterAnimation = false;
     public float xPos =10;
     public float yPos =10;
     public Sprite sprite = null;
@@ -84,6 +84,9 @@ public abstract class AbstractGameObject implements GameObject{
     public float ropeLength = -1;
     public boolean removeRopeConnectionOnContact = true;
 
+    public boolean usePPM = true;
+    public float myPPM = -1;
+
     public AbstractGameObject(int id, String propFile, World w, TextureAtlas a){
         objectId = id;
         try{gProps = GameUtility.populateConfigurationsFromConfigFile(propFile);}
@@ -126,10 +129,10 @@ public abstract class AbstractGameObject implements GameObject{
             if (mapObject != null) {
                 if (mapObject instanceof RectangleMapObject) {
                     rect = ((RectangleMapObject) mapObject).getRectangle();
-                    bdef.position.set(rect.x / GameConstants.PPM, rect.y  / GameConstants.PPM);
+                    bdef.position.set(rect.x / getPPM(), rect.y  / getPPM());
                 } else if (mapObject instanceof EllipseMapObject) {
                     eclipse = ((EllipseMapObject) mapObject).getEllipse();
-                    bdef.position.set((eclipse.x + eclipse.width / 2) / GameConstants.PPM, (eclipse.y + eclipse.height / 2) / GameConstants.PPM);
+                    bdef.position.set((eclipse.x + eclipse.width / 2) / getPPM(), (eclipse.y + eclipse.height / 2) / getPPM());
                 }//Todo: Implement for rest of the shapes
             } else {
                 bdef.position.set(xPos, yPos);
@@ -140,7 +143,7 @@ public abstract class AbstractGameObject implements GameObject{
                 bShape = new CircleShape();
                 float objectSize = getFloat(gProps.get(GameObjectConstants.OBJECT_RADIUS));
                 objectSize = objectSize == 0 ? GameConstants.PLAYER_SIZE : objectSize;
-                bShape.setRadius(objectSize / GameConstants.PPM);
+                bShape.setRadius(objectSize / getPPM());
 
             } else if (valueEquals(gProps.get(GameObjectConstants.BODY_SHAPE), GameObjectConstants.POLYGON)) {
                 bShape = new PolygonShape();
@@ -148,7 +151,7 @@ public abstract class AbstractGameObject implements GameObject{
                 width = width == 0 ? GameConstants.PLAYER_SIZE : width;
                 float height = getFloat(gProps.get(GameObjectConstants.OBJECT_HEIGHT));
                 height = height == 0 ? GameConstants.PLAYER_SIZE : height;
-                ((PolygonShape) bShape).setAsBox(width / GameConstants.PPM, height / GameConstants.PPM);
+                ((PolygonShape) bShape).setAsBox(width / getPPM(), height / getPPM());
             }//Todo: Implementation for other shapes
             fixtureDef.shape = bShape;
 
@@ -183,6 +186,7 @@ public abstract class AbstractGameObject implements GameObject{
                     Float.parseFloat(gProps.get(GameObjectConstants.DAMPING)) : 0f);
             //================================CREATE FIXTURE=======================================
             Fixture f = body.createFixture(fixtureDef);
+            bShape.dispose();
 
             //====================set the user data to be used in collision========================
             f.setUserData(this);
@@ -215,7 +219,7 @@ public abstract class AbstractGameObject implements GameObject{
         }
         currentState = gProps.get(GameObjectConstants.CURRENT_STATE);
         //set bounds may also need to be updated properly
-        sprite.setBounds(0, 0, spriteWidth * 2 / GameConstants.PPM, spriteHeight * 2 / GameConstants.PPM);
+        sprite.setBounds(0, 0, spriteWidth * 2 / getPPM(), spriteHeight * 2 / getPPM());
 
     }
 
@@ -320,8 +324,13 @@ public abstract class AbstractGameObject implements GameObject{
                                     this.body.getWorldCenter(), true);
             }
 
-            Player2 player = GameUtility.getGameScreen().player2;
+            Player2 player = null;
+            if(GameUtility.getGameScreen()!=null) {
+                player = GameUtility.getGameScreen().player2;
+            }
 
+            if(player==null)
+                return;
             //move with player
             if(moveWithPlayer && !(this instanceof Player2) && haveBody ){//){
 
@@ -371,7 +380,7 @@ public abstract class AbstractGameObject implements GameObject{
     }
     public void destroy(){
         if(toBeDestroyed){
-            GameUtility.log(this.getClass().getName(),"Destroyed: " + this);
+            //GameUtility.log(this.getClass().getName(),"Destroyed: " + this);
             if(GameUtility.getGameScreen().player2.jointMap.get(this)!=null){
                 GameUtility.getGameScreen().player2.jointMap.remove(this);
             }
@@ -547,5 +556,14 @@ public abstract class AbstractGameObject implements GameObject{
             GameUtility.getGameScreen().nearestDist = dist;
             GameUtility.getGameScreen().nearestGameObj = this;
         }
+    }
+
+    private float getPPM(){
+        if(usePPM){
+            if(myPPM!=-1)
+                return myPPM;
+            return GameConstants.PPM;
+        }
+        return 1;
     }
 }

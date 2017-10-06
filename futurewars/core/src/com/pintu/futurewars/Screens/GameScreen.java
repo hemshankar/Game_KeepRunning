@@ -17,9 +17,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Casts.Ground;
 import com.pintu.futurewars.Casts.Player2;
+import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Controllers.Widgets;
 import com.pintu.futurewars.Utility.InputHandler;
 import com.pintu.futurewars.JumpingMarblesGame;
@@ -100,7 +102,7 @@ public class GameScreen extends BaseScreen {
         this.batch = game.batch;
         this.assetManager = game.assetManager;
         camera = game.camera;//new OrthographicCamera();
-        viewport = game.viewport;//new FitViewport(GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
+        viewport = game.viewport;//viewport = new FitViewport(Gdx.graphics.getWidth()/ GameConstants.PPM,Gdx.graphics.getHeight()/ GameConstants.PPM);
         //viewport = new FitViewport(scrWidth,scrHight,camera);
         //System.out.println("=====" + scrWidth + "--" + scrHight );
 

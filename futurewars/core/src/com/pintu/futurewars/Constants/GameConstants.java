@@ -37,7 +37,7 @@ public class GameConstants {
 
     //----------------------
     public static final float VIEW_PORT_WIDTH = 1600;
-    public static final float VIEW_PORT_HIGHT = 900;
+    public static final float VIEW_PORT_HIGHT = 1000;
 
     //------------------Widgets
     public static final int UP = 0;
@@ -82,6 +82,7 @@ public class GameConstants {
     //====================Map Related
     public static final String JUMPING_MARBAL_MAP = "tiles/JumpingMarblesMap2.tmx";
     public static final String FUTURE_WARS_MAP = "tiles/supersky.tmx";
+    public static final String WORLD_MAP = "tiles/worldMa.tmx";
 
     //======================Property Files============================
     public static final String PLAYER_PROPERTY_FILE = "propertyFiles/player.txt";
@@ -148,7 +149,7 @@ public class GameConstants {
     public static String BRICK = "BRICK";
 
     //==============================For GameObjectCreator==========================
-    public static float DISTANCE_BETWEEN_GAME_OBJ =20;
+    public static float DISTANCE_BETWEEN_GAME_OBJ =100;
 
     //=================================SYNC_CONSTANTS==============================
     public static final String CATCH_OBJECT = "CATCH_OBJECT";

@@ -1,3 +1,8 @@
 STAGE1=stages/stage1.txt
 STAGE2=stages/stage2.txt
 STAGE3=stages/stage3.txt
+colombo=stages/stage1.txt
+Bangalore=stages/stage1.txt
+Sandiago=stages/stage2.txt
+Los Angeles=stages/stage3.txt
+San Francisco=stages/stage1.txt
