@@ -302,7 +302,8 @@ public class Widgets {
 
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(game.stagesScreen);
+            game.pauseScreen.stageScreen = screen;
+            game.setScreen(game.pauseScreen);
         }
 
         @Override

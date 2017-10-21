@@ -1,6 +1,7 @@
 package com.pintu.futurewars.Utility;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -216,7 +217,102 @@ public class GameUtility {
 
     public static boolean isEmptyString(String str){
         if(str!=null && str.length()>0)
+            return false;
+        return true;
+    }
+
+    public static Map<String,String[]> getStateFrameDetails2(String spriteDetails) {
+        Map<String,String[]> tmpStateFrameDetails = null;
+        if (spriteDetails != null) {
+            tmpStateFrameDetails = GameUtility.getStateFrameDetails(spriteDetails);
+            if(tmpStateFrameDetails!=null)
+                return tmpStateFrameDetails;
+            else
+                tmpStateFrameDetails = new HashMap<String, String[]>();
+
+            String[] value;
+            if (!isEmpty(spriteDetails)) {
+                value = spriteDetails.split("<-->"); //get each state details
+                if (!isEmpty(value)) {
+                    for (String stateDetails : value) {
+                        String[] stateAndFrames = stateDetails.split("<->");
+                        if (!isEmpty(stateAndFrames) && stateAndFrames.length > 1) {
+                            String[] frames = stateAndFrames[1].split(",");
+                            tmpStateFrameDetails.put(stateAndFrames[0], frames);
+                        }
+                    }
+                }
+            }
+        }
+        GameUtility.setStateFrameDetails(spriteDetails,tmpStateFrameDetails);
+        return tmpStateFrameDetails;
+    }
+    public static Map<String,String> getStateSoundDetails2(String soundDetails) {
+        Map<String,String> tmpStateSoundDetails = null;
+        if (soundDetails != null) {
+            tmpStateSoundDetails = getStateSoundDetails(soundDetails);
+            if(tmpStateSoundDetails!=null)
+                return tmpStateSoundDetails;
+            else
+                tmpStateSoundDetails = new HashMap<String, String>();
+
+            String[] value;
+            if (!isEmpty(soundDetails)) {
+                value = soundDetails.split("<-->"); //get each state details
+                if (!isEmpty(value)) {
+                    for (String stateDetails : value) {
+                        String[] stateSound = stateDetails.split("<->");
+                        if (!isEmpty(stateSound) && stateSound.length > 1) {
+                            tmpStateSoundDetails.put(stateSound[0], stateSound[1]);
+                        }
+                    }
+                }
+            }
+        }
+        GameUtility.setStateSoundDetails(soundDetails,tmpStateSoundDetails);
+        return tmpStateSoundDetails;
+    }
+
+
+    public static boolean valueEquals(String x, String y){
+        if(x !=null && y !=null){
+            return x.equalsIgnoreCase(y);
+        }
+        return false;
+    }
+
+    public static boolean isEmpty(String str){
+        if(str !=null && !"".equals(str))
+            return false;
+        return true;
+    }
+    public static boolean isEmpty(String[] str){
+        if(str !=null && str.length>0)
+            return false;
+        return true;
+    }
+
+    public static Integer getInt(String str){
+        if(str!=null)
+            return Integer.parseInt(str);
+        return 0;
+    }
+
+    public static Float getFloat(String str){
+        if(str!=null)
+            return Float.parseFloat(str);
+        return 0f;
+    }
+
+    public static boolean isTrue(String str){
+        if(str!=null && str.equalsIgnoreCase("TRUE"))
             return true;
         return false;
+    }
+
+    public static void playSound(String sound){
+        if(!isEmptyString(sound)) {
+            GameUtility.getGameScreen().assetManager.get(sound, Sound.class).play();
+        }
     }
 }

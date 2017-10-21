@@ -83,6 +83,7 @@ public class GameConstants {
     public static final String JUMPING_MARBAL_MAP = "tiles/JumpingMarblesMap2.tmx";
     public static final String FUTURE_WARS_MAP = "tiles/supersky.tmx";
     public static final String WORLD_MAP = "tiles/worldMa.tmx";
+    public static final String WORLD_MAP_RESIZE = "tiles/worldMap130x63.tmx";
 
     //======================Property Files============================
     public static final String PLAYER_PROPERTY_FILE = "propertyFiles/player.txt";
@@ -112,7 +113,7 @@ public class GameConstants {
     public static final String BACKGROUND2_PROPERTY_FILE = "propertyFiles/background2.txt";
     public static final String BACKGROUND3_PROPERTY_FILE = "propertyFiles/background3.txt";
     public static final String BACKGROUND4_PROPERTY_FILE = "propertyFiles/background4.txt";
-
+    public static final String DEFAULT_STAGE_FILE = "stages/defaultStage.txt";
     //============================Joint Constants================================
     public static final String REVOLUTE = "revolute";
     public static final String PRISMATIC = "presmatic";
@@ -157,6 +158,8 @@ public class GameConstants {
     //==================================OTHERS=====================================
     public static final float CATCH_RANGE = 40000;
     public static final float ROPE_WIDTH = .05f;
-
+    public static final String SAME_PLACE = "SAME_PLACE";
+    public static final String HORIZONTAL = "SAME_PLACE";
+    public static final String VERTICAL = "SAME_PLACE";
 
 }

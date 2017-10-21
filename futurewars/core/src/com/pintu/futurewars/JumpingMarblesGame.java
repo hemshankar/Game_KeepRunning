@@ -32,6 +32,7 @@ import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Screens.GameEndScreen;
 import com.pintu.futurewars.Screens.GameScreen;
 import com.pintu.futurewars.Screens.PauseScreen;
+import com.pintu.futurewars.Screens.StageDetailsScreen;
 import com.pintu.futurewars.Screens.StagesScreen;
 import com.pintu.futurewars.Screens.WelcomeScreen;
 import com.pintu.futurewars.Utility.GameUtility;
@@ -47,6 +48,7 @@ public class JumpingMarblesGame extends Game {
 	public GameScreen gameScreen=null;
 	public WelcomeScreen welcomeScreen=null;
 	public StagesScreen stagesScreen = null;
+    public StageDetailsScreen stageDetailsScreen = null;
 	public PauseScreen pauseScreen = null;
 	public GameEndScreen gameEndScreen = null;
 
@@ -93,6 +95,7 @@ public class JumpingMarblesGame extends Game {
 			setScreen(gameScreen);*/
 			welcomeScreen = new WelcomeScreen(this);
 			pauseScreen = new PauseScreen(this,null);
+            //stageDetailsScreen = new StageDetailsScreen(this);
 			setScreen(welcomeScreen);
 		}catch(Exception e){
 			GameUtility.log(this.getClass().getName(),e.getMessage());
@@ -120,7 +123,8 @@ public class JumpingMarblesGame extends Game {
 			pauseScreen.dispose();
 		if(gameEndScreen!=null)
 			gameEndScreen.dispose();
-
+        if(stageDetailsScreen!=null)
+            stageDetailsScreen.dispose();
 	}
 
 	public GameScreen getGameScreen(){
@@ -141,6 +145,12 @@ public class JumpingMarblesGame extends Game {
 		GameUtility.gameObjectCreator.populateObjectDetailsFromFile(stage);
 		return getGameScreen();
 	}
+    public StageDetailsScreen getStageDetailsScreen(String stage){
+        if(stageDetailsScreen == null)
+            stageDetailsScreen = new StageDetailsScreen(this);
+        return stageDetailsScreen;
+    }
+
 
 	public GameEndScreen getGameEndScreen(String currentStage, String nextStage){
 		if(gameEndScreen == null)

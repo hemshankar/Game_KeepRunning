@@ -1,5 +1,6 @@
 package com.pintu.futurewars.Utility;
 
+import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.commons.GameObject;
 
 /**
@@ -12,5 +13,10 @@ public class GameObjectDetails {
     public float yPos = 7;
     public float flyPos = 8;
     public String type;
+    public String propertiesFile = "";
+    public boolean isGroup = false;
+    public int numberOfInstances = 1;
+    public String arrangeOrder = GameConstants.SAME_PLACE;
+    public float gapBetweenObjects = .5f;
 
 }

@@ -130,7 +130,6 @@ public class GameScreen extends BaseScreen {
 
         gameMusic = assetManager.get("music/Flying me softly.ogg",Music.class);
         gameMusic.setLooping(true);
-        gameMusic.play();
 
         //background Image-Should keep rotating
         screenBackgroundImages1 = new Texture(Gdx.files.internal("imgs/sky1.png"));//("imgs/stage1BackGround3.jpg"));
@@ -164,6 +163,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void show() {
+        viewport = new FitViewport(GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
         System.out.println("Show called");
         InputProcessor inputProcessorOne = this;
         InputProcessor inputProcessorTwo = this.widgets.stage;
@@ -171,6 +171,7 @@ public class GameScreen extends BaseScreen {
         inputMultiplexer.addProcessor(inputProcessorOne);
         inputMultiplexer.addProcessor(inputProcessorTwo);
         Gdx.input.setInputProcessor(inputMultiplexer);
+        gameMusic.play();
         //Gdx.input.setInputProcessor(widgets.stage);
     }
 
@@ -226,16 +227,19 @@ public class GameScreen extends BaseScreen {
     @Override
     public void pause() {
         System.out.println("GameScreen: Pause called");
+        gameMusic.pause();
     }
 
     @Override
     public void resume() {
         System.out.println("Show called");
+        gameMusic.play();
     }
 
     @Override
     public void hide() {
-        pause();
+
+        gameMusic.pause();
         System.out.println("GameScreen: Hide called");
     }
 
@@ -251,6 +255,8 @@ public class GameScreen extends BaseScreen {
         screenBackgroundImages1.dispose();
         screenBackgroundImages2.dispose();
         shapeRenderer.dispose();
+        gameMusic.stop();
+        //gameMusic.dispose();
         GameUtility.disposeAllAtlas();
         GameUtility.gameObjectCreator.reset();
         GameUtility.log(this.getClass().getName(), "Disposed");

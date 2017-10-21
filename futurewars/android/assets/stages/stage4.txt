@@ -1,0 +1,5 @@
+30=com.pintu.futurewars.Casts.Generic<->CAT<->10<->10<->propertyFiles/speedBomb.txt
+40=com.pintu.futurewars.Casts.Generic<->CAT<->10<->10<->propertyFiles/coin.txt
+80=com.pintu.futurewars.Casts.Generic<->CAT<->10<->10<->propertyFiles/kite.txt
+120=com.pintu.futurewars.Casts.Generic<->CAT<->6<->6<->propertyFiles/kaleen.txt
+140=com.pintu.futurewars.Casts.Generic<->CAT<->5<->5<->propertyFiles/cat.txt

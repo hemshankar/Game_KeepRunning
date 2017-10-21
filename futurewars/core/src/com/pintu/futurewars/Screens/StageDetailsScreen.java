@@ -15,39 +15,32 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.JumpingMarblesGame;
+import com.pintu.futurewars.Utility.GameSprite;
 import com.pintu.futurewars.Utility.GameUtility;
 
 /**
  * Created by hsahu on 9/6/2017.
  */
 
-public class PauseScreen implements Screen {
+public class StageDetailsScreen implements Screen {
 
     JumpingMarblesGame game = null;
     BitmapFont font = null;
     Stage stage = null;
-    Label loading = null;
     OrthographicCamera ctrlCam = null;
     FitViewport cViewPort = null;
+    GameSprite gs = null;
 
-    private final float CHANGE_SCREEN_TIME = 5;
-    private float timeHappend = 0;
-    public Screen stageScreen;
-
-
-    public PauseScreen(JumpingMarblesGame game,Screen stageScreen){
+    public StageDetailsScreen(JumpingMarblesGame game){
         this.game = game;
-        this.stageScreen = stageScreen;
         ctrlCam = new OrthographicCamera();
         cViewPort = new FitViewport(GameConstants.VIEW_PORT_WIDTH,
                 GameConstants.VIEW_PORT_HIGHT,ctrlCam);
         stage = new Stage(cViewPort,game.batch);
 
-
         initFonts();
-
-        //addLoadingLabel();
 
     }
 
@@ -56,15 +49,17 @@ public class PauseScreen implements Screen {
         Gdx.input.setInputProcessor(stage);
         stage.clear();
         StageDetails.stageCount = 0;
-        addToStage("imgs/welcome.png","Resume", this.stageScreen);
-        addToStage("imgs/welcome.png","Map",game.getStagesScreen());
+        //addToStage("imgs/welcome.png","Map",game.getStagesScreen());
+        addImage("imgs/welcome.png",10,210,100,100);
+        addText("Cahtch the Cat",font,10,30,100,100,Color.BLACK);
+        addButton("Button",font,110,50,100,100,
+                new StageListner(this,game.getNewGameScreen("colombo")),Color.BLACK);
+        addAnimation();
+
     }
 
     public void update(float dt){
-        timeHappend +=dt;
-        if(timeHappend>CHANGE_SCREEN_TIME){
-            //game.setScreen(game.getGameScreen());
-        }
+        gs.updateSprite(dt);
         stage.act();
     }
 
@@ -75,6 +70,7 @@ public class PauseScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(delta);
         stage.draw();
+        gs.draw(game.batch);
     }
 
     @Override
@@ -125,6 +121,46 @@ public class PauseScreen implements Screen {
         public static float padding = 10;
     }
 
+    public void addText(String text, BitmapFont font, float x, float y, float width, float height,
+                        Color color){
+        Label stagelabel = new Label(text,new Label.LabelStyle(font,color));
+        stagelabel.setWidth(width);
+        stagelabel.setHeight(height);
+        stagelabel.setPosition(x,y);
+        stage.addActor(stagelabel);
+    }
+
+    public void addImage(String imageLocation, float x, float y, float width, float height){
+        Texture texture = new Texture(Gdx.files.internal(imageLocation));
+        Image stageImage = new Image(texture);
+        stageImage.setHeight(width);
+        stageImage.setWidth(height);
+        stageImage.setPosition(x,y);
+        stage.addActor(stageImage);
+    }
+
+    public void addAnimation(){
+        gs = new GameSprite(GameConstants.PUSHER_PROPERTY_FILE,200,800);
+    }
+
+    public void addButton(String buttonText,
+                          BitmapFont font,
+                          float x,
+                          float y,
+                          float width,
+                          float height,
+                          StageListner stageListner,
+                          Color color){
+
+        Label stagelabel = new Label(buttonText,new Label.LabelStyle(font,color));
+        stagelabel.setWidth(width);
+        stagelabel.setHeight(height);
+        stagelabel.setPosition(x,y);
+        stagelabel.addListener(stageListner);
+        stage.addActor(stagelabel);
+
+    }
+
     private void addToStage(String imageLocation, String label,Screen screen){
         Texture texture = new Texture(Gdx.files.internal(imageLocation));
         Image stageImage = new Image(texture);
@@ -149,8 +185,8 @@ public class PauseScreen implements Screen {
     public class StageListner extends InputListener{
 
         public Screen selectedScreen = null;
-        PauseScreen pauseScreen = null;
-        public StageListner(PauseScreen pauseScreen,Screen screen){
+        StageDetailsScreen pauseScreen = null;
+        public StageListner(StageDetailsScreen pauseScreen, Screen screen){
             this.pauseScreen = pauseScreen;
             selectedScreen = screen;
         }
@@ -158,7 +194,7 @@ public class PauseScreen implements Screen {
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             //stageScreen.show();
-            if(stageScreen!=null)
+            if(selectedScreen!=null)
                 game.setScreen(selectedScreen);
             //pauseScreen.dispose();
         }

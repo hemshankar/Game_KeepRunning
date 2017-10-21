@@ -2,7 +2,9 @@ package com.pintu.futurewars.Utility;
 
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.JumpingMarblesGame;
+import com.pintu.futurewars.commons.AbstractGameObject;
 import com.pintu.futurewars.commons.GameObject;
 
 import java.util.ArrayList;
@@ -10,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by hsahu on 9/23/2017.
@@ -25,8 +28,11 @@ public class GameObjectCreator {
 
     public Map<Float,String> creationDetails =  new HashMap<Float, String>();;
     public Map<String,String> stageFileMap = null;
+    public Map<String,String> listOfDefaultClass = null;
+    Random randObjID = null;
     List<Float> positions = new ArrayList<Float>();
     public int currentPosition = 0;
+    public float posToCreate = 30;
 
     public Map<Integer,Object> rootObjectMap = new HashMap<Integer,Object>();
 
@@ -36,13 +42,6 @@ public class GameObjectCreator {
         GameUtility.log(this.getClass().getName(),"Registered: " + objId);
     }
 
-    public GameObject createObject(String objectID,float xPos) throws Exception{
-        GameObjectDetails details = objectDetailsList.get(objectID);
-        return createObject(objectID,xPos,details.yPos,details.flyPos);
-    }/*
-    public GameObject createObject(GameObjectDetails od,float xPos) throws Exception{
-        return createObject(od,xPos);
-    }*/
     public GameObject createObject(GameObjectDetails od,float xPos) throws Exception{
 
         GameObject gameObject = null;
@@ -51,6 +50,9 @@ public class GameObjectCreator {
             gameObject.setXpos(xPos);
             gameObject.setYpos(od.yPos);
             gameObject.setFlyPos(od.flyPos);
+            if(!GameUtility.isEmptyString(od.propertiesFile)){
+                ((AbstractGameObject)gameObject).propFilename = od.propertiesFile;
+            }
             gameObject.initialize();
             GameUtility.getGameScreen().gameObjects.add(gameObject);
             //GameUtility.log(this.getClass().getName(),"Created : " + od.objectClass + " at " + xPos + "," + od.yPos);
@@ -60,44 +62,32 @@ public class GameObjectCreator {
         return gameObject;
     }
 
-    public GameObject createObject(String objectID,float xPos, float yPos, float flyPosition) throws Exception{
-        GameObjectDetails details = objectDetailsList.get(objectID);
+    public GameObject createObjectGroup(GameObjectDetails od,float xPos) throws Exception{
+
         GameObject gameObject = null;
-        if(details!=null){
-            gameObject = (GameObject) details.objectClass.getConstructor().newInstance();
-            gameObject.setXpos(xPos);
-            gameObject.setYpos(yPos);
-            gameObject.setFlyPos(flyPosition);
-            gameObject.initialize();
-            GameUtility.getGameScreen().gameObjects.add(gameObject);
-            //GameUtility.log(this.getClass().getName(),"Created : " + objectID + " at " + xPos + "," + yPos);
+        if(od.objectClass!=null) {
+            for (int i = 0; i < od.numberOfInstances; i++){
+                gameObject = (GameObject) od.objectClass.getConstructor().newInstance();
+                if(od.arrangeOrder.equals(GameConstants.HORIZONTAL))
+                    gameObject.setXpos(xPos+=od.gapBetweenObjects);
+                else
+                    gameObject.setXpos(xPos);
+                if(od.arrangeOrder.equals(GameConstants.VERTICAL))
+                    gameObject.setYpos(od.yPos+=od.gapBetweenObjects);
+                else
+                    gameObject.setYpos(od.yPos);
+                gameObject.setFlyPos(od.flyPos);
+                if (!GameUtility.isEmptyString(od.propertiesFile)) {
+                    ((AbstractGameObject) gameObject).propFilename = od.propertiesFile;
+                }
+                gameObject.initialize();
+                GameUtility.getGameScreen().gameObjects.add(gameObject);
+                //GameUtility.log(this.getClass().getName(),"Created : " + od.objectClass + " at " + xPos + "," + od.yPos);
+            }
         }else{
-            GameUtility.log(this.getClass().getName(),"No such object: " + objectID);
+            GameUtility.log(this.getClass().getName(),"No such object: " + od.objectClass);
         }
         return gameObject;
-    }
-
-    public void createNextObj(Player2 player) throws Exception{
-        // if safeDistance is too far away, update the safe distance, objects farther from the safe distance will get automatically distorued
-        if(player.body.getPosition().x + 1*player.body.getLinearVelocity().x + GameConstants.DISTANCE_BETWEEN_GAME_OBJ < safeDistance) {
-            safeDistance = player.body.getPosition().x + 1 * player.body.getLinearVelocity().x + GameConstants.DISTANCE_BETWEEN_GAME_OBJ;
-        }
-        //if the player has crossed the safe distance update it, and create a game object at the next safeDistance
-        if(player.body.getPosition().x >= safeDistance) {
-            safeDistance = player.body.getPosition().x + 1 * player.body.getLinearVelocity().x + GameConstants.DISTANCE_BETWEEN_GAME_OBJ;
-            createObject(objectList.get(objIdCounter++),safeDistance);
-            objIdCounter = objIdCounter%objectList.size();
-        }
-
-            /*createObject(objectList.get(objIdCounter++),nextGameObjCreationPos);
-            System.out.println("Distance: " + (GameConstants.DISTANCE_BETWEEN_GAME_OBJ + + 2*player.body.getLinearVelocity().x));
-            nextGameObjCreationPos += (GameConstants.DISTANCE_BETWEEN_GAME_OBJ + 2*player.body.getLinearVelocity().x);
-            objIdCounter = objIdCounter%objectList.size();
-        }else if(GameConstants.DISTANCE_BETWEEN_GAME_OBJ/10 > 10 + player.body.getLinearVelocity().x){
-            //if the player is not able to cover the minimal distance in half second, we need to improvise
-            // the distance in whcih new game object will be created.
-            nextGameObjCreationPos = player.body.getPosition().x + GameConstants.DISTANCE_BETWEEN_GAME_OBJ;
-        }*/
     }
 
     public void reset(){
@@ -105,32 +95,52 @@ public class GameObjectCreator {
         safeDistance =  GameConstants.DISTANCE_BETWEEN_GAME_OBJ;
     }
 
-    public void createNextObjectOld(Player2 player) throws Exception{
-        if(positions.isEmpty())
-            return;
-        float safeDist = player.body.getPosition().x + 1*player.body.getLinearVelocity().x + GameConstants.DISTANCE_BETWEEN_GAME_OBJ;
-
-        if(safeDist>positions.get(0)){
-
-            createObject(toGameObjectDetails(creationDetails.get(positions.get(0))),positions.get(0));
-
-            creationDetails.remove(positions.remove(0));
-        }
-    }
-
     public void createNextObject(Player2 player) throws Exception{
-        if(currentPosition >= positions.size())
-            return;
+
         float safeDist = player.body.getPosition().x + 1*player.body.getLinearVelocity().x + GameConstants.DISTANCE_BETWEEN_GAME_OBJ;
-        if(currentPosition > 0 && safeDist + 2*GameConstants.DISTANCE_BETWEEN_GAME_OBJ < positions.get(currentPosition)){
-            currentPosition--;
-            GameUtility.log("Reduced Current Position to ",currentPosition + "");
-        }
-        float posToCreate = positions.get(currentPosition);
-        if(safeDist>posToCreate){
-            createObject(toGameObjectDetails(creationDetails.get(posToCreate)),posToCreate);
-            currentPosition++;
-            //creationDetails.remove(positions.remove(0));
+
+        if(currentPosition >= positions.size() ){
+            if(safeDist + 2 * GameConstants.DISTANCE_BETWEEN_GAME_OBJ < posToCreate) {
+                posToCreate = safeDist + randObjID.nextInt(70) + 30;
+            }
+
+            if(safeDist > posToCreate) {
+                //create random objects
+                if (listOfDefaultClass == null) {
+                    listOfDefaultClass = GameUtility.populateConfigurationsFromConfigFile(GameConstants.DEFAULT_STAGE_FILE);
+                    randObjID = new Random();
+                    posToCreate = safeDist;
+                }
+                int nextID = randObjID.nextInt(listOfDefaultClass.size()) + 1;
+
+                String createDetails = listOfDefaultClass.get(nextID + "");
+                GameObjectDetails god = toGameObjectDetails(createDetails);
+                if(god.isGroup)
+                    createObjectGroup(god,posToCreate);
+                else
+                    createObject(god, posToCreate);
+
+                posToCreate = GameConstants.DISTANCE_BETWEEN_GAME_OBJ + safeDist + randObjID.nextInt(70) + 30;
+
+                return;
+            }
+        }else {
+            if (currentPosition > 0 && safeDist + 2 * GameConstants.DISTANCE_BETWEEN_GAME_OBJ < positions.get(currentPosition)) {
+                currentPosition--;
+                GameUtility.log("Reduced Current Position to ", currentPosition + "");
+            }
+
+            posToCreate = positions.get(currentPosition);
+            if (safeDist > posToCreate) {
+                GameObjectDetails god = toGameObjectDetails(creationDetails.get(posToCreate));
+                if(god.isGroup)
+                    createObjectGroup(god,posToCreate);
+                else
+                    createObject(god, posToCreate);
+
+                currentPosition++;
+                //creationDetails.remove(positions.remove(0));
+            }
         }
     }
 
@@ -141,9 +151,15 @@ public class GameObjectCreator {
 
     public void populateObjectDetailsFromFile(String stageName){
         try{
-            Map<String,String> creationD = GameUtility.populateConfigurationsFromConfigFile(stageFileMap.get(stageName));
+            String stageFile = stageFileMap.get(stageName);
+            if(stageFile == null){
+                return;
+            }
+            Map<String,String> creationD = GameUtility.populateConfigurationsFromConfigFile(stageFile);
             List<String> posVals =  new ArrayList<String>(creationD.keySet());
             positions.clear();
+            creationDetails.clear();
+            currentPosition = 0;
             for(String key: posVals){
                 Float keyF = Float.parseFloat(key);
                 positions.add(keyF);
@@ -171,13 +187,32 @@ public class GameObjectCreator {
 
         try {
             String []details = objDetails.split("<->");
-            gd.objectClass = classLoader.loadClass(details[0]);
-            gd.type = details[1];
-            if(!GameUtility.isEmptyString(details[2])){
+            if(details.length >= 1 && !GameUtility.isEmptyString(details[0])) {
+                gd.objectClass = classLoader.loadClass(details[0]);
+            }
+            if(details.length >= 2 && !GameUtility.isEmptyString(details[1])) {
+                gd.type = details[1];
+            }
+            if(details.length >= 3 && !GameUtility.isEmptyString(details[2])){
                 gd.yPos = Float.parseFloat(details[2]);
             }
-            if(!GameUtility.isEmptyString(details[3])) {
+            if(details.length >= 4 && !GameUtility.isEmptyString(details[3])) {
                 gd.flyPos = Float.parseFloat(details[3]);
+            }
+            if(details.length >= 5 && !GameUtility.isEmptyString(details[4])) {
+                gd.propertiesFile = details[4];
+            }
+            if(details.length >= 6 && !GameUtility.isEmptyString(details[5])) {
+                gd.isGroup = details[5].equals(GameObjectConstants.TRUE)?true:false;
+            }
+            if(details.length >= 7 && !GameUtility.isEmptyString(details[6])) {
+                gd.numberOfInstances = Integer.parseInt(details[6]);
+            }
+            if(details.length >= 8 && !GameUtility.isEmptyString(details[7])) {
+                gd.arrangeOrder = (!details[7].equals(""))?details[7]:GameConstants.SAME_PLACE;
+            }
+            if(details.length >= 9 && !GameUtility.isEmptyString(details[8])) {
+                gd.gapBetweenObjects = (!details[8].equals(""))?Float.parseFloat(details[8]):0.5f;
             }
             //GameUtility.log(this.getClass().getName(),"aClass.getName() = " + gd.objectClass.getName());
         } catch (ClassNotFoundException e) {

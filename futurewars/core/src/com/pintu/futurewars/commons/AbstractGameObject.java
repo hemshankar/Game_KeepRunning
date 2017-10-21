@@ -37,6 +37,7 @@ public abstract class AbstractGameObject implements GameObject{
 
     public int objectId;
     public Body body = null;
+    public String propFilename = null;
     public boolean haveBody = false;
     public boolean removeAfterAnimation = false;
     public float xPos =10;
@@ -83,14 +84,21 @@ public abstract class AbstractGameObject implements GameObject{
     public boolean nonCatchable = false;
     public float ropeLength = -1;
     public boolean removeRopeConnectionOnContact = true;
-
     public boolean usePPM = true;
     public float myPPM = -1;
 
+    //generic obj specific
+    public boolean followOnContact = false;
+    public boolean following = false;
+    public boolean burstOnContact = false;
+    public boolean disappeareOnContact = false;
+    public boolean distantRopeJoint = false;
+    public boolean weldJointOnContact = false;
+    public boolean isGeneric = false;
+
     public AbstractGameObject(int id, String propFile, World w, TextureAtlas a){
         objectId = id;
-        try{gProps = GameUtility.populateConfigurationsFromConfigFile(propFile);}
-        catch (Exception e){e.printStackTrace();}
+        this.propFilename = propFile;
         world = w;
         atlas = a;
         sprite = new Sprite();
@@ -98,6 +106,11 @@ public abstract class AbstractGameObject implements GameObject{
     }
 
     public void initialize(){
+        if(world == null){
+            world = GameUtility.world;
+        }
+        try{gProps = GameUtility.populateConfigurationsFromConfigFile(propFilename);}
+        catch (Exception e){e.printStackTrace();}
         defineBody();
         initiateSpriteDetails();
         if(body!=null)
@@ -163,9 +176,9 @@ public abstract class AbstractGameObject implements GameObject{
             }
 
             //====================================BULLET===========================================
-            if (isTrue(gProps.get(GameObjectConstants.IS_BULLET))) {
-                bdef.bullet = true;
-            }
+            //if (isTrue(gProps.get(GameObjectConstants.IS_BULLET))) {
+                bdef.bullet = isTrue(gProps.get(GameObjectConstants.IS_BULLET));
+            //}
             //====================================RESTITUTION======================================
             fixtureDef.restitution = gProps.get(GameObjectConstants.RESTITUTION) != null ?
                     Float.parseFloat(gProps.get(GameObjectConstants.RESTITUTION)) : .5f;
@@ -193,6 +206,13 @@ public abstract class AbstractGameObject implements GameObject{
 
             //==================================CREATION SOUND=====================================
 
+
+            //===================================GENERIC FLAGS=====================================
+            burstOnContact = isTrue(gProps.get(GameObjectConstants.BURST_ON_CONTACT));
+            followOnContact = isTrue(gProps.get(GameObjectConstants.FOLLOW_ON_CONTACT));
+            disappeareOnContact = isTrue(gProps.get(GameObjectConstants.DISAPPEAR_ON_CONTACT));
+            distantRopeJoint = isTrue(gProps.get(GameObjectConstants.DISTANT_ROPE_JOINT));
+            weldJointOnContact = isTrue(gProps.get(GameObjectConstants.WELD_JOINT_ON_CONTACT));
         }
     }
 
@@ -271,6 +291,7 @@ public abstract class AbstractGameObject implements GameObject{
             //====================================Set Sprite Position=====================================
             if (haveBody && !isBackground) {
                 sprite.setPosition(body.getPosition().x - sprite.getWidth() / 2, body.getPosition().y - sprite.getHeight() / 2);
+                sprite.setRotation((body.getAngle()*180*7)/22);
             } else if(!isBackground){
                     sprite.setPosition(xPos, yPos);
             }
@@ -353,6 +374,26 @@ public abstract class AbstractGameObject implements GameObject{
                     && Math.abs(player.body.getPosition().x - body.getPosition().x)
                                         > Math.abs(player.body.getLinearVelocity().x) * 2 + GameConstants.DISTANCE_BETWEEN_GAME_OBJ){
                 toBeDestroyed = true;
+            }
+            if(following){
+                if(this.body.getPosition().x < player.body.getPosition().x - 3){
+                    body.applyLinearImpulse(
+                            new Vector2(1, 0),
+                            this.body.getWorldCenter(), true);
+                }else if(this.body.getPosition().x > player.body.getPosition().x + 3){
+                    body.applyLinearImpulse(
+                            new Vector2(-1, 0),
+                            this.body.getWorldCenter(), true);
+                }
+                if(this.body.getPosition().y < player.body.getPosition().y - 3){
+                    body.applyLinearImpulse(
+                            new Vector2(0, 1),
+                            this.body.getWorldCenter(), true);
+                }else if(this.body.getPosition().y > player.body.getPosition().y + 3){
+                    body.applyLinearImpulse(
+                            new Vector2(0, -1),
+                            this.body.getWorldCenter(), true);
+                }
             }
         }catch(Exception e){
             System.out.println("Error in frame ======" + frameCounter + "--"
@@ -497,6 +538,21 @@ public abstract class AbstractGameObject implements GameObject{
             GameUtility.jointHandler.removeJoint(player2.jointMap.remove(this), world);
             GameUtility.shapeHelper.removeShape(ropeConnection);
             ropeConnection = null;
+        }
+
+        if(isGeneric){
+            if(burstOnContact){
+                toBeDestroyed = true;
+            }else if(disappeareOnContact){
+                toBeDestroyed = true;
+            }else if(distantRopeJoint){
+                GameUtility.jointHandler.createJoint(this,player2,world,GameConstants.ROPE,2);
+            }else if(weldJointOnContact){
+                GameUtility.jointHandler.createJoint(this,player2,world,GameConstants.WELD);
+            }else if(followOnContact){
+                following = true;
+            }
+
         }
     }
 

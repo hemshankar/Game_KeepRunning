@@ -117,8 +117,34 @@ Rules:
 95. Clicking on the character should catch them.
 96. Make Kite as eagle, and change the colour to black
 97. Power of generating game objects while playing.
+98. Gold Biscuits and Cash
+99. Make on-line version... Different people all over the world are helping each other to clean the world.
+100. Random missions 
 
-
+101. Mission based earning + in-game earning.
+	Type of missions: 
+		1. Find the Key
+		2. Same the Man/Animal(s)
+		3. Catch the thief.
+		4. Destroy the wall
+		5. Catch the Animal
+		6. Clear the route
+		7. Generate food for animals (there are 10 points in map which when hit will release the food)
+		8. Collect 10 items. (for some reason/person)
+		9. Bring medicine/other imp thing. (start from a place and return)
+		10. Spray Antidote. (mission play like type 7)
+		11. Escort someone to safety.
+		11. Special levels for Coins/Biscuits.
+		
+102. Purchase weapons and other tools or upgrade(skill/tools).
+103. Ranking based on mission skills
+104. On-line mission update.
+105. Types of generic Objects.
+	1. Burst on collide
+	2. Follow on collide
+	3. Rope Joint
+	4. Weld Joint
+	
 
 ============================BUGS================================
 1. Each object is creating its own atlas. Fix this to use cache to store each atlas.

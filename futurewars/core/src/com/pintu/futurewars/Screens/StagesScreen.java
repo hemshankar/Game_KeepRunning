@@ -18,6 +18,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -26,6 +27,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -69,15 +71,11 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
         stage = new Stage(cViewPort,game.batch);
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load(GameConstants.WORLD_MAP);
+        map = mapLoader.load(GameConstants.WORLD_MAP_RESIZE);
         renderer = new OrthogonalTiledMapRenderer(map,1);
 
 
         initFonts();
-        addStage("imgs/welcome.png",GameConstants.STAGE1);
-        addStage("imgs/welcome.png",GameConstants.STAGE2);
-        addStage("imgs/welcome.png",GameConstants.STAGE3);
-        //addLoadingLabel();
 
         for (MapObject object : map.getLayers().get("cities").getObjects().getByType(EllipseMapObject.class)) {
             Ellipse eclipse = ((EllipseMapObject) object).getEllipse();
@@ -95,7 +93,10 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
         Gdx.input.setInputProcessor(inputMultiplexer);
         //Gdx.input.setInputProcessor(stage);
         //Gdx.input.setInputProcessor(new GestureDetector(this));
-        ctrlCam.translate(600,1500);
+        ctrlCam.position.x = 600;
+        ctrlCam.position.y = 300;
+        ctrlCam.zoom = .5f;
+        currentZoom = .5f;
         ctrlCam.update();
     }
 
@@ -105,8 +106,8 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
             //game.setScreen(game.getGameScreen());
         }
         for(Actor a: stage.getActors()){
-            a.setWidth(20*10*ctrlCam.zoom);
-            a.setHeight(20*10*ctrlCam.zoom);
+            a.setWidth(10*5*ctrlCam.zoom);
+            a.setHeight(10*5*ctrlCam.zoom);
         }
         stage.act();
     }
@@ -156,7 +157,7 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/leadcoat.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        params.size = 20;
+        params.size = 5;
         params.color = Color.YELLOW;
 
         font = generator.generateFont(params);
@@ -233,39 +234,21 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
         public static float padding = 10;
     }
 
-    private void addStage(String imageLocation, String label){
-        Texture texture = new Texture(Gdx.files.internal(imageLocation));
-        Image stageImage = new Image(texture);
-        stageImage.setHeight(StageDetails.imageHeight);
-        stageImage.setWidth(StageDetails.imageWidth);
-        stageImage.setPosition(StageDetails.stageCount * (StageDetails.imageWidth + StageDetails.padding),
-                                stage.getHeight()/2);
-        stageImage.addListener(new StageListner(label));
-        stage.addActor(stageImage);
-
-        Label stagelabel = new Label(label,new Label.LabelStyle(font,Color.SKY));
-        stagelabel.setWidth(StageDetails.labelWidth);
-        stagelabel.setHeight(StageDetails.labelHeight);
-        stagelabel.setPosition(StageDetails.stageCount * (StageDetails.labelWidth + StageDetails.padding),
-                                stage.getHeight()/2-50);
-        stagelabel.addListener(new StageListner(label));
-        stage.addActor(stagelabel);
-
-        StageDetails.stageCount++;
-    }
     private void addCity(String imageLocation, String label, float x, float y){
         Texture texture = new Texture(Gdx.files.internal(imageLocation));
         Image stageImage = new Image(texture);
         stageImage.setHeight(50);
         stageImage.setWidth(50);
         stageImage.setPosition(x,y);
+        stageImage.addAction(Actions.forever(
+                Actions.sequence(Actions.fadeOut(2),Actions.fadeIn(2))));
         stageImage.addListener(new StageListner(label));
         stage.addActor(stageImage);
 
         Label stagelabel = new Label(label,new Label.LabelStyle(font,Color.SKY));
         stagelabel.setWidth(5);
         stagelabel.setHeight(5);
-        stagelabel.setPosition(x,y-20);
+        stagelabel.setPosition(x+20,y);
         stagelabel.addListener(new StageListner(label));
         stage.addActor(stagelabel);
         //StageDetails.stageCount++;
@@ -289,7 +272,8 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
 
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            game.setScreen(game.getNewGameScreen(stage));
+            //game.setScreen(game.getNewGameScreen(stage));
+            game.setScreen(game.getStageDetailsScreen(stage));
         }
 
         @Override
