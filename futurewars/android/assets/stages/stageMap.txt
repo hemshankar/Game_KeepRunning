@@ -1,5 +1,5 @@
-Colombo=stages/stage4.txt
-Bangalore=stages/stage1.txt
-Sandiago=stages/stage2.txt
-Los Angeles=stages/stage3.txt
-San Francisco=stages/stage1.txt
+Colombo=stages/stage4
+Bangalore=stages/stage1
+Sandiago=stages/stage2
+Los Angeles=stages/stage3
+San Francisco=stages/stage1

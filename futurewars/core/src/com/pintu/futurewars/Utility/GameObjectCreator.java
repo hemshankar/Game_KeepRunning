@@ -28,6 +28,7 @@ public class GameObjectCreator {
 
     public Map<Float,String> creationDetails =  new HashMap<Float, String>();;
     public Map<String,String> stageFileMap = null;
+    public Map<String,String> stageDetailsMap = new HashMap<String, String>();
     public Map<String,String> listOfDefaultClass = null;
     Random randObjID = null;
     List<Float> positions = new ArrayList<Float>();
@@ -137,7 +138,6 @@ public class GameObjectCreator {
                     createObjectGroup(god,posToCreate);
                 else
                     createObject(god, posToCreate);
-
                 currentPosition++;
                 //creationDetails.remove(positions.remove(0));
             }
@@ -147,6 +147,17 @@ public class GameObjectCreator {
 
     public void populateStageMapDetails(String fileName) throws Exception{
         stageFileMap = GameUtility.populateConfigurationsFromConfigFile(fileName);
+
+    }
+
+    public void populateStageDescDetails(String sName) throws Exception{
+
+        String stageFile = stageFileMap.get(sName);
+        if(stageFile == null){
+            stageDetailsMap.clear();
+            return;
+        }
+        stageDetailsMap = GameUtility.populateConfigurationsFromConfigFile(stageFile+".std");
     }
 
     public void populateObjectDetailsFromFile(String stageName){
@@ -155,7 +166,7 @@ public class GameObjectCreator {
             if(stageFile == null){
                 return;
             }
-            Map<String,String> creationD = GameUtility.populateConfigurationsFromConfigFile(stageFile);
+            Map<String,String> creationD = GameUtility.populateConfigurationsFromConfigFile(stageFile + ".txt");
             List<String> posVals =  new ArrayList<String>(creationD.keySet());
             positions.clear();
             creationDetails.clear();

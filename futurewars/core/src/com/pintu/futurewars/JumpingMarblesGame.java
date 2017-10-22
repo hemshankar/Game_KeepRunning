@@ -52,6 +52,8 @@ public class JumpingMarblesGame extends Game {
 	public PauseScreen pauseScreen = null;
 	public GameEndScreen gameEndScreen = null;
 
+	public String selectedStage = "";
+
 	@Override
 	public void create () {
 		try {
@@ -148,6 +150,7 @@ public class JumpingMarblesGame extends Game {
     public StageDetailsScreen getStageDetailsScreen(String stage){
         if(stageDetailsScreen == null)
             stageDetailsScreen = new StageDetailsScreen(this);
+		selectedStage = stage;
         return stageDetailsScreen;
     }
 

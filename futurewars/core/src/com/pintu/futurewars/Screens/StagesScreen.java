@@ -33,6 +33,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.JumpingMarblesGame;
+import com.pintu.futurewars.Utility.GameSprite;
 import com.pintu.futurewars.Utility.GameUtility;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
     public OrthogonalTiledMapRenderer renderer = null;
     private float currentZoom = 1;
     Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
-
+    //GameSprite gs = null;
     public StagesScreen(JumpingMarblesGame game){
         this.game = game;
         world = new World(new Vector2(0,0),true);
@@ -81,6 +82,8 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
             Ellipse eclipse = ((EllipseMapObject) object).getEllipse();
             addCity("imgs/danger.png",object.getName(),eclipse.x,eclipse.y);
         }
+
+        //gs = new GameSprite(GameConstants.CAT_PROPERTY_FILE,200,400);
     }
 
     @Override
@@ -110,6 +113,7 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
             a.setHeight(10*5*ctrlCam.zoom);
         }
         stage.act();
+        //gs.updateSprite(dt);
     }
 
     @Override
@@ -123,6 +127,7 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
         update(delta);
         stage.draw();
         debugRenderer.render(world, ctrlCam.combined);
+        //gs.draw(game.batch);
     }
 
     @Override

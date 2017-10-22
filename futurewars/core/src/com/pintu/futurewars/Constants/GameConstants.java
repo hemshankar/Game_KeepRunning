@@ -84,6 +84,7 @@ public class GameConstants {
     public static final String FUTURE_WARS_MAP = "tiles/supersky.tmx";
     public static final String WORLD_MAP = "tiles/worldMa.tmx";
     public static final String WORLD_MAP_RESIZE = "tiles/worldMap130x63.tmx";
+    public static final String STAGES_DETAILS_MAP = "tiles/stageDetails.tmx";
 
     //======================Property Files============================
     public static final String PLAYER_PROPERTY_FILE = "propertyFiles/player.txt";
@@ -161,5 +162,17 @@ public class GameConstants {
     public static final String SAME_PLACE = "SAME_PLACE";
     public static final String HORIZONTAL = "SAME_PLACE";
     public static final String VERTICAL = "SAME_PLACE";
+
+    //====================================STAGE_DETAILS===========================
+    public static final String STAGES_DETAILS_ANIMATION = "Animation";
+    public static final String STAGES_DETAILS_TITLE = "Title";
+    public static final String STAGES_DETAILS_DESCRIPTION = "Description";
+    public static final String STAGES_DETAILS_IMAGE = "Image";
+    public static final String STAGES_DETAILS_PLAY = "Play";
+    public static final String STAGES_DETAILS_CANCEL = "Cancel";
+    public static final String STAGES_DETAILS_REWARD = "Reward";
+    public static final String STAGES_DETAILS_DIFFICULTY = "Difficulty";
+    public static final String STAGES_DETAILS_LOCATION = "Location";
+
 
 }
