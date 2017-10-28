@@ -1,4 +1,5 @@
 40.000=com.pintu.futurewars.Casts.Horse<->Horse<->10<->10
+77.000=com.pintu.futurewars.Casts.Gift<->Gift<->10<->10
 100.001=com.pintu.futurewars.Casts.Brick<->BRICK<->10<->10
 100.002=com.pintu.futurewars.Casts.Brick<->BRICK<->10<->10
 100.003=com.pintu.futurewars.Casts.Brick<->BRICK<->10<->10

@@ -3,3 +3,4 @@ Bangalore=stages/stage1
 Sandiago=stages/stage2
 Los Angeles=stages/stage3
 San Francisco=stages/stage1
+London=stages/stage5

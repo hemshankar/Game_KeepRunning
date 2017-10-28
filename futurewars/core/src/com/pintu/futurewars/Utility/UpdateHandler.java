@@ -3,6 +3,7 @@ package com.pintu.futurewars.Utility;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.pintu.futurewars.Casts.Ground;
+import com.pintu.futurewars.Casts.Pivot;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
@@ -33,17 +34,31 @@ public class UpdateHandler {
                     || hitGameObject.isBackground) {
                 //do nothing
             }else{
+                //first remove any existing pivot object
+                if(hitGameObject instanceof Pivot){
+                    for(GameObject obj: screen.player2.jointMap.keySet()){
+                        if(obj instanceof Pivot){
+                            GameUtility.jointHandler.removeJoint(screen.player2.jointMap.remove(obj),screen.world);
+                        }
+                    }
+                }
                 GameUtility.jointHandler.createJoint(screen.player2,
                         hitGameObject,
                         screen.world,
                         GameConstants.ROPE,
                         hitGameObject.ropeLength);
+                if(hitGameObject instanceof Pivot){
+                    screen.player2.body.applyLinearImpulse(new Vector2(5f, 0), screen.player2.body.getWorldCenter(), true);
+
+                }
                 hitGameObject.ropeConnection =
                         GameUtility.shapeHelper.drawLine(screen.player2, hitGameObject, GameConstants.ROPE_WIDTH, Color.BROWN, Color.BROWN);
-                hitGameObject.doneCatching = true;
+                hitGameObject.doneCatching = false;
             }
             screen.bodyThatWasHit = null;
         }
+
+
 
         screen.timePassed +=dt;
         if(screen.timePassed >=screen.gameTime){
@@ -168,7 +183,10 @@ public class UpdateHandler {
         if(screen.player2.body.getLinearVelocity().x < 0) {
             screen.player2.currentState = GameObjectConstants.STATE_2;
         }
-        screen.player2.ANIMATION_INTERVAL = .2f/Math.abs(screen.player2.body.getLinearVelocity().x+0.000001f);
+        if(screen.player2.canJump)
+            screen.player2.ANIMATION_INTERVAL = .2f/Math.abs(screen.player2.body.getLinearVelocity().x+0.000001f);
+        else
+            screen.player2.ANIMATION_INTERVAL = Float.MAX_VALUE;
 
         GameUtility.jointHandler.createAllJoints();
         GameUtility.jointHandler.removeAllJoints();

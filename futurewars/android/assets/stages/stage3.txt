@@ -1,5 +1,6 @@
 10=com.pintu.futurewars.Casts.Cat<->CAT<->10<->10
 40=com.pintu.futurewars.Casts.Brick<->BRICK<->10<->10
+77.000=com.pintu.futurewars.Casts.Gift<->Gift<->10<->10
 80=com.pintu.futurewars.Casts.Horse<->HORSE<->10<->10
 120=com.pintu.futurewars.Casts.PowerDrink<->PowerDrink<->10<->10
 160=com.pintu.futurewars.Casts.SpeedBomb<->SPEEDBomB<->10<->10

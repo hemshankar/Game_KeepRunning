@@ -68,6 +68,7 @@ public class GameObjectConstants {
     public final static String FOLLOW_ON_CONTACT = "FOLLOW_ON_CONTACT";
     public final static String DISTANT_ROPE_JOINT = "DISTANT_ROPE_JOINT";
     public final static String WELD_JOINT_ON_CONTACT = "WELD_JOINT_ON_CONTACT";
+    public final static String CATCH_AND_SWING = "CATCH_AND_SWING";
 
 
 

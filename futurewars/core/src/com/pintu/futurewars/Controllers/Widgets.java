@@ -45,6 +45,8 @@ public class Widgets {
 
     public boolean [] controles = {false,false,false,false,false,false};
     public float x,y;
+    public float circleButtonX = 80;
+    public float circleButtonY = 100;
                                 //upPressed, downPressed, leftPressed, rightPressed,throwPressed;
     OrthographicCamera ctrlCam;
     CustomLabel speedStats = null;
@@ -87,6 +89,8 @@ public class Widgets {
         up.image.setWidth(w);
         up.image.setHeight(h);
         up.image.setPosition(80,100);
+
+        circleButton.image.setPosition(circleButtonX,circleButtonY);
         stage.addActor(circleButton.image);
 
         healthBar();
@@ -130,7 +134,7 @@ public class Widgets {
     public void update(float dt){
         healthBar.setValue(screen.player2.health/screen.player2.MAX_HEALTH);
         flyFuelBar.setValue(screen.player2.flyFuel/screen.player2.MAX_FLY_FUEL);
-        speedStats.text = "Speed: " + (int)(screen.player2.body.getLinearVelocity().x*(3.6)) + " kmph";
+        speedStats.text = "Speed: " + (int)(screen.player2.body.getLinearVelocity().x*(GameConstants.MPS_TO_KPH)) + " kmph";
         coinsCollected.text = "Coins: " + screen.player2.totalCoin;
         timePassed.text = "Time Left: "+ ((int)screen.gameTime - (int)screen.timePassed) + " s";
         distance.text = "Distance : "

@@ -1,0 +1,6 @@
+30=com.pintu.futurewars.Casts.Generic<->CAT<->10<->10<->propertyFiles/gift.txt
+40=com.pintu.futurewars.Casts.Generic<->CAT<->10<->10<->propertyFiles/gift.txt
+77.000=com.pintu.futurewars.Casts.Gift<->Gift<->10<->10
+80=com.pintu.futurewars.Casts.Generic<->CAT<->10<->10<->propertyFiles/gift.txt
+120=com.pintu.futurewars.Casts.Generic<->CAT<->6<->6<->propertyFiles/gift.txt
+140=com.pintu.futurewars.Casts.Generic<->CAT<->5<->5<->propertyFiles/gift.txt

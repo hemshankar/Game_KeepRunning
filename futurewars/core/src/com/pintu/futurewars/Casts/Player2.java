@@ -26,12 +26,9 @@ public class Player2 extends FutureWarsCast {
     public boolean hasMagnet = false;
     public float healthReduceTime = 0;
     public int totalCoin = 0;
-    public final float HEALTH_REDUCETION_TIME_CONSTANT=.5f;//time after which the health will be automatically reduced by a unit
-    public float HEALTH_REDUCTION_CONSTANT=1;
 
     public final float MAX_HEALTH = 200;
     public final float MAX_SPEED = 10;
-    public final float MIN_HEALTH = 20;
 
     public final float JUMP_KIT_EFFECT_TIME = 10f;
     public final float MAGNET_EFFECT_TIME = 5f;
@@ -40,12 +37,13 @@ public class Player2 extends FutureWarsCast {
     
     public float flyFuel = 10;
     public final float MAX_FLY_FUEL = 10;
-    public final float FLY_FUEL_REFILL_INTERVAL = 5;
-    public float flyFuelRechargeInterval = 0;
     public boolean canJump = false;
     public boolean hasFlyingKit = false;
+    public float maxPossibleSpeed = 100/GameConstants.MPS_TO_KPH;
 
     public Map<GameObject,Joint> jointMap = new HashMap<GameObject, Joint>();
+
+
 
     public Player2() {
         super(2, GameConstants.PLAYER_PROPERTY_FILE, GameUtility.world, null,null);
@@ -55,6 +53,7 @@ public class Player2 extends FutureWarsCast {
         canFly = false;
         hasFlyingKit = true;
         flyFuel = MAX_FLY_FUEL;
+        maxVelocity = 40/GameConstants.MPS_TO_KPH;
     }
 
     @Deprecated
@@ -69,7 +68,7 @@ public class Player2 extends FutureWarsCast {
     }
 
     public void update(float dt){
-        float speedLimit = health * (MAX_SPEED/MAX_HEALTH);
+
         healthReduceTime += dt;
         recoilTimeElapsed +=dt;
         if(jumpEffectRemainig>0){
@@ -80,13 +79,11 @@ public class Player2 extends FutureWarsCast {
         }else{
             hasMagnet = false;
         }
-        if(healthReduceTime > HEALTH_REDUCETION_TIME_CONSTANT && health > MIN_HEALTH){
-            healthReduceTime = 0;
-            health -= HEALTH_REDUCTION_CONSTANT;
-            //System.out.println(health);
+        if(getBody().getLinearVelocity().x > this.maxVelocity) {
+            getBody().applyLinearImpulse(new Vector2(-0.01f, 0), getBody().getWorldCenter(), true);
         }
-        if(getBody().getLinearVelocity().x <= speedLimit && canJump == true) {
-            //getBody().applyLinearImpulse(new Vector2(2f, 0), getBody().getWorldCenter(), true);
+        if(getBody().getLinearVelocity().x > maxPossibleSpeed) {
+            getBody().applyLinearImpulse(new Vector2(-2f, 0), getBody().getWorldCenter(), true);
         }
         super.update(dt);
         flyFuelUpdate(dt);

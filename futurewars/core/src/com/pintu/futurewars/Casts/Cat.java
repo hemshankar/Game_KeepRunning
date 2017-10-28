@@ -29,15 +29,13 @@ public class Cat extends FutureWarsCast {
     public Cat() {
         super(GameConstants.CAT_PROPERTY_FILE);
         canFly = false;
+        isThrowable = true;
     }
 
     @Override
     public void handleContact(GameObject gObj){
-        if(gObj instanceof Player2) {
-            Player2 player2 = ((Player2) gObj);
-            GameUtility.jointHandler.createJoint(player2, this, world, GameConstants.WELD);
-            hasPlayer = true;
-        }
+        super.handleContact(gObj);
+        doneCatching = false;
     }
 
     @Override

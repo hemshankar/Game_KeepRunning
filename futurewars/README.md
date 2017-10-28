@@ -20,16 +20,16 @@ Rules:
 
 1. Bots action automation - Done
 2. Music - Done
-3. HUD 
+3. HUD -- Not required ? 
 4. Test on Andriod -- Done
 5. In-Aap purchase 
 6. Advertisement addition
-7. Multiple stage design
-8. Storing data in DB
+7. Multiple stage design -- Outline Done, minimal effort required
+8. Storing data in DB --  may be not required
 9. Controls for andriod -- Done
 10. Special Powers -- Not to be done/To be done in later stages / Not in version one
 11. User can transform between heroes -- Not in version1  
-12. Heroes can pick-up enemies and throw them. -- TBD
+12. Heroes can pick-up enemies and throw them. -- Done
 13. Enemies will be all sorts of enemies... plants, animals, fishes, zombies, humans, --- TBD
 14. There will be healers let say sun, and other extra things --- Out of version 1
 15. Special powers of each hero. --- TBD in version 2

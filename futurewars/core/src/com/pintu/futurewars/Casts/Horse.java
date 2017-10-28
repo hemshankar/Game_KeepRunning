@@ -19,24 +19,17 @@ public class Horse extends FutureWarsCast {
     private float MOVE_FORCE_INTERVAL = .1f;
     private float moveForceApplideTime = 0f;
 
-    public static void init(){
-        GameObjectDetails gameObjectDetails = new GameObjectDetails();
-        gameObjectDetails.objectClass = Horse.class;
-        gameObjectDetails.flyPos= 6.5f;
-        gameObjectDetails.yPos = 6.5f;
-        GameUtility.gameObjectCreator.register(GameConstants.HORSE,gameObjectDetails);
-    }
-
     public Horse() {
         super(GameConstants.HORSE_PROPERTY_FILE);
         canFly = false;
+        maxVelocity = 40/GameConstants.MPS_TO_KPH;
     }
 
     @Override
     public void handleContact(GameObject gObj){
         if(gObj instanceof Player2) {
             Player2 player2 = ((Player2) gObj);
-            GameUtility.jointHandler.createJoint(player2, this, world, GameConstants.WELD);
+            GameUtility.jointHandler.createJoint(player2, this, world, GameConstants.WELD,1f);
             hasPlayer = true;
         }
     }
@@ -63,8 +56,10 @@ public class Horse extends FutureWarsCast {
     public void move(float dt){
         moveForceApplideTime += dt;
         if(moveForceApplideTime>MOVE_FORCE_INTERVAL){
-            body.applyLinearImpulse(new Vector2(15, 0), this.body.getWorldCenter(), true);
-            moveForceApplideTime = 0;
+            if(body.getLinearVelocity().x < this.maxVelocity) {
+                body.applyLinearImpulse(new Vector2(5, 0), this.body.getWorldCenter(), true);
+                moveForceApplideTime = 0;
+            }
         }
     }
 }

@@ -39,11 +39,11 @@ public class JointHandler {
         WeldJointDef jDef = new WeldJointDef();
         jDef.bodyA = jd.a.getBody();
         jDef.bodyB = jd.b.getBody();
-        jDef.collideConnected = true;
+        jDef.collideConnected = false;
         //jDef.dampingRatio = 100f;
         //jDef.localAnchorA.set(100/GameConstants.PPM,0);
         //GameUtility.log("==============" + jd.a.getSprite().getWidth()," " + -(jd.a.getSprite().getHeight()));
-        jDef.localAnchorA.set(jd.a.getSprite().getWidth(),-(jd.a.getSprite().getHeight()));//10,a.getSprite().getHeight()*-1);// 100/GameConstants.PPM);
+        jDef.localAnchorA.set(0/*jd.a.getSprite().getWidth()+1*/,-jd.length);//10,a.getSprite().getHeight()*-1);// 100/GameConstants.PPM);
         //jDef.localAnchorB.set(300/GameConstants.PPM,300/GameConstants.PPM);
         return jd.world.createJoint(jDef);
     }

@@ -81,8 +81,8 @@ public class StageDetailsScreen implements Screen {
                 addText(GameUtility.gameObjectCreator.stageDetailsMap.get(GameConstants.STAGES_DETAILS_DESCRIPTION)
                         ,font,eclipse.x,eclipse.y,100,100,Color.BLACK);
             } else if(object.getName().equals(GameConstants.STAGES_DETAILS_PLAY)) {
-                addButton("Button",font,eclipse.x,eclipse.y,100,100,
-                        new StageListner(this,game.getNewGameScreen("colombo")),Color.BLACK);
+                addButton("Accept",font,eclipse.x,eclipse.y,100,100,
+                        new StageListner(this,game.getNewGameScreen(game.selectedStage)),Color.BLACK);
             }else if(object.getName().equals(GameConstants.STAGES_DETAILS_CANCEL)) {
                 addButton("Cancel",font,eclipse.x,eclipse.y,100,100,
                         new StageListner(this,game.getStagesScreen()),Color.BLACK);

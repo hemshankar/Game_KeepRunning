@@ -14,10 +14,12 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.CircleShape;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Casts.Ground;
+import com.pintu.futurewars.Casts.Pivot;
 import com.pintu.futurewars.Casts.Player;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
@@ -95,6 +97,9 @@ public abstract class AbstractGameObject implements GameObject{
     public boolean distantRopeJoint = false;
     public boolean weldJointOnContact = false;
     public boolean isGeneric = false;
+    public boolean isThrowable = false;
+    public boolean hasPlayer = false;
+    public float maxVelocity = 100;
 
     public AbstractGameObject(int id, String propFile, World w, TextureAtlas a){
         objectId = id;
@@ -378,21 +383,36 @@ public abstract class AbstractGameObject implements GameObject{
             if(following){
                 if(this.body.getPosition().x < player.body.getPosition().x - 3){
                     body.applyLinearImpulse(
-                            new Vector2(1, 0),
+                            new Vector2(2, 0),
                             this.body.getWorldCenter(), true);
                 }else if(this.body.getPosition().x > player.body.getPosition().x + 3){
                     body.applyLinearImpulse(
-                            new Vector2(-1, 0),
+                            new Vector2(-2, 0),
                             this.body.getWorldCenter(), true);
                 }
                 if(this.body.getPosition().y < player.body.getPosition().y - 3){
                     body.applyLinearImpulse(
-                            new Vector2(0, 1),
+                            new Vector2(0, 2),
                             this.body.getWorldCenter(), true);
                 }else if(this.body.getPosition().y > player.body.getPosition().y + 3){
                     body.applyLinearImpulse(
-                            new Vector2(0, -1),
+                            new Vector2(0, -2),
                             this.body.getWorldCenter(), true);
+                }
+            }
+
+            //detach from pivot object if already ahead of it
+
+            if(this instanceof Pivot ){
+                Joint j = player.jointMap.get(this);
+                if(j !=null){
+                    if(player.body.getPosition().x - this.body.getPosition().x > 2){
+                        GameUtility.jointHandler.removeJoint(player.jointMap.remove(this),world);
+                        GameUtility.shapeHelper.removeShape(ropeConnection);
+                        ropeConnection = null;
+                    }else{
+                        player.body.applyLinearImpulse(new Vector2(1f, 0), player.body.getWorldCenter(), true);
+                    }
                 }
             }
         }catch(Exception e){
@@ -538,21 +558,20 @@ public abstract class AbstractGameObject implements GameObject{
             GameUtility.jointHandler.removeJoint(player2.jointMap.remove(this), world);
             GameUtility.shapeHelper.removeShape(ropeConnection);
             ropeConnection = null;
-        }
 
-        if(isGeneric){
-            if(burstOnContact){
+            //if(isGeneric){
+            if (burstOnContact) {
                 toBeDestroyed = true;
-            }else if(disappeareOnContact){
+            } else if (disappeareOnContact) {
                 toBeDestroyed = true;
-            }else if(distantRopeJoint){
-                GameUtility.jointHandler.createJoint(this,player2,world,GameConstants.ROPE,2);
-            }else if(weldJointOnContact){
-                GameUtility.jointHandler.createJoint(this,player2,world,GameConstants.WELD);
-            }else if(followOnContact){
+            } else if (distantRopeJoint) {
+                GameUtility.jointHandler.createJoint(this, player2, world, GameConstants.ROPE, 2);
+            } else if (weldJointOnContact) {
+                GameUtility.jointHandler.createJoint(this, player2, world, GameConstants.WELD,1);
+            } else if (followOnContact) {
                 following = true;
             }
-
+            //}
         }
     }
 

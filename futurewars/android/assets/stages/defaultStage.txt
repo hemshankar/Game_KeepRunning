@@ -6,6 +6,7 @@
 5=com.pintu.futurewars.Casts.Brick<-><-><-><-><->TRUE<->10<->VERTICAL<->1
 1=com.pintu.futurewars.Casts.SpeedBomb
 2=com.pintu.futurewars.Casts.Kite
+2=com.pintu.futurewars.Casts.Pivot
 3=com.pintu.futurewars.Casts.Kaleen
 4=com.pintu.futurewars.Casts.Magnet
 5=com.pintu.futurewars.Casts.Coin<-><-><-><-><->TRUE<->10
@@ -19,4 +20,5 @@
 13=com.pintu.futurewars.Casts.BombAmo
 14=com.pintu.futurewars.Casts.Pusher<-><-><-><-><->TRUE<->10
 15=com.pintu.futurewars.Casts.PowerDrink
+16=com.pintu.futurewars.Casts.Gift
 
