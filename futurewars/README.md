@@ -47,7 +47,7 @@ Rules:
 27. Speed display --- Done
 28. Health Bar Display --- Done
 29. Rocket Fuel Display --- Done
-30. Skates (jump is off when skates are on, )
+30. Skates 
 31. Shield state (Objects will collide, but will not lose health)
 32. Transparent state (can't collied with enemies )
 33. Magnet (should attract coins only)
@@ -69,8 +69,8 @@ Rules:
 44. Add Flying Kit -- Done
 45. Magnet ---  Done
 46. Purchase Screen
-47. Random movement of the hanging item
-48. Slow the speed of the boobms, increase as the speed of the object increases.
+47. Random movement of the hanging - Done
+48. Slow the speed of the bombs, increase as the speed of the object increases. -- Done
 49. Coin Sounds
 50. Make Stamina modifiable: Heath rapidly decreases initailly and when the stamina increases Health decreases slowly (health = speed)
 51. Update the jumping kit to affect only when jump button is clicked.
@@ -78,11 +78,11 @@ Rules:
 53. Destroy/Remove all the objects which are not required (as the player moves on) :  ================Done 
 54. Increase the Screen width when speed increases: ================Done 
 55. Animation/Art work
-56. Rocket
-60. Gift Pack
-61. One girl character
-62. Horse Ride
-63. When the birds/pushers fly fast they should flap fast
+56. Rocket -- TBD
+60. Gift Pack -- TBD
+61. One girl character -- Later may be
+62. Horse Ride -- Done
+63. When the birds/pushers fly fast they should flap fast -- TBD
 64. Make a generic method for fly. Since most of the game objects will be flying, they can use this -- Done
 65. Change the all the game objects to dynamic bodies as they need to move. Brick may be static -- Done
 66. Space can be simulated, if an up force of the mass of the body is applied to the body, can contribute to a new stage 
@@ -95,31 +95,31 @@ Rules:
 73. Handle background separately... too much of code is required otherwise 
 74. Michal jacson moon walk... ================Out of version 1
 75. Lots of skins... can be used for creating menus 
-76. Coin should come smoothly to the user.
-77. resize all the images.. and use different images for different camera angle.
+76. Coin should come smoothly to the user. -- Done
+77. resize all the images.. and use different images for different camera angle. -TBD
 78. Good resource for game image processing.
 79. Include sawastik sign
-80. Improve kaaleen
+80. Improve kaaleen -- Done
 81. Cut videos from youtube http://hesetube.com/watch?v=bru7H11qA4Y
 82. 10 new challenges daily with different/random difficulty.
-83. Underwater theme for crossing the ocean.
+83. Underwater theme for crossing the ocean. -- later
 84. Make sure that there are no objects in the world, when the game is started or restarted (i.e. setScreen is called again for the GameScreen) : ================Done 
 85. Slow motion effect is tough: ================Done 
-86. Player can be drunk.
-87. Should it be auto fire? And instead of fire it, player should be able to catch the game objects using ropes. Ropes are not infinite, but they will be enough for initial stages.
-88. Flying horse, normal horse, bulls, kites,
+86. Player can be drunk. -- Later version
+87. Should it be auto fire? And instead of fire it, player should be able to catch the game objects using ropes. Ropes are not infinite, but they will be enough for initial stages. -- Later version/may be feature
+88. Flying horse, normal horse, bulls, kites, -- TBD
 89. Gun/Bullet should be auto fire to enemies, and when bullets are up, gun is thrown...
-90. Take something from the present play that will help in future or in the next match.
-91. Bird will hit only after catching...
-92. All the expression of the face should be at the Left/Right - Top of the screen.
-93. Spring objects in ground to throw up.
-94. Shooter objects, for shooting speed bombs and water balloons
-95. Clicking on the character should catch them.
-96. Make Kite as eagle, and change the colour to black
-97. Power of generating game objects while playing.
-98. Gold Biscuits and Cash
-99. Make on-line version... Different people all over the world are helping each other to clean the world.
-100. Random missions 
+90. Take something from the present play that will help in future or in the next match. -- For now it is Gift
+91. Bird will hit only after catching... -- Not Valid.
+92. All the expression of the face should be at the Left/Right - Top of the screen. -- may in the later release.
+93. Spring objects in ground to throw up. -- may be later
+94. Shooter objects, for shooting speed bombs and water balloons --TBD
+95. Clicking on the character should catch them. -- Done
+96. Make Kite as eagle, and change the colour to black 
+97. Power of generating game objects while playing. -- May be later
+98. Gold Biscuits and Cash -- TBD
+99. Make on-line version... Different people all over the world are helping each other to clean the world. -- Version 2
+
 
 101. Mission based earning + in-game earning.
 	Type of missions: 
@@ -145,6 +145,12 @@ Rules:
 	3. Rope Joint
 	4. Weld Joint
 	
+106. Gain points in every activity, points can be redeemed into interesting items, like rockets, Jet Packs, skates.
+107. Cars, trucks, Skates (to collect), Normal Man(to save), Robber (to catch), Drones (to destroy), rockets (to fly)
+108. Jet Packs to collect.
+109. Money only can be used to buy more time.
+110. Arrow pointing towards the target
+
 
 ============================BUGS================================
 1. Each object is creating its own atlas. Fix this to use cache to store each atlas.

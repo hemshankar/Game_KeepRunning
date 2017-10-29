@@ -39,7 +39,8 @@ public class Player2 extends FutureWarsCast {
     public final float MAX_FLY_FUEL = 10;
     public boolean canJump = false;
     public boolean hasFlyingKit = false;
-    public float maxPossibleSpeed = 100/GameConstants.MPS_TO_KPH;
+    public float maxPossibleSpeed = 50/GameConstants.MPS_TO_KPH;
+    public float glideSpeed = 10/GameConstants.MPS_TO_KPH;
 
     public Map<GameObject,Joint> jointMap = new HashMap<GameObject, Joint>();
 
@@ -53,7 +54,7 @@ public class Player2 extends FutureWarsCast {
         canFly = false;
         hasFlyingKit = true;
         flyFuel = MAX_FLY_FUEL;
-        maxVelocity = 40/GameConstants.MPS_TO_KPH;
+        maxVelocity = 20/GameConstants.MPS_TO_KPH;
     }
 
     @Deprecated
@@ -84,6 +85,9 @@ public class Player2 extends FutureWarsCast {
         }
         if(getBody().getLinearVelocity().x > maxPossibleSpeed) {
             getBody().applyLinearImpulse(new Vector2(-2f, 0), getBody().getWorldCenter(), true);
+        }
+        if(getBody().getLinearVelocity().y < -1 * glideSpeed) {
+            getBody().applyLinearImpulse(new Vector2(0, 1), getBody().getWorldCenter(), true);
         }
         super.update(dt);
         flyFuelUpdate(dt);

@@ -29,8 +29,14 @@ public class Gift extends FutureWarsCast {
 
     @Override
     public void handleContact(GameObject gObj) {
-        super.handleContact(gObj);
-        doneCatching = true;
+        if(!following) {
+            super.handleContact(gObj);
+            doneCatching = true;
+            //currentState = "STATE_2";
+            spriteWidth = spriteWidth / 3;
+            spriteHeight = spriteHeight / 3;
+            sprite.setBounds(0, 0, spriteWidth * 2 / getPPM(), spriteHeight * 2 / getPPM());
+        }
     }
 
     /*@Override

@@ -381,20 +381,20 @@ public abstract class AbstractGameObject implements GameObject{
                 toBeDestroyed = true;
             }
             if(following){
-                if(this.body.getPosition().x < player.body.getPosition().x - 3){
+                if(this.body.getPosition().x < player.body.getPosition().x - 2){
                     body.applyLinearImpulse(
                             new Vector2(2, 0),
                             this.body.getWorldCenter(), true);
-                }else if(this.body.getPosition().x > player.body.getPosition().x + 3){
+                }else if(this.body.getPosition().x > player.body.getPosition().x + 2){
                     body.applyLinearImpulse(
                             new Vector2(-2, 0),
                             this.body.getWorldCenter(), true);
                 }
-                if(this.body.getPosition().y < player.body.getPosition().y - 3){
+                if(this.body.getPosition().y < player.body.getPosition().y - 2){
                     body.applyLinearImpulse(
                             new Vector2(0, 2),
                             this.body.getWorldCenter(), true);
-                }else if(this.body.getPosition().y > player.body.getPosition().y + 3){
+                }else if(this.body.getPosition().y > player.body.getPosition().y + 2){
                     body.applyLinearImpulse(
                             new Vector2(0, -2),
                             this.body.getWorldCenter(), true);
@@ -406,7 +406,7 @@ public abstract class AbstractGameObject implements GameObject{
             if(this instanceof Pivot ){
                 Joint j = player.jointMap.get(this);
                 if(j !=null){
-                    if(player.body.getPosition().x - this.body.getPosition().x > 2){
+                    if(player.body.getPosition().x - this.body.getPosition().x > 3){
                         GameUtility.jointHandler.removeJoint(player.jointMap.remove(this),world);
                         GameUtility.shapeHelper.removeShape(ropeConnection);
                         ropeConnection = null;
@@ -633,7 +633,7 @@ public abstract class AbstractGameObject implements GameObject{
         }
     }
 
-    private float getPPM(){
+    public float getPPM(){
         if(usePPM){
             if(myPPM!=-1)
                 return myPPM;

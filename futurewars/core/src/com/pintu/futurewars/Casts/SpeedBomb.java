@@ -36,6 +36,7 @@ public class SpeedBomb extends FutureWarsCast {
         background = new BackGround(GameConstants.BACKGROUND1_PROPERTY_FILE,this);
     }*/
     @Override
+
     public void handleContact(GameObject gObj){
         super.handleContact(gObj);
         if(gObj instanceof Player2){

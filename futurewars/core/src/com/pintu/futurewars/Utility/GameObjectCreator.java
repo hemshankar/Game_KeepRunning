@@ -121,7 +121,7 @@ public class GameObjectCreator {
                 else
                     createObject(god, posToCreate);
 
-                posToCreate = GameConstants.DISTANCE_BETWEEN_GAME_OBJ + safeDist + randObjID.nextInt(70) + 30;
+                posToCreate = GameConstants.DISTANCE_BETWEEN_GAME_OBJ + safeDist + randObjID.nextInt((int)player.maxVelocity/2) + (int)player.maxVelocity/2;
 
                 return;
             }
@@ -208,7 +208,7 @@ public class GameObjectCreator {
                 gd.yPos = Float.parseFloat(details[2]);
             }
             if(details.length >= 4 && !GameUtility.isEmptyString(details[3])) {
-                gd.flyPos = Float.parseFloat(details[3]);
+                gd.yPos = Float.parseFloat(details[3]);
             }
             if(details.length >= 5 && !GameUtility.isEmptyString(details[4])) {
                 gd.propertiesFile = details[4];

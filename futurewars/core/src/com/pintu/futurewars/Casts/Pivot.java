@@ -15,7 +15,7 @@ public class Pivot extends FutureWarsCast {
 
     public Pivot() {
         super(GameConstants.PIVOT_PROPERTY_FILE);
-        ropeLength = 2;
+        ropeLength = 3;
     }
 
 }
