@@ -15,7 +15,7 @@ import com.pintu.futurewars.commons.GameObject;
  * Created by hsahu on 8/14/2017.
  */
 
-public class StickyBomb extends FutureWarsCast {
+public class StickyBomb extends FutureWarsCast  implements Enemy {
     public boolean fired = false;
     public float LIFE_TIME = 5;
     public float lived = 0;

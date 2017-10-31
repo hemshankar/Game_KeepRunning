@@ -146,7 +146,7 @@ Rules:
 	4. Weld Joint
 	
 106. Gain points in every activity, points can be redeemed into interesting items, like rockets, Jet Packs, skates.
-107. Cars, trucks, Skates (to collect), Normal Man(to save), Robber (to catch), Drones (to destroy), rockets (to fly)
+107. Cars, trucks, Skates (to collect), Normal Man(to save), Robber (to catch), Bad Drones (to destroy), Good Drones (it protects the player)) rockets (to fly)
 108. Jet Packs to collect.
 109. Money only can be used to buy more time.
 110. Arrow pointing towards the target

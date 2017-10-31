@@ -1,6 +1,5 @@
 package com.pintu.futurewars.Casts;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
@@ -12,7 +11,6 @@ import com.pintu.futurewars.commons.AbstractGameObject;
 import com.pintu.futurewars.commons.GameObject;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,10 +39,21 @@ public class Player2 extends FutureWarsCast {
     public boolean hasFlyingKit = false;
     public float maxPossibleSpeed = 50/GameConstants.MPS_TO_KPH;
     public float glideSpeed = 10/GameConstants.MPS_TO_KPH;
+    public boolean hasRocket = false;
+    public int totalRockets = 10;
+    public final float ROCKET_EFFECT_TIME = 10f;
+    public float rocketEffectRemainig = 0;
 
+    public boolean hasSkates = false;
+    public int totalSkates = 10;
+    public final float SKATES_EFFECT_TIME = 10f;
+    public float skatesEffectRemainig = 0;
+    public float skatesMaxSpeed = 70/GameConstants.MPS_TO_KPH;
+
+    public boolean hasRifle = false;
+    public final float RIFLE_EFFECT_TIME = 10f;
+    public float rifleEffectRemainig = 0;
     public Map<GameObject,Joint> jointMap = new HashMap<GameObject, Joint>();
-
-
 
     public Player2() {
         super(2, GameConstants.PLAYER_PROPERTY_FILE, GameUtility.world, null,null);
@@ -80,42 +89,88 @@ public class Player2 extends FutureWarsCast {
         }else{
             hasMagnet = false;
         }
-        if(getBody().getLinearVelocity().x > this.maxVelocity) {
-            getBody().applyLinearImpulse(new Vector2(-0.01f, 0), getBody().getWorldCenter(), true);
+
+        /*if(hasRifle){
+            rifleEffectRemainig +=dt;
+            if(rifleEffectRemainig>RIFLE_EFFECT_TIME){
+                rifleEffectRemainig = 0;
+                hasRifle = false;
+            }
+        }*/
+
+        if(hasRocket){
+            rocketEffectRemainig +=dt;
+            if(rocketEffectRemainig>ROCKET_EFFECT_TIME){
+                rocketEffectRemainig = 0;
+                hasRocket = false;
+            }else{
+                float yImp = 0;
+                if(body.getPosition().y<10){
+                    yImp = 1f;
+                }
+                getBody().applyLinearImpulse(new Vector2(2, yImp), getBody().getWorldCenter(), true);
+            }
+        }else if(hasSkates){
+            skatesEffectRemainig +=dt;
+            if(skatesEffectRemainig>SKATES_EFFECT_TIME){
+                skatesEffectRemainig = 0;
+                hasSkates = false;
+            }else{
+                if (getBody().getLinearVelocity().x < skatesMaxSpeed) {
+                    getBody().applyLinearImpulse(new Vector2(1, 0), getBody().getWorldCenter(), true);
+                }
+            }
+        }else {
+
+            if (getBody().getLinearVelocity().x > this.maxVelocity) {
+                getBody().applyLinearImpulse(new Vector2(-0.01f, 0), getBody().getWorldCenter(), true);
+            }else if(getBody().getLinearVelocity().x < this.maxVelocity) {
+                getBody().applyLinearImpulse(new Vector2(+2f, 0), getBody().getWorldCenter(), true);
+            }
+            if (getBody().getLinearVelocity().x > maxPossibleSpeed) {
+                getBody().applyLinearImpulse(new Vector2(-1f, 0), getBody().getWorldCenter(), true);
+            }
         }
-        if(getBody().getLinearVelocity().x > maxPossibleSpeed) {
-            getBody().applyLinearImpulse(new Vector2(-2f, 0), getBody().getWorldCenter(), true);
-        }
-        if(getBody().getLinearVelocity().y < -1 * glideSpeed) {
+
+        /*if(getBody().getLinearVelocity().y < -1 * glideSpeed) {
             getBody().applyLinearImpulse(new Vector2(0, 1), getBody().getWorldCenter(), true);
-        }
+        }*/
         super.update(dt);
         flyFuelUpdate(dt);
     }
 
     public void fire(){
+        AbstractGameObject target = (AbstractGameObject) GameUtility.getGameScreen().nearestEnemy;
+
+        if(target==null)
+            return;
+        int direction = 1;
+        if(target.body.getPosition().x - body.getPosition().x<0){
+            direction = -1;
+        }
+
         if(GameConstants.BASIC_BULLET.equals(selectedBullet)){
             if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
                 recoilTimeElapsed = 0;
-                GameUtility.fireBasicBullet(body.getPosition().x + ((4*spriteWidth)/2)/GameConstants.PPM,
-                        body.getPosition().y);
+                GameUtility.fireBasicBullet(body.getPosition().x + ((4*direction*spriteWidth)/2)/GameConstants.PPM,
+                        body.getPosition().y,target);
             }
         }else if(GameConstants.BURST_BULLET.equals(selectedBullet)){
             if(recoilTimeElapsed > GameConstants.BASIC_BULLET_RECOIL_TIME) {
                 recoilTimeElapsed = 0;
-                GameUtility.fireBurstBullet(body.getPosition().x + ((4*spriteWidth)/2)/GameConstants.PPM,
-                        body.getPosition().y,(spriteHeight/4)/GameConstants.PPM);
+                GameUtility.fireBurstBullet(body.getPosition().x + ((4*direction*spriteWidth)/2)/GameConstants.PPM,
+                        body.getPosition().y,(spriteHeight/4)/GameConstants.PPM,GameUtility.getGameScreen().nearestEnemy);
             }
         }else if(GameConstants.BOMB.equals(selectedBullet)){
             if(recoilTimeElapsed > GameConstants.BOMB_RECOIL_TIME) {
                 recoilTimeElapsed = 0;
-                GameUtility.Bomb(body.getPosition().x + ((4*spriteWidth)/2)/GameConstants.PPM,
-                        body.getPosition().y);
+                GameUtility.Bomb(body.getPosition().x + ((4*direction*spriteWidth)/2)/GameConstants.PPM,
+                        body.getPosition().y,target);
             }
         }
 
         //create a RopeJoint with the nearest gameObject
-        /*AbstractGameObject nearestGO = (AbstractGameObject)GameUtility.getGameScreen().nearestGameObj;
+        /*AbstractGameObject nearestGO = (AbstractGameObject)GameUtility.getGameScreen().nearestEnemy;
         GameUtility.log(this.getClass().getName(),"Nearest Object: "+nearestGO);
         if(nearestGO!=null && this.jointMap.get(nearestGO)==null && GameUtility.getGameScreen().nearestDist<GameConstants.CATCH_RANGE) {
             //this sets the nearestObject in the player.jointMap
@@ -123,7 +178,7 @@ public class Player2 extends FutureWarsCast {
             nearestGO.ropeConnection =
                     GameUtility.shapeHelper.drawLine(this,nearestGO,GameConstants.ROPE_WIDTH, Color.BROWN,Color.BROWN);
             nearestGO.doneCatching = true;
-            GameUtility.getGameScreen().nearestGameObj = null;
+            GameUtility.getGameScreen().nearestEnemy = null;
             GameUtility.getGameScreen().nearestDist = Float.MAX_VALUE;
         }*/
     }

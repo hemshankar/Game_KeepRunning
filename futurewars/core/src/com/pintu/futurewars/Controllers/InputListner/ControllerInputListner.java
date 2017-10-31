@@ -2,7 +2,7 @@ package com.pintu.futurewars.Controllers.InputListner;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.pintu.futurewars.Controllers.Widgets;
+import com.pintu.futurewars.Controllers.Widgets_old;
 
 /**
  * Created by hsahu on 7/5/2017.
@@ -10,9 +10,9 @@ import com.pintu.futurewars.Controllers.Widgets;
 
 public class ControllerInputListner extends InputListener {
 
-    public Widgets widgets;
+    public Widgets_old widgets;
     public int buttonId;
-    public ControllerInputListner(Widgets ctrl, int id){
+    public ControllerInputListner(Widgets_old ctrl, int id){
         widgets = ctrl;
         buttonId = id;
 

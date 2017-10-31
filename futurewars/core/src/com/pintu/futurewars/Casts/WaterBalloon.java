@@ -14,7 +14,7 @@ import com.pintu.futurewars.commons.GameObject;
  * Created by hsahu on 8/14/2017.
  */
 
-public class WaterBalloon extends FutureWarsCast {
+public class WaterBalloon extends FutureWarsCast  implements Enemy {
     public boolean fired = false;
 
     public static void init(){

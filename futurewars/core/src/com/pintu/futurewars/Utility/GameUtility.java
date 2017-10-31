@@ -109,39 +109,32 @@ public class GameUtility {
         stateFrameDetailsMap.put(str,map);
     }
 
-    public static void fireBasicBullet(float x, float y){
+    public static void fireBasicBullet(float x, float y,GameObject target){
         BasicBullet bullet = new BasicBullet(id++,world ,getAtlas(GameConstants.ATLAS_FILE),x,y);
         bullet.initialize();
+        bullet.target = target;
         bullet.fire();
+
         getGameScreen().gameObjects.add(bullet);
     }
 
-    public static void fireBurstBullet(float x, float y){
-        BasicBullet bullet = new BasicBullet(id++,world ,getAtlas(GameConstants.ATLAS_FILE),x,y-1);
-        bullet.initialize();
-        bullet.fire();
-        getGameScreen().gameObjects.add(bullet);
-
-        bullet = new BasicBullet(id++,world ,getAtlas(GameConstants.ATLAS_FILE),x+1,y+1);
-        bullet.initialize();
-        bullet.fire();
-        getGameScreen().gameObjects.add(bullet);
-    }
-
-    public static void fireBurstBullet(float x, float y,float distance){
+    public static void fireBurstBullet(float x, float y,float distance,GameObject target){
         BasicBullet bullet = new BasicBullet(id++,world ,getAtlas(GameConstants.ATLAS_FILE),x,y-distance);
         bullet.initialize();
+        bullet.target = target;
         bullet.fire();
         getGameScreen().gameObjects.add(bullet);
 
         bullet = new BasicBullet(id++,world ,getAtlas(GameConstants.ATLAS_FILE),x,y+distance);
         bullet.initialize();
+        bullet.target = target;
         bullet.fire();
         getGameScreen().gameObjects.add(bullet);
     }
-    public static void Bomb(float x, float y){
+    public static void Bomb(float x, float y,GameObject target){
         Bomb bullet = new Bomb(id++,world ,getAtlas(GameConstants.ATLAS_FILE),x,y);
         bullet.initialize();
+        bullet.target = target;
         bullet.fire();
         getGameScreen().gameObjects.add(bullet);
     }

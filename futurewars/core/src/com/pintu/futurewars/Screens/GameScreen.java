@@ -3,26 +3,20 @@ package com.pintu.futurewars.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Casts.Ground;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Controllers.Widgets;
+import com.pintu.futurewars.Controllers.Widgets_old;
 import com.pintu.futurewars.Utility.InputHandler;
 import com.pintu.futurewars.JumpingMarblesGame;
 import com.pintu.futurewars.Utility.GameUtility;
@@ -46,9 +40,9 @@ public class GameScreen extends BaseScreen {
     //all other gameObjects
     public Set<GameObject> gameObjects;
 
-    //Widgets
+    //Widgets_old
     public Widgets widgets;
-
+    public Widgets_old widgets_old; // for backward compatibility
     //mas velocity of the player
     public float maxVelocity=0;
     public float cameraCalibration=0;
@@ -76,11 +70,11 @@ public class GameScreen extends BaseScreen {
     public float backImgX2 = 0;
     public float backImgY2 = 0;
     public float backImgWidth = 60;
-    public float backImgHeight = 30;
+    public float backImgHeight = 100;
     public float numOfBackImgs = 1;
 
     public float timePassed = 0;
-    public float gameTime = 60*5; //five minutes
+    public float gameTime = 60*2; //five minutes
 
     public float slowMotionEffect = 0;
     public float slowMotionEffectTime = 2f;
@@ -91,7 +85,7 @@ public class GameScreen extends BaseScreen {
     //Comparator<GameObject> comparator = new GameObjectComparator();
     //PriorityQueue<GameObject> gameObjectsPQ = new PriorityQueue<GameObject>(10,comparator);
     public float nearestDist = Float.MAX_VALUE; //(x*x + y*y)^2
-    public GameObject nearestGameObj = null;
+    public GameObject nearestEnemy = null;
 
     public GameScreen(JumpingMarblesGame game){
 
@@ -126,9 +120,10 @@ public class GameScreen extends BaseScreen {
         player2 = worldCreator.player;//new Player2(22,null,world,GameUtility.getAtlas(),worldCreator.player.mapObject);
 
         widgets = new Widgets(game,this);
+        widgets_old = new Widgets_old(game,this);
         GameUtility.setGameScreen(this);
 
-        gameMusic = assetManager.get("music/Flying me softly.ogg",Music.class);
+        gameMusic = assetManager.get("music/plang_mt_flaming_flares.mp3",Music.class);
         gameMusic.setLooping(true);
 
         //background Image-Should keep rotating
@@ -150,7 +145,7 @@ public class GameScreen extends BaseScreen {
 
         Ground roof = new Ground();
         roof.xPos = 0;
-        roof.yPos = 50;
+        roof.yPos = 100;
         roof.initialize();
         gameObjects.add(roof);
 
@@ -210,6 +205,10 @@ public class GameScreen extends BaseScreen {
         //update the game after handling the IP
         updateHandler.update(this,dt);
 
+        //some things needs to be done out of the update
+        if(player2.hasRifle){
+            player2.fire();
+        }
         //player2.update(dt);
     }
 

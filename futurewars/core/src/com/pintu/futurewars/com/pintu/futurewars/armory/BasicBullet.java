@@ -9,6 +9,7 @@ import com.pintu.futurewars.Casts.Ground;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
+import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.commons.GameObject;
 
 import java.util.HashMap;
@@ -20,13 +21,32 @@ import java.util.Map;
 
 public class BasicBullet extends GameBullet {
 
+    public GameObject target = null;
     public BasicBullet(int id,World w, TextureAtlas a, float x, float y) {
         super(id, GameConstants.BASIC_BULLET_PROPERTY_FILE, w, a, x,y);
     }
 
     @Override
     public void fire(){
-        body.applyLinearImpulse(new Vector2(GameConstants.BASIC_BULLET_SPEED, 0), body.getWorldCenter(), true);
+        if(target == null) {
+            body.applyLinearImpulse(new Vector2(GameConstants.BASIC_BULLET_SPEED, 0), body.getWorldCenter(), true);
+        }else{
+            try {
+                float pXpose = target.getBody().getPosition().x;
+                float pYpose = target.getBody().getPosition().y;
+                float myXpos = body.getPosition().x;
+                float myYpos = body.getPosition().y;
+
+                float xForce = (pXpose - myXpos);// * Math.abs(target.getBody().getLinearVelocity().x + 0.1f);
+                //xForce = xForce > (pXpose - myXpos) ? xForce : (pXpose - myXpos);
+                float yForce = (pYpose - myYpos);// * Math.abs(target.getBody().getLinearVelocity().y + 0.1f);
+                //yForce = yForce > (pYpose - myYpos) ? yForce : (pYpose - myYpos);
+                body.applyLinearImpulse(new Vector2(xForce, yForce), body.getWorldCenter(), true);
+            }catch (Exception e){
+                GameUtility.log(this.getClass().getName(),e.getMessage());
+                body.applyLinearImpulse(new Vector2(GameConstants.BASIC_BULLET_SPEED, 0), body.getWorldCenter(), true);
+            }
+        }
     }
 
     @Override

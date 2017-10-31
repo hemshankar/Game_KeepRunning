@@ -35,7 +35,7 @@ public class JumpingMarbleWorldCreator {
 
     public float boundaryLeft = 0;
     public float boundaryRight = 9993936;
-    public float boundaryTop = 3888;
+    public float boundaryTop = 10000;
     public float boundaryBottom=392;
 
     public JumpingMarbleWorldCreator(World world, Map map){

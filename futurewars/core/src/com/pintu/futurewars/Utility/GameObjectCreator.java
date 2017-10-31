@@ -37,6 +37,10 @@ public class GameObjectCreator {
 
     public Map<Integer,Object> rootObjectMap = new HashMap<Integer,Object>();
 
+    public GameObject lastPivotLocation = null;
+    public float PIVOT_GAP = 12;
+    public float TOP_LIMIT = 100;
+
     public void register(String objId,GameObjectDetails objectDetails){
         objectDetailsList.put(objId,objectDetails);
         objectList.add(objId);
@@ -98,6 +102,19 @@ public class GameObjectCreator {
 
     public void createNextObject(Player2 player) throws Exception{
 
+        float flyLocation = (TOP_LIMIT < (3 + player.body.getPosition().y + GameConstants.PIVOT_ROPE_LENGTH)?TOP_LIMIT:
+                                                                        (3 + player.body.getPosition().y + GameConstants.PIVOT_ROPE_LENGTH));
+        String pivotOD = "com.pintu.futurewars.Casts.Pivot<->PIVOT<->" + flyLocation + "<->" + flyLocation;
+        if(lastPivotLocation==null){
+            GameObjectDetails od = toGameObjectDetails(pivotOD);
+            lastPivotLocation = createObject(od ,(player.body.getPosition().x + PIVOT_GAP/2));
+        }
+        //create pivot regularly
+        else if(player.body.getPosition().x + player.body.getLinearVelocity().x - lastPivotLocation.getBody().getPosition().x > PIVOT_GAP/2){
+            GameObjectDetails od = toGameObjectDetails(pivotOD);
+            lastPivotLocation = createObject(od ,(lastPivotLocation.getBody().getPosition().x + PIVOT_GAP));
+        }
+
         float safeDist = player.body.getPosition().x + 1*player.body.getLinearVelocity().x + GameConstants.DISTANCE_BETWEEN_GAME_OBJ;
 
         if(currentPosition >= positions.size() ){
@@ -158,6 +175,7 @@ public class GameObjectCreator {
             return;
         }
         stageDetailsMap = GameUtility.populateConfigurationsFromConfigFile(stageFile+".std");
+        lastPivotLocation = null;
     }
 
     public void populateObjectDetailsFromFile(String stageName){
@@ -208,7 +226,7 @@ public class GameObjectCreator {
                 gd.yPos = Float.parseFloat(details[2]);
             }
             if(details.length >= 4 && !GameUtility.isEmptyString(details[3])) {
-                gd.yPos = Float.parseFloat(details[3]);
+                gd.flyPos = Float.parseFloat(details[3]);
             }
             if(details.length >= 5 && !GameUtility.isEmptyString(details[4])) {
                 gd.propertiesFile = details[4];

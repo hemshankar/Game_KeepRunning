@@ -18,9 +18,9 @@ import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.pintu.futurewars.Casts.Enemy;
 import com.pintu.futurewars.Casts.Ground;
 import com.pintu.futurewars.Casts.Pivot;
-import com.pintu.futurewars.Casts.Player;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
@@ -333,11 +333,11 @@ public abstract class AbstractGameObject implements GameObject{
                 return;
             }
 
-            /*if(!(this instanceof Player2) && !(this instanceof Ground)){
+            if(this instanceof Enemy){
                 synchronized (GameConstants.CATCH_OBJECT) {
-                    amITheNearest();
+                    amITheNearestEnemy();
                 }
-            }*/
+            }
 
             updateSprite(dt);
 
@@ -346,7 +346,7 @@ public abstract class AbstractGameObject implements GameObject{
                     && body.getPosition().y < flyPosition){
                     //&& body.getLinearVelocity().y <0) {
                 body.applyLinearImpulse(
-                        new Vector2(0,flyPosition - body.getPosition().y),
+                        new Vector2(0,body.getMass() * (flyPosition - body.getPosition().y)),
                                     this.body.getWorldCenter(), true);
             }
 
@@ -406,7 +406,7 @@ public abstract class AbstractGameObject implements GameObject{
             if(this instanceof Pivot ){
                 Joint j = player.jointMap.get(this);
                 if(j !=null){
-                    if(player.body.getPosition().x - this.body.getPosition().x > 3){
+                    if(player.body.getPosition().x - this.body.getPosition().x > ropeLength){
                         GameUtility.jointHandler.removeJoint(player.jointMap.remove(this),world);
                         GameUtility.shapeHelper.removeShape(ropeConnection);
                         ropeConnection = null;
@@ -445,9 +445,9 @@ public abstract class AbstractGameObject implements GameObject{
             if(GameUtility.getGameScreen().player2.jointMap.get(this)!=null){
                 GameUtility.getGameScreen().player2.jointMap.remove(this);
             }
-            if(GameUtility.getGameScreen().nearestGameObj!=null
-                    && GameUtility.getGameScreen().nearestGameObj.equals(this)){
-                GameUtility.getGameScreen().nearestGameObj = null;
+            if(GameUtility.getGameScreen().nearestEnemy !=null
+                    && GameUtility.getGameScreen().nearestEnemy.equals(this)){
+                GameUtility.getGameScreen().nearestEnemy = null;
                 GameUtility.getGameScreen().nearestDist = Float.MAX_VALUE;
             }
             GameUtility.shapeHelper.removeShape(ropeConnection);
@@ -555,22 +555,26 @@ public abstract class AbstractGameObject implements GameObject{
         if(removeRopeConnectionOnContact &&
                 ropeConnection !=null &&
                 player2.jointMap.get(this)!=null) {
-            GameUtility.jointHandler.removeJoint(player2.jointMap.remove(this), world);
-            GameUtility.shapeHelper.removeShape(ropeConnection);
-            ropeConnection = null;
-
-            //if(isGeneric){
-            if (burstOnContact) {
-                toBeDestroyed = true;
-            } else if (disappeareOnContact) {
-                toBeDestroyed = true;
-            } else if (distantRopeJoint) {
-                GameUtility.jointHandler.createJoint(this, player2, world, GameConstants.ROPE, 2);
-            } else if (weldJointOnContact) {
-                GameUtility.jointHandler.createJoint(this, player2, world, GameConstants.WELD,1);
-            } else if (followOnContact) {
-                following = true;
+            if(!(this instanceof Pivot)) {
+                GameUtility.jointHandler.removeJoint(player2.jointMap.remove(this), world);
+                GameUtility.shapeHelper.removeShape(ropeConnection);
+                ropeConnection = null;
             }
+
+
+                //if(isGeneric){
+                if (burstOnContact) {
+                    toBeDestroyed = true;
+                } else if (disappeareOnContact) {
+                    toBeDestroyed = true;
+                } else if (distantRopeJoint) {
+                    GameUtility.jointHandler.createJoint(this, player2, world, GameConstants.ROPE, 2);
+                } else if (weldJointOnContact) {
+                    GameUtility.jointHandler.createJoint(this, player2, world, GameConstants.WELD, 1);
+                } else if (followOnContact) {
+                    following = true;
+                }
+
             //}
         }
     }
@@ -599,12 +603,11 @@ public abstract class AbstractGameObject implements GameObject{
         return background;
     }
 
-    public void amITheNearest(){
-
+    public void amITheNearestEnemy(){
         //if I am the nearest, reset the settings
-        if(this.equals(GameUtility.getGameScreen().nearestGameObj)) {
+        if(this.equals(GameUtility.getGameScreen().nearestEnemy)) {
             GameUtility.getGameScreen().nearestDist = Float.MAX_VALUE;
-            GameUtility.getGameScreen().nearestGameObj = null;
+            GameUtility.getGameScreen().nearestEnemy = null;
         }
 
         Player2 p = GameUtility.getGameScreen().player2;
@@ -620,7 +623,7 @@ public abstract class AbstractGameObject implements GameObject{
         float xDis = p.body.getPosition().x - body.getPosition().x;
         float yDis = p.body.getPosition().y - body.getPosition().y;
 
-        if(xDis>5) {
+        if(Math.abs(xDis)>10 || Math.abs(yDis) > 10) {
             return;
         }
 
@@ -629,7 +632,7 @@ public abstract class AbstractGameObject implements GameObject{
 
         if(dist<GameUtility.getGameScreen().nearestDist){
             GameUtility.getGameScreen().nearestDist = dist;
-            GameUtility.getGameScreen().nearestGameObj = this;
+            GameUtility.getGameScreen().nearestEnemy = this;
         }
     }
 

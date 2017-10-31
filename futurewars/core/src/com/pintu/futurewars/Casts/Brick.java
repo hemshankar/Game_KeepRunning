@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by hsahu on 7/2/2017.
  */
 
-public class Brick extends FutureWarsCast {
+public class Brick extends FutureWarsCast implements Enemy  {
 
     public static void init(){
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
@@ -50,6 +50,12 @@ public class Brick extends FutureWarsCast {
     public void handleContact(GameObject gObj) {
         super.handleContact(gObj);
         doneCatching = false;
+        if(gObj instanceof Player2){
+            if(((Player2)gObj).jointMap.get(this)==null){
+                body.applyLinearImpulse(((gObj).getBody().getLinearVelocity().x + 1) * 2, 0,
+                        body.getWorldCenter().x, body.getWorldCenter().y, true);
+            }
+        }
     }
 
     @Override

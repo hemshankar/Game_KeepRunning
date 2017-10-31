@@ -14,7 +14,7 @@ import com.pintu.futurewars.commons.GameObject;
  * Created by hsahu on 7/2/2017.
  */
 
-public class Pusher extends FutureWarsCast {
+public class Pusher extends FutureWarsCast implements Enemy  {
 
     public final float PUSH_INTERVAL = .5f;
     public float pushTimer = 0;

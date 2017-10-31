@@ -39,7 +39,7 @@ public class GameConstants {
     public static final float VIEW_PORT_WIDTH = 1600;
     public static final float VIEW_PORT_HIGHT = 1000;
 
-    //------------------Widgets
+    //------------------Widgets_old
     public static final int UP = 0;
     public static final int RIGHT = 1;
     public static final int DOWN = 2;
@@ -61,7 +61,7 @@ public class GameConstants {
     //----------------------Bullets
     public static final float BASIC_BULLET_SIZE = 8;
     public static final String BASIC_BULLET_REGION_NAME = "basic_bullet";
-    public static final float BASIC_BULLET_SPEED = 10f;
+    public static final float BASIC_BULLET_SPEED = 1f;
     public static final int BASIC_BULLET_DAMAGE = 50;
     public static final float BASIC_BULLET_RECOIL_TIME = .2f;
     public static final float BASIC_BULLET_TIME_TO_LIVE = .4f;
@@ -91,6 +91,7 @@ public class GameConstants {
     public static final String KITE_PROPERTY_FILE = "propertyFiles/kite.txt";
     public static final String PUSHER_PROPERTY_FILE = "propertyFiles/pusher.txt";
     public static final String HORSE_PROPERTY_FILE = "propertyFiles/horse.txt";
+    public static final String CAR_PROPERTY_FILE = "propertyFiles/car.txt";
     public static final String CAT_PROPERTY_FILE = "propertyFiles/cat.txt";
     public static final String SKATES_PROPERTY_FILE = "propertyFiles/skates.txt";
     public static final String KALEEN_PROPERTY_FILE = "propertyFiles/kaleen.txt";
@@ -102,6 +103,7 @@ public class GameConstants {
     public static final String MAGNET_PROPERTY_FILE = "propertyFiles/magnet.txt";
     public static final String FLYING_KIT_PROPERTY_FILE = "propertyFiles/flyingKit.txt";
     public static final String POWER_DRINK_PROPERTY_FILE = "propertyFiles/powerDrink.txt";
+    public static final String RIFLE_PROPERTY_FILE = "propertyFiles/rifle.txt";
     public static final String BASIC_BULLET_PROPERTY_FILE = "propertyFiles/armory/basicBullet.txt";
     public static final String BURST_BULLET_PROPERTY_FILE = "propertyFiles/armory/burstBullet.txt";
     public static final String BOMB_PROPERTY_FILE = "propertyFiles/armory/bomb.txt";
@@ -144,6 +146,7 @@ public class GameConstants {
     public static String SKATES = "SKATES";
     public static String SPEED_BOMB = "SPEED_BOMB";
     public static String POWER_DRINK = "POWER_DRINK";
+    public static String RIFLES_DRINK = "RIFLES_DRINK";
     public static String COIN = "COIN";
     public static String BOMB_AMO = "BOMB_AMO";
     public static String COWBOY_HAT = "COWBOY_HAT";
@@ -167,6 +170,7 @@ public class GameConstants {
     public static final String HORIZONTAL = "SAME_PLACE";
     public static final String VERTICAL = "SAME_PLACE";
     public static final float MPS_TO_KPH = 3.6f;
+    public static final float PIVOT_ROPE_LENGTH = 4;
 
     //====================================STAGE_DETAILS===========================
     public static final String STAGES_DETAILS_ANIMATION = "Animation";

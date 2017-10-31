@@ -80,7 +80,7 @@ public class JumpingMarblesGame extends Game {
 
 			assetManager = new AssetManager();
 			//load assets
-			assetManager.load("music/Flying me softly.ogg", Music.class);
+			assetManager.load("music/plang_mt_flaming_flares.mp3", Music.class);
 			assetManager.load("audio/Wind effects 5.wav",Sound.class);
 			assetManager.load("audio/Fire impact 1.wav",Sound.class);
 			assetManager.load("audio/SHOOT008.mp3",Sound.class);

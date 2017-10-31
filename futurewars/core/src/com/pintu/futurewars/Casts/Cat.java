@@ -10,7 +10,7 @@ import com.pintu.futurewars.commons.GameObject;
  * Created by hsahu on 7/2/2017.
  */
 
-public class Cat extends FutureWarsCast {
+public class Cat extends FutureWarsCast implements Enemy {
 
     private static final float TRAVEL_TIME = 5f;
     private float travelled = 0f;

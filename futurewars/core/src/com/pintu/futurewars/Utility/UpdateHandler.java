@@ -48,7 +48,7 @@ public class UpdateHandler {
                         GameConstants.ROPE,
                         hitGameObject.ropeLength);
                 if(hitGameObject instanceof Pivot){
-                    screen.player2.body.applyLinearImpulse(new Vector2(5f, 0), screen.player2.body.getWorldCenter(), true);
+                    screen.player2.body.applyLinearImpulse(new Vector2(screen.player2.body.getMass() * 15f, 0), screen.player2.body.getWorldCenter(), true);
 
                 }
                 hitGameObject.ropeConnection =
