@@ -381,22 +381,23 @@ public abstract class AbstractGameObject implements GameObject{
                 toBeDestroyed = true;
             }
             if(following){
+                int power = GameUtility.random.nextInt(2);
                 if(this.body.getPosition().x < player.body.getPosition().x - 2){
                     body.applyLinearImpulse(
-                            new Vector2(2, 0),
+                            new Vector2(power, 0),
                             this.body.getWorldCenter(), true);
                 }else if(this.body.getPosition().x > player.body.getPosition().x + 2){
                     body.applyLinearImpulse(
-                            new Vector2(-2, 0),
+                            new Vector2(-power, 0),
                             this.body.getWorldCenter(), true);
                 }
-                if(this.body.getPosition().y < player.body.getPosition().y - 2){
+                if(this.body.getPosition().y < player.body.getPosition().y - 2 && this.canFly){
                     body.applyLinearImpulse(
-                            new Vector2(0, 2),
+                            new Vector2(0, power),
                             this.body.getWorldCenter(), true);
-                }else if(this.body.getPosition().y > player.body.getPosition().y + 2){
+                }else if(this.body.getPosition().y > player.body.getPosition().y + 2 && this.canFly){
                     body.applyLinearImpulse(
-                            new Vector2(0, -2),
+                            new Vector2(0, -power),
                             this.body.getWorldCenter(), true);
                 }
             }

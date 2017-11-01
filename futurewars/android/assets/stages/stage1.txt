@@ -1,10 +1,14 @@
 40.000=com.pintu.futurewars.Casts.Rifle<->Gift<->10<->10
+44=com.pintu.futurewars.Casts.Coin<-><-><-><-><->TRUE<->10<->HORIZONTAL<->10
+55=com.pintu.futurewars.Casts.Coin<-><-><-><-><->TRUE<->10
 50=com.pintu.futurewars.Casts.Pivot<->Pivot<->10<->10
 60=com.pintu.futurewars.Casts.Rifle<->Skates<->10<->10
 70=com.pintu.futurewars.Casts.Pivot<->Pivot<->10<->14
+74=com.pintu.futurewars.Casts.Coin<-><-><-><-><->TRUE<->10<->HORIZONTAL<->10
 77.000=com.pintu.futurewars.Casts.Skates<->Gift<->10<->10
 80=com.pintu.futurewars.Casts.Rifle<->CAR<->10<->18
 90=com.pintu.futurewars.Casts.Skates<->Pivot<->10<->20
+90=com.pintu.futurewars.Casts.Coin<-><-><-><-><->TRUE<->10<->HORIZONTAL<->10
 100=com.pintu.futurewars.Casts.Car<->Pivot<->10<->22
 110=com.pintu.futurewars.Casts.Skates<->Pivot<->10<->24
 120=com.pintu.futurewars.Casts.Car<->Pivot<->10<->26

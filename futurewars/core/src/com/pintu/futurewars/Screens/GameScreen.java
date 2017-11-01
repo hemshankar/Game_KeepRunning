@@ -139,7 +139,7 @@ public class GameScreen extends BaseScreen {
 
         Ground g = new Ground();
         g.xPos = 0;
-        g.yPos = 4;
+        g.yPos = 2;
         g.initialize();
         gameObjects.add(g);
 

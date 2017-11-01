@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.pintu.futurewars.Casts.Enemy;
 import com.pintu.futurewars.Casts.FutureWarsCast;
 import com.pintu.futurewars.Casts.Ground;
 import com.pintu.futurewars.Casts.Player2;
@@ -57,7 +58,7 @@ public class BasicBullet extends GameBullet {
     @Override
     public void handleContact(GameObject obj){
         toBeDestroyed = true;
-        if(obj instanceof FutureWarsCast && !(obj instanceof Player2) && !(obj instanceof Ground)){
+        if(obj instanceof Enemy){
             FutureWarsCast cast = (FutureWarsCast)obj;
             cast.takeDamage(getDamage());
         }

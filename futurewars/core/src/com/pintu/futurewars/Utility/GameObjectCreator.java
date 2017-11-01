@@ -38,8 +38,9 @@ public class GameObjectCreator {
     public Map<Integer,Object> rootObjectMap = new HashMap<Integer,Object>();
 
     public GameObject lastPivotLocation = null;
-    public float PIVOT_GAP = 12;
+    public float PIVOT_GAP = 9;
     public float TOP_LIMIT = 100;
+    public float BOTTOM_LIMIT = 6;
 
     public void register(String objId,GameObjectDetails objectDetails){
         objectDetailsList.put(objId,objectDetails);
@@ -51,10 +52,16 @@ public class GameObjectCreator {
 
         GameObject gameObject = null;
         if(od.objectClass!=null){
+
             gameObject = (GameObject) od.objectClass.getConstructor().newInstance();
             gameObject.setXpos(xPos);
+            if(!((AbstractGameObject)gameObject).canFly){
+                od.yPos = 3;
+                od.flyPos = 3;
+            }
             gameObject.setYpos(od.yPos);
             gameObject.setFlyPos(od.flyPos);
+
             if(!GameUtility.isEmptyString(od.propertiesFile)){
                 ((AbstractGameObject)gameObject).propFilename = od.propertiesFile;
             }
@@ -71,17 +78,23 @@ public class GameObjectCreator {
 
         GameObject gameObject = null;
         if(od.objectClass!=null) {
-            for (int i = 0; i < od.numberOfInstances; i++){
+            for (int i = 0; i < od.numberOfInstances; i++) {
                 gameObject = (GameObject) od.objectClass.getConstructor().newInstance();
-                if(od.arrangeOrder.equals(GameConstants.HORIZONTAL))
-                    gameObject.setXpos(xPos+=od.gapBetweenObjects);
+                if (od.arrangeOrder.equals(GameConstants.HORIZONTAL))
+                    gameObject.setXpos(xPos += od.gapBetweenObjects);
                 else
                     gameObject.setXpos(xPos);
-                if(od.arrangeOrder.equals(GameConstants.VERTICAL))
-                    gameObject.setYpos(od.yPos+=od.gapBetweenObjects);
+
+                if (!((AbstractGameObject) gameObject).canFly) {
+                    od.yPos = 3;
+                    od.flyPos = 3;
+                }
+                if (od.arrangeOrder.equals(GameConstants.VERTICAL))
+                    gameObject.setYpos(od.yPos += od.gapBetweenObjects);
                 else
                     gameObject.setYpos(od.yPos);
                 gameObject.setFlyPos(od.flyPos);
+
                 if (!GameUtility.isEmptyString(od.propertiesFile)) {
                     ((AbstractGameObject) gameObject).propFilename = od.propertiesFile;
                 }
@@ -102,8 +115,16 @@ public class GameObjectCreator {
 
     public void createNextObject(Player2 player) throws Exception{
 
-        float flyLocation = (TOP_LIMIT < (3 + player.body.getPosition().y + GameConstants.PIVOT_ROPE_LENGTH)?TOP_LIMIT:
-                                                                        (3 + player.body.getPosition().y + GameConstants.PIVOT_ROPE_LENGTH));
+        int direction = GameUtility.getGameScreen().player2.body.getLinearVelocity().y<0?-1:1;
+        float flyLocation = player.body.getPosition().y + GameConstants.PIVOT_ROPE_LENGTH;
+
+        flyLocation = flyLocation * direction;
+
+        if(flyLocation<BOTTOM_LIMIT)
+            flyLocation = BOTTOM_LIMIT;
+        if(flyLocation>TOP_LIMIT)
+            flyLocation = TOP_LIMIT;
+
         String pivotOD = "com.pintu.futurewars.Casts.Pivot<->PIVOT<->" + flyLocation + "<->" + flyLocation;
         if(lastPivotLocation==null){
             GameObjectDetails od = toGameObjectDetails(pivotOD);
@@ -117,9 +138,10 @@ public class GameObjectCreator {
 
         float safeDist = player.body.getPosition().x + 1*player.body.getLinearVelocity().x + GameConstants.DISTANCE_BETWEEN_GAME_OBJ;
 
-        if(currentPosition >= positions.size() ){
             if(safeDist + 2 * GameConstants.DISTANCE_BETWEEN_GAME_OBJ < posToCreate) {
-                posToCreate = safeDist + randObjID.nextInt(70) + 30;
+                posToCreate = safeDist
+                        + randObjID.nextInt((int)GameConstants.DISTANCE_BETWEEN_GAME_OBJ)
+                        + GameConstants.DISTANCE_BETWEEN_GAME_OBJ;
             }
 
             if(safeDist > posToCreate) {
@@ -133,6 +155,10 @@ public class GameObjectCreator {
 
                 String createDetails = listOfDefaultClass.get(nextID + "");
                 GameObjectDetails god = toGameObjectDetails(createDetails);
+
+                god.flyPos = flyLocation;
+                god.yPos = flyLocation;
+
                 if(god.isGroup)
                     createObjectGroup(god,posToCreate);
                 else
@@ -142,7 +168,7 @@ public class GameObjectCreator {
 
                 return;
             }
-        }else {
+        if(currentPosition < positions.size()) {
             if (currentPosition > 0 && safeDist + 2 * GameConstants.DISTANCE_BETWEEN_GAME_OBJ < positions.get(currentPosition)) {
                 currentPosition--;
                 GameUtility.log("Reduced Current Position to ", currentPosition + "");

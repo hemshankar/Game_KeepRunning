@@ -158,7 +158,7 @@ public class GameConstants {
     public static String BRICK = "BRICK";
 
     //==============================For GameObjectCreator==========================
-    public static float DISTANCE_BETWEEN_GAME_OBJ =100;
+    public static float DISTANCE_BETWEEN_GAME_OBJ =8;
 
     //=================================SYNC_CONSTANTS==============================
     public static final String CATCH_OBJECT = "CATCH_OBJECT";

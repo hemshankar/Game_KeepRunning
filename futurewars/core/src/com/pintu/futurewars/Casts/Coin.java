@@ -52,8 +52,8 @@ public class Coin extends FutureWarsCast {
             float myXpos = body.getPosition().x;
             float myYpos = body.getPosition().y;
 
-            if (itsAttractTime(dt) && Math.abs(Math.abs(pXpose) - Math.abs(myXpos)) < 5
-                    && Math.abs(Math.abs(pYpose) - Math.abs(myYpos)) < 5) {
+            if (itsAttractTime(dt) && Math.abs(Math.abs(pXpose) - Math.abs(myXpos)) < 10
+                    && Math.abs(Math.abs(pYpose) - Math.abs(myYpos)) < 10) {
                 float xDir = (pXpose - myXpos)/Math.abs(pXpose - myXpos);
                 float yDir = (pYpose - myYpos)/Math.abs(pYpose - myYpos);
                 //body.setLinearVelocity( xDir * (Math.abs(player.body.getLinearVelocity().x) + 10f), yDir * (Math.abs(player.body.getLinearVelocity().y) + 10f));

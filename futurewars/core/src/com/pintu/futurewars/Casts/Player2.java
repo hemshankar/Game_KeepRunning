@@ -22,6 +22,7 @@ public class Player2 extends FutureWarsCast {
     public String selectedBullet = null;
     public boolean hasJumpingKit = false;
     public boolean hasMagnet = false;
+    public int numberOfMagnet = 10;
     public float healthReduceTime = 0;
     public int totalCoin = 0;
 
@@ -29,7 +30,7 @@ public class Player2 extends FutureWarsCast {
     public final float MAX_SPEED = 10;
 
     public final float JUMP_KIT_EFFECT_TIME = 10f;
-    public final float MAGNET_EFFECT_TIME = 5f;
+    public final float MAGNET_EFFECT_TIME = 15f;
     public float jumpEffectRemainig = 0;
     public float magnetEffectRemainig = 0;
     
@@ -53,6 +54,11 @@ public class Player2 extends FutureWarsCast {
     public boolean hasRifle = false;
     public final float RIFLE_EFFECT_TIME = 10f;
     public float rifleEffectRemainig = 0;
+
+    public boolean hasParachute = false;
+    public int totalParachute = 10;
+    public final float PARACHUTE_EFFECT_TIME = 10f;
+    public float parachuteEffectRemainig = 0;
     public Map<GameObject,Joint> jointMap = new HashMap<GameObject, Joint>();
 
     public Player2() {
@@ -90,13 +96,12 @@ public class Player2 extends FutureWarsCast {
             hasMagnet = false;
         }
 
-        /*if(hasRifle){
-            rifleEffectRemainig +=dt;
-            if(rifleEffectRemainig>RIFLE_EFFECT_TIME){
-                rifleEffectRemainig = 0;
-                hasRifle = false;
-            }
-        }*/
+        if(parachuteEffectRemainig>0){
+            parachuteEffectRemainig -= dt;
+        }else{
+            hasParachute = false;
+        }
+
 
         if(hasRocket){
             rocketEffectRemainig +=dt;
@@ -132,9 +137,9 @@ public class Player2 extends FutureWarsCast {
             }
         }
 
-        /*if(getBody().getLinearVelocity().y < -1 * glideSpeed) {
+        if(hasParachute && getBody().getLinearVelocity().y < -1 * glideSpeed) {
             getBody().applyLinearImpulse(new Vector2(0, 1), getBody().getWorldCenter(), true);
-        }*/
+        }
         super.update(dt);
         flyFuelUpdate(dt);
     }

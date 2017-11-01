@@ -22,6 +22,7 @@ import com.pintu.futurewars.commons.GameObject;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -67,6 +68,8 @@ public class GameUtility {
 
     public static GameObjectCreator gameObjectCreator = new GameObjectCreator();
     public static ShapeHelper shapeHelper = new ShapeHelper();
+    public static Random random = new Random();
+
 
     public static void renderGameObjects(SpriteBatch batch, Set<GameObject> gos){
         for(GameObject obj: gos){

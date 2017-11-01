@@ -44,8 +44,9 @@ public class Magnet extends FutureWarsCast {
         if(gObj instanceof Player2){
             toBeDestroyed = true;
             Player2 p = ((Player2) gObj);
-            p.hasMagnet = true;
-            p.magnetEffectRemainig = p.MAGNET_EFFECT_TIME;
+            /*p.hasMagnet = true;
+            p.magnetEffectRemainig = p.MAGNET_EFFECT_TIME;*/
+            p.numberOfMagnet++;
         }
     }
 

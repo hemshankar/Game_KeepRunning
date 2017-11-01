@@ -150,6 +150,11 @@ Rules:
 108. Jet Packs to collect.
 109. Money only can be used to buy more time.
 110. Arrow pointing towards the target
+111. Auto fire to the nearest enemy. Toggle on fire and auto fire.
+112. Points to catch and accelerate should always be present.
+113. Different bullets, single, double, spower
+114. Things mentioned in the properties files should evenly distributed to the distance given in the properties file.
+115. Have parachute if user wanted to use while falling.
 
 
 ============================BUGS================================

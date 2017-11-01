@@ -32,6 +32,8 @@ public class Gift extends FutureWarsCast {
         if(!following) {
             super.handleContact(gObj);
             doneCatching = true;
+
+            following = true;
             //currentState = "STATE_2";
             spriteWidth = spriteWidth / 3;
             spriteHeight = spriteHeight / 3;

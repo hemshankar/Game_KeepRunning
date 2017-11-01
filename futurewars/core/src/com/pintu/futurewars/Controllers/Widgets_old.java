@@ -97,9 +97,9 @@ public class Widgets_old {
         healthBar();
         flyFuelBar();
 
-        numberOfRocketsLabel = addItem("imgs/rocket.png","0",80,750,50,700,new RocketListner(),
+        numberOfRocketsLabel = addItem("imgs/rocketOff.png","0",80,750,50,700,new RocketListner(),
                                         150,150);
-        numberOfSkatesLabel = addItem("imgs/skateIcon.png","0",80,950,50,900,new SkatesListner(),
+        numberOfSkatesLabel = addItem("imgs/skatesOff.png","0",80,950,50,900,new SkatesListner(),
                                         20,60);
 
 
@@ -164,13 +164,13 @@ public class Widgets_old {
 
 
     private void healthBar(){
-        //===================Replace the label Live with some image==============================
+        //===================Replace the label Live with some m_offImage==============================
         CustomLabel healthLabel = new CustomLabel("Life", new Label.LabelStyle(font,Color.BLACK));
         healthLabel.setWidth(10);
         healthLabel.setHeight(10);
         healthLabel.setPosition(10,stage.getHeight()-50);
         stage.addActor(healthLabel);
-        //===================End of Replace the label live with some image=======================
+        //===================End of Replace the label live with some m_offImage=======================
 
         Pixmap pixmap = new Pixmap(100, 20, Format.RGBA8888);
         pixmap.setColor(Color.RED);
@@ -212,13 +212,13 @@ public class Widgets_old {
     }
 
     private void flyFuelBar(){
-        //===================Replace the label fuel with some image==============================
+        //===================Replace the label fuel with some m_offImage==============================
         CustomLabel fuelLabel = new CustomLabel("Fuel", new Label.LabelStyle(font,Color.BLACK));
         fuelLabel.setWidth(10);
         fuelLabel.setHeight(10);
         fuelLabel.setPosition(10,stage.getHeight()-100);
         stage.addActor(fuelLabel);
-        //===================End of Replace the label fuel with some image=======================
+        //===================End of Replace the label fuel with some m_offImage=======================
 
         Pixmap pixmap = new Pixmap(100, 20, Format.RGBA8888);
         pixmap.setColor(Color.RED);
@@ -342,11 +342,6 @@ public class Widgets_old {
         stagelabel.setPosition(labelX,labelY);
         stagelabel.addListener(listner);
         stage.addActor(stagelabel);
-        try {
-            font.dispose();
-        }catch(Exception e){
-            e.printStackTrace();
-        }
         return stagelabel;
     }
     public class StageListner extends InputListener {
