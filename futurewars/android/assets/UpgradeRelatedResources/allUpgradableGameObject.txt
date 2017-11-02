@@ -1,0 +1,13 @@
+SpeedBomb=propertyFiles/speedBomb.txt
+Kite=propertyFiles/kite.txt
+Kaleen=propertyFiles/kaleen.txt
+Magnet=propertyFiles/Magnet.txt
+Horse=propertyFiles/horse.txt
+JumpingKit=propertyFiles/jumpingKit.txt
+FlyingKit=propertyFiles/flyingKit.txt
+PowerDrink=propertyFiles/powerDrink.txt
+Rifle=propertyFiles/rifle.txt
+Skates=propertyFiles/skates.txt
+Car=propertyFiles/car.txt
+
+

@@ -5,17 +5,29 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.EllipseMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.JumpingMarblesGame;
@@ -34,6 +46,9 @@ public class StageDetailsScreen implements Screen {
     OrthographicCamera ctrlCam = null;
     FitViewport cViewPort = null;
     GameSprite gs = null;
+    TextButton tb = null;
+    ImageButton previous;
+
 
     public TmxMapLoader mapLoader = null;
     public TiledMap map = null;
@@ -48,6 +63,27 @@ public class StageDetailsScreen implements Screen {
 
         mapLoader = new TmxMapLoader();
         map = mapLoader.load(GameConstants.STAGES_DETAILS_MAP);
+
+        Skin skin = new Skin(Gdx.files.internal("skins/uiskin.json"));
+
+        //skin.add("logo", new Texture("imgs/welcome.png"));
+        tb = new TextButton("Demo",skin,"toggle");
+        tb.setSize(200,100);
+
+        Drawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture("imgs/speed.png")));
+        previous = new ImageButton(drawable);
+        previous.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if ((event + "").equals("touchDown")){
+                    Gdx.app.log("33333333", event + "");
+                }
+                return true;
+            }
+        });
+        previous.setSize(100,100);
+
+
         //renderer = new OrthogonalTiledMapRenderer(map,1);
         initFonts();
     }
@@ -89,6 +125,8 @@ public class StageDetailsScreen implements Screen {
             }
         }
         addAnimation(GameUtility.gameObjectCreator.stageDetailsMap.get(GameConstants.STAGES_DETAILS_ANIMATION),200,800);
+        stage.addActor(previous);
+        //stage.addActor(tb);
     }
 
     public void update(float dt){

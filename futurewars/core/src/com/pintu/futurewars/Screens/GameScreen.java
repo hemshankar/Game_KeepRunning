@@ -162,9 +162,9 @@ public class GameScreen extends BaseScreen {
         System.out.println("Show called");
         InputProcessor inputProcessorOne = this;
         InputProcessor inputProcessorTwo = this.widgets.stage;
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(inputProcessorOne);
-        inputMultiplexer.addProcessor(inputProcessorTwo);
+        InputMultiplexer inputMultiplexer = new InputMultiplexer(inputProcessorOne,inputProcessorTwo);
+        /*inputMultiplexer.addProcessor(inputProcessorOne);
+        inputMultiplexer.addProcessor(inputProcessorTwo);*/
         Gdx.input.setInputProcessor(inputMultiplexer);
         gameMusic.play();
         //Gdx.input.setInputProcessor(widgets.stage);

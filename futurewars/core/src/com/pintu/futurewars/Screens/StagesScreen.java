@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.input.GestureDetector;
 import com.badlogic.gdx.maps.MapObject;
@@ -24,12 +25,16 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.JumpingMarblesGame;
@@ -63,8 +68,8 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
     public OrthogonalTiledMapRenderer renderer = null;
     private float currentZoom = 1;
     Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
-    //GameSprite gs = null;
-    public StagesScreen(JumpingMarblesGame game){
+    ImageButton upgrades=null;
+    public StagesScreen(final JumpingMarblesGame game){
         this.game = game;
         world = new World(new Vector2(0,0),true);
         ctrlCam = new OrthographicCamera();
@@ -83,11 +88,39 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
             addCity("imgs/danger.png",object.getName(),eclipse.x,eclipse.y);
         }
 
-        //gs = new GameSprite(GameConstants.CAT_PROPERTY_FILE,200,400);
+        upgrades = addImageButton("Upgrade", "imgs/upgrade.png",
+                new EventListener() {
+                    @Override
+                    public boolean handle(Event event) {
+                        if(event.toString().equals("touchDown")) {
+                            game.setScreen(game.getUpgradeScreen());
+                        }
+                        return true;
+                    }
+                }, stage.getWidth() - 100, stage.getHeight() - 200, 100, 100);
+        stage.addActor(upgrades);
+    }
+
+    public ImageButton addImageButton(String name,
+                                      String imageURL,
+                                      EventListener listner,
+                                      float xPos, float yPos,
+                                      float width,float height){
+        ImageButton button = null;
+        Drawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(imageURL)));
+
+        button = new ImageButton(drawable);
+        button.setName(name);
+        button.getImage().setName(name);
+        button.addListener(listner);
+        button.setSize(width,height);
+        button.setPosition(xPos, yPos);
+        return button;
     }
 
     @Override
     public void show() {
+
         InputProcessor inputProcessorOne = new GestureDetector(this);
         InputProcessor inputProcessorTwo = stage;
         InputMultiplexer inputMultiplexer = new InputMultiplexer();
@@ -101,6 +134,8 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
         ctrlCam.zoom = .5f;
         currentZoom = .5f;
         ctrlCam.update();
+
+
     }
 
     public void update(float dt){
@@ -109,9 +144,12 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
             //game.setScreen(game.getGameScreen());
         }
         for(Actor a: stage.getActors()){
+            if("Upgrade".equals(a.getName()))
+                continue;
             a.setWidth(10*5*ctrlCam.zoom);
             a.setHeight(10*5*ctrlCam.zoom);
         }
+        upgrades.setPosition((stage.getWidth())*ctrlCam.zoom, (stage.getHeight()-100)*ctrlCam.zoom);
         stage.act();
         //gs.updateSprite(dt);
     }

@@ -34,6 +34,7 @@ import com.pintu.futurewars.Screens.GameScreen;
 import com.pintu.futurewars.Screens.PauseScreen;
 import com.pintu.futurewars.Screens.StageDetailsScreen;
 import com.pintu.futurewars.Screens.StagesScreen;
+import com.pintu.futurewars.Screens.UpgradeScreen;
 import com.pintu.futurewars.Screens.WelcomeScreen;
 import com.pintu.futurewars.Utility.GameUtility;
 
@@ -51,12 +52,14 @@ public class JumpingMarblesGame extends Game {
     public StageDetailsScreen stageDetailsScreen = null;
 	public PauseScreen pauseScreen = null;
 	public GameEndScreen gameEndScreen = null;
-
+	public UpgradeScreen upgradeScreen = null;
 	public String selectedStage = "";
 
 	@Override
 	public void create () {
+
 		try {
+
 			/*Brick.init();
 			Kaleen.init();
 			Horse.init();
@@ -95,6 +98,12 @@ public class JumpingMarblesGame extends Game {
 			viewport = new FitViewport(GameConstants.VIEW_PORT_WIDTH/ GameConstants.PPM,GameConstants.VIEW_PORT_HIGHT/GameConstants.PPM,camera);
 			/*gameScreen = new GameScreen(this);
 			setScreen(gameScreen);*/
+
+			if(false) {
+				setScreen(getUpgradeScreen());
+				return;
+			}
+
 			welcomeScreen = new WelcomeScreen(this);
 			pauseScreen = new PauseScreen(this,null);
             //stageDetailsScreen = new StageDetailsScreen(this);
@@ -127,11 +136,20 @@ public class JumpingMarblesGame extends Game {
 			gameEndScreen.dispose();
         if(stageDetailsScreen!=null)
             stageDetailsScreen.dispose();
+		if(upgradeScreen!=null)
+			upgradeScreen.dispose();
 	}
 
 	public GameScreen getGameScreen(){
         gameScreen = new GameScreen(this);
         return gameScreen;
+	}
+
+	public UpgradeScreen getUpgradeScreen(){
+		if(upgradeScreen == null){
+			upgradeScreen = new UpgradeScreen(this);
+		}
+		return upgradeScreen;
 	}
 
 	public StagesScreen getStagesScreen(){
