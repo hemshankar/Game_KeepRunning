@@ -1,5 +1,6 @@
 package com.pintu.futurewars.Screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputMultiplexer;
@@ -55,10 +56,11 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
     JumpingMarblesGame game = null;
     BitmapFont font = null;
     Stage stage = null;
+
     Label loading = null;
+
     OrthographicCamera ctrlCam = null;
     FitViewport cViewPort = null;
-    World world = null;//new World(new Vector2(0,0),true);
 
     private final float CHANGE_SCREEN_TIME = 5;
     private float timeHappend = 1;
@@ -67,11 +69,14 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
     public TiledMap map = null;
     public OrthogonalTiledMapRenderer renderer = null;
     private float currentZoom = 1;
-    Box2DDebugRenderer debugRenderer = new Box2DDebugRenderer();
+
     ImageButton upgrades=null;
+    MenuStage menuStage = null;
+
     public StagesScreen(final JumpingMarblesGame game){
         this.game = game;
-        world = new World(new Vector2(0,0),true);
+        //world = new World(new Vector2(0,0),true);
+
         ctrlCam = new OrthographicCamera();
         cViewPort = new FitViewport(GameConstants.VIEW_PORT_WIDTH,GameConstants.VIEW_PORT_HIGHT,ctrlCam);
         stage = new Stage(cViewPort,game.batch);
@@ -81,12 +86,15 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
         renderer = new OrthogonalTiledMapRenderer(map,1);
 
 
+
         initFonts();
 
         for (MapObject object : map.getLayers().get("cities").getObjects().getByType(EllipseMapObject.class)) {
             Ellipse eclipse = ((EllipseMapObject) object).getEllipse();
             addCity("imgs/danger.png",object.getName(),eclipse.x,eclipse.y);
         }
+
+        menuStage = GameUtility.getMenuStage();
 
         upgrades = addImageButton("Upgrade", "imgs/upgrade.png",
                 new EventListener() {
@@ -98,7 +106,8 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
                         return true;
                     }
                 }, stage.getWidth() - 100, stage.getHeight() - 200, 100, 100);
-        stage.addActor(upgrades);
+
+        menuStage.addActor(upgrades);
     }
 
     public ImageButton addImageButton(String name,
@@ -122,10 +131,7 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
     public void show() {
 
         InputProcessor inputProcessorOne = new GestureDetector(this);
-        InputProcessor inputProcessorTwo = stage;
-        InputMultiplexer inputMultiplexer = new InputMultiplexer();
-        inputMultiplexer.addProcessor(inputProcessorOne);
-        inputMultiplexer.addProcessor(inputProcessorTwo);
+        InputMultiplexer inputMultiplexer = new InputMultiplexer(stage,menuStage.stage,inputProcessorOne);
         Gdx.input.setInputProcessor(inputMultiplexer);
         //Gdx.input.setInputProcessor(stage);
         //Gdx.input.setInputProcessor(new GestureDetector(this));
@@ -134,8 +140,7 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
         ctrlCam.zoom = .5f;
         currentZoom = .5f;
         ctrlCam.update();
-
-
+        menuStage.show();
     }
 
     public void update(float dt){
@@ -149,8 +154,12 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
             a.setWidth(10*5*ctrlCam.zoom);
             a.setHeight(10*5*ctrlCam.zoom);
         }
-        upgrades.setPosition((stage.getWidth())*ctrlCam.zoom, (stage.getHeight()-100)*ctrlCam.zoom);
+        upgrades.setPosition(stage.getWidth()-200, stage.getHeight()-100);
+
         stage.act();
+        menuStage.update();
+        menuStage.act();
+
         //gs.updateSprite(dt);
     }
 
@@ -159,12 +168,13 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
         //Gdx.gl.glClearColor(.4f,.6f,.5f,1);
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        world.step(1/60f, 6, 2);
+        //world.step(1/60f, 6, 2);
         renderer.setView(ctrlCam);
         renderer.render();
         update(delta);
         stage.draw();
-        debugRenderer.render(world, ctrlCam.combined);
+        menuStage.draw();
+        //debugRenderer.render(world, ctrlCam.combined);
         //gs.draw(game.batch);
     }
 
@@ -192,6 +202,7 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
     public void dispose() {
         font.dispose();
         stage.dispose();
+        menuStage.dispose();
         map.dispose();
         renderer.dispose();
         GameUtility.log(this.getClass().getName(), "Disposed");

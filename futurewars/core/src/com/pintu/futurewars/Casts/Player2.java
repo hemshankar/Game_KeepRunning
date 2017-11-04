@@ -69,18 +69,7 @@ public class Player2 extends FutureWarsCast {
         canFly = false;
         hasFlyingKit = true;
         flyFuel = MAX_FLY_FUEL;
-        maxVelocity = 20/GameConstants.MPS_TO_KPH;
-    }
-
-    @Deprecated
-    public Player2(int id, World w, TextureAtlas a, MapObject object) {
-        super(id, GameConstants.PLAYER_PROPERTY_FILE, w, a,object);
-        GameUtility.setPlayer(this);
-        selectedBullet = GameConstants.BASIC_BULLET;
-        health = MAX_HEALTH;
-        canFly = false;
-        hasFlyingKit = true;
-        flyFuel = MAX_FLY_FUEL;
+        maxVelocity = 10/GameConstants.MPS_TO_KPH;
     }
 
     public void update(float dt){
@@ -142,6 +131,13 @@ public class Player2 extends FutureWarsCast {
         }
         super.update(dt);
         flyFuelUpdate(dt);
+    }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        GameUtility.getGameScreen().game.setScreen(GameUtility.getGameScreen().game.getGameEndScreen(GameConstants.STAGE1,GameConstants.STAGE1));
+        GameUtility.getGameScreen().gameMusic.stop();
     }
 
     public void fire(){

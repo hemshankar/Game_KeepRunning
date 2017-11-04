@@ -3,8 +3,10 @@ package com.pintu.futurewars.Controllers;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.physics.box2d.Joint;
 import com.badlogic.gdx.physics.box2d.joints.WeldJoint;
@@ -13,6 +15,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Constants.GameConstants;
@@ -46,7 +51,11 @@ public class Widgets {
     CustomButton bulletType;
     CustomButton magnetsLeft = null;
     CustomButton parachute = null;
+    CustomButton musicButton = null;
 
+
+    ProgressBar healthBar;
+    Label healthLabel;
     public Widgets(JumpingMarblesGame game, GameScreen screen){
         this.game = game;
         this.screen = screen;
@@ -55,18 +64,23 @@ public class Widgets {
                 GameConstants.VIEW_PORT_HIGHT,ctrlCam);
         stage = new Stage(cViewPort, screen.batch);
 
-        rockets = addItem("imgs/rocketOff.png","imgs/rocketOn.png","0",80,850,80,800,new RocketListner(),150,150,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
-        skates = addItem("imgs/skatesOff.png","imgs/skatesOn.png","0",280,850,280,800,new SkatesListner(),60,150,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
-        bulletType = addItem("imgs/offGun.png","imgs/onGun.png","0",390,850,390,800,new FireListner(),150,150,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
-        magnetsLeft = addItem("imgs/offMagnet.png","imgs/onMagnet.png","0",560,850,580,800,new MagnetListner(),150,150,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
-        parachute = addItem("imgs/parachuteOff.png","imgs/parachuteOn.png","0",750,850,775,800,new ParacheuteListner(),150,150,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
+        rockets = addItem("imgs/rocketOff.png","imgs/rocketOn.png","0",10,520,20,520,new RocketListner(),150,150,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
+        skates = addItem("imgs/skatesOff.png","imgs/skatesOn.png","0",50,700,20,700,new SkatesListner(),60,150,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
+        bulletType = addItem("imgs/offGun.png","imgs/onGun.png","0",25,880,15,860,new FireListner(),100,100,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
+        magnetsLeft = addItem("imgs/offMagnet.png","imgs/onMagnet.png","0",150,880,180,840,new MagnetListner(),100,100,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
+        parachute = addItem("imgs/parachuteOff.png","imgs/parachuteOn.png","0",290,880,320,840,new ParacheuteListner(),100,100,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
 
-        speedStats = addItem("imgs/speed.png",null,"0",1380,950,1450,950,null,50,50,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
-        coinsCollected = addItem("imgs/coin.png",null,"0",1380,900,1450,900,null,50,50,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
-        timeLeft = addItem("imgs/watch.png",null,"0",1380,850,1450,850,null,50,50,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
+        speedStats = addItem("imgs/speed.png",null,"0",1380,800,1450,800,null,50,50,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
+        //coinsCollected = addItem("imgs/coin.png",null,"0",1380,900,1450,900,null,50,50,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
+        timeLeft = addItem("imgs/watch.png",null,"0",1380,750,1450,750,null,50,50,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
         //distance = addItem("imgs/welcome.png",null,"0",1380,800,1450,800,null,50,50,getFonts("fonts/leadcoat.ttf",30,Color.BLACK));
 
+        addItem("imgs/pause.png",null,"",1350,900,0,0,new StageListner(),100,100,null);
+        musicButton = addItem("imgs/volumeOn.png","imgs/volumeOff.png","",1450,900,0,0,new VolumeListner(),100,100,null);
+
         addItem("imgs/shoot.png",null,"",stage.getWidth()-180,100,0,0,new ThrowListner(),200,200,null);
+
+        addHealthBar();
 
 
     }
@@ -77,13 +91,14 @@ public class Widgets {
 
     public void update(float dt){
 
+        healthBar.setValue(screen.player2.health/screen.player2.MAX_HEALTH);
         speedStats.label.setText (("" + (int)(screen.player2.body.getLinearVelocity().x*(GameConstants.MPS_TO_KPH))) + " kmph");
-        coinsCollected.label.setText ( "" + screen.player2.totalCoin);
+        //coinsCollected.label.setText ( "" + screen.player2.totalCoin);
         timeLeft.label.setText (((int)screen.gameTime - (int)screen.timePassed) + " s");
         //distance.label.setText (  ((int)(1000*screen.player2.body.getPosition().x)/(100000.0)) + " km");
         rockets.label.setText(screen.player2.totalRockets + "");
         skates.label.setText(screen.player2.totalSkates + "");
-        bulletType.label.setText(screen.player2.selectedBullet);
+        //bulletType.label.setText(screen.player2.selectedBullet);
         magnetsLeft.label.setText(screen.player2.numberOfMagnet + "");
         parachute.label.setText(screen.player2.totalParachute + "");
 
@@ -115,6 +130,13 @@ public class Widgets {
         }else{
             parachute.m_offImage.setVisible(true);
             parachute.m_onImage.setVisible(false);
+        }
+        if(screen.gameMusic.getVolume()==0){
+            musicButton.m_offImage.setVisible(false);
+            musicButton.m_onImage.setVisible(true);
+        }else{
+            musicButton.m_offImage.setVisible(true);
+            musicButton.m_onImage.setVisible(false);
         }
 
         stage.act();
@@ -340,4 +362,90 @@ public class Widgets {
             return true;
         }
     }
+
+    public class StageListner extends InputListener {
+
+        public StageListner(){
+        }
+
+        @Override
+        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            game.pauseScreen.stageScreen = screen;
+            game.setScreen(game.pauseScreen);
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            //addLoadingLabel();
+            return true;
+        }
+    }
+
+    public class VolumeListner extends InputListener {
+
+        public VolumeListner(){
+        }
+
+        @Override
+        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            if(screen.gameMusic.getVolume()==0){
+                screen.gameMusic.setVolume(1);
+            }else {
+                screen.gameMusic.setVolume(0);
+            }
+       }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            //addLoadingLabel();
+            return true;
+        }
+    }
+
+    private void addHealthBar(){
+        //===================Replace the label Live with some m_offImage==============================
+        Drawable d =  new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("imgs/heart.png"))));
+        Image healthLabel = new Image(d);
+        healthLabel.setWidth(40);
+        healthLabel.setHeight(40);
+        healthLabel.setPosition(690,stage.getHeight()-75);
+        stage.addActor(healthLabel);
+        //===================End of Replace the label live with some m_offImage=======================
+
+        Pixmap pixmap = new Pixmap(100, 20, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.RED);
+        pixmap.fill();
+        TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pixmap.dispose();
+        ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();
+        progressBarStyle.background = drawable;
+
+        pixmap = new Pixmap(0, 20, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.GREEN);
+        pixmap.fill();
+        drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pixmap.dispose();
+
+        progressBarStyle.knob = drawable;
+
+        pixmap = new Pixmap(100, 20, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.GREEN);
+        pixmap.fill();
+        drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pixmap.dispose();
+
+        progressBarStyle.knobBefore = drawable;
+
+        healthBar = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyle);
+
+        healthBar.setValue(1.0f);
+        healthBar.setAnimateDuration(0.025f);
+        healthBar.setBounds(10, 10, 200, 20);
+        healthBar.setFillParent(true);
+        healthBar.setPosition(750,stage.getHeight()-65);
+
+        //return healthBar;
+        stage.addActor(healthBar);
+    }
+
 }

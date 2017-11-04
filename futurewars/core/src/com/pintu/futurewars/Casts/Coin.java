@@ -38,6 +38,7 @@ public class Coin extends FutureWarsCast {
         if(gObj instanceof Player2){
             toBeDestroyed = true;
             ((Player2) gObj).totalCoin++;
+            GameUtility.getGameScreen().menuStage.totalCoins = ((Player2) gObj).totalCoin;
             //System.out.println(((Player2) gObj).totalCoin);
         }
     }

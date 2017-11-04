@@ -5,27 +5,21 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.EllipseMapObject;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
-import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.common.utilities.Utility;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.JumpingMarblesGame;
 import com.pintu.futurewars.Utility.GameSprite;
@@ -42,6 +36,7 @@ import java.util.Map;
 public class UpgradeScreen implements Screen {
 
     JumpingMarblesGame game = null;
+    MenuStage menuStage = null;
     BitmapFont font = null;
     Skin skin;
     Stage stage = null;
@@ -58,19 +53,24 @@ public class UpgradeScreen implements Screen {
     ImageButton backButton = null;
     ImageButton backButtonPressed = null;
 
+    TextButton upgradeTextButton = null;
     Map<String,String> allUpgradableGameObject = null;
     List<String> upgradableGameObjectList = null;
     Label maxQuality;
     int counter = 0;
+    ProgressBar capacity;
+    int totalCoins = 0;
     public UpgradeScreen(final JumpingMarblesGame game){
         this.game = game;
+        menuStage = new MenuStage(game);
         ctrlCam = new OrthographicCamera();
         cViewPort = new FitViewport(GameConstants.VIEW_PORT_WIDTH,
                 GameConstants.VIEW_PORT_HIGHT,ctrlCam);
         stage = new Stage(cViewPort,game.batch);
         skin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
+        totalCoins = game.preferences.getInteger(GameConstants.PERF_COIN);
         try {
-            allUpgradableGameObject = Utility.populateConfigurationsFromConfigFile("UpgradeRelatedResources/allUpgradableGameObject.txt");
+            allUpgradableGameObject = GameUtility.populateConfigurationsFromConfigFile("UpgradeRelatedResources/allUpgradableGameObject.txt");
             //upgradableGameObjectList = Utility.listFileInFolder("allUpgradableGameObject/allUpgradableGameObject");
             upgradableGameObjectList = new ArrayList<String>();
             upgradableGameObjectList.addAll(allUpgradableGameObject.keySet());
@@ -120,6 +120,7 @@ public class UpgradeScreen implements Screen {
                 if(event.toString().equals("touchDown")){
                     upgradeButton.setVisible(false);
                     upgradeButtonPressed.setVisible(true);
+                    //menuStage.totalCoins = totalCoins
                 }else if(event.toString().equals("touchUp")){
                     upgradeButton.setVisible(true);
                     upgradeButtonPressed.setVisible(false);
@@ -155,6 +156,24 @@ public class UpgradeScreen implements Screen {
         upgradeButtonPressed = addImageButton("UpgradePressed","imgs/upgradePressed.png",
                                         upgradeLister,stage.getWidth()-200-200,stage.getHeight()-500,200,200);
         upgradeButtonPressed.setVisible(false);
+
+
+        upgradeTextButton = new TextButton("Upgrade",skin,"default");
+        upgradeTextButton.setPosition(stage.getWidth()-200-200,stage.getHeight()-500);
+        /*upgradeTextButton.setWidth(300);
+        upgradeTextButton.setHeight(300);*/
+        upgradeTextButton.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                if(event.toString().equals("touchUp")){
+                    totalCoins -=100;
+                    game.preferences.putInteger(GameConstants.PERF_COIN,totalCoins);
+                    game.preferences.flush();
+                    menuStage.totalCoins = totalCoins;
+                }
+                return true;
+            }
+        });
 
 
         backButton = addImageButton("BackButton","imgs/backButton.png",
@@ -212,17 +231,23 @@ public class UpgradeScreen implements Screen {
         stage.addActor(nextPressed);
         addAnimation(allUpgradableGameObject.get(upgradableGameObjectList.get(counter)),stage.getWidth()/2-200,stage.getHeight()-400);
         stage.addActor(maxQuality);
-        stage.addActor(upgradeButton);
-        stage.addActor(upgradeButtonPressed);
-
+        //stage.addActor(upgradeButton);
+        //stage.addActor(upgradeButtonPressed);
+        stage.addActor(upgradeTextButton);
         stage.addActor(backButton);
         stage.addActor(backButtonPressed);
+
+        addCapacityBar();
+        menuStage.show();
     }
 
     public void update(float dt){
         if(gs !=null) {
             gs.updateSprite(dt);
         }
+        capacity.setValue(.2f);
+        menuStage.update();
+        menuStage.act();
         stage.act();
     }
 
@@ -236,6 +261,7 @@ public class UpgradeScreen implements Screen {
         if(gs!=null) {
             gs.draw(game.batch);
         }
+        menuStage.draw();
     }
 
     @Override
@@ -261,7 +287,7 @@ public class UpgradeScreen implements Screen {
     @Override
     public void dispose() {
         stage.dispose();
-
+        menuStage.dispose();
         GameUtility.log(this.getClass().getName(), "Disposed");
     }
 
@@ -273,5 +299,52 @@ public class UpgradeScreen implements Screen {
         }catch(Exception e){
             GameUtility.log(this.getClass().getName(),e.getMessage());
         }
+    }
+
+
+    private Label addCapacityBar(){
+       /* //===================Replace the label Live with some m_offImage==============================
+        Label capacityLabel = new Label("Life", new Label.LabelStyle(GameUtility.getFonts("fonts/leadcoat.ttf",30,Color.BLACK),Color.BLACK));
+        capacityLabel.setWidth(10);
+        capacityLabel.setHeight(10);
+        capacityLabel.setPosition(10,stage.getHeight()-250);
+        stage.addActor(capacityLabel);
+        //===================End of Replace the label live with some m_offImage=======================*/
+
+        Pixmap pixmap = new Pixmap(100, 50, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.RED);
+        pixmap.fill();
+        TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pixmap.dispose();
+        ProgressBar.ProgressBarStyle progressBarStyle = new ProgressBar.ProgressBarStyle();
+        progressBarStyle.background = drawable;
+
+        pixmap = new Pixmap(0, 50, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.GREEN);
+        pixmap.fill();
+        drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pixmap.dispose();
+
+        progressBarStyle.knob = drawable;
+
+        pixmap = new Pixmap(100, 50, Pixmap.Format.RGBA8888);
+        pixmap.setColor(Color.GREEN);
+        pixmap.fill();
+        drawable = new TextureRegionDrawable(new TextureRegion(new Texture(pixmap)));
+        pixmap.dispose();
+
+        progressBarStyle.knobBefore = drawable;
+
+        capacity = new ProgressBar(0.0f, 1.0f, 0.01f, false, progressBarStyle);
+
+        capacity.setValue(1.0f);
+        capacity.setAnimateDuration(0.025f);
+        capacity.setBounds(10, 10, 400, 50);
+        capacity.setFillParent(true);
+        capacity.setPosition(530,stage.getHeight()-500);
+
+        //return capacity;
+        stage.addActor(capacity);
+        return null;
     }
 }

@@ -551,6 +551,8 @@ public abstract class AbstractGameObject implements GameObject{
         if(this instanceof Player2 || !(gObj instanceof Player2))
             return;
 
+
+
         //check if this contact happened as a result of the catch
         Player2 player2 = ((Player2) gObj);
         if(removeRopeConnectionOnContact &&

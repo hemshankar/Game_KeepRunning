@@ -73,7 +73,7 @@ public class GameConstants {
     public final static String BOMB = "BOMB";
 
     public static final float BOMB_SIZE = 20;
-    public static final float BOMB_SPEED = 20f;
+    public static final float BOMB_SPEED = 2000f;
     public static final int BOMB_DAMAGE = 1000;
     public static final float BOMB_RECOIL_TIME = .4f;
     public static final float BOMB_TIME_TO_LIVE = 4f;
@@ -158,7 +158,7 @@ public class GameConstants {
     public static String BRICK = "BRICK";
 
     //==============================For GameObjectCreator==========================
-    public static float DISTANCE_BETWEEN_GAME_OBJ =8;
+    public static float DISTANCE_BETWEEN_GAME_OBJ =20;
 
     //=================================SYNC_CONSTANTS==============================
     public static final String CATCH_OBJECT = "CATCH_OBJECT";
@@ -182,6 +182,10 @@ public class GameConstants {
     public static final String STAGES_DETAILS_REWARD = "Reward";
     public static final String STAGES_DETAILS_DIFFICULTY = "Difficulty";
     public static final String STAGES_DETAILS_LOCATION = "Location";
+
+
+    //===================================PREFERENCES CONSTANTS====================
+    public static String PERF_COIN = "COIN";
 
 
 

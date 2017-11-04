@@ -3,8 +3,11 @@ package com.pintu.futurewars.Utility;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.physics.box2d.World;
 import com.common.exceptions.UtilityException;
 import com.pintu.futurewars.Blasts.EnemyBlast;
@@ -13,7 +16,9 @@ import com.pintu.futurewars.Casts.Player;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.JumpingMarbleWorldCreator;
+import com.pintu.futurewars.JumpingMarblesGame;
 import com.pintu.futurewars.Screens.GameScreen;
+import com.pintu.futurewars.Screens.MenuStage;
 import com.pintu.futurewars.com.pintu.futurewars.armory.BasicBullet;
 import com.pintu.futurewars.com.pintu.futurewars.armory.Bomb;
 import com.pintu.futurewars.commons.AbstractGameObject;
@@ -69,7 +74,8 @@ public class GameUtility {
     public static GameObjectCreator gameObjectCreator = new GameObjectCreator();
     public static ShapeHelper shapeHelper = new ShapeHelper();
     public static Random random = new Random();
-
+    public static JumpingMarblesGame game = null;
+    public static MenuStage menuStage = null;
 
     public static void renderGameObjects(SpriteBatch batch, Set<GameObject> gos){
         for(GameObject obj: gos){
@@ -175,6 +181,12 @@ public class GameUtility {
         }
 
         return configFile;
+    }
+
+    public static MenuStage getMenuStage(){
+        if(menuStage==null)
+            menuStage = new MenuStage(game);
+        return menuStage;
     }
 
     public static void setGameScreen(GameScreen screen){
@@ -310,5 +322,16 @@ public class GameUtility {
         if(!isEmptyString(sound)) {
             GameUtility.getGameScreen().assetManager.get(sound, Sound.class).play();
         }
+    }
+
+    public static  BitmapFont getFonts(String fontTypeTTFFile, int size, Color color){
+        BitmapFont f = null;
+        FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(fontTypeTTFFile));
+        FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        params.size = size;
+        params.color = color;
+        f = generator.generateFont(params);
+
+        return f;
     }
 }

@@ -3,6 +3,7 @@ package com.pintu.futurewars.Screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -74,12 +75,13 @@ public class GameScreen extends BaseScreen {
     public float numOfBackImgs = 1;
 
     public float timePassed = 0;
-    public float gameTime = 60*2; //five minutes
+    public float gameTime = 60*3; //3 minutes
 
     public float slowMotionEffect = 0;
     public float slowMotionEffectTime = 2f;
     public boolean isslowMotionEffect = false;
     public long sleepTime = 0;
+    Preferences preferences;
 
     public ShapeRenderer shapeRenderer = null;
     //Comparator<GameObject> comparator = new GameObjectComparator();
@@ -87,13 +89,18 @@ public class GameScreen extends BaseScreen {
     public float nearestDist = Float.MAX_VALUE; //(x*x + y*y)^2
     public GameObject nearestEnemy = null;
 
+    public MenuStage menuStage=null;
+
     public GameScreen(JumpingMarblesGame game){
 
         //Initialize all the variables
+        preferences = game.preferences;
+
         float scrWidth = Gdx.graphics.getWidth();
         float scrHight = Gdx.graphics.getHeight();
         this.game = game;
         this.batch = game.batch;
+        menuStage = new MenuStage(game);
         this.assetManager = game.assetManager;
         camera = game.camera;//new OrthographicCamera();
         viewport = game.viewport;//viewport = new FitViewport(Gdx.graphics.getWidth()/ GameConstants.PPM,Gdx.graphics.getHeight()/ GameConstants.PPM);
@@ -117,7 +124,12 @@ public class GameScreen extends BaseScreen {
         worldCreator = new JumpingMarbleWorldCreator(world, map);
         GameUtility.worldCreator = worldCreator;
         gameObjects = worldCreator.gameObjects;
-        player2 = worldCreator.player;//new Player2(22,null,world,GameUtility.getAtlas(),worldCreator.player.mapObject);
+        //player2 = worldCreator.player;//new Player2(22,null,world,GameUtility.getAtlas(),worldCreator.player.mapObject);
+        if((preferences.getInteger(GameConstants.PERF_COIN) + "").equals("null")){
+            GameUtility.log(this.getClass().getName(),"No coins initially");
+            preferences.putInteger(GameConstants.PERF_COIN,0);
+            preferences.flush();
+        }
 
         widgets = new Widgets(game,this);
         widgets_old = new Widgets_old(game,this);
@@ -133,9 +145,12 @@ public class GameScreen extends BaseScreen {
         System.out.println("Total game objects at start: " + gameObjects.size() + ": " + gameObjects);
 
         player2 = new Player2();
+        player2.yPos = 5;
+
         player2.initialize();
         gameObjects.add(player2);
         player2.body.setUserData(player2);
+        player2.totalCoin = preferences.getInteger(GameConstants.PERF_COIN);
 
         Ground g = new Ground();
         g.xPos = 0;
@@ -168,6 +183,7 @@ public class GameScreen extends BaseScreen {
         Gdx.input.setInputProcessor(inputMultiplexer);
         gameMusic.play();
         //Gdx.input.setInputProcessor(widgets.stage);
+        menuStage.show();
     }
 
     @Override
@@ -193,6 +209,7 @@ public class GameScreen extends BaseScreen {
         GameUtility.shapeHelper.drawShapes(shapeRenderer,camera);
 
         b2dr.render(world,camera.combined);
+        menuStage.draw();
 
     }
 
@@ -209,6 +226,7 @@ public class GameScreen extends BaseScreen {
         if(player2.hasRifle){
             player2.fire();
         }
+        menuStage.update();
         //player2.update(dt);
     }
 
@@ -245,6 +263,10 @@ public class GameScreen extends BaseScreen {
     @Override
     public void dispose() {
         System.out.println("GameScreen: Dispose called");
+
+        //same the game data
+        preferences.putInteger(GameConstants.PERF_COIN, player2.totalCoin);
+        preferences.flush();
         //map.dispose();
         //renderer.dispose();
         world.dispose();
@@ -259,6 +281,7 @@ public class GameScreen extends BaseScreen {
         GameUtility.disposeAllAtlas();
         GameUtility.gameObjectCreator.reset();
         GameUtility.log(this.getClass().getName(), "Disposed");
+        menuStage.dispose();
         //Never call ----batch.dispose();
     }
 

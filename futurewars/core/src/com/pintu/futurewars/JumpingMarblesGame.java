@@ -2,6 +2,7 @@ package com.pintu.futurewars;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -55,6 +56,8 @@ public class JumpingMarblesGame extends Game {
 	public UpgradeScreen upgradeScreen = null;
 	public String selectedStage = "";
 
+	public Preferences preferences;
+
 	@Override
 	public void create () {
 
@@ -80,7 +83,7 @@ public class JumpingMarblesGame extends Game {
 
 			//load Stage Map details
 			GameUtility.gameObjectCreator.populateStageMapDetails("stages/stageMap.txt");
-
+			preferences = Gdx.app.getPreferences("UserData");
 			assetManager = new AssetManager();
 			//load assets
 			assetManager.load("music/plang_mt_flaming_flares.mp3", Music.class);
@@ -107,7 +110,9 @@ public class JumpingMarblesGame extends Game {
 			welcomeScreen = new WelcomeScreen(this);
 			pauseScreen = new PauseScreen(this,null);
             //stageDetailsScreen = new StageDetailsScreen(this);
+			GameUtility.game = this;
 			setScreen(welcomeScreen);
+
 		}catch(Exception e){
 			GameUtility.log(this.getClass().getName(),e.getMessage());
 		}

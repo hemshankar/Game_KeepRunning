@@ -7,6 +7,8 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.Manifold;
+import com.badlogic.gdx.physics.bullet.Bullet;
+import com.pintu.futurewars.Casts.Enemy;
 import com.pintu.futurewars.Casts.FutureWarsCast;
 import com.pintu.futurewars.Casts.Ground;
 import com.pintu.futurewars.Casts.JumpingKit;
@@ -14,6 +16,7 @@ import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Casts.SpeedBomb;
 import com.pintu.futurewars.Casts.Player;
 import com.pintu.futurewars.com.pintu.futurewars.armory.BasicBullet;
+import com.pintu.futurewars.com.pintu.futurewars.armory.GameBullet;
 import com.pintu.futurewars.commons.GameObject;
 
 /**
@@ -25,6 +28,19 @@ public class WorldContactListner implements ContactListener {
     public void beginContact(Contact contact) {
         GameObject obj1 = (GameObject) contact.getFixtureA().getUserData();
         GameObject obj2 = (GameObject) contact.getFixtureB().getUserData();
+
+        if(obj1 instanceof GameBullet){
+            if(obj2 instanceof Enemy){
+                obj1.handleContact(obj2);
+            }
+            return;
+        }else if(obj2 instanceof GameBullet){
+            if(obj1 instanceof Enemy){
+                obj2.handleContact(obj2);
+            }
+            return;
+        }
+
         if(obj1 !=null && obj2 !=null){
             if(obj2 instanceof Player2){
                 obj1.handleContact(obj2);
