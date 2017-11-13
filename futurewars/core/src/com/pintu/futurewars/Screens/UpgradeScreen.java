@@ -26,6 +26,7 @@ import com.pintu.futurewars.Utility.GameSprite;
 import com.pintu.futurewars.Utility.GameUtility;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,16 +48,20 @@ public class UpgradeScreen implements Screen {
     ImageButton previousPressed = null;
     ImageButton next = null;
     ImageButton nextPressed = null;
-    ImageButton upgradeButton = null;
-    ImageButton upgradeButtonPressed = null;
+    /*ImageButton upgradeButton = null;
+    ImageButton upgradeButtonPressed = null;*/
 
     ImageButton backButton = null;
     ImageButton backButtonPressed = null;
 
     TextButton upgradeTextButton = null;
-    Map<String,String> allUpgradableGameObject = null;
-    List<String> upgradableGameObjectList = null;
+    Map<String,UpgradeDetails> upgradableObjectMap = null;
+    List<String> upgradableObjectList = null;
     Label maxQuality;
+    Label minQuality;
+    Label qualityName;
+    Label currentQuality;
+
     int counter = 0;
     ProgressBar capacity;
     int totalCoins = 0;
@@ -70,10 +75,10 @@ public class UpgradeScreen implements Screen {
         skin = new Skin(Gdx.files.internal("skins/comic/skin/comic-ui.json"));
         totalCoins = game.preferences.getInteger(GameConstants.PERF_COIN);
         try {
-            allUpgradableGameObject = GameUtility.populateConfigurationsFromConfigFile("UpgradeRelatedResources/allUpgradableGameObject.txt");
-            //upgradableGameObjectList = Utility.listFileInFolder("allUpgradableGameObject/allUpgradableGameObject");
-            upgradableGameObjectList = new ArrayList<String>();
-            upgradableGameObjectList.addAll(allUpgradableGameObject.keySet());
+            upgradableObjectMap = parseProprFile("UpgradeRelatedResources/allUpgradableGameObject.txt");
+            upgradableObjectList = new ArrayList<String>();
+            upgradableObjectList.addAll(upgradableObjectMap.keySet());
+
         }catch(Exception e){
             GameUtility.log(this.getClass().getName(),e.getMessage());
         }
@@ -88,9 +93,9 @@ public class UpgradeScreen implements Screen {
                     previous.setVisible(true);
                     previousPressed.setVisible(false);
                     counter--;
-                    counter = counter==-1?upgradableGameObjectList.size()-1:counter;
-                    addAnimation(allUpgradableGameObject.get(upgradableGameObjectList.get(counter)),stage.getWidth()/2-200,stage.getHeight()-400);
-
+                    counter = counter==-1? upgradableObjectList.size()-1:counter;
+                    UpgradeDetails details = upgradableObjectMap.get(upgradableObjectList.get(counter));
+                    addAnimation(details.propertiesFile,stage.getWidth()/2-200,stage.getHeight()-400);
                 }
                 return true;
             }
@@ -106,15 +111,16 @@ public class UpgradeScreen implements Screen {
                     next.setVisible(true);
                     nextPressed.setVisible(false);
                     counter++;
-                    counter = counter%upgradableGameObjectList.size();
-                    addAnimation(allUpgradableGameObject.get(upgradableGameObjectList.get(counter)),stage.getWidth()/2-200,stage.getHeight()-400);
+                    counter = counter% upgradableObjectList.size();
+                    UpgradeDetails details = upgradableObjectMap.get(upgradableObjectList.get(counter));
+                    addAnimation(details.propertiesFile,stage.getWidth()/2-200,stage.getHeight()-400);
 
                 }
                 return true;
             }
         });
 
-        EventListener upgradeLister = getEvenListner(new ProcessDefinition<Boolean,Event>(){
+        /*EventListener upgradeLister = getEvenListner(new ProcessDefinition<Boolean,Event>(){
             @Override
             public Boolean definition(Event event) {
                 if(event.toString().equals("touchDown")){
@@ -127,7 +133,7 @@ public class UpgradeScreen implements Screen {
                 }
                 return true;
             }
-        });
+        });*/
         EventListener backLister = getEvenListner(new ProcessDefinition<Boolean,Event>(){
             @Override
             public Boolean definition(Event event) {
@@ -151,11 +157,11 @@ public class UpgradeScreen implements Screen {
         previousPressed.setVisible(false);
         nextPressed.setVisible(false);
 
-        upgradeButton = addImageButton("Upgrade","imgs/upgrade.png",
+        /*upgradeButton = addImageButton("Upgrade","imgs/upgrade.png",
                                         upgradeLister,stage.getWidth()-200-200,stage.getHeight()-500,200,200);
         upgradeButtonPressed = addImageButton("UpgradePressed","imgs/upgradePressed.png",
                                         upgradeLister,stage.getWidth()-200-200,stage.getHeight()-500,200,200);
-        upgradeButtonPressed.setVisible(false);
+        upgradeButtonPressed.setVisible(false);*/
 
 
         upgradeTextButton = new TextButton("Upgrade",skin,"default");
@@ -168,8 +174,13 @@ public class UpgradeScreen implements Screen {
                 if(event.toString().equals("touchUp")){
                     totalCoins -=100;
                     game.preferences.putInteger(GameConstants.PERF_COIN,totalCoins);
-                    game.preferences.flush();
+
                     menuStage.totalCoins = totalCoins;
+                    UpgradeDetails ug = upgradableObjectMap.get(upgradableObjectList.get(counter));
+                    ug.currentValue = ug.currentValue + ((ug.maxValue-ug.minValue)/5);
+                    game.preferences.putInteger(ug.pref_string,ug.currentValue);
+                    GameUtility.log(this.getClass().getName(),ug.currentValue+"");
+                    game.preferences.flush();
                 }
                 return true;
             }
@@ -182,8 +193,17 @@ public class UpgradeScreen implements Screen {
                 backLister,200,200,800,200);
         backButtonPressed.setVisible(false);
 
-        maxQuality = new Label("Max Quality",skin,"title");
-        maxQuality.setPosition(200,stage.getHeight()-500);
+        qualityName = new Label("",skin,"title");
+        qualityName.setPosition(200,stage.getHeight()-500);
+
+        maxQuality = new Label("",skin,"big");
+        maxQuality.setPosition(900,stage.getHeight()-400);
+
+        minQuality = new Label("",skin,"big");
+        minQuality.setPosition(550,stage.getHeight()-400);
+
+        currentQuality = new Label("",skin,"big");
+        currentQuality.setPosition(700,stage.getHeight()-400);
 
     }
 
@@ -229,10 +249,12 @@ public class UpgradeScreen implements Screen {
         stage.addActor(previousPressed);
         stage.addActor(next);
         stage.addActor(nextPressed);
-        addAnimation(allUpgradableGameObject.get(upgradableGameObjectList.get(counter)),stage.getWidth()/2-200,stage.getHeight()-400);
+        UpgradeDetails details = upgradableObjectMap.get(upgradableObjectList.get(counter));
+        addAnimation(details.propertiesFile,stage.getWidth()/2-200,stage.getHeight()-400);
         stage.addActor(maxQuality);
-        //stage.addActor(upgradeButton);
-        //stage.addActor(upgradeButtonPressed);
+        stage.addActor(minQuality);
+        stage.addActor(qualityName);
+        stage.addActor(currentQuality);
         stage.addActor(upgradeTextButton);
         stage.addActor(backButton);
         stage.addActor(backButtonPressed);
@@ -245,7 +267,12 @@ public class UpgradeScreen implements Screen {
         if(gs !=null) {
             gs.updateSprite(dt);
         }
-        capacity.setValue(.2f);
+        UpgradeDetails details = upgradableObjectMap.get(upgradableObjectList.get(counter));
+        qualityName.setText(details.qualityName);
+        maxQuality.setText(details.maxValue + "");
+        minQuality.setText(details.minValue + "");
+        currentQuality.setText(details.currentValue + "");
+        capacity.setValue(1.0f * (((float)(details.currentValue-details.minValue))/(details.maxValue-details.minValue)));
         menuStage.update();
         menuStage.act();
         stage.act();
@@ -299,6 +326,47 @@ public class UpgradeScreen implements Screen {
         }catch(Exception e){
             GameUtility.log(this.getClass().getName(),e.getMessage());
         }
+    }
+
+    public void upgrade(){
+        //
+    }
+
+    public class UpgradeDetails{
+        public String propertiesFile;
+        public String qualityName;
+        public String pref_string;
+        public int minValue;
+        public int maxValue;
+        public int currentValue;
+    }
+
+    public Map<String,UpgradeDetails> parseProprFile(String fileName){
+        Map<String,UpgradeDetails> uDetailsMap = new HashMap<String, UpgradeDetails>();
+        try {
+            Map<String,String> allUpgradableGameObject = GameUtility.populateConfigurationsFromConfigFile(fileName);
+            UpgradeDetails uDetails = null;
+            for(String key : allUpgradableGameObject.keySet()){
+                String details = allUpgradableGameObject.get(key);
+                uDetails = new UpgradeDetails();
+                String [] detailsArr = details.split("<->");
+                if(detailsArr.length==5){
+                    uDetails.propertiesFile = detailsArr[0];
+                    uDetails.pref_string = detailsArr[1];
+                    uDetails.qualityName = detailsArr[2];
+                    uDetails.minValue = Integer.parseInt(detailsArr[3]);
+                    uDetails.maxValue = Integer.parseInt(detailsArr[4]);
+                    uDetails.currentValue = game.preferences.getInteger(uDetails.pref_string);
+                    if(uDetails.currentValue==0){
+                        uDetails.currentValue = uDetails.minValue;
+                    }
+                    uDetailsMap.put(key,uDetails);
+                }
+            }
+        }catch(Exception e){
+            GameUtility.log(this.getClass().getName(),e.getMessage());
+        }
+        return uDetailsMap;
     }
 
 

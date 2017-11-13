@@ -158,7 +158,7 @@ public class GameConstants {
     public static String BRICK = "BRICK";
 
     //==============================For GameObjectCreator==========================
-    public static float DISTANCE_BETWEEN_GAME_OBJ =20;
+    public static float DISTANCE_BETWEEN_GAME_OBJ =10;
 
     //=================================SYNC_CONSTANTS==============================
     public static final String CATCH_OBJECT = "CATCH_OBJECT";
@@ -186,7 +186,26 @@ public class GameConstants {
 
     //===================================PREFERENCES CONSTANTS====================
     public static String PERF_COIN = "COIN";
+    public static String PERF_PARACHUTE = "PERF_PARACHUTE";
+    public static String PERF_HORSE = "PERF_HORSE";
+    public static String PERF_CAR = "PERF_CAR";
+    public static String PERF_SKATE = "PERF_SKATE";
+    public static String PERF_ROCKET = "PERF_ROCKET";
+    public static String PERF_MAGNET = "PERF_MAGNET";
+    public static String PERF_RIFLE = "PERF_RIFLE";
+    public static String PERF_KITE = "PERF_KITE";
+    public static String PERF_KALEEN = "PERF_KALEEN";
+    public static String PERF_GIFT = "PERF_GIFT";
+    public static String PERF_SPEEDBOMB = "PERF_SPEEDBOMB";
+    public static String PREF_JUMPINGKIT = "PREF_JUMPINGKIT";
+    public static String PREF_FLYINGKIT = "PREF_FLYINGKIT";
+    public static String PREF_POWERDRINK = "PREF_POWERDRINK";
+    public static String THIS_STAGE_TOTAL_COIN = "THIS_STAGE_TOTAL_COIN";
+    public static String THIS_STAGE_MAX_SPEED = "THIS_STAGE_MAX_SPEED";
+    public static String THIS_STAGE_TOTAL_KILLS = "THIS_STAGE_TOTAL_KILLS";
 
+    //====================================SKINS=====================================
+    public static String COMIC_SKIN = "skins/comic/skin/comic-ui.json";
 
 
 }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.common.exceptions.UtilityException;
 import com.pintu.futurewars.Blasts.EnemyBlast;
 import com.pintu.futurewars.Blasts.PowerBlast;
@@ -76,6 +77,8 @@ public class GameUtility {
     public static Random random = new Random();
     public static JumpingMarblesGame game = null;
     public static MenuStage menuStage = null;
+
+    public static Map<String,Skin> skinMap = new HashMap<String, Skin>();
 
     public static void renderGameObjects(SpriteBatch batch, Set<GameObject> gos){
         for(GameObject obj: gos){
@@ -333,5 +336,21 @@ public class GameUtility {
         f = generator.generateFont(params);
 
         return f;
+    }
+    public static Skin getSkin(String id){ //load all the skins at the start of the game
+        Skin skn = skinMap.get(id);
+        if(skn==null){
+            skn = new Skin(Gdx.files.internal(id));
+            skinMap.put(id,skn);
+        }
+        return skn;
+    }
+
+    public static void dispose(){
+        for(String key:skinMap.keySet()){
+            if(skinMap.get(key)!=null){
+                skinMap.get(key).dispose();
+            }
+        }
     }
 }

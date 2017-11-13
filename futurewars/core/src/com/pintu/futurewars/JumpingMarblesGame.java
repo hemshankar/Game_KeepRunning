@@ -6,31 +6,12 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import com.pintu.futurewars.Casts.BombAmo;
-import com.pintu.futurewars.Casts.Brick;
-import com.pintu.futurewars.Casts.Cat;
-import com.pintu.futurewars.Casts.Coin;
-import com.pintu.futurewars.Casts.CowBoyHat;
-import com.pintu.futurewars.Casts.FlyingKit;
-import com.pintu.futurewars.Casts.Horse;
-import com.pintu.futurewars.Casts.JumpingKit;
-import com.pintu.futurewars.Casts.Kaleen;
-import com.pintu.futurewars.Casts.Kite;
-import com.pintu.futurewars.Casts.Magnet;
-import com.pintu.futurewars.Casts.PowerDrink;
-import com.pintu.futurewars.Casts.Pusher;
-import com.pintu.futurewars.Casts.SpeedBomb;
-import com.pintu.futurewars.Casts.StickyBomb;
-import com.pintu.futurewars.Casts.WaterBalloon;
 import com.pintu.futurewars.Constants.GameConstants;
-import com.pintu.futurewars.Screens.GameEndScreen;
+import com.pintu.futurewars.Screens.EndGameScreen;
 import com.pintu.futurewars.Screens.GameScreen;
 import com.pintu.futurewars.Screens.PauseScreen;
 import com.pintu.futurewars.Screens.StageDetailsScreen;
@@ -52,7 +33,7 @@ public class JumpingMarblesGame extends Game {
 	public StagesScreen stagesScreen = null;
     public StageDetailsScreen stageDetailsScreen = null;
 	public PauseScreen pauseScreen = null;
-	public GameEndScreen gameEndScreen = null;
+	public EndGameScreen endGameScreen = null;
 	public UpgradeScreen upgradeScreen = null;
 	public String selectedStage = "";
 
@@ -84,6 +65,7 @@ public class JumpingMarblesGame extends Game {
 			//load Stage Map details
 			GameUtility.gameObjectCreator.populateStageMapDetails("stages/stageMap.txt");
 			preferences = Gdx.app.getPreferences("UserData");
+            resetPrefs();
 			assetManager = new AssetManager();
 			//load assets
 			assetManager.load("music/plang_mt_flaming_flares.mp3", Music.class);
@@ -137,12 +119,14 @@ public class JumpingMarblesGame extends Game {
 			stagesScreen.dispose();
 		if(pauseScreen!=null)
 			pauseScreen.dispose();
-		if(gameEndScreen!=null)
-			gameEndScreen.dispose();
+		if(endGameScreen !=null)
+			endGameScreen.dispose();
         if(stageDetailsScreen!=null)
             stageDetailsScreen.dispose();
 		if(upgradeScreen!=null)
 			upgradeScreen.dispose();
+
+		GameUtility.dispose();
 	}
 
 	public GameScreen getGameScreen(){
@@ -178,10 +162,17 @@ public class JumpingMarblesGame extends Game {
     }
 
 
-	public GameEndScreen getGameEndScreen(String currentStage, String nextStage){
-		if(gameEndScreen == null)
-			gameEndScreen = new GameEndScreen(this);
-		gameEndScreen.updateStages(currentStage,nextStage);
-		return gameEndScreen;
+	public EndGameScreen getGameEndScreen(String currentStage){
+		if(endGameScreen == null)
+			endGameScreen = new EndGameScreen(this,currentStage);
+		return endGameScreen;
 	}
+
+	public void resetPrefs(){
+        preferences.putInteger(GameConstants.PERF_CAR,0);
+        preferences.putInteger(GameConstants.PERF_HORSE,0);
+        preferences.putInteger(GameConstants.PERF_KALEEN,0);
+        preferences.putInteger(GameConstants.PERF_KITE,0);
+        preferences.putInteger(GameConstants.PERF_SKATE,0);
+    }
 }

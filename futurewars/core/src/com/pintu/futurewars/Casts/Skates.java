@@ -30,7 +30,7 @@ public class Skates extends FutureWarsCast {
         super(GameConstants.SKATES_PROPERTY_FILE);
         canFly = true;
         isThrowable = true;
-        maxVelocity = 50/GameConstants.MPS_TO_KPH;
+        maxVelocity = GameUtility.game.preferences.getInteger(GameConstants.PERF_HORSE)/GameConstants.MPS_TO_KPH;;
     }
 
     @Override

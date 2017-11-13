@@ -305,7 +305,7 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
         stagelabel.setPosition(x+20,y);
         stagelabel.addListener(new StageListner(label));
         stage.addActor(stagelabel);
-        //StageDetails.stageCount++;
+        //StageItem.stageCount++;
     }
 
     public void addLoadingLabel(){

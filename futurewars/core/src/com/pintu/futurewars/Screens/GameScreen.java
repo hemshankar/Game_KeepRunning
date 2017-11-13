@@ -75,7 +75,7 @@ public class GameScreen extends BaseScreen {
     public float numOfBackImgs = 1;
 
     public float timePassed = 0;
-    public float gameTime = 60*3; //3 minutes
+    public float gameTime = 1*3; //3 minutes
 
     public float slowMotionEffect = 0;
     public float slowMotionEffectTime = 2f;

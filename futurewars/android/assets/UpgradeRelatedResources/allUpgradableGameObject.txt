@@ -1,13 +1,13 @@
-SpeedBomb=propertyFiles/speedBomb.txt
-Kite=propertyFiles/kite.txt
-Kaleen=propertyFiles/kaleen.txt
-Magnet=propertyFiles/Magnet.txt
-Horse=propertyFiles/horse.txt
-JumpingKit=propertyFiles/jumpingKit.txt
-FlyingKit=propertyFiles/flyingKit.txt
-PowerDrink=propertyFiles/powerDrink.txt
-Rifle=propertyFiles/rifle.txt
-Skates=propertyFiles/skates.txt
-Car=propertyFiles/car.txt
+SpeedBomb=propertyFiles/speedBomb.txt<->PERF_SPEEDBOMB<->Power<->5<->20
+Kite=propertyFiles/kite.txt<->PERF_KITE<->Speed<->30<->100
+Kaleen=propertyFiles/kaleen.txt<->PERF_KALEEN<->Speed<->30<->100
+Magnet=propertyFiles/Magnet.txt<->PERF_MAGNET<->Range<->5<->20
+Horse=propertyFiles/horse.txt<->PERF_HORSE<->Speed<->30<->100
+JumpingKit=propertyFiles/jumpingKit.txt<->PREF_JUMPINGKIT<->Duration<->5<->20
+FlyingKit=propertyFiles/flyingKit.txt<->PREF_FLYINGKIT<->Duration<->5<->20
+PowerDrink=propertyFiles/powerDrink.txt<->PREF_POWERDRINK<->Health Gain<->20<->100
+Rifle=propertyFiles/rifle.txt<->PERF_RIFLE<->Recoil Time<->5<->20
+Skates=propertyFiles/skates.txt<->PERF_SKATE<->Speed<->5<->20
+Car=propertyFiles/car.txt<->PERF_CAR<->Speede<->5<->20
 
 

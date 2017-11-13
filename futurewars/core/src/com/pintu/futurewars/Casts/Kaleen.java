@@ -25,7 +25,7 @@ public class Kaleen extends FutureWarsCast {
     public Kaleen() {
         super(GameConstants.KALEEN_PROPERTY_FILE);
         background = new BackGround(GameConstants.BACKGROUND3_PROPERTY_FILE,this);
-        maxVelocity = 40/GameConstants.MPS_TO_KPH;
+        maxVelocity = GameUtility.game.preferences.getInteger(GameConstants.PERF_HORSE)/GameConstants.MPS_TO_KPH;;
     }
 
     @Override

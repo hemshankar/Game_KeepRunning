@@ -360,12 +360,12 @@ public abstract class AbstractGameObject implements GameObject{
             //move with player
             if(moveWithPlayer && !(this instanceof Player2) && haveBody ){//){
 
-                if(applyDamping && player.body.getLinearVelocity().x - 10 <= body.getLinearVelocity().x) {
+                if(applyDamping && player.body.getLinearVelocity().x - 30 <= body.getLinearVelocity().x) {
                     body.setLinearDamping(1);
                 }else {
                     body.setLinearDamping(0f);
                     float diff = player.body.getLinearVelocity().x - body.getLinearVelocity().x;
-                    if (diff > 10) {
+                    if (diff > 30) {
                         body.applyLinearImpulse(
                                 new Vector2(diff * 0.1f, 0),
                                 this.body.getWorldCenter(), true);

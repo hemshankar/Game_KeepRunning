@@ -14,13 +14,13 @@ public class Car extends FutureWarsCast {
     private static final float TRAVEL_TIME = 5f;
     private float travelled = 0f;
     private boolean hasPlayer = false;
-    private float MOVE_FORCE_INTERVAL = .1f;
+    private float MOVE_FORCE_INTERVAL = .01f;
     private float moveForceApplideTime = 0f;
 
     public Car() {
         super(GameConstants.CAR_PROPERTY_FILE);
         canFly = false;
-        maxVelocity = 80/GameConstants.MPS_TO_KPH;
+        maxVelocity = GameUtility.game.preferences.getInteger(GameConstants.PERF_HORSE)/GameConstants.MPS_TO_KPH;
     }
 
     @Override

@@ -49,7 +49,7 @@ public class WelcomeScreen implements Screen {
         welcomeImage = new Image(texture);
         welcomeImage.setHeight(stage.getHeight());
         welcomeImage.setWidth(stage.getWidth());
-        //stageImage.addAction(alpha(.2f));
+        //image.addAction(alpha(.2f));
         stage.addActor(welcomeImage);
 
         initFonts();

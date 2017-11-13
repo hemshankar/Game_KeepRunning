@@ -69,7 +69,7 @@ public class Player2 extends FutureWarsCast {
         canFly = false;
         hasFlyingKit = true;
         flyFuel = MAX_FLY_FUEL;
-        maxVelocity = 10/GameConstants.MPS_TO_KPH;
+        maxVelocity = 30/GameConstants.MPS_TO_KPH;
     }
 
     public void update(float dt){
@@ -136,7 +136,7 @@ public class Player2 extends FutureWarsCast {
     @Override
     public void destroy() {
         super.destroy();
-        GameUtility.getGameScreen().game.setScreen(GameUtility.getGameScreen().game.getGameEndScreen(GameConstants.STAGE1,GameConstants.STAGE1));
+        GameUtility.getGameScreen().game.setScreen(GameUtility.getGameScreen().game.getGameEndScreen(GameConstants.STAGE1));
         GameUtility.getGameScreen().gameMusic.stop();
     }
 

@@ -38,7 +38,7 @@ public class GameObjectCreator {
     public Map<Integer,Object> rootObjectMap = new HashMap<Integer,Object>();
 
     public GameObject lastPivotLocation = null;
-    public float PIVOT_GAP = 9;
+    public float PIVOT_GAP = 7;
     public float TOP_LIMIT = 100;
     public float BOTTOM_LIMIT = 6;
 
@@ -116,16 +116,14 @@ public class GameObjectCreator {
     public void createNextObject(Player2 player) throws Exception{
 
         int direction = GameUtility.getGameScreen().player2.body.getLinearVelocity().y<0?-1:1;
-        float flyLocation = player.body.getPosition().y + GameConstants.PIVOT_ROPE_LENGTH;
-
-        flyLocation = flyLocation * direction;
+        float flyLocation = player.body.getPosition().y + GameConstants.PIVOT_ROPE_LENGTH ;
 
         if(flyLocation<BOTTOM_LIMIT)
             flyLocation = BOTTOM_LIMIT;
         if(flyLocation>TOP_LIMIT)
             flyLocation = TOP_LIMIT;
 
-        String pivotOD = "com.pintu.futurewars.Casts.Pivot<->PIVOT<->" + flyLocation + "<->" + flyLocation;
+        String pivotOD = "com.pintu.futurewars.Casts.Pivot<->PIVOT<->" + (flyLocation + 1) + "<->" + (flyLocation + 1);
         if(lastPivotLocation==null){
             GameObjectDetails od = toGameObjectDetails(pivotOD);
             lastPivotLocation = createObject(od ,(player.body.getPosition().x + PIVOT_GAP/2));

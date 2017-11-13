@@ -19,7 +19,7 @@ public class Kite extends FutureWarsCast {
         super(GameConstants.KITE_PROPERTY_FILE);
         ropeLength = 5f;
         removeRopeConnectionOnContact = false;
-        maxVelocity = 40/GameConstants.MPS_TO_KPH;
+        maxVelocity = GameUtility.game.preferences.getInteger(GameConstants.PERF_HORSE)/GameConstants.MPS_TO_KPH;;
     }
 
 
@@ -32,7 +32,7 @@ public class Kite extends FutureWarsCast {
                 toBeDestroyed = true;
             }else{
                 if(body.getLinearVelocity().x < this.maxVelocity) {
-                    body.applyLinearImpulse(new Vector2(1, 0), this.body.getWorldCenter(), true);
+                    body.applyLinearImpulse(new Vector2(5, 0), this.body.getWorldCenter(), true);
                 }
             }
         }

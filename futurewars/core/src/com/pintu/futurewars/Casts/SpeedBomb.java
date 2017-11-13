@@ -16,6 +16,7 @@ import com.pintu.futurewars.commons.GameObject;
 
 public class SpeedBomb extends FutureWarsCast {
 
+    public float power = 5;
     public static void init(){
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
         gameObjectDetails.objectClass = SpeedBomb.class;

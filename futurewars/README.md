@@ -123,7 +123,7 @@ Rules:
 
 101. Mission based earning + in-game earning.
 	Type of missions: 
-		1. Find the Key
+		1. Find the Key (every stage will have a key to unlock the target door)
 		2. Same the Man/Animal(s)
 		3. Catch the thief.
 		4. Destroy the wall
@@ -134,7 +134,8 @@ Rules:
 		9. Bring medicine/other imp thing. (start from a place and return)
 		10. Spray Antidote. (mission play like type 7)
 		11. Escort someone to safety.
-		11. Special levels for Coins/Biscuits.
+		12. Special levels for Coins/Biscuits.
+		13. Stay in the air for 60 seconds
 		
 102. Purchase weapons and other tools or upgrade(skill/tools).
 103. Ranking based on mission skills
@@ -154,7 +155,7 @@ Rules:
 112. Points to catch and accelerate should always be present.
 113. Different bullets, single, double, spower
 114. Things mentioned in the properties files should evenly distributed to the distance given in the properties file.
-115. Have parachute if user wanted to use while falling.
+115. Have parachute if user wanted to use while falling. -- Done
 
 
 ============================BUGS================================
