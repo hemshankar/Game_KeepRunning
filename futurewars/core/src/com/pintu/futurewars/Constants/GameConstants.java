@@ -135,6 +135,7 @@ public class GameConstants {
     public static final String STAGE2 = "STAGE2";
     public static final String STAGE3 = "STAGE3";
     public static final String HOME_SCREEN = "HOME_SCREEN";
+    public static final String GIFTS_SCREEN = "GIFTS_SCREEN";
 
     //===============================Various GameObjects===========================
     public static String KALEEN = "KALEEN";
@@ -203,6 +204,7 @@ public class GameConstants {
     public static String THIS_STAGE_TOTAL_COIN = "THIS_STAGE_TOTAL_COIN";
     public static String THIS_STAGE_MAX_SPEED = "THIS_STAGE_MAX_SPEED";
     public static String THIS_STAGE_TOTAL_KILLS = "THIS_STAGE_TOTAL_KILLS";
+    public static String THIS_STAGE_TOTAL_GIFTS = "THIS_STAGE_TOTAL_GIFTS";
 
     //====================================SKINS=====================================
     public static String COMIC_SKIN = "skins/comic/skin/comic-ui.json";
