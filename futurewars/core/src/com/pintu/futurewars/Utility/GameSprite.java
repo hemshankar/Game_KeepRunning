@@ -77,7 +77,7 @@ public class GameSprite {
         }
         currentState = gProps.get(GameObjectConstants.CURRENT_STATE);
         //set bounds may also need to be updated properly
-        sprite.setBounds(0, 0, 200, 200);
+        sprite.setBounds(0, 0, spriteWidth, spriteHeight);
     }
 
     public void updateSprite( float dt) {

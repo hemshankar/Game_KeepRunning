@@ -119,6 +119,7 @@ public class GameConstants {
     public static final String BACKGROUND2_PROPERTY_FILE = "propertyFiles/background2.txt";
     public static final String BACKGROUND3_PROPERTY_FILE = "propertyFiles/background3.txt";
     public static final String BACKGROUND4_PROPERTY_FILE = "propertyFiles/background4.txt";
+    public static final String BACKGROUND5_PROPERTY_FILE = "propertyFiles/background5.txt";
     public static final String DEFAULT_STAGE_FILE = "stages/defaultStage.txt";
     //============================Joint Constants================================
     public static final String REVOLUTE = "revolute";

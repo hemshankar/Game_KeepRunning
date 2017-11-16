@@ -86,7 +86,7 @@ public class JumpingMarblesGame extends Game {
 			/*gameScreen = new GameScreen(this);
 			setScreen(gameScreen);*/
 
-			if(false) {
+			if(true) {
 				setScreen(getGiftsScreen());
 				return;
 			}
