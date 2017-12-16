@@ -38,6 +38,7 @@ public class GameSprite {
     public boolean animationCompleted = false;
     public Float spriteWidth = 1f;
     public Float spriteHeight = 1f;
+    public boolean isVisible = true;
 
     public boolean destroyed = false;
     public boolean toBeDestroyed = false;
@@ -192,8 +193,21 @@ public class GameSprite {
     }
 
     public void draw(SpriteBatch sb){
-        sb.begin();
-        sprite.draw(sb);
-        sb.end();
+        if(!isVisible)
+            return;
+        try {
+            sb.begin();
+            sprite.draw(sb);
+            sb.end();
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void hide(){
+        isVisible = false;
+    }
+    public void show(){
+        isVisible = true;
     }
 }

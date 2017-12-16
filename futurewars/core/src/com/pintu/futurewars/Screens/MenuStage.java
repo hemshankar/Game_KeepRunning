@@ -8,7 +8,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.pay.Information;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -17,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Controllers.Widgets;
 import com.pintu.futurewars.Controllers.Widgets_old;
 import com.pintu.futurewars.JumpingMarblesGame;
 import com.pintu.futurewars.Utility.GameUtility;
@@ -32,6 +36,7 @@ public class MenuStage implements InputProcessor {
 
     Stage stage = null;
     CustomButton coinsCollected = null;
+    CustomButton purchaseMenu = null;
     OrthographicCamera ctrlCam;
     SpriteBatch batch = null;
 
@@ -55,6 +60,26 @@ public class MenuStage implements InputProcessor {
     public void show(){
         stage.clear();
         coinsCollected = addItem("imgs/coin.png",null,"0",1270,910,1290,870,null,80,80,getFonts("fonts/leadcoat.ttf",25,Color.YELLOW));
+        InputListener purchaseListner = new InputListener(){
+
+            @Override
+            public boolean handle(Event event) {
+               try {
+                   if ("touchDown".equals(event.toString())) {
+                       Information information = GameUtility.billingManager.resolver.getProductInformation("coins_1000");
+                       System.out.println(information.getLocalName());
+                       GameUtility.billingManager.resolver.requestPurchase("coins_1000");
+                   }
+               }catch(Exception e){
+                   e.printStackTrace();
+               }
+
+                return true;
+            }
+        };
+        purchaseMenu = addItem("imgs/gift.png",null,"0",
+                                1000,910,1020,870,purchaseListner,
+                                80,80,getFonts("fonts/leadcoat.ttf",25,Color.YELLOW));
         for(Actor a:actors) {
             stage.addActor(a);
         }

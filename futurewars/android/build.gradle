@@ -21,8 +21,8 @@ android {
         applicationId "com.jumping.marbles"
         minSdkVersion 9
         targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "FutureWars-Alpha-4"
     }
     buildTypes {
         release {
@@ -134,4 +134,9 @@ idea {
             }
         }
     }
+}
+dependencies {
+    //for libgdx-pay
+    compile "com.badlogicgames.gdxpay:gdx-pay-android:$gdxPayVersion"
+    compile "com.badlogicgames.gdxpay:gdx-pay-android-googleplay:${gdxPayVersion}@aar"
 }

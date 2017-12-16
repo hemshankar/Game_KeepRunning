@@ -6,4 +6,6 @@ eclipse.project {
     name = appName + "-core"
 }
 dependencies {
+    //for libgdx-pay
+    compile "com.badlogicgames.gdxpay:gdx-pay-client:$gdxPayVersion"
 }

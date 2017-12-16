@@ -10,4 +10,5 @@ IS_SENSOR=TRUE
 IS_ANIMATED=TRUE
 LOOP_ANIMATION=TRUE
 ANIMATION_INTERVAL=.1
-TEXTURE_ATLAS_NAME=pack/rayBackGround/blueBack/blueBack.atlas
+TEXTURE_ATLAS_NAME=pack/rayBackGround/goldenBack/goldenBack.atlas
+-------=pack/rayBackGround/blueBack/blueBack.atlas

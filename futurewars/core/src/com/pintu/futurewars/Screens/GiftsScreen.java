@@ -28,9 +28,9 @@ public class GiftsScreen extends BaseUIScreen {
 
     public Integer numOfGifts;
     final Table scrollTable = new Table();
-    GameSprite gs = null;
     ScrollPane scroller = null;
     Table table = null;
+    GameSprite gs;
     boolean isGiftsList = true;
     Group gfitDetails = null;
     public GiftsScreen(JumpingMarblesGame game){
@@ -82,7 +82,7 @@ public class GiftsScreen extends BaseUIScreen {
                     }else{
                         stage.getActors().removeValue(gfitDetails,false);
                         table.setVisible(true);
-                        gs = null;
+                        gs.hide();
                     }
                 }
                 return true;
@@ -95,21 +95,6 @@ public class GiftsScreen extends BaseUIScreen {
     public void show() {
         super.show();
         addItems();
-    }
-
-    @Override
-    public void update(float dt) {
-        super.update(dt);
-        if(gs!=null)
-            gs.updateSprite(dt);
-    }
-
-    @Override
-    public void render(float delta) {
-        super.render(delta);
-        if(gs!=null) {
-            gs.draw(game.batch);
-        }
     }
 
     public class StageListner extends InputListener{
@@ -189,41 +174,50 @@ public class GiftsScreen extends BaseUIScreen {
 */
     public Group showGift(){
         gfitDetails = new Group();
+        float giftX = 600;
+        float giftY = 350;
+
+        float giftBackX = giftX - 220;
+        float giftBackY = giftY - 220;
 
         Texture t = new Texture("imgs/giftsBig.png");
         Image i = new Image(t);
-        //i.setSize(600,600);
-        i.setPosition(400,300);
+        i.setPosition(giftX,giftY);
+        addBackground(addBackGround(GameConstants.BACKGROUND5_PROPERTY_FILE,giftBackX,giftBackY));
         gfitDetails.addActor(i);
 
         //Time remaining
-        Label timeRemaining = new Label("Time Remaining",skin,"big");
-        timeRemaining.setPosition(300,200);
+        Label timeRemaining = new Label("Opens in 1 minute 40 sec",skin,"big");
+        timeRemaining.setPosition(100,900);
         gfitDetails.addActor(timeRemaining);
 
         //Open
-
         Image openImage = new Image( new Texture("imgs/replay.png"));
-        openImage.setSize(200,200);
-        openImage.setPosition(500,200);
+        openImage.setSize(100,100);
+        openImage.setPosition(600,100);
 
         gfitDetails.addActor(openImage);
 
         Image adsImage = new Image( new Texture("imgs/next.png"));
         adsImage.setSize(100,100);
-        adsImage.setPosition(800,200);
-        addBackGround(GameConstants.BACKGROUND5_PROPERTY_FILE,400,400);
+        adsImage.setPosition(800,100);
+
+
         gfitDetails.addActor(adsImage);
 
         return gfitDetails;
     }
 
-    public void addBackGround(String porpertiesFile, float x, float y){
+    public GameSprite addBackGround(String porpertiesFile, float x, float y){
         try {
-            gs = new GameSprite(porpertiesFile, x, y);
+            if(gs == null) {
+                gs = new GameSprite(porpertiesFile, x, y);
+            }
+            gs.show();
         }catch(Exception e){
             GameUtility.log(this.getClass().getName(),e.getMessage());
         }
+        return gs;
     }
 
 }

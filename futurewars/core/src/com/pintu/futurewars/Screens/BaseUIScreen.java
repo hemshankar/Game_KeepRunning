@@ -18,7 +18,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.JumpingMarblesGame;
+import com.pintu.futurewars.Utility.GameSprite;
 import com.pintu.futurewars.Utility.GameUtility;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by hsahu on 9/6/2017.
@@ -31,6 +35,7 @@ public class BaseUIScreen implements Screen {
     public OrthographicCamera ctrlCam = null;
     public FitViewport cViewPort = null;
     public Skin skin = null;
+    public List<GameSprite> backGrounds = new ArrayList<GameSprite>();
 
     public BaseUIScreen(JumpingMarblesGame game,String skinId){
         this.game = game;
@@ -52,6 +57,10 @@ public class BaseUIScreen implements Screen {
 
     public void update(float dt){
         stage.act();
+        for(GameSprite gs: backGrounds){
+            if(gs!=null)
+                gs.updateSprite(dt);
+        }
     }
 
     @Override
@@ -59,6 +68,11 @@ public class BaseUIScreen implements Screen {
         Gdx.gl.glClearColor(1,1,1,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         update(delta);
+        for(GameSprite gs: backGrounds){
+            if(gs!=null) {
+                gs.draw(game.batch);
+            }
+        }
         stage.draw();
     }
 
@@ -146,5 +160,12 @@ public class BaseUIScreen implements Screen {
             stageDetails.init();
         }
     }
+
+    public void addBackground(GameSprite gs){
+        if(!backGrounds.contains(gs))
+            backGrounds.add(gs);
+    }
+
+
 
 }
