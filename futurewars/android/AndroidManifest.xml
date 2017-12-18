@@ -34,5 +34,7 @@
     <uses-permission android:name="com.nokia.payment.BILLING"/>
     <!--SlideME-->
     <uses-permission android:name="com.slideme.sam.manager.inapp.permission.BILLING"/>
+    <!--Read Files-->
+    <!--uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /-->
 
 </manifest>

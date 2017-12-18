@@ -16,6 +16,7 @@ import com.pintu.futurewars.Blasts.PowerBlast;
 import com.pintu.futurewars.Casts.Player;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.JumpingMarbleWorldCreator;
 import com.pintu.futurewars.JumpingMarblesGame;
 import com.pintu.futurewars.Screens.GameScreen;
@@ -25,8 +26,13 @@ import com.pintu.futurewars.com.pintu.futurewars.armory.Bomb;
 import com.pintu.futurewars.commons.AbstractGameObject;
 import com.pintu.futurewars.commons.GameObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -177,26 +183,41 @@ public class GameUtility {
         getGameScreen().gameObjects.add(blast);
     }
 
-    public static HashMap<String, String> populateConfigurationsFromConfigFile(String fileName) throws UtilityException {
-        HashMap configFile = new HashMap();
-        FileHandle file = Gdx.files.internal(fileName);
-        String text = file.readString();
+    //config cache
+    private static Map<String, Map<String, String>> configMap = new HashMap<String, Map<String, String>>();
+    public static Map<String, String> populateConfigurationsFromConfigFile(String fileName) throws UtilityException {
 
-        try {
-            String[] lines = text.split("\n");
-            for (String str : lines) {
-                str = str.trim();
-                String[] arr = str.split("=");
-                if (arr.length > 1) {
-                    configFile.put(arr[0], arr[1]);
+        Map<String, String> configFile = configMap.get(fileName);
+        if(configFile == null) {
+            configFile = new HashMap<String, String>();
+            FileHandle file = Gdx.files.internal(fileName.trim());
+            String text = file.readString();
+
+            try {
+                String[] lines = text.split("\n");
+                for (String str : lines) {
+                    str = str.trim();
+                    String[] arr = str.split("=");
+                    if (arr.length > 1) {
+                        configFile.put(arr[0], arr[1]);
+                        try{
+                            if(GameObjectConstants.TEXTURE_ATLAS_NAME.equals(arr[0])){
+                                getAtlas(arr[1]);
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                            log("GameUtility",e.getMessage());
+                        }
+                    }
                 }
+            } catch (Exception var8) {
+                throw new UtilityException("Error getting lines from file to hashmap. \n Cause by: " + var8.toString());
+            } finally {
+                //close fineHandle?
             }
-        } catch (Exception var8) {
-            throw new UtilityException("Error getting lines from file to hashmap. \n Cause by: " + var8.toString());
-        } finally {
-            //close fineHandle?
-        }
 
+            configMap.put(fileName,configFile);
+        }
         return configFile;
     }
 
@@ -371,4 +392,50 @@ public class GameUtility {
             }
         }
     }
-}
+
+    public static void initiate() throws Exception{
+        String propertiesFileList = "initialization/allPropertiesFile";
+        FileHandle fHandle = Gdx.files.internal(propertiesFileList);
+
+        for(String file:fHandle.readString().split("\n")) {
+            System.out.println("Adding resource : " + file);
+            try {
+                populateConfigurationsFromConfigFile(file);
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+        }
+    }
+
+    /*
+
+    public static List<String> getLines(File file) throws Exception{
+        List<String> list = new ArrayList<String>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                list.add(line);
+            }
+            br.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+    public static List<FileHandle> listFilesForFolder(FileHandle fileH) {
+        List<FileHandle> files = new ArrayList<FileHandle>();
+
+        for (final FileHandle f : fileH.list()) {
+            if (f.isDirectory()) {
+                files.addAll(listFilesForFolder(f));
+            } else {
+                files.add(fileH);
+            }
+        }
+        return files;
+    }
+
+*/}

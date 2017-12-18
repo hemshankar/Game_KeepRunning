@@ -64,6 +64,13 @@ public class JumpingMarblesGame extends Game {
 			Cat.init();
 			Kite.init();*/
 
+			//load all propertiesFile and atlas
+            try {
+                GameUtility.initiate();
+            }catch(Exception e){
+                e.printStackTrace();
+                return;
+            }
 			//load Stage Map details
 			GameUtility.gameObjectCreator.populateStageMapDetails("stages/stageMap.txt");
 			preferences = Gdx.app.getPreferences("UserData");

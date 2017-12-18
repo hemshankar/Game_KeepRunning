@@ -16,8 +16,7 @@ public class Rocket extends FutureWarsCast {
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
         gameObjectDetails.objectClass = Rocket.class;
        /* gameObjectDetails.yPos = 10;
-        gameObjectDetails.flyPos = 9;
-*/
+        gameObjectDetails.flyPos = 9;*/
         GameUtility.gameObjectCreator.register(GameConstants.BOMB_AMO,gameObjectDetails);
     }
 

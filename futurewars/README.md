@@ -42,42 +42,42 @@ Rules:
 22. No Flying Only jumping./Change the controle --- Done
 23. Water Baloons --- Done
 24. Bricks --- Done
-=============================================================================25. Use Asset manager --- TBD
-=============================================================================26. Appearance of the player should change with health --- TBD
+=====25. Use Asset manager --- TBD
+=====26. Appearance of the player should change with health --- TBD
 27. Speed display --- Done
 28. Health Bar Display --- Done
 29. Rocket Fuel Display --- Done
 30. Skates -- Done
-=============================================================================31. Transparent or Shield state (Objects will collide, but will not lose health) -- TBD
+=====31. Transparent or Shield state (Objects will collide, but will not lose health) -- TBD
 
 33. Magnet (should attract coins only) -- Done
 34. Coin score --- Done
-=============================================================================35. Different sounds: Metal collide, brick broken, wood broken, explosion, Gun Fire -- TBD
-=============================================================================36. Obstacles: TBD
+=====35. Different sounds: Metal collide, brick broken, wood broken, explosion, Gun Fire -- TBD
+=====36. Obstacles: TBD
 	1. Reflector(if you fire, bullet will reflect), 
 	2. water Holes (if submerged for 3 secs, game over), 
 	3. Fire, 
 	4.Mines (can be detected only if mine detector is present)  
 
-=============================================================================37. Story Animation --TBD
-=============================================================================38. Loading screen --TBD
+=====37. Story Animation --TBD
+=====38. Loading screen --TBD
 39. Welcome Screen -- Done
-=============================================================================40. Stage decision: what powers and enemies to be unlocked in each stage --TBD
+=====40. Stage decision: what powers and enemies to be unlocked in each stage --TBD
 41. Clean code related to map(make sure to retain in a separate place as might be required for later games) -- Done (check in older check-in in repository)
 42. Pause Screen. -- Done
 43. Change to jumping -- Done
 44. Add Flying Kit -- Done
 45. Magnet ---  Done
-=============================================================================46. Purchase Screen -- TBD
+=====46. Purchase Screen -- TBD
 47. Random movement of the hanging/flying objects- Done
 48. Slow the speed of the bombs, increase as the speed of the object increases. -- Done
-=============================================================================49. Coin Sounds --TBD
-=============================================================================50. Make Stamina modifiable: Heath rapidly decreases initailly and when the stamina increases Health decreases slowly 
+=====49. Coin Sounds --TBD
+=====50. Make Stamina modifiable: Heath rapidly decreases initailly and when the stamina increases Health decreases slowly 
 51. Update the jumping kit to affect only when jump button is clicked. -- jumping is out version 1 (may not even be supported later)
 52. Game End Screen -- Done
 53. Destroy/Remove all the objects which are not required (as the player moves on) :  ================Done 
 54. Increase the Screen width when speed increases: ================Done 
-============================================================================= 55. Animation/Art work --TBD
+===== 55. Animation/Art work --TBD
 56. Rocket -- Done
 60. Gift Pack -- Done
 61. One girl character -- Later may be
@@ -85,17 +85,17 @@ Rules:
 63. When the birds/pushers fly fast they should flap fast -- TBD
 64. Make a generic method for fly. Since most of the game objects will be flying, they can use this -- Done
 65. Change the all the game objects to dynamic bodies as they need to move. Brick may be static -- Done
-=============================================================================67. there is possible a memory Leak... check if all the items are disposed properly... Monitor using memory monitor provided in android studios --TBD
+=====67. there is possible a memory Leak... check if all the items are disposed properly... Monitor using memory monitor provided in android studios --TBD
 68. Character should talk --out of version one
-=============================================================================69. Auto aim/ auto tracking of the bullet can be done by setting the bullet position. Can be used for locking the target. -- Done
-=============================================================================70. Highlight speed when player crosses the speed limits. --TBD
+=====69. Auto aim/ auto tracking of the bullet can be done by setting the bullet position. Can be used for locking the target. -- Done
+=====70. Highlight speed when player crosses the speed limits. --TBD
 71. The tararara sound when player does something amazing --May be not
 72. Ground will have mix of sand and thorns... which will either reduce the speed or health --out of version 1
 73. Handle background separately... too much of code is required otherwise -- Done
 74. Michal jacson moon walk... ================Out of version 1
 75. Lots of skins... can be used for creating menus 
 76. Coin should come smoothly to the user. -- Done
-=============================================================================77. resize all the images.. and use different images for different camera angle. -TBD
+=====77. resize all the images.. and use different images for different camera angle. -TBD
 78. Good resource for game image processing.
 79. Include sawastik sign
 80. Improve kaaleen -- Done
@@ -105,18 +105,18 @@ Rules:
 84. Make sure that there are no objects in the world, when the game is started or restarted (i.e. setScreen is called again for the GameScreen) : ================Done 
 85. Slow motion effect is tough: ================Done 
 86. Player can be drunk. -- Out of version one
-=============================================================================88. Flying horse, normal horse, bulls, kites, -- TBD
+=====87. control/button to add slow motion effect.-- TBD
+=====88. Flying horse, normal horse, bulls, kites, -- TBD
 89. Gun/Bullet should be auto fire to enemies, and when bullets are up, gun is thrown... -- Out of version one
-=============================================================================90. Take something from the present play that will help in future or in the next match. -- For now it is Gift
+=====90. Take something from the present play that will help in future or in the next match. -- For now it is Gift
 92. All the expression of the face should be at the Left/Right - Top of the screen. -- may in the later release.
-=============================================================================93. Spring objects in ground to throw up. -- TBD
-=============================================================================94. Shooter objects, for shooting speed bombs and water balloons --TBD
+=====93. Spring objects in ground to throw up. -- TBD
+=====94. Shooter objects, for shooting speed bombs and water balloons --TBD
 95. Clicking on the character should catch them. -- Done
-=============================================================================96. Make Kite as eagle, and change the colour to black --TBD
+=====96. Make Kite as eagle, and change the colour to black --TBD
 97. Power of generating game objects while playing. -- May be later
 98. Gold Biscuits and Cash -- Out of version one
 99. Make on-line version... Different people all over the world are helping each other to clean the world. -- Version 2
-
 
 101. Mission based earning + in-game earning. --Out of version one
 	Type of missions: 
@@ -142,14 +142,15 @@ Rules:
 	2. Follow on collide
 	3. Rope Joint
 	4. Weld Joint
+
 	
-=============================================================================106. Gain points in every activity, points will be converted to coins. -- TBD
-=============================================================================107. Cars, trucks, Skates (to collect), Normal Man(to save), Robber (to catch), Bad Drones (to destroy), Good Drones (it protects the player)) rockets (to fly)
-=============================================================================108. Jet Packs to collect. --TBD
+=====106. Gain points in every activity, points will be converted to coins. -- TBD
+=====107. Cars, trucks, Skates (to collect), Normal Man(to save), Robber (to catch), Bad Drones (to destroy), Good Drones (it protects the player)) rockets (to fly)
+=====108. Jet Packs to collect. --TBD
 110. Arrow pointing towards the target -- Out of versio one
 111. Auto fire to the nearest enemy. Toggle on fire and auto fire. -- Done
 112. Points to catch and accelerate should always be present. -- Done
-=============================================================================113. Different bullets, single, double, spower -- TBD
+=====113. Different bullets, single, double, spower -- TBD
 114. Things mentioned in the properties files should evenly distributed to the distance given in the properties file. --Done
 115. Have parachute if user wanted to use while falling. -- Done
 
