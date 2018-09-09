@@ -1,10 +1,5 @@
 package com.pintu.futurewars.Casts;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Utility.GameObjectDetails;
 import com.pintu.futurewars.Utility.GameUtility;
@@ -34,6 +29,7 @@ public class WaterBalloon extends FutureWarsCast  implements Enemy {
         super.handleContact(gObj);
         if(fired) {
             toBeDestroyed = true;
+            GameUtility.playSound(GameConstants.TOING_SOUND);
         }
     }
 

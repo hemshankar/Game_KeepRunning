@@ -30,7 +30,7 @@ public class GameConstants {
     public static final float SUCKER_SIZE = DESIRED_SIZE;
     public static final float SUCKER_CREATOR_SIZE = DESIRED_SIZE;
     public static final float BRICK_SIZE =45;
-    public static final float PUSHER_DAMAGE = .1f;
+    public static final float PUSHER_DAMAGE = 1f;
 
     //Sucker Creator related
     public static final float SUCKER_CREATOR_RECOIL_TIME=30f;
@@ -55,13 +55,14 @@ public class GameConstants {
     public static final float CONTROL_BUTTON_SIZE = 130;
     public static final float FIRE_BUTTON_SIZE = 200;
     public static final float CIRCLE_BUTTON_SIZE = 300;
-
+    public static final String JOINT_MAP_MONITOR = "JOINT_MAP_MONITOR";
     public static final String POWER_IMAGE = "controls/throw.png";//"controls/throwSucker.png";
 
     //----------------------Bullets
     public static final float BASIC_BULLET_SIZE = 8;
     public static final String BASIC_BULLET_REGION_NAME = "basic_bullet";
     public static final float BASIC_BULLET_SPEED = 1f;
+    public static final float BUBBLE_BULLET_SPEED = 0.01f;
     public static final int BASIC_BULLET_DAMAGE = 50;
     public static final float BASIC_BULLET_RECOIL_TIME = .2f;
     public static final float BASIC_BULLET_TIME_TO_LIVE = .4f;
@@ -105,6 +106,7 @@ public class GameConstants {
     public static final String POWER_DRINK_PROPERTY_FILE = "propertyFiles/powerDrink.txt";
     public static final String RIFLE_PROPERTY_FILE = "propertyFiles/rifle.txt";
     public static final String BASIC_BULLET_PROPERTY_FILE = "propertyFiles/armory/basicBullet.txt";
+    public static final String BUBBLE_BULLET_PROPERTY_FILE = "propertyFiles/armory/bubbleBullet.txt";
     public static final String BURST_BULLET_PROPERTY_FILE = "propertyFiles/armory/burstBullet.txt";
     public static final String BOMB_PROPERTY_FILE = "propertyFiles/armory/bomb.txt";
     public static final String BOMB_AMO_PROPERTY_FILE = "propertyFiles/bombAmo.txt";
@@ -197,7 +199,6 @@ public class GameConstants {
     public static String PERF_RIFLE = "PERF_RIFLE";
     public static String PERF_KITE = "PERF_KITE";
     public static String PERF_KALEEN = "PERF_KALEEN";
-    public static String PERF_GIFT = "PERF_GIFT";
     public static String PERF_SPEEDBOMB = "PERF_SPEEDBOMB";
     public static String PREF_JUMPINGKIT = "PREF_JUMPINGKIT";
     public static String PREF_FLYINGKIT = "PREF_FLYINGKIT";
@@ -206,9 +207,34 @@ public class GameConstants {
     public static String THIS_STAGE_MAX_SPEED = "THIS_STAGE_MAX_SPEED";
     public static String THIS_STAGE_TOTAL_KILLS = "THIS_STAGE_TOTAL_KILLS";
     public static String THIS_STAGE_TOTAL_GIFTS = "THIS_STAGE_TOTAL_GIFTS";
+    public static String TOTAL_GIFTS = "TOTAL_GIFTS";
+
+
 
     //====================================SKINS=====================================
     public static String COMIC_SKIN = "skins/comic/skin/comic-ui.json";
 
+    public static String COIN_SOUND = "audio/coin.wav";
+    public static String JUMP_SOUND = "audio/jump.wav";
+    public static String GIFT_SOUND = "audio/gift.mp3";
+    public static String KICK_SOUND = "audio/kick.wav";
+    public static String PUSHER_PUSH_SOUND = "audio/birdHit.wav";
+    public static String KITE_SOUND = "audio/kite.wav";
+    public static String HORSE_RUNNING_SOUND = "audio/horseRunning.wav";
+    public static String HORSE_SHOUTING_SOUND = "audio/HorseShouting.mp3";
+    public static String CAT_MEOW_SOUND = "audio/catMeow.wav";
+    public static String PUSHER_HIT_SOUND = "audio/pusherHit.wav";
+    public static String PIVOT_SOUND = "audio/pivotSound.wav";
+    public static String TOING_SOUND = "audio/Toing.mp3";
+    public static String FUNNY_SPRING_SOUND = "audio/Funny Spring.mp3";
+    public static String BOMB_TIMER_SOUND = "audio/BombTimer.mp3";
+    public static String GUN_FIRE_SOUND = "audio/gunFire.mp3";
+    public static String POWER_DRINK_SOUND = "audio/mario.mp3";
+    public static String COW_BOY_SOUND = "audio/cowBoy.mp3";
+    public static String TADAA_SOUND = "audio/Tadaa.mp3";
+    public static String KALEEN_SOUND = "audio/kaleen.mp3";
+    public static String SPEED_BOMB_SOUND = "audio/speedBomb.mp3";
+    public static String MAGNET_SOUND = "audio/magnetSound.mp3";
 
 }
+

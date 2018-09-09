@@ -6,9 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -27,14 +25,16 @@ import static com.badlogic.gdx.scenes.scene2d.actions.Actions.*;
 public class WelcomeScreen implements Screen {
 
     JumpingMarblesGame game = null;
-    BitmapFont font = null;
+    BitmapFont loadingFont = null;
+    BitmapFont titleFont = null;
     Stage stage = null;
     Label welcomeMessage = null;
+    Label titleMessage = null;
     OrthographicCamera ctrlCam = null;
     FitViewport cViewPort = null;
     Image welcomeImage = null;
 
-    private final float CHANGE_SCREEN_TIME = 0;
+    private final float CHANGE_SCREEN_TIME = 3;
     private float timeHappend = 0;
 
     public WelcomeScreen(JumpingMarblesGame game){
@@ -45,33 +45,43 @@ public class WelcomeScreen implements Screen {
         stage = new Stage(cViewPort,game.batch);
 
 
-        Texture texture = new Texture(Gdx.files.internal("imgs/welcome.png"));
+        Texture texture = new Texture(Gdx.files.internal("welcome/welcome1.jpg"));
         welcomeImage = new Image(texture);
         welcomeImage.setHeight(stage.getHeight());
         welcomeImage.setWidth(stage.getWidth());
-        //image.addAction(alpha(.2f));
+        welcomeImage.addAction(scaleBy(.2f,.2f,10));
         stage.addActor(welcomeImage);
 
         initFonts();
-        welcomeMessage = new Label("Welcome Bro",new Label.LabelStyle(font,Color.BLACK));
-        welcomeMessage.setWidth(20);
-        welcomeMessage.setHeight(10);
-        //stagelabel.setPosition(20,20);
+        welcomeMessage = new Label("Loading...",new Label.LabelStyle(loadingFont,Color.BLACK));
         stage.addActor(welcomeMessage);
+
+        titleMessage = new Label("The Explorer",new Label.LabelStyle(titleFont,Color.BLACK));
+        stage.addActor(titleMessage);
     }
 
     @Override
     public void show() {
-        welcomeMessage.setPosition(200,stage.getHeight()/2);
-        welcomeMessage.addAction(alpha(0f));
+
+        titleMessage.setPosition(600,stage.getHeight()/4.5f);
+        titleMessage.addAction(fadeIn(1f));
+
+        welcomeMessage.setPosition(600,stage.getHeight()/7f);
+        //welcomeMessage.addAction(alpha(0f));
         welcomeMessage.addAction(fadeIn(3f));
-        welcomeImage.addAction(alpha(.5f));
+        //welcomeImage.addAction(alpha(.5f));
+        try {
+            game.loadAll();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public void update(float dt){
         timeHappend +=dt;
-        if(timeHappend>CHANGE_SCREEN_TIME){
-            game.setScreen(game.getStagesScreen());
+        if(game.resourceLoaded && game.assetManager.update()){//timeHappend>CHANGE_SCREEN_TIME){
+            //game.setScreen(game.getStagesScreen());
         }
         stage.act();
     }
@@ -107,7 +117,7 @@ public class WelcomeScreen implements Screen {
 
     @Override
     public void dispose() {
-        font.dispose();
+        loadingFont.dispose();
         stage.dispose();
         GameUtility.log(this.getClass().getName(), "Disposed");
     }
@@ -115,9 +125,18 @@ public class WelcomeScreen implements Screen {
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/leadcoat.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter params = new FreeTypeFontGenerator.FreeTypeFontParameter();
 
-        params.size = 150;
+        params.size = 50;
         params.color = Color.BLACK;
+        params.borderColor = Color.BLUE;
 
-        font = generator.generateFont(params);
+
+
+        loadingFont = generator.generateFont(params);
+
+        params.size = 120;
+        params.color = Color.GOLD;
+        params.borderColor = Color.SKY;
+
+        titleFont = generator.generateFont(params);
     }
 }

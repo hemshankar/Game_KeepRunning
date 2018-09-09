@@ -29,6 +29,7 @@ public class BasicBullet extends GameBullet {
 
     @Override
     public void fire(){
+        GameUtility.playSound(GameConstants.GUN_FIRE_SOUND);
         if(target == null) {
             body.applyLinearImpulse(new Vector2(GameConstants.BASIC_BULLET_SPEED, 0), body.getWorldCenter(), true);
         }else{
@@ -38,9 +39,9 @@ public class BasicBullet extends GameBullet {
                 float myXpos = body.getPosition().x;
                 float myYpos = body.getPosition().y;
 
-                float xForce = (pXpose - myXpos);// * Math.abs(target.getBody().getLinearVelocity().x + 0.1f);
+                float xForce = (pXpose - myXpos)/5;// * Math.abs(target.getBody().getLinearVelocity().x + 0.1f);
                 //xForce = xForce > (pXpose - myXpos) ? xForce : (pXpose - myXpos);
-                float yForce = (pYpose - myYpos);// * Math.abs(target.getBody().getLinearVelocity().y + 0.1f);
+                float yForce = (pYpose - myYpos)/5;// * Math.abs(target.getBody().getLinearVelocity().y + 0.1f);
                 //yForce = yForce > (pYpose - myYpos) ? yForce : (pYpose - myYpos);
                 body.applyLinearImpulse(new Vector2(xForce, yForce), body.getWorldCenter(), true);
             }catch (Exception e){

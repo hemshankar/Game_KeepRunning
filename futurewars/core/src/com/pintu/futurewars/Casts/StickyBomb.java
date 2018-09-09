@@ -1,14 +1,10 @@
 package com.pintu.futurewars.Casts;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Utility.GameObjectDetails;
 import com.pintu.futurewars.Utility.GameUtility;
-import com.pintu.futurewars.backgrounds.BackGround;
 import com.pintu.futurewars.commons.GameObject;
 
 /**
@@ -17,7 +13,7 @@ import com.pintu.futurewars.commons.GameObject;
 
 public class StickyBomb extends FutureWarsCast  implements Enemy {
     public boolean fired = false;
-    public float LIFE_TIME = 5;
+    public float LIFE_TIME = 3f;
     public float lived = 0;
     public boolean isAttached = false;
 
@@ -35,12 +31,15 @@ public class StickyBomb extends FutureWarsCast  implements Enemy {
     public StickyBomb() {
         super(GameConstants.STICKY_BOMB_PROPERTY_FILE);
     }
+
     @Override
     public void handleContact(GameObject gObj){
         super.handleContact(gObj);
         if(gObj instanceof Player2){
             GameUtility.jointHandler.createJoint(gObj,this,world,GameConstants.WELD);
             isAttached = true;
+            //GameUtility.playSound(GameConstants.FUNNY_SPRING_SOUND);
+            GameUtility.playSound(GameConstants.BOMB_TIMER_SOUND);
         }
     }
 

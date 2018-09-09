@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.pintu.futurewars.Casts.Ground;
+import com.pintu.futurewars.Casts.Pivot;
 import com.pintu.futurewars.Casts.Player2;
 import com.pintu.futurewars.JumpingMarbleWorldCreator;
 import com.pintu.futurewars.Utility.GameUtility;
@@ -55,6 +56,7 @@ abstract public class BaseScreen extends InputAdapter implements Screen {
 
     public Vector3 point = new Vector3();
     public Body bodyThatWasHit;
+    public Body pivotBody;
 
     QueryCallback callback = new QueryCallback() {
         @Override
@@ -63,7 +65,11 @@ abstract public class BaseScreen extends InputAdapter implements Screen {
             Body body = fixture.getBody();
             GameUtility.log("1" + this.getClass().getName(),body.getUserData().toString());
             if(!(body.getUserData() instanceof Ground) && !(body.getUserData() instanceof Player2)){
-                bodyThatWasHit = body;
+                if(body.getUserData() instanceof Pivot){
+                    pivotBody = body;
+                }else {
+                    bodyThatWasHit = body;
+                }
             }
             if (fixture.testPoint(point.x, point.y)) {
                 //bodyThatWasHit = fixture.getBody();
@@ -94,6 +100,7 @@ abstract public class BaseScreen extends InputAdapter implements Screen {
         camera.unproject(point);
         // Ask the world for bodies within the bounding box.
         bodyThatWasHit = null;
+        pivotBody = null;
         world.QueryAABB(callback, point.x - 1, point.y - 1, point.x + 1, point.y + 1);
 
         //GameUtility.log(this.getClass().getName(),bodyThatWasHit.getUserData().toString());

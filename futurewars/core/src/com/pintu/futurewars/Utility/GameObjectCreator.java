@@ -38,8 +38,8 @@ public class GameObjectCreator {
     public Map<Integer,Object> rootObjectMap = new HashMap<Integer,Object>();
 
     public GameObject lastPivotLocation = null;
-    public float PIVOT_GAP = 7;
-    public float TOP_LIMIT = 100;
+    public float PIVOT_GAP = 14;
+    public float TOP_LIMIT = 70;
     public float BOTTOM_LIMIT = 6;
 
     public void register(String objId,GameObjectDetails objectDetails){

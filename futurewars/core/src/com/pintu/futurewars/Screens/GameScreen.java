@@ -61,6 +61,7 @@ public class GameScreen extends BaseScreen {
 
     public AssetManager assetManager = null;
     public Music gameMusic = null;
+    public boolean playSounds = true;
     public Player2 player2 = null;
     public JumpingMarblesGame game = null;
 
@@ -75,7 +76,7 @@ public class GameScreen extends BaseScreen {
     public float numOfBackImgs = 1;
 
     public float timePassed = 0;
-    public float gameTime = 3*60; //3 minutes
+    public float gameTime = 1f*60; //.5 minutes
 
     public float slowMotionEffect = 0;
     public float slowMotionEffectTime = 2f;
@@ -90,6 +91,20 @@ public class GameScreen extends BaseScreen {
     public GameObject nearestEnemy = null;
 
     public MenuStage menuStage=null;
+
+    //counters
+    //1. Total coins in this stage
+    public int coinsCollected = 0;
+
+    //max speed
+    public float maxSpeedAttained = 0;
+
+    //kills
+    public int enemyKills = 0;
+
+    // gifts
+    public int giftsCollected = 0;
+
 
     public GameScreen(JumpingMarblesGame game){
 
@@ -182,6 +197,7 @@ public class GameScreen extends BaseScreen {
         inputMultiplexer.addProcessor(inputProcessorTwo);*/
         Gdx.input.setInputProcessor(inputMultiplexer);
         gameMusic.play();
+        playSounds = true;
         //Gdx.input.setInputProcessor(widgets.stage);
         menuStage.show();
     }
@@ -228,6 +244,11 @@ public class GameScreen extends BaseScreen {
         }
         menuStage.update();
         //player2.update(dt);
+
+        //update the players maxSpeed
+        if(player2.body.getLinearVelocity().x > maxSpeedAttained){
+            maxSpeedAttained = player2.body.getLinearVelocity().x;
+        }
     }
 
     //utility method to handle Ip
@@ -245,19 +266,39 @@ public class GameScreen extends BaseScreen {
     public void pause() {
         System.out.println("GameScreen: Pause called");
         gameMusic.pause();
+        playSounds = false;
     }
 
     @Override
     public void resume() {
         System.out.println("Show called");
         gameMusic.play();
+        playSounds = true;
     }
 
     @Override
     public void hide() {
 
         gameMusic.pause();
+        playSounds = false;
         System.out.println("GameScreen: Hide called");
+    }
+
+    public void saveAndResetStats(){
+        //save and reset all the stats
+        game.preferences.putInteger(GameConstants.THIS_STAGE_TOTAL_KILLS,enemyKills);
+        enemyKills = 0;
+
+        game.preferences.putInteger(GameConstants.THIS_STAGE_MAX_SPEED,(int)maxSpeedAttained);
+        maxSpeedAttained = 0;
+
+        game.preferences.putInteger(GameConstants.THIS_STAGE_TOTAL_GIFTS,giftsCollected);
+        int totalGifts = game.preferences.getInteger(GameConstants.TOTAL_GIFTS);
+        game.preferences.putInteger(GameConstants.TOTAL_GIFTS,giftsCollected + totalGifts);
+        giftsCollected = 0;
+
+        game.preferences.putInteger(GameConstants.THIS_STAGE_TOTAL_COIN,coinsCollected);
+        coinsCollected = 0;
     }
 
     @Override
@@ -282,7 +323,6 @@ public class GameScreen extends BaseScreen {
         GameUtility.gameObjectCreator.reset();
         GameUtility.log(this.getClass().getName(), "Disposed");
         menuStage.dispose();
-        //Never call ----batch.dispose();
     }
 
     /*public class GameObjectComparator implements Comparator<GameObject>

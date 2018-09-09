@@ -1,5 +1,6 @@
 package com.pintu.futurewars.Casts;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -24,7 +25,7 @@ import java.util.Map;
  * Created by hsahu on 7/2/2017.
  */
 
-public class Brick extends FutureWarsCast implements Enemy  {
+public class Brick extends FutureWarsCast {
 
     public static void init(){
         GameObjectDetails gameObjectDetails = new GameObjectDetails();
@@ -54,6 +55,7 @@ public class Brick extends FutureWarsCast implements Enemy  {
             if(((Player2)gObj).jointMap.get(this)==null){
                 body.applyLinearImpulse(((gObj).getBody().getLinearVelocity().x + 1) * 2, 0,
                         body.getWorldCenter().x, body.getWorldCenter().y, true);
+                GameUtility.playSound(GameConstants.KICK_SOUND);
             }
         }
     }

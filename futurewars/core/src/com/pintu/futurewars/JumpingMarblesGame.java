@@ -41,50 +41,12 @@ public class JumpingMarblesGame extends Game {
 
 	public Preferences preferences;
 
+	public static volatile boolean resourceLoaded = false;
+
 	@Override
 	public void create () {
 
 		try {
-
-			/*Brick.init();
-			Kaleen.init();
-			Horse.init();
-			Pusher.init();
-			PowerDrink.init();
-			JumpingKit.init();
-			Coin.init();
-			CowBoyHat.init();
-			SpeedBomb.init();
-			FlyingKit.init();
-			StickyBomb.init();
-			Magnet.init();
-			WaterBalloon.init();
-			BombAmo.init();
-			SpeedBomb.init();
-			Cat.init();
-			Kite.init();*/
-
-			//load all propertiesFile and atlas
-            try {
-                GameUtility.initiate();
-            }catch(Exception e){
-                e.printStackTrace();
-                return;
-            }
-			//load Stage Map details
-			GameUtility.gameObjectCreator.populateStageMapDetails("stages/stageMap.txt");
-			preferences = Gdx.app.getPreferences("UserData");
-            resetPrefs();
-			assetManager = new AssetManager();
-			//load assets
-			assetManager.load("music/plang_mt_flaming_flares.mp3", Music.class);
-			assetManager.load("audio/Wind effects 5.wav",Sound.class);
-			assetManager.load("audio/Fire impact 1.wav",Sound.class);
-			assetManager.load("audio/SHOOT008.mp3",Sound.class);
-
-			//load all the assets synchronously
-			assetManager.finishLoading();
-
 			batch = new SpriteBatch();
 
 			camera = new OrthographicCamera();
@@ -107,6 +69,82 @@ public class JumpingMarblesGame extends Game {
 		}catch(Exception e){
 			GameUtility.log(this.getClass().getName(),e.getMessage());
 		}
+	}
+
+	public boolean loadAll() throws Exception{
+		/*Brick.init();
+			Kaleen.init();
+			Horse.init();
+			Pusher.init();
+			PowerDrink.init();
+			JumpingKit.init();
+			Coin.init();
+			CowBoyHat.init();
+			SpeedBomb.init();
+			FlyingKit.init();
+			StickyBomb.init();
+			Magnet.init();
+			WaterBalloon.init();
+			BombAmo.init();
+			SpeedBomb.init();
+			Cat.init();
+			Kite.init();*/
+
+		//load all propertiesFile and atlas
+		try {
+			GameUtility.initiate();
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
+		//load Stage Map details
+		GameUtility.gameObjectCreator.populateStageMapDetails("stages/stageMap.txt");
+		preferences = Gdx.app.getPreferences("UserData");
+		resetPrefs();
+		assetManager = new AssetManager();
+		//load assets
+		Runnable runnable = new Runnable() {
+			@Override
+			public void run() {
+				loadAssets(assetManager);
+			}
+		};
+		Thread t = new Thread(runnable);
+		t.start();
+
+		//load all the assets synchronously
+		//assetManager.finishLoading();
+		return true;
+	}
+
+	public static void loadAssets(AssetManager assetManager){
+
+		assetManager.load("music/plang_mt_flaming_flares.mp3", Music.class);
+		assetManager.load("audio/Wind effects 5.wav",Sound.class);
+		assetManager.load("audio/Fire impact 1.wav",Sound.class);
+		assetManager.load(GameConstants.COIN_SOUND,Sound.class);
+		assetManager.load(GameConstants.JUMP_SOUND,Sound.class);
+		assetManager.load(GameConstants.GIFT_SOUND,Sound.class);
+		assetManager.load(GameConstants.KICK_SOUND,Sound.class);
+		assetManager.load(GameConstants.HORSE_RUNNING_SOUND,Sound.class);
+		assetManager.load(GameConstants.HORSE_SHOUTING_SOUND,Sound.class);
+		assetManager.load(GameConstants.CAT_MEOW_SOUND,Sound.class);
+		assetManager.load(GameConstants.PUSHER_PUSH_SOUND,Sound.class);
+		assetManager.load(GameConstants.PUSHER_HIT_SOUND,Sound.class);
+		assetManager.load(GameConstants.PIVOT_SOUND,Sound.class);
+		assetManager.load(GameConstants.KITE_SOUND,Sound.class);
+		assetManager.load(GameConstants.TOING_SOUND,Sound.class);
+		assetManager.load(GameConstants.FUNNY_SPRING_SOUND,Sound.class);
+		assetManager.load(GameConstants.BOMB_TIMER_SOUND,Sound.class);
+		assetManager.load(GameConstants.GUN_FIRE_SOUND,Sound.class);
+		assetManager.load(GameConstants.POWER_DRINK_SOUND,Sound.class);
+		assetManager.load(GameConstants.COW_BOY_SOUND,Sound.class);
+		assetManager.load(GameConstants.TADAA_SOUND,Sound.class);
+		assetManager.load(GameConstants.KALEEN_SOUND,Sound.class);
+		assetManager.load(GameConstants.SPEED_BOMB_SOUND,Sound.class);
+		assetManager.load(GameConstants.MAGNET_SOUND,Sound.class);
+
+		resourceLoaded = true;
 	}
 
 	@Override

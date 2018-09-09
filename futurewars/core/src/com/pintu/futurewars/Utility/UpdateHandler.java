@@ -21,6 +21,33 @@ public class UpdateHandler {
 
     public void update(GameScreen screen,float dt){
 
+        if(screen.pivotBody !=null){
+            AbstractGameObject pivotGameObject = (AbstractGameObject)screen.pivotBody.getUserData();
+            //remove existing pivot
+            synchronized (GameConstants.JOINT_MAP_MONITOR) {
+                for (GameObject obj : screen.player2.jointMap.keySet()) {
+                    if (obj instanceof Pivot) {
+                        GameUtility.jointHandler.removeJoint(screen.player2.jointMap.remove(obj), screen.world);
+                    }
+                }
+            }
+            //create a rope
+            GameUtility.jointHandler.createJoint(screen.player2,
+                    pivotGameObject,
+                    screen.world,
+                    GameConstants.ROPE,
+                    pivotGameObject.ropeLength);
+            if(screen.player2.body.getLinearVelocity().x < 1)
+                screen.player2.body.applyLinearImpulse(new Vector2(.05f, 0), screen.player2.body.getWorldCenter(), true);
+
+
+            pivotGameObject.ropeConnection =
+                    GameUtility.shapeHelper.drawLine(screen.player2, pivotGameObject, GameConstants.ROPE_WIDTH, Color.BROWN, Color.BROWN);
+            pivotGameObject.doneCatching = false;
+            screen.pivotBody = null;
+            GameUtility.playSound(GameConstants.PIVOT_SOUND);
+        }
+
         if(screen.bodyThatWasHit!=null) {
             AbstractGameObject hitGameObject = (AbstractGameObject)screen.bodyThatWasHit.getUserData();
             if(hitGameObject==null
@@ -34,26 +61,15 @@ public class UpdateHandler {
                     || hitGameObject.isBackground) {
                 //do nothing
             }else{
-                //first remove any existing pivot object
-                if(hitGameObject instanceof Pivot){
-                    for(GameObject obj: screen.player2.jointMap.keySet()){
-                        if(obj instanceof Pivot){
-                            GameUtility.jointHandler.removeJoint(screen.player2.jointMap.remove(obj),screen.world);
-                        }
-                    }
-                }
                 GameUtility.jointHandler.createJoint(screen.player2,
                         hitGameObject,
                         screen.world,
                         GameConstants.ROPE,
                         hitGameObject.ropeLength);
-                if(hitGameObject instanceof Pivot){
-                    screen.player2.body.applyLinearImpulse(new Vector2(screen.player2.body.getMass() * 15f, 0), screen.player2.body.getWorldCenter(), true);
-
-                }
                 hitGameObject.ropeConnection =
                         GameUtility.shapeHelper.drawLine(screen.player2, hitGameObject, GameConstants.ROPE_WIDTH, Color.BROWN, Color.BROWN);
                 hitGameObject.doneCatching = false;
+                hitGameObject.callOnRopeConnection();
             }
             screen.bodyThatWasHit = null;
         }
@@ -62,8 +78,10 @@ public class UpdateHandler {
 
         screen.timePassed +=dt;
         if(screen.timePassed >=screen.gameTime){
+            screen.saveAndResetStats();
             screen.game.setScreen(screen.game.getGameEndScreen(GameConstants.STAGE1));
             screen.gameMusic.stop();
+            //ad logic to stop the music and sounds as well
         }
         float fps = 45f;
         if(screen.isslowMotionEffect){

@@ -23,16 +23,12 @@ import com.pintu.futurewars.Screens.GameScreen;
 import com.pintu.futurewars.Screens.MenuStage;
 import com.pintu.futurewars.com.pintu.futurewars.armory.BasicBullet;
 import com.pintu.futurewars.com.pintu.futurewars.armory.Bomb;
+import com.pintu.futurewars.com.pintu.futurewars.armory.BubbleBullet;
 import com.pintu.futurewars.commons.AbstractGameObject;
 import com.pintu.futurewars.commons.GameObject;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -140,6 +136,15 @@ public class GameUtility {
 
     public static void fireBasicBullet(float x, float y, GameObject target) {
         BasicBullet bullet = new BasicBullet(id++, world, getAtlas(GameConstants.ATLAS_FILE), x, y);
+        bullet.initialize();
+        bullet.target = target;
+        bullet.fire();
+
+        getGameScreen().gameObjects.add(bullet);
+    }
+
+    public static void fireBubbleBullet(float x, float y, GameObject target) {
+        BubbleBullet bullet = new BubbleBullet(id++, world, getAtlas(GameConstants.ATLAS_FILE), x, y);
         bullet.initialize();
         bullet.target = target;
         bullet.fire();
@@ -361,8 +366,18 @@ public class GameUtility {
 
     public static void playSound(String sound) {
         if (!isEmptyString(sound)) {
-            GameUtility.getGameScreen().assetManager.get(sound, Sound.class).play();
+            if(getGameScreen().playSounds) {
+                GameUtility.getGameScreen().assetManager.get(sound, Sound.class).play();
+            }
         }
+    }
+    public static Sound loopSound(String sound) {
+        if (!isEmptyString(sound)) {
+            Sound s = GameUtility.getGameScreen().assetManager.get(sound, Sound.class);
+            s.loop();
+            return s;
+        }
+        return null;
     }
 
     public static BitmapFont getFonts(String fontTypeTTFFile, int size, Color color) {

@@ -193,7 +193,7 @@ public class UpgradeScreen implements Screen {
                 backLister,200,200,800,200);
         backButtonPressed.setVisible(false);
 
-        qualityName = new Label("",skin,"title");
+        qualityName = new Label("",skin,"titleFont");
         qualityName.setPosition(200,stage.getHeight()-500);
 
         maxQuality = new Label("",skin,"big");

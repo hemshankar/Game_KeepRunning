@@ -41,7 +41,7 @@ public class EndGameScreen extends BaseUIScreen {
     public void addItems(){
 
         StageItem item = new StageItem(0,0,0,0,200,200,650, 820);
-        addItem(null,"Game Over",null,item,skin,"title");
+        addItem(null,"Game Over",null,item,skin,"titleFont");
 
         //==========================Stats==========================
         item = new StageItem(80,80,600,700,200,200,800, 650);

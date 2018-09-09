@@ -47,6 +47,7 @@ public class Magnet extends FutureWarsCast {
             /*p.hasMagnet = true;
             p.magnetEffectRemainig = p.MAGNET_EFFECT_TIME;*/
             p.numberOfMagnet++;
+            GameUtility.playSound(GameConstants.MAGNET_SOUND);
         }
     }
 

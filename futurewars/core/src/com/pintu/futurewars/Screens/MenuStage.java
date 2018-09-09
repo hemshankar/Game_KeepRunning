@@ -158,7 +158,7 @@ public class MenuStage implements InputProcessor {
             if (listner != null)
                 stagelabel.addListener(listner);
             stage.addActor(stagelabel);
-            //font.dispose();
+            //loadingFont.dispose();
             custBut.label = stagelabel;
 
         }

@@ -40,6 +40,8 @@ public class Coin extends FutureWarsCast {
             ((Player2) gObj).totalCoin++;
             GameUtility.getGameScreen().menuStage.totalCoins = ((Player2) gObj).totalCoin;
             //System.out.println(((Player2) gObj).totalCoin);
+            GameUtility.playSound(GameConstants.COIN_SOUND);
+            GameUtility.getGameScreen().coinsCollected++;
         }
     }
 

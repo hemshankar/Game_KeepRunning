@@ -313,7 +313,7 @@ public class StagesScreen implements Screen,GestureDetector.GestureListener {
         loading.setWidth(StageDetails.labelWidth);
         loading.setHeight(StageDetails.labelHeight);
         loading.setPosition(stage.getWidth()-300,50);
-        //loading.addListener(new StageListner(stage));
+        //loadingFont.addListener(new StageListner(stage));
         stage.addActor(loading);
     }
 

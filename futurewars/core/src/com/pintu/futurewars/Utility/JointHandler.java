@@ -138,24 +138,26 @@ public class JointHandler {
         }
 
         public void createJoint(){
-            Player2 p = getPlayer(a,b);
-            GameObject g = getOtherGameObject(a,b);
-            if(type.equalsIgnoreCase(GameConstants.REVOLUTE)){
-                p.jointMap.put(g,createRevoluteJoint(this));
-            }else if(type.equalsIgnoreCase(GameConstants.DISTANT)){
-                p.jointMap.put(g,createRevoluteJoint(this));
-            }else if(type.equalsIgnoreCase(GameConstants.ROPE)){
-                p.jointMap.put(g,createRopeJoint(this));
-            }else if(type.equalsIgnoreCase(GameConstants.PULLY)){
-                p.jointMap.put(g,createRevoluteJoint(this));
-            }else if(type.equalsIgnoreCase(GameConstants.GEAR)){
-                p.jointMap.put(g,createRevoluteJoint(this));
-            }else if(type.equalsIgnoreCase(GameConstants.WHEEL)){
-                p.jointMap.put(g,createRevoluteJoint(this));
-            }else if(type.equalsIgnoreCase(GameConstants.PRISMATIC)){
-                p.jointMap.put(g,createRevoluteJoint(this));
-            }else if(type.equalsIgnoreCase(GameConstants.WELD)){
-                p.jointMap.put(g,createWeldJoint(this));
+            synchronized (GameConstants.JOINT_MAP_MONITOR) {
+                Player2 p = getPlayer(a, b);
+                GameObject g = getOtherGameObject(a, b);
+                if (type.equalsIgnoreCase(GameConstants.REVOLUTE)) {
+                    p.jointMap.put(g, createRevoluteJoint(this));
+                } else if (type.equalsIgnoreCase(GameConstants.DISTANT)) {
+                    p.jointMap.put(g, createRevoluteJoint(this));
+                } else if (type.equalsIgnoreCase(GameConstants.ROPE)) {
+                    p.jointMap.put(g, createRopeJoint(this));
+                } else if (type.equalsIgnoreCase(GameConstants.PULLY)) {
+                    p.jointMap.put(g, createRevoluteJoint(this));
+                } else if (type.equalsIgnoreCase(GameConstants.GEAR)) {
+                    p.jointMap.put(g, createRevoluteJoint(this));
+                } else if (type.equalsIgnoreCase(GameConstants.WHEEL)) {
+                    p.jointMap.put(g, createRevoluteJoint(this));
+                } else if (type.equalsIgnoreCase(GameConstants.PRISMATIC)) {
+                    p.jointMap.put(g, createRevoluteJoint(this));
+                } else if (type.equalsIgnoreCase(GameConstants.WELD)) {
+                    p.jointMap.put(g, createWeldJoint(this));
+                }
             }
         }
 

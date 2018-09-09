@@ -1,9 +1,6 @@
 package com.pintu.futurewars.Casts;
 
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
 import com.pintu.futurewars.Utility.GameObjectDetails;
@@ -47,6 +44,7 @@ public class Pusher extends FutureWarsCast implements Enemy  {
                 player2.takeDamage(GameConstants.PUSHER_DAMAGE);
                 //GameUtility.getGameScreen().isslowMotionEffect = true;
             }
+            GameUtility.playSound(GameConstants.PUSHER_PUSH_SOUND);
         }else if(gObj instanceof Ground){
             flying = false;
         }
@@ -108,6 +106,10 @@ public class Pusher extends FutureWarsCast implements Enemy  {
     @Override
     public void destroy(){
         super.destroy();
-        GameUtility.addEnemyBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
+        if(!safeDestroy){
+            GameUtility.addEnemyBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
+            GameUtility.playSound(GameConstants.PUSHER_HIT_SOUND);
+            GameUtility.getGameScreen().enemyKills++;
+        }
     }
 }

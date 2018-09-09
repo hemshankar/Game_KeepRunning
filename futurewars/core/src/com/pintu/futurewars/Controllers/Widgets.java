@@ -227,6 +227,7 @@ public class Widgets {
             if(screen.player2.totalRockets>0 && !screen.player2.hasRocket) {
                 screen.player2.totalRockets--;
                 screen.player2.hasRocket = true;
+                GameUtility.playSound(GameConstants.TADAA_SOUND);
             }
         }
 
@@ -264,6 +265,12 @@ public class Widgets {
 
         @Override
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            //addLoadingLabel();
             if (screen.player2.jointMap.size() != 0) {
                 List<GameObject> goList = new ArrayList<GameObject>();
                 for (GameObject gObj : screen.player2.jointMap.keySet()) {
@@ -276,22 +283,22 @@ public class Widgets {
                     }
                 }
 
-                for (GameObject g : goList) {
-                    screen.player2.jointMap.remove(g);
+                synchronized (GameConstants.JOINT_MAP_MONITOR) {
+                    for (GameObject g : goList) {
+                        screen.player2.jointMap.remove(g);
+                    }
                 }
-
                 GameUtility.jointHandler.removeAllJoints();
-                for (GameObject g : goList) {
-                    screen.player2.jointMap.remove(g);
-                    g.getBody().applyLinearImpulse((screen.player2.getBody().getLinearVelocity().x + 1) * 1.5f, 0, g.getBody().getWorldCenter().x, g.getBody().getWorldCenter().y, true);
+                synchronized (GameConstants.JOINT_MAP_MONITOR) {
+                    for (GameObject g : goList) {
+                        screen.player2.jointMap.remove(g);
+                        g.getBody().applyLinearImpulse((screen.player2.getBody().getLinearVelocity().x + 1) * 1.5f, 0, g.getBody().getWorldCenter().x, g.getBody().getWorldCenter().y, true);
+                    }
                 }
                 goList.clear();
+            }else{
+                screen.player2.fire();
             }
-        }
-
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            //addLoadingLabel();
             return true;
         }
     }
@@ -390,8 +397,10 @@ public class Widgets {
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             if(screen.gameMusic.getVolume()==0){
                 screen.gameMusic.setVolume(1);
+                screen.playSounds = true;
             }else {
                 screen.gameMusic.setVolume(0);
+                screen.playSounds = false;
             }
        }
 

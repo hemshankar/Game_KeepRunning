@@ -34,6 +34,7 @@ public class CowBoyHat extends FutureWarsCast {
         if(gObj instanceof Player2){
             toBeDestroyed = true;
             ((Player2) gObj).selectedBullet = GameConstants.BURST_BULLET;
+            GameUtility.playSound(GameConstants.COW_BOY_SOUND);
         }
     }
 

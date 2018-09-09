@@ -30,6 +30,7 @@ public class Cat extends FutureWarsCast implements Enemy {
         super(GameConstants.CAT_PROPERTY_FILE);
         canFly = false;
         isThrowable = true;
+        GameUtility.playSound(GameConstants.CAT_MEOW_SOUND);
     }
 
     @Override
@@ -54,7 +55,10 @@ public class Cat extends FutureWarsCast implements Enemy {
     @Override
     public void destroy(){
         super.destroy();
-        GameUtility.addEnemyBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
+        if(!safeDestroy) {
+            GameUtility.playSound(GameConstants.CAT_MEOW_SOUND);
+            GameUtility.addEnemyBlast(sprite.getX() - sprite.getWidth() / 2, sprite.getY() - sprite.getHeight() / 2);
+        }
     }
 
     public void move(float dt){

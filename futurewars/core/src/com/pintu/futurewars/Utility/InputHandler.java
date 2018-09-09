@@ -91,15 +91,17 @@ public class InputHandler {
                             GameUtility.jointHandler.removeJoint(j, screen.world);
                         }
                     }
-
-                    for (GameObject g : goList) {
-                        screen.player2.jointMap.remove(g);
+                    synchronized (GameConstants.JOINT_MAP_MONITOR) {
+                        for (GameObject g : goList) {
+                            screen.player2.jointMap.remove(g);
+                        }
                     }
-
                     GameUtility.jointHandler.removeAllJoints();
-                    for (GameObject g : goList) {
-                        screen.player2.jointMap.remove(g);
-                        g.getBody().applyLinearImpulse((screen.player2.getBody().getLinearVelocity().x + 1) * 10, 0, g.getBody().getWorldCenter().x, g.getBody().getWorldCenter().y, true);
+                    synchronized (GameConstants.JOINT_MAP_MONITOR) {
+                        for (GameObject g : goList) {
+                            screen.player2.jointMap.remove(g);
+                            g.getBody().applyLinearImpulse((screen.player2.getBody().getLinearVelocity().x + 1) * 10, 0, g.getBody().getWorldCenter().x, g.getBody().getWorldCenter().y, true);
+                        }
                     }
                     goList.clear();
                 }

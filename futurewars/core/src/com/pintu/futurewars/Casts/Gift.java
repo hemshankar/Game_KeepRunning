@@ -38,6 +38,8 @@ public class Gift extends FutureWarsCast {
             spriteWidth = spriteWidth / 3;
             spriteHeight = spriteHeight / 3;
             sprite.setBounds(0, 0, spriteWidth * 2 / getPPM(), spriteHeight * 2 / getPPM());
+            GameUtility.playSound(GameConstants.GIFT_SOUND);
+            GameUtility.getGameScreen().giftsCollected++;
         }
     }
 
@@ -73,11 +75,12 @@ public class Gift extends FutureWarsCast {
         }
     }*/
 
-   /* @Override
+    @Override
     public void destroy(){
         super.destroy();
+
         //GameUtility.addPowerBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
-    }*/
+    }
 
     /*public boolean itsAttractTime(float dt){
         attTimer += dt;

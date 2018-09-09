@@ -19,7 +19,8 @@ public class Kite extends FutureWarsCast {
         super(GameConstants.KITE_PROPERTY_FILE);
         ropeLength = 5f;
         removeRopeConnectionOnContact = false;
-        maxVelocity = GameUtility.game.preferences.getInteger(GameConstants.PERF_HORSE)/GameConstants.MPS_TO_KPH;;
+        maxVelocity = GameUtility.game.preferences.getInteger(GameConstants.PERF_KITE)/GameConstants.MPS_TO_KPH;
+
     }
 
 
@@ -31,8 +32,8 @@ public class Kite extends FutureWarsCast {
             if(caughtSince>catchTime){
                 toBeDestroyed = true;
             }else{
-                if(body.getLinearVelocity().x < this.maxVelocity) {
-                    body.applyLinearImpulse(new Vector2(5, 0), this.body.getWorldCenter(), true);
+                if(body.getLinearVelocity().x < this.maxVelocity*2) {
+                    body.applyLinearImpulse(new Vector2(15, 0), this.body.getWorldCenter(), true);
                 }
             }
         }
@@ -42,5 +43,11 @@ public class Kite extends FutureWarsCast {
     public void destroy(){
         super.destroy();
         GameUtility.addEnemyBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
+    }
+
+    @Override
+    public void callOnRopeConnection() {
+        super.callOnRopeConnection();
+        GameUtility.playSound(GameConstants.KITE_SOUND);
     }
 }

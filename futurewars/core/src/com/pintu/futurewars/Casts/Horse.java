@@ -1,5 +1,6 @@
 package com.pintu.futurewars.Casts;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.math.Vector2;
 import com.pintu.futurewars.Constants.GameConstants;
 import com.pintu.futurewars.Constants.GameObjectConstants;
@@ -18,11 +19,12 @@ public class Horse extends FutureWarsCast {
     private boolean hasPlayer = false;
     private float MOVE_FORCE_INTERVAL = .01f;
     private float moveForceApplideTime = 0f;
-
+    private Sound sound = null;
     public Horse() {
         super(GameConstants.HORSE_PROPERTY_FILE);
         canFly = false;
         maxVelocity = GameUtility.game.preferences.getInteger(GameConstants.PERF_HORSE)/GameConstants.MPS_TO_KPH;
+        //sound = GameUtility.loopSound(GameConstants.HORSE_RUNNING_SOUND);
     }
 
     @Override
@@ -31,6 +33,7 @@ public class Horse extends FutureWarsCast {
             Player2 player2 = ((Player2) gObj);
             GameUtility.jointHandler.createJoint(player2, this, world, GameConstants.WELD,1f);
             hasPlayer = true;
+            GameUtility.playSound(GameConstants.HORSE_SHOUTING_SOUND);
         }
     }
 
@@ -50,6 +53,9 @@ public class Horse extends FutureWarsCast {
     @Override
     public void destroy(){
         super.destroy();
+        if(sound!=null)
+            sound.stop();
+
         GameUtility.addEnemyBlast(sprite.getX()-sprite.getWidth()/2,sprite.getY()-sprite.getHeight()/2);
     }
 

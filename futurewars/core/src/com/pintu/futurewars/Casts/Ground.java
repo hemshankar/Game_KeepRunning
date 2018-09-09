@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
 import com.pintu.futurewars.Constants.GameConstants;
+import com.pintu.futurewars.Utility.GameUtility;
 import com.pintu.futurewars.commons.GameObject;
 
 /**
@@ -27,6 +28,7 @@ public class Ground extends FutureWarsCast {
             p.canJump = false;
             if(p.hasJumpingKit && p.jumpEffectRemainig > 0){
                 p.body.applyLinearImpulse(new Vector2(0, 6), p.body.getWorldCenter(), true);
+                GameUtility.playSound(GameConstants.JUMP_SOUND);
             }
         }else{
             gObj.handleEndContact(this);

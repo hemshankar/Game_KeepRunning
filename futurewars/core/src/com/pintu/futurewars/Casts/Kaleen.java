@@ -1,5 +1,6 @@
 package com.pintu.futurewars.Casts;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.pintu.futurewars.Constants.GameConstants;
@@ -25,7 +26,7 @@ public class Kaleen extends FutureWarsCast {
     public Kaleen() {
         super(GameConstants.KALEEN_PROPERTY_FILE);
         background = new BackGround(GameConstants.BACKGROUND3_PROPERTY_FILE,this);
-        maxVelocity = GameUtility.game.preferences.getInteger(GameConstants.PERF_HORSE)/GameConstants.MPS_TO_KPH;;
+        maxVelocity = GameUtility.game.preferences.getInteger(GameConstants.PERF_KALEEN)/GameConstants.MPS_TO_KPH;;
     }
 
     @Override
@@ -37,6 +38,7 @@ public class Kaleen extends FutureWarsCast {
             Player2 player2 = ((Player2) gObj);
             GameUtility.jointHandler.createJoint(player2,this,world,GameConstants.WELD);
             hasPlayer = true;
+            GameUtility.playSound(GameConstants.KALEEN_SOUND);
         }
     }
 

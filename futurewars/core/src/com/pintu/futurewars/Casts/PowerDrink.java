@@ -40,6 +40,7 @@ public class PowerDrink extends FutureWarsCast {
         if(gObj instanceof Player2){
             toBeDestroyed = true;
             ((Player2) gObj).health = 200;
+            GameUtility.playSound(GameConstants.POWER_DRINK_SOUND);
         }
     }
 

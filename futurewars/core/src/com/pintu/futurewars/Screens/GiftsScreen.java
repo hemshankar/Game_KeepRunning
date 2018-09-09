@@ -38,9 +38,9 @@ public class GiftsScreen extends BaseUIScreen {
     }
 
     public void addItems(){
-        numOfGifts = game.preferences.getInteger(GameConstants.PERF_GIFT);
+        numOfGifts = game.preferences.getInteger(GameConstants.TOTAL_GIFTS);
         if(numOfGifts==0){//to test.
-            numOfGifts = 10;
+            numOfGifts = 1;
         }
 
         scrollTable.pad(100,0,100,0);
@@ -94,6 +94,7 @@ public class GiftsScreen extends BaseUIScreen {
     @Override
     public void show() {
         super.show();
+        stage.clear();
         addItems();
     }
 

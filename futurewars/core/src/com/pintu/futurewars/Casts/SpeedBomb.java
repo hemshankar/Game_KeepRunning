@@ -44,6 +44,7 @@ public class SpeedBomb extends FutureWarsCast {
             toBeDestroyed = true;
             ((Player2) gObj).body.applyLinearImpulse(new Vector2(20, 10), body.getWorldCenter(), true);
             GameUtility.getGameScreen().isslowMotionEffect = true;
+            GameUtility.playSound(GameConstants.SPEED_BOMB_SOUND);
         }
     }
 

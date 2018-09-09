@@ -28,6 +28,7 @@ abstract public class FutureWarsCast extends AbstractGameObject{
 
         if(this instanceof Enemy){
             toBeDestroyed = true;
+            this.safeDestroy = false;
         }
         else if(this instanceof Player2){
             health-=damage;

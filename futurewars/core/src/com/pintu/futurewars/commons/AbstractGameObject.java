@@ -65,6 +65,7 @@ public abstract class AbstractGameObject implements GameObject{
 
     public boolean destroyed = false;
     public boolean toBeDestroyed = false;
+    public boolean safeDestroy = true; // will be destroyed since no more required
     //these can be a bit of overHead, since these needs to be maitained
     public float timeToLive = 0;
     public float timeLived = 0;
@@ -100,6 +101,8 @@ public abstract class AbstractGameObject implements GameObject{
     public boolean isThrowable = false;
     public boolean hasPlayer = false;
     public float maxVelocity = 100;
+
+
 
     public AbstractGameObject(int id, String propFile, World w, TextureAtlas a){
         objectId = id;
@@ -408,7 +411,9 @@ public abstract class AbstractGameObject implements GameObject{
                 Joint j = player.jointMap.get(this);
                 if(j !=null){
                     if(player.body.getPosition().x - this.body.getPosition().x > ropeLength){
-                        GameUtility.jointHandler.removeJoint(player.jointMap.remove(this),world);
+                        synchronized (GameConstants.JOINT_MAP_MONITOR) {
+                            GameUtility.jointHandler.removeJoint(player.jointMap.remove(this), world);
+                        }
                         GameUtility.shapeHelper.removeShape(ropeConnection);
                         ropeConnection = null;
                     }else{
@@ -444,7 +449,9 @@ public abstract class AbstractGameObject implements GameObject{
         if(toBeDestroyed){
             //GameUtility.log(this.getClass().getName(),"Destroyed: " + this);
             if(GameUtility.getGameScreen().player2.jointMap.get(this)!=null){
-                GameUtility.getGameScreen().player2.jointMap.remove(this);
+                synchronized (GameConstants.JOINT_MAP_MONITOR) {
+                    GameUtility.getGameScreen().player2.jointMap.remove(this);
+                }
             }
             if(GameUtility.getGameScreen().nearestEnemy !=null
                     && GameUtility.getGameScreen().nearestEnemy.equals(this)){
@@ -559,7 +566,9 @@ public abstract class AbstractGameObject implements GameObject{
                 ropeConnection !=null &&
                 player2.jointMap.get(this)!=null) {
             if(!(this instanceof Pivot)) {
-                GameUtility.jointHandler.removeJoint(player2.jointMap.remove(this), world);
+                synchronized (GameConstants.JOINT_MAP_MONITOR) {
+                    GameUtility.jointHandler.removeJoint(player2.jointMap.remove(this), world);
+                }
                 GameUtility.shapeHelper.removeShape(ropeConnection);
                 ropeConnection = null;
             }
@@ -646,5 +655,9 @@ public abstract class AbstractGameObject implements GameObject{
             return GameConstants.PPM;
         }
         return 1;
+    }
+
+    public void callOnRopeConnection(){
+        //Specific object should implement this.
     }
 }

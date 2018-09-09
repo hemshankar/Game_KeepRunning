@@ -20,7 +20,7 @@ public class Car extends FutureWarsCast {
     public Car() {
         super(GameConstants.CAR_PROPERTY_FILE);
         canFly = false;
-        maxVelocity = GameUtility.game.preferences.getInteger(GameConstants.PERF_HORSE)/GameConstants.MPS_TO_KPH;
+        maxVelocity = GameUtility.game.preferences.getInteger(GameConstants.PERF_CAR)/GameConstants.MPS_TO_KPH;
     }
 
     @Override
