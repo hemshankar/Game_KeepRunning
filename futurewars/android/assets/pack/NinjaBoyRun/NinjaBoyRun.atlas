@@ -1,0 +1,76 @@
+
+NinjaBoyRun.png
+size: 2048,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+1
+  rotate: false
+  xy: 2, 462
+  size: 363, 458
+  orig: 363, 458
+  offset: 0, 0
+  index: -1
+10
+  rotate: false
+  xy: 1462, 2
+  size: 363, 458
+  orig: 363, 458
+  offset: 0, 0
+  index: -1
+2
+  rotate: false
+  xy: 2, 2
+  size: 363, 458
+  orig: 363, 458
+  offset: 0, 0
+  index: -1
+3
+  rotate: false
+  xy: 367, 462
+  size: 363, 458
+  orig: 363, 458
+  offset: 0, 0
+  index: -1
+4
+  rotate: false
+  xy: 367, 2
+  size: 363, 458
+  orig: 363, 458
+  offset: 0, 0
+  index: -1
+5
+  rotate: false
+  xy: 732, 462
+  size: 363, 458
+  orig: 363, 458
+  offset: 0, 0
+  index: -1
+6
+  rotate: false
+  xy: 732, 2
+  size: 363, 458
+  orig: 363, 458
+  offset: 0, 0
+  index: -1
+7
+  rotate: false
+  xy: 1097, 462
+  size: 363, 458
+  orig: 363, 458
+  offset: 0, 0
+  index: -1
+8
+  rotate: false
+  xy: 1097, 2
+  size: 363, 458
+  orig: 363, 458
+  offset: 0, 0
+  index: -1
+9
+  rotate: false
+  xy: 1462, 462
+  size: 363, 458
+  orig: 363, 458
+  offset: 0, 0
+  index: -1

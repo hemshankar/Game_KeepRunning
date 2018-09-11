@@ -45,7 +45,7 @@ public class WelcomeScreen implements Screen {
         stage = new Stage(cViewPort,game.batch);
 
 
-        Texture texture = new Texture(Gdx.files.internal("welcome/welcome1.jpg"));
+        Texture texture = new Texture(Gdx.files.internal("welcome/welcome2.jpg"));
         welcomeImage = new Image(texture);
         welcomeImage.setHeight(stage.getHeight());
         welcomeImage.setWidth(stage.getWidth());
@@ -81,7 +81,7 @@ public class WelcomeScreen implements Screen {
     public void update(float dt){
         timeHappend +=dt;
         if(game.resourceLoaded && game.assetManager.update()){//timeHappend>CHANGE_SCREEN_TIME){
-            //game.setScreen(game.getStagesScreen());
+            game.setScreen(game.getStagesScreen());
         }
         stage.act();
     }
